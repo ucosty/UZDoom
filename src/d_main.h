@@ -34,6 +34,7 @@
 #include "startupinfo.h"
 #include "c_cvars.h"
 #include <csignal>
+#include <vector>
 
 extern bool		advancedemo;
 extern volatile sig_atomic_t gameloop_abort;
@@ -123,13 +124,13 @@ struct FFoundWadInfo
 
 class FIWadManager
 {
-	TArray<FIWADInfo> mIWadInfos;
-	TArray<FString> mIWadNames;
-	TArray<FString> mSearchPaths;
-	TArray<FString> mRecursiveSearchPaths;
-	TArray<FString> mOrderNames;
-	TArray<FFoundWadInfo> mFoundWads;
-	TArray<int> mLumpsFound;
+	std::vector<FIWADInfo> mIWadInfos;
+	std::vector<FString> mIWadNames;
+	std::vector<FString> mSearchPaths;
+	std::vector<FString> mRecursiveSearchPaths;
+	std::vector<FString> mOrderNames;
+	std::vector<FFoundWadInfo> mFoundWads;
+	std::vector<int> mLumpsFound;
 
 	void ParseIWadInfo(const char *fn, const char *data, int datasize, FIWADInfo *result = nullptr);
 	int ScanIWAD (const char *iwad);
@@ -145,13 +146,13 @@ public:
 	const FIWADInfo *FindIWAD(std::vector<std::string>& wadfiles, const char *iwad, const char *basewad, const char *optionalwad);
 	const FString *GetAutoname(unsigned int num) const
 	{
-		if (num < mIWadInfos.Size()) return &mIWadInfos[num].Autoname;
-		else return NULL;
+		if (num < mIWadInfos.size()) return &mIWadInfos[num].Autoname;
+		return nullptr;
 	}
 	int GetIWadFlags(unsigned int num) const
 	{
-		if (num < mIWadInfos.Size()) return mIWadInfos[num].flags;
-		else return 0;
+		if (num < mIWadInfos.size()) return mIWadInfos[num].flags;
+		return 0;
 	}
 
 

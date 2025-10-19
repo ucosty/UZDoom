@@ -85,8 +85,16 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 				// Skip the rest.
 				break;
 			}
-				
-			FIWADInfo *iwad = result ? result : &mIWadInfos[mIWadInfos.Reserve(1)];
+
+			FIWADInfo *iwad;
+			if (result != nullptr) {
+				iwad = result;
+			} else {
+				const auto size = mIWadInfos.size();
+				mIWadInfos.resize(size + 1);
+				iwad = &mIWadInfos[size];
+			}
+
 			sc.MustGetStringName("{");
 			while (!sc.CheckString("}"))
 			{
@@ -286,12 +294,12 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 		else if (result == nullptr && sc.Compare("NAMES"))
 		{
 			sc.MustGetStringName("{");
-			mIWadNames.Push(FString());
+			mIWadNames.push_back(FString());
 			while (!sc.CheckString("}"))
 			{
 				sc.MustGetString();
 				FString wadname = sc.String;
-				mIWadNames.Push(wadname);
+				mIWadNames.push_back(wadname);
 			}
 		}
 		else if (result == nullptr && sc.Compare("ORDER"))
@@ -300,7 +308,7 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 			while (!sc.CheckString("}"))
 			{
 				sc.MustGetString();
-				mOrderNames.Push(sc.String);
+				mOrderNames.push_back(sc.String);
 			}
 		}
 		else
@@ -353,11 +361,11 @@ int FIWadManager::ScanIWAD (const char *iwad)
 	FileSystem check;
 	check.InitSingleFile(iwad, nullptr);
 
-	mLumpsFound.Resize(mIWadInfos.Size());
+	mLumpsFound.resize(mIWadInfos.size());
 
-	auto CheckFileName = [=](const char *name)
+	auto CheckFileName = [this](const char *name)
 	{
-		for (unsigned i = 0; i< mIWadInfos.Size(); i++)
+		for (unsigned i = 0; i< mIWadInfos.size(); i++)
 		{
 			for (unsigned j = 0; j < mIWadInfos[i].Lumps.Size(); j++)
 			{
@@ -371,7 +379,7 @@ int FIWadManager::ScanIWAD (const char *iwad)
 
 	if (check.GetNumEntries() > 0)
 	{
-		memset(&mLumpsFound[0], 0, mLumpsFound.Size() * sizeof(mLumpsFound[0]));
+		memset(&mLumpsFound[0], 0, mLumpsFound.size() * sizeof(mLumpsFound[0]));
 		for(int ii = 0; ii < check.GetNumEntries(); ii++)
 		{
 
@@ -384,7 +392,7 @@ int FIWadManager::ScanIWAD (const char *iwad)
 			}
 		}
 	}
-	for (unsigned i = 0; i< mIWadInfos.Size(); i++)
+	for (unsigned i = 0; i< mIWadInfos.size(); i++)
 	{
 		if (mLumpsFound[i] == (1 << mIWadInfos[i].Lumps.Size()) - 1)
 		{
@@ -421,7 +429,7 @@ int FIWadManager::CheckIWADInfo(const char* fn)
 				auto data = check.ReadFile(num);
 				ParseIWadInfo(fn, data.string(), (int)data.size(), &result);
 
-				for (unsigned i = 0, count = mIWadInfos.Size(); i < count; ++i)
+				for (unsigned i = 0, count = mIWadInfos.size(); i < count; ++i)
 				{
 					if (mIWadInfos[i].Name == result.Name)
 					{
@@ -429,8 +437,9 @@ int FIWadManager::CheckIWADInfo(const char* fn)
 					}
 				}
 
-				mOrderNames.Push(result.Name);
-				return mIWadInfos.Push(result);
+				mOrderNames.push_back(result.Name);
+				mIWadInfos.push_back(result);
+				return mIWadInfos.size();
 			}
 			catch (CRecoverableError & err)
 			{
@@ -465,18 +474,30 @@ void FIWadManager::CollectSearchPaths()
 			if (stricmp(key, "Path") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mSearchPaths.Push(nice);
+				if (nice.Len() > 0) mSearchPaths.push_back(nice);
 			}
 			else if (stricmp(key, "RecursivePath") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mRecursiveSearchPaths.Push(nice);
+				if (nice.Len() > 0) mRecursiveSearchPaths.push_back(nice);
 			}
 		}
 	}
-	mSearchPaths.Append(I_GetGogPaths());
-	mSearchPaths.Append(I_GetSteamPath());
-	mSearchPaths.Append(I_GetBethesdaPath());
+
+	// mSearchPaths.Append(I_GetGogPaths());
+	for (auto& path: I_GetGogPaths()) {
+		mSearchPaths.push_back(path);
+	}
+
+	// mSearchPaths.Append(I_GetSteamPath());
+	for (auto& path: I_GetSteamPath()) {
+		mSearchPaths.push_back(path);
+	}
+
+	// mSearchPaths.Append(I_GetBethesdaPath());
+	for (auto& path: I_GetBethesdaPath()) {
+		mSearchPaths.push_back(path);
+	}
 
 	// Unify and remove trailing slashes
 	for (auto &str : mSearchPaths)
@@ -515,14 +536,14 @@ void FIWadManager::AddIWADCandidates(const char *dir, bool nosubdir)
 					// special IWAD extension.
 					if (!stricmp(p, ".iwad") || !stricmp(p, ".ipk3") || !stricmp(p, ".ipk7"))
 					{
-						mFoundWads.Push(FFoundWadInfo{ entry.FilePath.c_str(), "", -1 });
+						mFoundWads.push_back(FFoundWadInfo{ entry.FilePath.c_str(), "", -1 });
 					}
 				}
 				for (auto &name : mIWadNames)
 				{
 					if (!name.CompareNoCase(entry.FileName.c_str()))
 					{
-						mFoundWads.Push(FFoundWadInfo{ entry.FilePath.c_str(), "", -1 });
+						mFoundWads.push_back(FFoundWadInfo{ entry.FilePath.c_str(), "", -1 });
 					}
 				}
 			}
@@ -541,14 +562,14 @@ void FIWadManager::AddIWADCandidates(const char *dir, bool nosubdir)
 void FIWadManager::ValidateIWADs()
 {
 	TArray<int> returns;
-	unsigned originalsize = mIWadInfos.Size();
+	unsigned originalsize = mIWadInfos.size();
 
 	// Iterating normally will give CheckIWADInfo name conflicts priority to
 	// whatever file is found first, rather than the file that the user
 	// specifically requests with -iwad, because IdentifyVersion appends
 	// the -iwad file to the end of the list. (And it's annoying to change
 	// to be the other way around.)
-	for (int i = mFoundWads.SSize() - 1; i >= 0; i--)
+	for (int i = mFoundWads.size() - 1; i >= 0; i--)
 	{
 		auto &p = mFoundWads[i];
 
@@ -622,7 +643,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	{
 		AddIWADCandidates(dir.GetChars(), false);
 	}
-	unsigned numFoundWads = mFoundWads.Size();
+	unsigned numFoundWads = mFoundWads.size();
 
 	if (iwadparm)
 	{
@@ -640,7 +661,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 #endif
 			if (isAbsolute)
 			{
-				if (FileExists(custwad)) mFoundWads.Push({ custwad, "", -1 });
+				if (FileExists(custwad)) mFoundWads.push_back({ custwad, "", -1 });
 			}
 			else
 			{
@@ -649,7 +670,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 					FStringf fullpath("%s/%s", dir.GetChars(), custwad.GetChars());
 					if (FileExists(fullpath))
 					{
-						mFoundWads.Push({ fullpath, "", -1 });
+						mFoundWads.push_back({ fullpath, "", -1 });
 					}
 				}
 				for (const auto& dir : mRecursiveSearchPaths)
@@ -657,12 +678,12 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 					FString fullpath = RecursiveFileExists(dir, custwad);
 					if (fullpath.IsNotEmpty())
 					{
-						mFoundWads.Push({ fullpath, "", -1 });
+						mFoundWads.push_back({ fullpath, "", -1 });
 					}
 				}
 			}
 
-			if (mFoundWads.Size() != numFoundWads)
+			if (mFoundWads.size() != numFoundWads)
 			{
 				// Found IWAD with guessed extension
 				break;
@@ -670,19 +691,24 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		}
 	}
 	// -iwad not found or not specified. Revert back to standard behavior.
-	if (mFoundWads.Size() == numFoundWads) iwadparm = nullptr;
+	if (mFoundWads.size() == numFoundWads) iwadparm = nullptr;
 
 	// Check for symbolic links leading to non-existent files and for files that are unreadable.
-	for (unsigned int i = 0; i < mFoundWads.Size(); i++)
+	for (unsigned int i = 0; i < mFoundWads.size(); i++)
 	{
-		if (!FileExists(mFoundWads[i].mFullPath) || !FileReadable(mFoundWads[i].mFullPath.GetChars())) mFoundWads.Delete(i--);
+		if (!FileExists(mFoundWads[i].mFullPath) || !FileReadable(mFoundWads[i].mFullPath.GetChars())) {
+			// mFoundWads.Delete(i--);
+			auto it = mFoundWads.begin();
+			std::advance(it, i--);
+			mFoundWads.erase(it);
+		}
 	}
 
 	// Now check if what got collected actually is an IWAD.
 	ValidateIWADs();
 
 	// Check for required dependencies.
-	for (unsigned i = 0; i < mFoundWads.Size(); i++)
+	for (unsigned i = 0; i < mFoundWads.size(); i++)
 	{
 		auto infndx = mFoundWads[i].mInfoIndex;
 		if (infndx >= 0)
@@ -692,7 +718,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 			{
 				bool found = false;
 				// needs to be loaded with another IWAD (HexenDK)
-				for (unsigned j = 0; j < mFoundWads.Size(); j++)
+				for (unsigned j = 0; j < mFoundWads.size(); j++)
 				{
 					auto inf2ndx = mFoundWads[j].mInfoIndex;
 					if (inf2ndx >= 0)
@@ -710,10 +736,10 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		}
 	}
 	TArray<FFoundWadInfo> picks;
-	if (numFoundWads < mFoundWads.Size())
+	if (numFoundWads < mFoundWads.size())
 	{
 		// We have a -iwad parameter. Pick the first usable IWAD we found through that.
-		for (unsigned i = numFoundWads; i < mFoundWads.Size(); i++)
+		for (unsigned i = numFoundWads; i < mFoundWads.size(); i++)
 		{
 			if (mFoundWads[i].mInfoIndex >= 0)
 			{
@@ -740,10 +766,10 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	if (picks.Size() == 0)
 	{
 		// Now sort what we found and discard all duplicates.
-		for (unsigned i = 0; i < mOrderNames.Size(); i++)
+		for (unsigned i = 0; i < mOrderNames.size(); i++)
 		{
 			bool picked = false;
-			for (int j = 0; j < (int)mFoundWads.Size(); j++)
+			for (int j = 0; j < (int)mFoundWads.size(); j++)
 			{
 				if (mFoundWads[j].mInfoIndex >= 0)
 				{
@@ -754,7 +780,10 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 							picked = true;
 							picks.Push(mFoundWads[j]);
 						}
-						mFoundWads.Delete(j--);
+						// mFoundWads.Delete(j--);
+						auto it = mFoundWads.begin();
+						std::advance(it, j--);
+						mFoundWads.erase(it);
 					}
 				}
 			}
