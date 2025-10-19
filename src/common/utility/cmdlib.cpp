@@ -91,14 +91,9 @@ static inline bool IsSeperator (int c, bool forcebackslash = false)
 //
 //==========================================================================
 
-void FixPathSeperator (char *path)
+void FixPathSeperator (std::string path)
 {
-	while (*path)
-	{
-		if (*path == '\\')
-			*path = '/';
-		path++;
-	}
+	std::ranges::replace(path, '\\', '/');
 }
 
 //==========================================================================

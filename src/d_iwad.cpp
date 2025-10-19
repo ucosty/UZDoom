@@ -48,6 +48,7 @@
 #include "m_argv.h"
 #include "m_misc.h"
 #include "sc_man.h"
+#include "string_helpers.h"
 #include "version.h"
 
 EXTERN_CVAR(Bool, queryiwad);
@@ -294,12 +295,10 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 		else if (result == nullptr && sc.Compare("NAMES"))
 		{
 			sc.MustGetStringName("{");
-			mIWadNames.push_back(FString());
 			while (!sc.CheckString("}"))
 			{
 				sc.MustGetString();
-				FString wadname = sc.String;
-				mIWadNames.push_back(wadname);
+				mIWadNames.emplace_back(sc.String);
 			}
 		}
 		else if (result == nullptr && sc.Compare("ORDER"))
@@ -308,7 +307,7 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 			while (!sc.CheckString("}"))
 			{
 				sc.MustGetString();
-				mOrderNames.push_back(sc.String);
+				mOrderNames.emplace_back(sc.String);
 			}
 		}
 		else
@@ -329,8 +328,8 @@ FIWadManager::FIWadManager(const char *firstfn, const char *optfn)
 {
 	FileSystem check;
 	std::vector<std::string> fns;
-	fns.push_back(firstfn);
-	if (optfn) fns.push_back(optfn);
+	fns.emplace_back(firstfn);
+	if (optfn) fns.emplace_back(optfn);
 	FileSys::LumpFilterInfo lfi;
 	GetReserved(lfi);
 
@@ -437,7 +436,7 @@ int FIWadManager::CheckIWADInfo(const char* fn)
 					}
 				}
 
-				mOrderNames.push_back(result.Name);
+				mOrderNames.emplace_back(result.Name.GetChars());
 				mIWadInfos.push_back(result);
 				return mIWadInfos.size();
 			}
@@ -474,41 +473,43 @@ void FIWadManager::CollectSearchPaths()
 			if (stricmp(key, "Path") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mSearchPaths.push_back(nice);
+				if (nice.Len() > 0) mSearchPaths.emplace_back(nice.GetChars());
 			}
 			else if (stricmp(key, "RecursivePath") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mRecursiveSearchPaths.push_back(nice);
+				if (nice.Len() > 0) mRecursiveSearchPaths.emplace_back(nice.GetChars());
 			}
 		}
 	}
 
 	// mSearchPaths.Append(I_GetGogPaths());
 	for (auto& path: I_GetGogPaths()) {
-		mSearchPaths.push_back(path);
+		mSearchPaths.emplace_back(path.GetChars());
 	}
 
 	// mSearchPaths.Append(I_GetSteamPath());
 	for (auto& path: I_GetSteamPath()) {
-		mSearchPaths.push_back(path);
+		mSearchPaths.emplace_back(path.GetChars());
 	}
 
 	// mSearchPaths.Append(I_GetBethesdaPath());
 	for (auto& path: I_GetBethesdaPath()) {
-		mSearchPaths.push_back(path);
+		mSearchPaths.emplace_back(path.GetChars());
 	}
 
 	// Unify and remove trailing slashes
 	for (auto &str : mSearchPaths)
 	{
 		FixPathSeperator(str);
-		if (str.Back() == '/') str.Truncate(str.Len() - 1);
+		if (str.back() == '/') {
+			str.resize(str.size() - 1);
+		}
 	}
 	for (auto& str : mRecursiveSearchPaths)
 	{
 		FixPathSeperator(str);
-		if (str.Back() == '/') str.Truncate(str.Len() - 1);
+		if (str.back() == '/') str.resize(str.size() - 1);
 	}
 }
 
@@ -541,7 +542,9 @@ void FIWadManager::AddIWADCandidates(const char *dir, bool nosubdir)
 				}
 				for (auto &name : mIWadNames)
 				{
-					if (!name.CompareNoCase(entry.FileName.c_str()))
+					std::string foo = name;
+
+					if (!is_equal_ignoring_case(name, entry.FileName))
 					{
 						mFoundWads.push_back(FFoundWadInfo{ entry.FilePath.c_str(), "", -1 });
 					}
@@ -637,11 +640,11 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	// Collect all IWADs in the search path
 	for (auto &dir : mSearchPaths)
 	{
-		AddIWADCandidates(dir.GetChars());
+		AddIWADCandidates(dir.c_str());
 	}
 	for (auto& dir : mRecursiveSearchPaths)
 	{
-		AddIWADCandidates(dir.GetChars(), false);
+		AddIWADCandidates(dir.c_str(), false);
 	}
 	unsigned numFoundWads = mFoundWads.size();
 
@@ -661,16 +664,16 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 #endif
 			if (isAbsolute)
 			{
-				if (FileExists(custwad)) mFoundWads.push_back({ custwad, "", -1 });
+				if (FileExists(custwad)) mFoundWads.emplace_back( custwad, "", -1 );
 			}
 			else
 			{
 				for (auto &dir : mSearchPaths)
 				{
-					FStringf fullpath("%s/%s", dir.GetChars(), custwad.GetChars());
+					FStringf fullpath("%s/%s", dir.c_str(), custwad.GetChars());
 					if (FileExists(fullpath))
 					{
-						mFoundWads.push_back({ fullpath, "", -1 });
+						mFoundWads.emplace_back( fullpath, "", -1 );
 					}
 				}
 				for (const auto& dir : mRecursiveSearchPaths)
@@ -678,7 +681,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 					FString fullpath = RecursiveFileExists(dir, custwad);
 					if (fullpath.IsNotEmpty())
 					{
-						mFoundWads.push_back({ fullpath, "", -1 });
+						mFoundWads.emplace_back( fullpath, "", -1 );
 					}
 				}
 			}

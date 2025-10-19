@@ -46,7 +46,7 @@ bool GetFileInfo(const char* pathname, size_t* size, time_t* time);
 
 extern	FString progdir;
 
-void	FixPathSeperator (char *path);
+void	FixPathSeperator (std::string path);
 static void	inline FixPathSeperator (FString &path) { path.ReplaceChars('\\', '/'); }
 
 void 	DefaultExtension (FString &path, const char *extension, bool forcebackslash = false);

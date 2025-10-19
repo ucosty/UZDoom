@@ -125,10 +125,10 @@ struct FFoundWadInfo
 class FIWadManager
 {
 	std::vector<FIWADInfo> mIWadInfos;
-	std::vector<FString> mIWadNames;
-	std::vector<FString> mSearchPaths;
-	std::vector<FString> mRecursiveSearchPaths;
-	std::vector<FString> mOrderNames;
+	std::vector<std::string> mIWadNames;
+	std::vector<std::string> mSearchPaths;
+	std::vector<std::string> mRecursiveSearchPaths;
+	std::vector<std::string> mOrderNames;
 	std::vector<FFoundWadInfo> mFoundWads;
 	std::vector<int> mLumpsFound;
 
