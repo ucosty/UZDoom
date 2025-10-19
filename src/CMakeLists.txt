@@ -1261,7 +1261,8 @@ set( GAME_SOURCES
 	common/filesystem/source/fs_stringpool.cpp
 	common/filesystem/source/unicode.cpp
 	common/filesystem/source/critsec.cpp
-
+	common/utility/string_helpers.h
+	common/utility/string_helpers.cpp
 )
 
 set( GAME_NONPCH_SOURCES ${GAME_SOURCES} )
