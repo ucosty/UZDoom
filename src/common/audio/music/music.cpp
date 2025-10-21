@@ -511,7 +511,9 @@ static FString ReplayGainHash(ZMusicCustomReader* reader, int flength, int playe
 
 		}
 	}
-	return FStringf("%d:%s:%d:%s", flength, digestout, playertype, playparam.c_str()).MakeUpper();
+	auto value = FStringf("%d:%s:%d:%s", flength, digestout, playertype, playparam.c_str());
+	std::ranges::transform(value, value.begin(), ::toupper);
+	return value;
 }
 
 static void SaveGains()

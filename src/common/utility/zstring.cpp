@@ -677,32 +677,6 @@ ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t s
 	return -1;
 }
 
-FString FString::MakeLower() const
-{
-	TArray<uint8_t> builder(Len());
-	int pos = 0;
-	while (int c = GetNextCharacter(pos))
-	{
-		if (c < 65536) c = lowerforupper[c];
-		auto cp = MakeUTF8(c);
-		while (auto uc = *cp++) builder.Push(uc);
-	}
-	return FString(builder);
-}
-
-FString FString::MakeUpper() const
-{
-	TArray<uint8_t> builder(Len());
-	int pos = 0;
-	while (int c = GetNextCharacter(pos))
-	{
-		if (c < 65536) c = upperforlower[c];
-		auto cp = MakeUTF8(c);
-		while (auto uc = *cp++) builder.Push(uc);
-	}
-	return FString(builder);
-}
-
 void FString::StripLeft ()
 {
 	size_t max = Len(), i, j;

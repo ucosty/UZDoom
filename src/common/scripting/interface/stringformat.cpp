@@ -482,24 +482,36 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, ToLower, StringToLower)
 
 static void StringMakeUpper(FString *self, FString *out)
 {
-	*out = self->MakeUpper();
+	std::ranges::transform(*self, out->begin(), ::toupper);
+}
+
+FString make_upper(const FString& s) {
+	FString result = s;
+	std::ranges::transform(result, result.begin(), ::toupper);
+	return result;
+}
+
+FString make_lower(const FString& s) {
+	FString result = s;
+	std::ranges::transform(result, result.begin(), ::tolower);
+	return result;
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, MakeUpper, StringMakeUpper)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FString);
-	ACTION_RETURN_STRING(self->MakeUpper());
+	ACTION_RETURN_STRING(make_upper(*self));
 }
 
 static void StringMakeLower(FString *self, FString *out)
 {
-	*out = self->MakeLower();
+	std::ranges::transform(*self, out->begin(), ::tolower);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, MakeLower, StringMakeLower)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FString);
-	ACTION_RETURN_STRING(self->MakeLower());
+	ACTION_RETURN_STRING(make_lower(*self));
 }
 
 static int StringCharUpper(int ch)

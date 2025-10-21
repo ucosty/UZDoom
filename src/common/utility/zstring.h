@@ -238,9 +238,6 @@ public:
 	ptrdiff_t LastIndexOf (const char *substr, ptrdiff_t endIndex) const;
 	ptrdiff_t LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t substrlen) const;
 
-	FString MakeUpper() const;
-	FString MakeLower() const;
-
 	void StripLeft ();
 	void StripLeft (const FString &charset);
 	void StripLeft (const char *charset);
