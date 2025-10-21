@@ -993,7 +993,7 @@ class GLDefsParser
 			sc.ScriptError("Name longer than 8 characters: %s\n", sc.String);
 		}
 		frameName = sc.String;
-		frameName.ToUpper();
+		std::ranges::transform(frameName, frameName.begin(), ::toupper);
 
 		startDepth = ScriptDepth;
 
@@ -1530,7 +1530,7 @@ class GLDefsParser
 
 			PostProcessShader shaderdesc;
 			shaderdesc.Target = sc.String;
-			shaderdesc.Target.ToLower();
+			std::ranges::transform(shaderdesc.Target, shaderdesc.Target.begin(), ::tolower);
 
 			bool validTarget = false;
 			if (sc.Compare("beforebloom")) validTarget = true;
@@ -1565,7 +1565,7 @@ class GLDefsParser
 
 					sc.MustGetString();
 					FString uniformType = sc.String;
-					uniformType.ToLower();
+					std::ranges::transform(uniformType, uniformType.begin(), ::tolower);
 
 					sc.MustGetString();
 					FString uniformName = sc.String;

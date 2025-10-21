@@ -78,7 +78,7 @@ void D_GrabCVarDefaults()
 			CurrentFindCVar = sc.String;
 			if (lumpversion < 220)
 			{
-				CurrentFindCVar.ToLower();
+				std::ranges::transform(CurrentFindCVar, CurrentFindCVar.begin(), ::tolower);
 
 				// these two got renamed
 				if (CurrentFindCVar.Compare("gamma") == 0)

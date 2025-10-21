@@ -205,6 +205,9 @@ public:
 	const char &Front() const { assert(!empty()); return Chars[0]; }
 	const char &Back() const { assert(!empty()); return Chars[Len() - 1]; }
 
+	char *begin() const { return Chars; }
+	char *end() const { return &Chars[Len() - 1]; }
+
 	FString Left (size_t numChars) const;
 	FString Right (size_t numChars) const;
 	FString Mid (size_t pos, size_t numChars = ~(size_t)0) const;
@@ -235,8 +238,6 @@ public:
 	ptrdiff_t LastIndexOf (const char *substr, ptrdiff_t endIndex) const;
 	ptrdiff_t LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t substrlen) const;
 
-	void ToUpper ();
-	void ToLower ();
 	FString MakeUpper() const;
 	FString MakeLower() const;
 

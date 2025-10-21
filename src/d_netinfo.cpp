@@ -961,7 +961,7 @@ void WriteUserInfo(FSerializer &arc, userinfo_t &info)
 		while (it.NextPair(pair))
 		{
 			name = pair->Key.GetChars();
-			name.ToLower();
+			std::ranges::transform(name, name.begin(), ::tolower);
 			switch (pair->Key.GetIndex())
 			{
 			case NAME_Skin:

@@ -1208,7 +1208,7 @@ VMDisassemblyDumper::VMDisassemblyDumper(const FileOperationType operation)
 	{
 		dump = fopen("disasm.txt", operation == Overwrite ? "w" : "a");
 		namefilter = Args->CheckValue(DUMP_ARG_NAME);
-		namefilter.ToLower();
+		std::ranges::transform(namefilter, namefilter.begin(), ::tolower);
 	}
 }
 

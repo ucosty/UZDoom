@@ -1142,7 +1142,7 @@ void FTextureManager::AddLocalizedVariants()
 					}
 					else
 					{
-						tokens[1].ToLower();
+						std::ranges::transform(tokens[1], tokens[1].begin(), ::tolower);
 						auto langids = tokens[1].Split("-", FString::TOK_SKIPEMPTY);
 						for (auto &lang : langids)
 						{

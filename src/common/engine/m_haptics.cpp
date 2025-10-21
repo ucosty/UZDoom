@@ -176,7 +176,7 @@ const FName * Joy_GuessMapping(const FName identifier)
 	FString text = identifier.GetChars();
 	// I would like to slugify here
 	// Maybe one day
-	text.ToLower();
+	std::ranges::transform(text, text.begin(), ::tolower);
 
 	struct MapSet { const FName * mapping; const TArray<FString> tokens; };
 	static struct MapSet mappings[] = {
@@ -803,8 +803,8 @@ void RumbleDump()
 			auto mapping = Joy_GetRumble(pair->Value);
 			FString key = pair->Key.GetChars();
 			FString val = pair->Value.GetChars();
-			key.ToLower();
-			val.ToUpper();
+			std::ranges::transform(key, key.begin(), ::tolower);
+			std::ranges::transform(val, val.begin(), ::toupper);
 			FString a = FStringf("'%s'\t->\t'%s'", key.c_str(), val.c_str());
 			FString b = mapping
 				? FStringf(
@@ -825,7 +825,7 @@ void RumbleDump()
 		for (auto i:unused)
 		{
 			FString s = i.c_str();
-			s.ToUpper();
+			std::ranges::transform(s, s.begin(), ::toupper);
 			Printf("\t'%s'\n", s.c_str());
 		}
 	}

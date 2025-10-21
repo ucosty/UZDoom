@@ -260,7 +260,7 @@ bool MapLoader::LoadScriptFile(const char *name, int lumpnum, FileReader &lump, 
 static FString TokenFromString(const char *speech)
 {
 	FString token = speech;
-	token.ToUpper();
+	std::ranges::transform(token, token.begin(), ::toupper);
 	token.ReplaceChars(".,-+!?'", ' ');
 	token.Substitute(" ", "");
 	token.Truncate(5);

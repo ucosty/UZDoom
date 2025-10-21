@@ -2226,7 +2226,7 @@ level_info_t *FMapInfoParser::ParseMapHeader(level_info_t &defaultinfo)
 	}
 
 	levelinfo->MapName = mapname.GetChars();
-	levelinfo->MapName.ToUpper();
+	std::ranges::transform(levelinfo->MapName, levelinfo->MapName.begin(), ::toupper);
 	sc.MustGetString ();
 	if (sc.String[0] == '$')
 	{

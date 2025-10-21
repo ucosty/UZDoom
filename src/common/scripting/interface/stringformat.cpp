@@ -458,25 +458,25 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, RightIndexOf, StringRightIndexOf)
 
 static void StringToUpper(FString *self)
 {
-	self->ToUpper();
+	std::ranges::transform(*self, self->begin(), ::toupper);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, ToUpper, StringToUpper)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FString);
-	self->ToUpper();
+	std::ranges::transform(*self, self->begin(), ::toupper);
 	return 0;
 }
 
 static void StringToLower(FString *self)
 {
-	self->ToLower();
+	std::ranges::transform(*self, self->begin(), ::tolower);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, ToLower, StringToLower)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FString);
-	self->ToLower();
+	std::ranges::transform(*self, self->begin(), ::tolower);
 	return 0;
 }
 

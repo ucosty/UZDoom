@@ -271,7 +271,7 @@ static int ParseStandardProperty(FScanner &scanner, UMapEntry *mape, int *id24_l
 			}
 			if (split.Size() > 2 && !split[2].empty())
 			{
-				split[2].ToLower();
+				std::ranges::transform(split[2], split[2].begin(), ::tolower);
 				epi.mShortcut = split[2][0];
 			}
 			else

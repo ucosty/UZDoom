@@ -1503,7 +1503,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, face, S, PlayerPawn)
 	if (tmp.Len() == 0) defaults->NameVar(NAME_Face) = NAME_None;
 	else
 	{
-		tmp.ToUpper();
+		std::ranges::transform(tmp, tmp.begin(), ::toupper);
 		bool valid = (tmp.Len() == 3 &&
 			(((tmp[0] >= 'A') && (tmp[0] <= 'Z')) || ((tmp[0] >= '0') && (tmp[0] <= '9'))) &&
 			(((tmp[1] >= 'A') && (tmp[1] <= 'Z')) || ((tmp[1] >= '0') && (tmp[1] <= '9'))) &&

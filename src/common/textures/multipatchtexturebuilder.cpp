@@ -632,7 +632,7 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 		}
 	}
 	buildinfo.Name = !textureName ? sc.String : textureName;
-	buildinfo.Name.ToUpper();
+	std::ranges::transform(buildinfo.Name, buildinfo.Name.begin(), ::toupper);
 	sc.MustGetStringName(",");
 	sc.MustGetNumber();
 	buildinfo.Width = sc.Number;

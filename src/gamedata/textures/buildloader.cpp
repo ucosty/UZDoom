@@ -261,7 +261,7 @@ void InitBuildTiles()
 		const char* name = fileSystem.GetFileFullName(i);
 		if (fileSystem.CheckNumForFullName(name) != i) continue;	// This palette is hidden by a later one. Do not process
 		FString base = ExtractFileBase(name, true);
-		base.ToLower();
+		std::ranges::transform(base, base.begin(), ::tolower);
 		if (base.Compare("palette.dat") == 0 && fileSystem.FileLength(i) >= 768)	// must be a valid palette, i.e. at least 256 colors.
 		{
 			FString path = ExtractFilePath(name);

@@ -859,7 +859,7 @@ class CommandDrawString : public SBarInfoCommand
 					{
 						cache = primaryLevel->lumpnum;
 						str = primaryLevel->MapName;
-						str.ToUpper();
+						std::ranges::transform(str, str.begin(), ::toupper);
 						RealignString();
 					}
 					break;

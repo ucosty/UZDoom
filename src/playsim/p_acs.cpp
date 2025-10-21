@@ -3290,7 +3290,7 @@ const char *FBehavior::LookupString (uint32_t index, bool forprint) const
 		if (ShouldLocalize && forprint)
 		{
 			FString token = s;
-			token.ToUpper();
+			std::ranges::transform(token, token.begin(), ::toupper);
 			token.ReplaceChars(".,-+!?", ' ');
 			token.Substitute(" ", "");
 			token.Truncate(5);
@@ -8640,7 +8640,7 @@ scriptwait:
 					case PRINTNAME_LEVEL:
 					{
 						FString uppername = Level->MapName;
-						uppername.ToUpper();
+						std::ranges::transform(uppername, uppername.begin(), ::toupper);
 						work += uppername;
 						break;
 					}
@@ -8648,7 +8648,7 @@ scriptwait:
 					case PRINTNAME_NEXTLEVEL:
 					{
 						FString uppername = Level->NextMap;
-						uppername.ToUpper();
+						std::ranges::transform(uppername, uppername.begin(), ::toupper);
 						work += uppername;
 						break;
 					}
@@ -8656,7 +8656,7 @@ scriptwait:
 					case PRINTNAME_NEXTSECRET:
 					{
 						FString uppername = Level->NextSecretMap;
-						uppername.ToUpper();
+						std::ranges::transform(uppername, uppername.begin(), ::toupper);
 						work += uppername;
 						break;
 					}

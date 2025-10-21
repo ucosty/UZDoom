@@ -500,7 +500,7 @@ class USDFParser : public UDMFParserBase
 				FString key = dialogues[i]->ThisNodeName;
 				if (!key.empty())
 				{
-					key.ToLower();
+					std::ranges::transform(key, key.begin(), ::tolower);
 					if (nameToIndex.CheckKey(key))
 						Printf("Warning! Duplicate page name '%s'!\n", dialogues[i]->ThisNodeName.c_str());
 					else
@@ -518,7 +518,7 @@ class USDFParser : public UDMFParserBase
 					FString itemLinkKey = dialogues[i]->ItemCheckNodeName;
 					if (!itemLinkKey.empty())
 					{
-						itemLinkKey.ToLower();
+						std::ranges::transform(itemLinkKey, itemLinkKey.begin(), ::tolower);
 						if (nameToIndex.CheckKey(itemLinkKey))
 						{
 							dialogues[i]->ItemCheckNode = nameToIndex[itemLinkKey] + 1;
@@ -534,7 +534,7 @@ class USDFParser : public UDMFParserBase
 						if (!NodeCheck->NextNodeName.empty())
 						{
 							FString key = NodeCheck->NextNodeName;
-							key.ToLower();
+							std::ranges::transform(key, key.begin(), ::tolower);
 							if (nameToIndex.CheckKey(key))
 							{
 								NodeCheck->NextNode = nameToIndex[key] + 1;

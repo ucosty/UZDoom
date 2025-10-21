@@ -677,28 +677,6 @@ ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t s
 	return -1;
 }
 
-void FString::ToUpper ()
-{
-	LockBuffer();
-	size_t max = Len();
-	for (size_t i = 0; i < max; ++i)
-	{
-		Chars[i] = (char)toupper(Chars[i]);
-	}
-	UnlockBuffer();
-}
-
-void FString::ToLower ()
-{
-	LockBuffer();
-	size_t max = Len();
-	for (size_t i = 0; i < max; ++i)
-	{
-		Chars[i] = (char)tolower(Chars[i]);
-	}
-	UnlockBuffer();
-}
-
 FString FString::MakeLower() const
 {
 	TArray<uint8_t> builder(Len());

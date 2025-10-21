@@ -470,7 +470,8 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 			}
 			const char * name = fileSystem.GetResourceFileName(wad);
 			FString section = ExtractFileBase(name) + "." + StartEpisode->mEpisodeMap;
-			section.ToUpper();
+			std::ranges::transform(section, section.begin(), ::toupper);
+
 
 			const char *ep_name = StartEpisode->mEpisodeName.c_str();
 			if (*ep_name == '$') ep_name = GStrings.GetString(ep_name+1);
@@ -495,7 +496,7 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 			for(unsigned i = 0; i < LevelData.Size(); i++)
 			{
 				FString lsection = LevelData[i].Levelname;
-				lsection.ToUpper();
+				std::ranges::transform(lsection, lsection.begin(), ::toupper);
 				infostring.Format("%4d/%4d, %4d/%4d, %3d/%3d",
 					 LevelData[i].killcount, LevelData[i].totalkills, LevelData[i].itemcount, LevelData[i].totalitems, LevelData[i].secretcount, LevelData[i].totalsecrets);
 

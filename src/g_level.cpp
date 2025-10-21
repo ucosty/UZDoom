@@ -1426,7 +1426,8 @@ void FLevelLocals::DoLoadLevel(const FString &nextmapname, int position, bool au
 	if (isPrimaryLevel())
 	{
 		FString mapname = nextmapname;
-		mapname.ToUpper();
+		std::ranges::transform(mapname, mapname.begin(), ::toupper);
+
 		Printf(PRINT_HIGH | PRINT_NONOTIFY, "\n" TEXTCOLOR_NORMAL "%s\n\n" TEXTCOLOR_BOLD "%s - %s\n\n", console_bar, mapname.c_str(), LevelName.c_str());
 	}
 
@@ -2084,7 +2085,7 @@ void G_WriteSnapshots(TArray<FString> &filenames, TArray<FCompressedBuffer> &buf
 		if (wadlevelinfos[i].Snapshot.mCompressedSize > 0)
 		{
 			filename.Format("%s.map.json", wadlevelinfos[i].MapName.c_str());
-			filename.ToLower();
+			std::ranges::transform(filename, filename.begin(), ::tolower);
 			filenames.Push(filename);
 			buffers.Push(wadlevelinfos[i].Snapshot);
 		}
@@ -2092,7 +2093,7 @@ void G_WriteSnapshots(TArray<FString> &filenames, TArray<FCompressedBuffer> &buf
 	if (TheDefaultLevelInfo.Snapshot.mCompressedSize > 0)
 	{
 		filename.Format("%s.mapd.json", TheDefaultLevelInfo.MapName.c_str());
-		filename.ToLower();
+		std::ranges::transform(filename, filename.begin(), ::tolower);
 		filenames.Push(filename);
 		buffers.Push(TheDefaultLevelInfo.Snapshot);
 	}
