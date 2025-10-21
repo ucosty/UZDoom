@@ -18,6 +18,9 @@
 //-----------------------------------------------------------------------------
 
 #include "string_helpers.h"
+#include "zstring.h"
+
+#include <algorithm>
 
 bool is_equal_ignoring_case(const std::string &a, const std::string &b) {
     if (a.size() != b.size()) {
@@ -27,4 +30,22 @@ bool is_equal_ignoring_case(const std::string &a, const std::string &b) {
     return std::equal(a.begin(), a.end(), b.begin(), [](const char char_a, const char char_b) {
         return std::tolower(static_cast<unsigned char>(char_a)) == std::tolower(static_cast<unsigned char>(char_b));
     });
+}
+
+void replace_multiple_chars(std::string& s, const std::string& chars, const char replacement_char) {
+    std::ranges::replace_if(s,
+        [&chars](const char c) {
+            return chars.find(c) != std::string::npos;
+        },
+        replacement_char
+    );
+}
+
+void replace_multiple_chars(FString& s, const std::string& chars, const char replacement_char) {
+    std::ranges::replace_if(s,
+        [&chars](const char c) {
+            return chars.find(c) != std::string::npos;
+        },
+        replacement_char
+    );
 }

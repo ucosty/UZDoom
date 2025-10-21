@@ -21,4 +21,8 @@
 
 #include <string>
 
+class FString;
+
 bool is_equal_ignoring_case(const std::string& a, const std::string& b);
+void replace_multiple_chars(std::string& s, const std::string& chars, char replacement_char);
+void replace_multiple_chars(FString& s, const std::string& chars, const char replacement_char);
