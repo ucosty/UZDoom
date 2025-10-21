@@ -34,6 +34,8 @@
 
 #include <string.h>
 #include "m_argv.h"
+
+#include "string_helpers.h"
 #include "zstring.h"
 
 //===========================================================================
@@ -368,7 +370,7 @@ void FArgs::AppendArgsString(FString argv)
 
 	bool inserting_file = true;
 
-	argv.StripLeftRight();
+	strip_whitespace(&argv);
 
 	size_t i = 0;
 	size_t lastSection = 0;

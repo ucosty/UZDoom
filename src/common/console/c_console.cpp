@@ -52,6 +52,7 @@
 #include "menu.h"
 #include "menustate.h"
 #include "printf.h"
+#include "string_helpers.h"
 #include "texturemanager.h"
 #include "utf8.h"
 #include "v_2ddrawer.h"
@@ -961,7 +962,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			// Execute command line (ENTER)
 			FString bufferText = buffer.GetText();
 
-			bufferText.StripLeftRight();
+			strip_whitespace(&bufferText);
 			Printf(127, TEXTCOLOR_WHITE "]%s\n", bufferText.c_str());
 
 			if (bufferText.Len() == 0)

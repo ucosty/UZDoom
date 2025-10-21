@@ -60,6 +60,7 @@
 #include "p_effect.h"
 #include "r_state.h"
 #include "serializer.h"
+#include "string_helpers.h"
 #include "thingdef.h"
 #include "types.h"
 #include "vmbuilder.h"
@@ -3012,7 +3013,7 @@ static int PatchStrings (int dummy, int flags)
 		do
 		{
 			holdstring += skipwhite (Line2);
-			holdstring.StripRight();
+			strip_whitespace_right(&holdstring);
 			if (holdstring.Len() > 0 && holdstring[holdstring.Len()-1] == '\\')
 			{
 				holdstring.Truncate(holdstring.Len()-1);

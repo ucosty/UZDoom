@@ -59,6 +59,7 @@
 #include "screenjob.h"
 #include "vm.h"
 #include "i_time.h"
+#include "string_helpers.h"
 
 FIntermissionDescriptorList IntermissionDescriptors;
 
@@ -404,7 +405,7 @@ void DIntermissionScreenText::Init(FIntermissionAction *desc, bool first)
 	mText = "";
 	for (auto& line : lines)
 	{
-		line.StripRight();
+		strip_whitespace_right(&line);
 		mText << line << "\n";
 	}
 

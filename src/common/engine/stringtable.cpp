@@ -40,6 +40,7 @@
 #include "sc_man.h"
 #include "printf.h"
 #include "i_interface.h"
+#include "string_helpers.h"
 
 //==========================================================================
 //
@@ -253,8 +254,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 					if (!ok) continue;
 				}
 			}
-
-			row[labelcol].StripLeftRight();
+			strip_whitespace(&row[labelcol]);
 			FName strName = row[labelcol].c_str();
 			if (hasDefaultEntry)
 			{

@@ -40,7 +40,7 @@
 #include "v_font.h"
 #include "types.h"
 #include "utf8.h"
-
+#include "string_helpers.h"
 
 
 FString FStringFormat(VM_ARGS, int offset)
@@ -646,8 +646,8 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IsNotEmpty, StringIsNotEmpty)
 
 static void StringStripRight(FString* self, const FString& junk)
 {
-	if (!junk.empty()) self->StripRight(junk);
-	else self->StripRight();
+	if (!junk.empty()) strip_right(self, junk.c_str());
+	else strip_whitespace_right(self);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripRight, StringStripRight)
@@ -660,8 +660,8 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripRight, StringStripRight)
 
 static void StringStripLeft(FString* self, const FString& junk)
 {
-	if (!junk.empty()) self->StripLeft(junk);
-	else self->StripLeft();
+	if (!junk.empty()) strip_left(self, junk.c_str());
+	else strip_whitespace_left(self);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripLeft, StringStripLeft)
@@ -674,8 +674,8 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripLeft, StringStripLeft)
 
 static void StringStripLeftRight(FString* self, const FString& junk)
 {
-	if (!junk.empty()) self->StripLeftRight(junk);
-	else self->StripLeftRight();
+	if (!junk.empty()) strip(self, junk.c_str());
+	else strip_whitespace(self);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripLeftRight, StringStripLeftRight)

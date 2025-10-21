@@ -71,6 +71,7 @@
 #include "v_draw.h"
 #include "d_main.h"
 #include "savegamemanager.h"
+#include "string_helpers.h"
 
 extern FILE *Logfile;
 extern bool insave;
@@ -1172,7 +1173,7 @@ CCMD(secret)
 				{
 					// line complete so print it.
 					linebuild.Substitute("\r", "");
-					linebuild.StripRight(" \t\n");
+					strip_whitespace_right(&linebuild);
 					PrintSecretString(linebuild.c_str(), thislevel);
 					linebuild = "";
 				}

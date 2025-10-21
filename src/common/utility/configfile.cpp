@@ -38,6 +38,7 @@
 
 #include "configfile.h"
 #include "files.h"
+#include "string_helpers.h"
 
 #define READBUFFERSIZE	256
 
@@ -732,7 +733,7 @@ FConfigFile::FConfigEntry *FConfigFile::ReadMultiLineValue(FileReader *file, FCo
 			}
 			if (readbuf[i] == '\0')
 			{ // We're done; strip the previous line's line breaks, since it's not part of the value.
-				value.StripRight("\n\r");
+				strip(&value, "\r\n");
 			}
 			break;
 		}

@@ -7,6 +7,7 @@
 #include "version.h"
 #include "m_argv.h"
 #include "m_random.h"
+#include "string_helpers.h"
 
 static_assert(sizeof(void*) == 8,
 	"Only LP64/LLP64 builds are officially supported. "
@@ -122,14 +123,12 @@ FStartupSelectionInfo::FStartupSelectionInfo(const TArray<WadStuff>& wads, FArgs
 // Return whatever IWAD the user selected.
 int FStartupSelectionInfo::SaveInfo()
 {
-	DefaultLanguage.StripLeftRight();
-
-	DefaultArgs.StripLeftRight();
-
-	DefaultNetArgs.StripLeftRight();
-	AdditionalNetArgs.StripLeftRight();
-	DefaultNetAddress.StripLeftRight();
-	DefaultNetSaveFile.StripLeftRight();
+	strip_whitespace(&DefaultLanguage);
+	strip_whitespace(&DefaultArgs);
+	strip_whitespace(&DefaultNetArgs);
+	strip_whitespace(&AdditionalNetArgs);
+	strip_whitespace(&DefaultNetAddress);
+	strip_whitespace(&DefaultNetSaveFile);
 
 	queryiwad = DefaultQueryIWAD;
 	language = DefaultLanguage.c_str();

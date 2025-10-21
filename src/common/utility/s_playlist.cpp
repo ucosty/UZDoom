@@ -40,6 +40,7 @@
 
 #include "v_text.h"
 #include "files.h"
+#include "string_helpers.h"
 
 FPlayList::~FPlayList ()
 {
@@ -141,7 +142,7 @@ FString FPlayList::NextLine (FileReader &file)
 	} while (*skipper == '#' || *skipper == 0);
 
 	FString str(skipper);
-	str.StripRight("\r\n");
+	strip_right(&str, "\r\n");
 	FixPathSeperator(str);
 	return str;
 }
