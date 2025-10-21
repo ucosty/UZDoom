@@ -900,7 +900,7 @@ void R_InitSkins (void)
 		}
 
 		// Make sure face prefix is a full 3 chars
-		if (Skins[i].Face.Len() < 3)
+		if (Skins[i].Face.length() < 3)
 		{
 			Skins[i].Face = "";
 		}

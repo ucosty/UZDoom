@@ -68,12 +68,12 @@ FString FStringFormat(VM_ARGS, int offset)
 	// various type flags are not supported. not like stuff like 'hh' modifier is to be used in the VM.
 	// the only combination that is parsed locally is %n$...
 	bool haveargnums = false;
-	for (size_t i = 0; i < fmtstring.Len(); i++)
+	for (size_t i = 0; i < fmtstring.length(); i++)
 	{
 		char c = fmtstring[i];
 		if (in_fmt)
 		{
-			if (c == '*' && (fmt_current.Len() == 1 || (fmt_current.Len() == 2 && fmt_current[1] == '0')))
+			if (c == '*' && (fmt_current.length() == 1 || (fmt_current.length() == 2 && fmt_current[1] == '0')))
 			{
 				fmt_current += c;
 			}
@@ -222,7 +222,7 @@ FString FStringFormat(VM_ARGS, int offset)
 		{
 			if (c == '%')
 			{
-				if (i + 1 < fmtstring.Len() && fmtstring[i + 1] == '%')
+				if (i + 1 < fmtstring.length() && fmtstring[i + 1] == '%')
 				{
 					output += '%';
 					i++;
@@ -367,7 +367,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, Remove, StringRemove)
 
 static void StringCharAt(FString *self, int pos, FString *result)
 {
-	if ((unsigned)pos >= self->Len()) *result = "";
+	if ((unsigned)pos >= self->length()) *result = "";
 	else *result = FString((*self)[pos]);
 }
 // CharAt and CharCodeAt is how JS does it, and JS is similar here in that it doesn't have char type as int.
@@ -382,7 +382,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, CharAt, StringCharAt)
 
 static int StringCharCodeAt(FString *self, int pos)
 {
-	if ((unsigned)pos >= self->Len()) return 0;
+	if ((unsigned)pos >= self->length()) return 0;
 	else return (*self)[pos];
 }
 
@@ -395,7 +395,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, CharCodeAt, StringCharCodeAt)
 
 static int StringByteAt(FString *self, int pos)
 {
-	if ((unsigned)pos >= self->Len()) return 0;
+	if ((unsigned)pos >= self->length()) return 0;
 	else return (uint8_t)((*self)[pos]);
 }
 

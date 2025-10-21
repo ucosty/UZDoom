@@ -171,7 +171,7 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 	auto lumpd = fileSystem.ReadFile(lump);
 	const char * buffer = lumpd.string();
 
-	if ( (size_t)fullname.LastIndexOf("_d.3d") == fullname.Len()-5 )
+	if ( (size_t)fullname.LastIndexOf("_d.3d") == fullname.length()-5 )
 	{
 		FString anivfile = fullname.c_str();
 		anivfile.Substitute("_d.3d","_a.3d");
@@ -180,7 +180,7 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 			model = new FUE1Model;
 		}
 	}
-	else if ( (size_t)fullname.LastIndexOf("_a.3d") == fullname.Len()-5 )
+	else if ( (size_t)fullname.LastIndexOf("_a.3d") == fullname.length()-5 )
 	{
 		FString datafile = fullname.c_str();
 		datafile.Substitute("_a.3d","_d.3d");
@@ -189,7 +189,7 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 			model = new FUE1Model;
 		}
 	}
-	else if ( (size_t)fullname.LastIndexOf(".obj") == fullname.Len() - 4 )
+	else if ( (size_t)fullname.LastIndexOf(".obj") == fullname.length() - 4 )
 	{
 		model = new FOBJModel;
 	}

@@ -87,7 +87,7 @@ FString RemoveLegacyUserUniforms(FString code)
 
 	// The following code searches for legacy uniform declarations in the shader itself and replaces them with whitespace.
 
-	const auto len = code.Len();
+	const auto len = code.length();
 	char *chars = code.LockBuffer();
 
 	ptrdiff_t startIndex = 0;
@@ -168,7 +168,7 @@ FString RemoveLegacyUserUniforms(FString code)
 
 FString RemoveSamplerBindings(FString code, TArray<std::pair<FString, int>> &samplerstobind)
 {
-	const auto len = code.Len();
+	const auto len = code.length();
 	char *chars = code.LockBuffer();
 
 	ptrdiff_t startIndex = 0;

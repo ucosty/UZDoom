@@ -66,7 +66,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 		// File not found, so split file into path and filename so we can enumerate the path for the file.
 		auto lastindex = fullpath.LastIndexOf("/");
 		FString basepath = fullpath.Left(lastindex);
-		FString filename = fullpath.Right(fullpath.Len() - lastindex - 1);
+		FString filename = fullpath.Right(fullpath.length() - lastindex - 1);
 
 		// Proceed only if locating a file (i.e. `file` isn't a path to just a directory.)
 		if (!filename.empty())
@@ -271,7 +271,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 				if (!dir.empty())
 				{
 					if (dir.Back() == '/')
-						dir.Truncate(dir.Len() - 1);
+						dir.Truncate(dir.length() - 1);
 
 					// Folders can't be used here since those are going to be checked
 					// recursively, so only find actual files.

@@ -116,7 +116,7 @@ public:
 			}
 			else
 			{ // Move hanging ( characters to the new line
-				Str.Truncate(Str.Len() - ConsecOpens);
+				Str.Truncate(Str.length() - ConsecOpens);
 				NestDepth -= ConsecOpens;
 			}
 			Str << '\n';
@@ -162,7 +162,7 @@ public:
 	}
 	void Add(FString &str)
 	{
-		Add(str.c_str(), str.Len());
+		Add(str.c_str(), str.length());
 	}
 	void AddName(FName name)
 	{
@@ -281,7 +281,7 @@ static void PrintStringConst(FLispString &out, FString str)
 {
 	FString outstr;
 	outstr << '"';
-	for (size_t i = 0; i < str.Len(); ++i)
+	for (size_t i = 0; i < str.length(); ++i)
 	{
 		if (str[i] == '"')
 		{

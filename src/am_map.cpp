@@ -1368,7 +1368,7 @@ bool DAutomap::clearMarks ()
 
 void DAutomap::LevelInit ()
 {
-	if (Level->info->MapBackground.Len() == 0)
+	if (Level->info->MapBackground.length() == 0)
 	{
 		mapback = TexMan.CheckForTexture("AUTOPAGE", ETextureType::MiscPatch);
 	}

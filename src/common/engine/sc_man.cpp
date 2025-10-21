@@ -222,20 +222,20 @@ void FScanner :: OpenLumpNum (int lump)
 void FScanner::PrepareScript ()
 {
 	// If the file got a UTF-8 byte order mark, remove that.
-	if (ScriptBuffer.Len() > 3 && ScriptBuffer[0] == (char)0xEF && ScriptBuffer[1] == (char)0xBB && ScriptBuffer[2] == (char)0xBF)
+	if (ScriptBuffer.length() > 3 && ScriptBuffer[0] == (char)0xEF && ScriptBuffer[1] == (char)0xBB && ScriptBuffer[2] == (char)0xBF)
 	{
 		ScriptBuffer = ScriptBuffer.Mid(3);
 	}
 
 	// The scanner requires the file to end with a '\n', so add one if
 	// it doesn't already.
-	if (ScriptBuffer.Len() == 0 || ScriptBuffer.Back() != '\n')
+	if (ScriptBuffer.length() == 0 || ScriptBuffer.Back() != '\n')
 	{
 		// If the last character in the buffer is a null character, change
 		// it to a newline. Otherwise, append a newline to the end.
-		if (ScriptBuffer.Len() > 0 && ScriptBuffer.Back() == '\0')
+		if (ScriptBuffer.length() > 0 && ScriptBuffer.Back() == '\0')
 		{
-			ScriptBuffer.LockBuffer()[ScriptBuffer.Len() - 1] = '\n';
+			ScriptBuffer.LockBuffer()[ScriptBuffer.length() - 1] = '\n';
 			ScriptBuffer.UnlockBuffer();
 		}
 		else
@@ -245,7 +245,7 @@ void FScanner::PrepareScript ()
 	}
 
 	ScriptPtr = &ScriptBuffer[0];
-	ScriptEndPtr = &ScriptBuffer[ScriptBuffer.Len()];
+	ScriptEndPtr = &ScriptBuffer[ScriptBuffer.length()];
 	Line = 1;
 	End = false;
 	ScriptOpen = true;
@@ -345,7 +345,7 @@ long long FScanner::mystrtoll(const char* p, char** endp, int base)
 
 bool FScanner::isText()
 {
-	for(unsigned int i=0;i<ScriptBuffer.Len();i++)
+	for(unsigned int i=0;i<ScriptBuffer.length();i++)
 	{
 		int c = ScriptBuffer[i];
 		if (c < ' ' && c != '\n' && c != '\r' && c != '\t') return false;

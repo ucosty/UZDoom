@@ -535,7 +535,7 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 		FileWriter *ff = FileWriter::Open(filename.c_str());
 		if (ff != NULL)
 		{
-			ff->Write(ast.c_str(), ast.Len());
+			ff->Write(ast.c_str(), ast.length());
 			delete ff;
 		}
 	}

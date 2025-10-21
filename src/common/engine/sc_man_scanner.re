@@ -531,7 +531,7 @@ string:
 	{
 		BigStringBuffer.AppendCStrPart(StringBuffer, StringLen);
 		String = BigStringBuffer.LockBuffer();
-		StringLen = int(BigStringBuffer.Len());
+		StringLen = int(BigStringBuffer.length());
 	}
 	else
 	{

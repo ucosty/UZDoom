@@ -213,7 +213,7 @@ struct ExpVal
 	{
 		if (Type == TypeString)
 		{
-			if (((FString *)&pointer)->Len() == 0) return NAME_None;
+			if (((FString *)&pointer)->length() == 0) return NAME_None;
 			return FName(*(FString *)&pointer);
 		}
 		return Type == TypeName ? ENamedName(Int) : NAME_None;

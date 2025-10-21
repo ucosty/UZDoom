@@ -572,7 +572,7 @@ void D_UserInfoChanged (FBaseCVar *cvar)
 
 	val = cvar->GetGenericRep (CVAR_String);
 	escaped_val = D_EscapeUserInfo(val.String);
-	if (4 + strlen(cvar->GetName()) + escaped_val.Len() > 256)
+	if (4 + strlen(cvar->GetName()) + escaped_val.length() > 256)
 		I_Error ("User info descriptor too big");
 
 	mysnprintf (foo, countof(foo), "\\%s\\%s", cvar->GetName(), escaped_val.c_str());

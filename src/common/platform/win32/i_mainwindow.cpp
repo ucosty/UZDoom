@@ -108,12 +108,12 @@ void MainWindow::ShowErrorPane(const char* text)
 
 	size_t totalsize = 0;
 	for (const FString& line : bufferedConsoleStuff)
-		totalsize += line.Len();
+		totalsize += line.length();
 
 	std::string alltext;
 	alltext.reserve(totalsize);
 	for (const FString& line : bufferedConsoleStuff)
-		alltext.append(line.c_str(), line.Len());
+		alltext.append(line.c_str(), line.length());
 
 	restartrequest = ErrorWindow::ExecModal(text, alltext);
 }
@@ -201,7 +201,7 @@ void MainWindow::GetLog(std::function<bool(const void* data, uint32_t size, uint
 	for (const FString& line : bufferedConsoleStuff)
 	{
 		size_t pos = 0;
-		size_t len = line.Len();
+		size_t len = line.length();
 		while (pos < len)
 		{
 			uint32_t size = (uint32_t)std::min(len - pos, 0x0fffffffULL);

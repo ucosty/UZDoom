@@ -739,7 +739,7 @@ static int FindGLNodesInWAD(int labellump)
 	FString glheader;
 
 	glheader.Format("GL_%s", fileSystem.GetFileFullName(labellump));
-	if (glheader.Len()<=8)
+	if (glheader.length()<=8)
 	{
 		int gllabel = fileSystem.CheckNumForName(glheader.c_str(), FileSys::ns_global, wadfile);
 		if (gllabel >= 0) return gllabel;
@@ -788,7 +788,7 @@ static int FindGLNodesInFile(FResourceFile * f, const char * label)
 	uint32_t numentries = f->EntryCount();
 
 	glheader.Format("GL_%.8s", label);
-	if (glheader.Len()>8)
+	if (glheader.length()>8)
 	{
 		glheader="GL_LEVEL";
 		mustcheck=true;
@@ -1014,7 +1014,7 @@ static FString CreateCacheName(MapData *map, bool create)
 
 	std::ranges::replace(lumpname, '/', '%');
 	std::ranges::replace(lumpname, ':', '$');
-	path << '/' << lumpname.Right((ptrdiff_t)lumpname.Len() - separator - 1) << ".gzc";
+	path << '/' << lumpname.Right((ptrdiff_t)lumpname.length() - separator - 1) << ".gzc";
 	return path;
 }
 

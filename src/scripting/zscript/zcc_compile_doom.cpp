@@ -1096,7 +1096,7 @@ void ZCCDoomCompiler::CompileStates()
 					FState state;
 					memset(&state, 0, sizeof(state));
 					state.UseFlags = flags;
-					if (sl->Sprite->Len() != 4)
+					if (sl->Sprite->length() != 4)
 					{
 						Error(sl, "Sprite name must be exactly 4 characters. Found '%s'", sl->Sprite->c_str());
 					}
@@ -1157,7 +1157,7 @@ void ZCCDoomCompiler::CompileStates()
 						if (code != nullptr)
 						{
 							auto funcsym = CreateAnonymousFunction(c->Type(), nullptr, state.UseFlags);
-							state.ActionFunc = FunctionBuildList.AddFunction(OutNamespace, mVersion, funcsym, code, FStringf("%s.StateFunction.%d", c->Type()->TypeName.GetChars(), statedef.GetStateCount()), false, statedef.GetStateCount(), (int)sl->Frames->Len(), Lump);
+							state.ActionFunc = FunctionBuildList.AddFunction(OutNamespace, mVersion, funcsym, code, FStringf("%s.StateFunction.%d", c->Type()->TypeName.GetChars(), statedef.GetStateCount()), false, statedef.GetStateCount(), (int)sl->Frames->length(), Lump);
 						}
 					}
 
@@ -1183,7 +1183,7 @@ void ZCCDoomCompiler::CompileStates()
 						statename << FName(part->Id).GetChars() << '.';
 						part = static_cast<decltype(part)>(part->SiblingNext);
 					} while (part != sg->Label);
-					statename.Truncate(statename.Len() - 1);	// remove the last '.' in the label name
+					statename.Truncate(statename.length() - 1);	// remove the last '.' in the label name
 					if (sg->Offset != nullptr)
 					{
 						int offset = IntConstFromNode(sg->Offset, c->Type());

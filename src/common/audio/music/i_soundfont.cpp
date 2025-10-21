@@ -173,7 +173,7 @@ FileReader FSF2Reader::OpenMainConfigFile()
 	FileReader fr;
 	if (!mMainConfigForSF2.empty())
 	{
-		fr.OpenMemory(mMainConfigForSF2.c_str(), mMainConfigForSF2.Len());
+		fr.OpenMemory(mMainConfigForSF2.c_str(), mMainConfigForSF2.length());
 	}
 	return fr;
 }
@@ -264,11 +264,11 @@ FPatchSetReader::FPatchSetReader(const char *filename)
 			}
 		}
 	}
-	if (mFullPathToConfig.Len() > 0)
+	if (mFullPathToConfig.length() > 0)
 	{
 		FixPathSeperator(mFullPathToConfig);
 		mBasePath = ExtractFilePath(mFullPathToConfig.c_str());
-		if (mBasePath.Len() > 0 && mBasePath.Back() != '/') mBasePath += '/';
+		if (mBasePath.length() > 0 && mBasePath.Back() != '/') mBasePath += '/';
 	}
 }
 
@@ -303,7 +303,7 @@ FLumpPatchSetReader::FLumpPatchSetReader(const char *filename)
 	mBasePath = filename;
 	FixPathSeperator(mBasePath);
 	mBasePath = ExtractFilePath(mBasePath.c_str());
-	if (mBasePath.Len() > 0 && mBasePath.Back() != '/') mBasePath += '/';
+	if (mBasePath.length() > 0 && mBasePath.Back() != '/') mBasePath += '/';
 }
 
 FileReader FLumpPatchSetReader::OpenMainConfigFile()

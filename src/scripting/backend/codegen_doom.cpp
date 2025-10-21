@@ -185,7 +185,7 @@ static FxExpression *CustomTypeCast(FxTypeCast *func, FCompileContext &ctx)
 		if (basex->isConstant() && (basex->ValueType == TypeString || basex->ValueType == TypeName))
 		{
 			FString s= static_cast<FxConstant *>(basex)->GetValue().GetString();
-			if (s.Len() == 0 && !ctx.FromDecorate)	// DECORATE should never get here at all, but let's better be safe.
+			if (s.length() == 0 && !ctx.FromDecorate)	// DECORATE should never get here at all, but let's better be safe.
 			{
 				ScriptPosition.Message(MSG_ERROR, "State jump to empty label.");
 				delete func;
@@ -912,7 +912,7 @@ FxMultiNameState::FxMultiNameState(const char *_statestring, const FScriptPositi
 	if (scopeindex != std::string::npos)
 	{
 		scopename = FName(statestring.c_str(), scopeindex, false);
-		statestring = statestring.Right((ptrdiff_t)statestring.Len() - scopeindex - 2);
+		statestring = statestring.Right((ptrdiff_t)statestring.length() - scopeindex - 2);
 	}
 	names = MakeStateNameList(statestring.c_str());
 	names.Insert(0, scopename);

@@ -341,7 +341,7 @@ static FxExpression *StringConstToChar(FxExpression *basex)
 	int chr = str.GetNextCharacter(position);
 
 	// Only succeed if the full string is consumed, i.e. it contains only one code point.
-	if (position == (int)str.Len())
+	if (position == (int)str.length())
 	{
 		return new FxConstant(chr, basex->ScriptPosition);
 	}
@@ -1464,7 +1464,7 @@ FxExpression *FxColorCast::Resolve(FCompileContext &ctx)
 		if (basex->isConstant())
 		{
 			ExpVal constval = static_cast<FxConstant *>(basex)->GetValue();
-			if (constval.GetString().Len() == 0)
+			if (constval.GetString().length() == 0)
 			{
 				// empty string means 'no state'. This would otherwise just cause endless errors and have the same result anyway.
 				FxExpression *x = new FxConstant(-1, ScriptPosition);
@@ -10626,7 +10626,7 @@ FxExpression *FxStrLen::Resolve(FCompileContext &ctx)
 	if (Self->isConstant())
 	{
 		auto constself = static_cast<FxConstant *>(Self);
-		auto constlen = new FxConstant((int)constself->GetValue().GetString().Len(), Self->ScriptPosition);
+		auto constlen = new FxConstant((int)constself->GetValue().GetString().length(), Self->ScriptPosition);
 		delete this;
 		return constlen->Resolve(ctx);
 	}

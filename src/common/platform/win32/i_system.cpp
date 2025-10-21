@@ -312,7 +312,7 @@ static void PrintToStdOut(const char *cpt, HANDLE StdOut)
 	}
 
 	DWORD bytes_written;
-	WriteFile(StdOut, printData.c_str(), (DWORD)printData.Len(), &bytes_written, NULL);
+	WriteFile(StdOut, printData.c_str(), (DWORD)printData.length(), &bytes_written, NULL);
 	if (terminal) 
 		WriteFile(StdOut, "\033[0m", 4, &bytes_written, NULL);
 }

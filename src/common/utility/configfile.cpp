@@ -803,7 +803,7 @@ bool FConfigFile::WriteConfigFile () const
 		entry = section->RootEntry;
 		if (!section->Note.empty())
 		{
-			file->Write (section->Note.c_str(), section->Note.Len());
+			file->Write (section->Note.c_str(), section->Note.length());
 		}
 		file->Printf ("[%s]\n", section->SectionName.c_str());
 		while (entry != NULL)

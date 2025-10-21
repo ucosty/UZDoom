@@ -275,7 +275,7 @@ bool GetFileInfo(const char* pathname, size_t *size, time_t *time)
 
 void DefaultExtension (FString &path, const char *extension, bool forcebackslash)
 {
-	const char *src = &path[int(path.Len())-1];
+	const char *src = &path[int(path.length())-1];
 
 	while (src != &path[0] && !IsSeperator(*src, forcebackslash))
 	{

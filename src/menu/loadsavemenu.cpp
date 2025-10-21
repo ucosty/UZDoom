@@ -178,7 +178,7 @@ FString FSavegameManager::ExtractSaveComment(FSerializer &arc)
 	FString pcomment = arc.GetString("Comment");
 
 	comment = time;
-	if (time.Len() > 0) comment += "\n";
+	if (time.length() > 0) comment += "\n";
 	comment += pcomment;
 	return comment;
 }

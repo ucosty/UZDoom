@@ -99,7 +99,7 @@ void FNotifyBufferBase::AddString(int printlevel, FFont *printFont, const FStrin
 		AddType = NEWLINE;
 	}
 
-	switch (source[source.Len()-1])
+	switch (source[source.length()-1])
 	{
 	case '\r':	AddType = REPLACELINE;	break;
 	case '\n':	AddType = NEWLINE;		break;

@@ -2284,7 +2284,7 @@ FString ZCCCompiler::UserTypeName(ZCC_BasicType *type)
 	do
 	{
 		assert(id->NodeType == AST_Identifier);
-		if (out.Len() > 0)
+		if (out.length() > 0)
 		{
 			out += '.';
 		}

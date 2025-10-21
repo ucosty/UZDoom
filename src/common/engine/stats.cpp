@@ -108,10 +108,10 @@ void FStat::PrintStat (F2DDrawer *drawer)
 		{
 			FString stattext(stat->GetStats());
 
-			if (stattext.Len() > 0)
+			if (stattext.length() > 0)
 			{
 				y -= fontheight;	// there's at least one line of text
-				for (unsigned i = 0; i < stattext.Len()-1; i++)
+				for (unsigned i = 0; i < stattext.length()-1; i++)
 				{
 					// Count number of linefeeds but ignore terminating ones.
 					if (stattext[i] == '\n') y -= fontheight;

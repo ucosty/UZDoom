@@ -301,7 +301,7 @@ CCMD(printlocalized)
 		{
 			FString lang = argv[2];
 			std::ranges::transform(lang, lang.begin(), ::tolower);
-			if (lang.Len() >= 2)
+			if (lang.length() >= 2)
 			{
 				Printf("%s\n", GStrings.GetLanguageString(argv[1], MAKE_ID(lang[0], lang[1], lang[2], 0)));
 				return;

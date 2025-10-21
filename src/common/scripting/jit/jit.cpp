@@ -70,7 +70,7 @@ void JitDumpLog(FILE *file, VMScriptFunction *sfunc)
 
 		FString err;
 		err.Format("Unexpected JIT error: %s\n", e.what());
-		fwrite(err.c_str(), err.Len(), 1, file);
+		fwrite(err.c_str(), err.length(), 1, file);
 		fclose(file);
 
 		I_FatalError("Unexpected JIT error: %s\n", e.what());
@@ -137,7 +137,7 @@ asmjit::CCFunc *JitCompiler::Codegen()
 			FString lineinfo;
 			lineinfo.Format("; line %d: %02x%02x%02x%02x %s", curLine, pc->op, pc->a, pc->b, pc->c, OpNames[op]);
 			cc.comment("", 0);
-			cc.comment(lineinfo.c_str(), lineinfo.Len());
+			cc.comment(lineinfo.c_str(), lineinfo.length());
 		}
 
 		labels[i].cursor = cc.getCursor();
@@ -245,7 +245,7 @@ void JitCompiler::Setup()
 
 	FString funcname;
 	funcname.Format("Function: %s", sfunc->PrintableName);
-	cc.comment(funcname.c_str(), funcname.Len());
+	cc.comment(funcname.c_str(), funcname.length());
 
 	cc.comment(marks, 56);
 	cc.comment("", 0);

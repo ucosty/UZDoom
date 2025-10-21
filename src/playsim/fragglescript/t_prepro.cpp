@@ -279,7 +279,7 @@ char *DFsScript::ProcessFindChar(char *datap, char find)
 
 			FString labelname(labelptr+1, strcspn(labelptr+1, ":"));
 			
-			if (labelname.Len() == 0)
+			if (labelname.length() == 0)
 			{
 				Printf(PRINT_BOLD,"Script %d: ':' encountrered in incorrect position!\n",scriptnum);
 			}

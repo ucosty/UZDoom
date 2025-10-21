@@ -652,7 +652,7 @@ FString G_GetSavegamesFolder()
 		usefilter = true;
 	}
 
-	const size_t len = name.Len();
+	const size_t len = name.length();
 	if (len > 0)
 	{
 		FixPathSeperator(name);

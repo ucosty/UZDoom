@@ -707,7 +707,7 @@ DHUDMessageTypeOnFadeOut::DHUDMessageTypeOnFadeOut (FFont *font, const char *tex
 	if (TypeOnTime == 0.f)
 		TypeOnTime = 0.1f;
 	CurrLine = 0;
-	LineLen = Lines.Size() > 0? (int)Lines[0].Text.Len() : 0;
+	LineLen = Lines.Size() > 0? (int)Lines[0].Text.length() : 0;
 	LineVisible = 0;
 	State = 3;
 }
@@ -729,7 +729,7 @@ void DHUDMessageTypeOnFadeOut::Serialize(FSerializer &arc)
 	{
 		if (CurrLine < NumLines)
 		{
-			LineLen = (int)Lines[CurrLine].Text.Len();
+			LineLen = (int)Lines[CurrLine].Text.length();
 		}
 		else
 		{
@@ -772,7 +772,7 @@ bool DHUDMessageTypeOnFadeOut::Tick ()
 					else
 					{
 						text = Lines[CurrLine].Text;
-						LineLen = (int)text.Len();
+						LineLen = (int)text.length();
 					}
 				}
 				if (State == 3 && --step >= 0)
@@ -811,7 +811,7 @@ void DHUDMessageTypeOnFadeOut::ScreenSizeChanged ()
 
 	for (i = 0; i < CurrLine; ++i)
 	{
-		charCount += (int)Lines[i].Text.Len();
+		charCount += (int)Lines[i].Text.length();
 	}
 	charCount += LineVisible;
 
@@ -819,7 +819,7 @@ void DHUDMessageTypeOnFadeOut::ScreenSizeChanged ()
 	if (State == 3)
 	{
 		CurrLine = 0;
-		LineLen = NumLines > 0 ? (int)Lines[0].Text.Len() : 0;
+		LineLen = NumLines > 0 ? (int)Lines[0].Text.length() : 0;
 		Tics = (int)(charCount * TypeOnTime) - 1;
 		Tick ();
 	}

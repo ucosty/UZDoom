@@ -21,7 +21,7 @@ void JitCompiler::EmitCONCAT()
 
 static int StringLength(FString* str)
 {
-	return static_cast<int>(str->Len());
+	return static_cast<int>(str->length());
 }
 
 void JitCompiler::EmitLENS()

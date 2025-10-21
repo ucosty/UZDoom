@@ -154,7 +154,7 @@ void FEndoomScreen::Update()
 
 int RunEndoom()
 {
-	if (showendoom == 0 || endoomName.Len() == 0)
+	if (showendoom == 0 || endoomName.length() == 0)
 	{
 		return 0;
 	}
@@ -208,7 +208,7 @@ void ConsoleEndoom()
 		return;
 #endif
 
-	if (!consoleendoom || endoomName.Len() == 0)
+	if (!consoleendoom || endoomName.length() == 0)
 		return;
 
 	uint8_t buffer[4000];

@@ -712,7 +712,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		else
 		{
 			ASSERTD(a); ASSERTS(B);
-			reg.d[a] = reg.s[B].Len() > 0;
+			reg.d[a] = reg.s[B].length() > 0;
 		}
 		NEXTOP;
 
@@ -1041,7 +1041,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		NEXTOP;
 	OP(LENS):
 		ASSERTD(a); ASSERTS(B);
-		reg.d[a] = (int)reg.s[B].Len();
+		reg.d[a] = (int)reg.s[B].length();
 		NEXTOP;
 
 	OP(CMPS):
@@ -2127,7 +2127,7 @@ static void DoCast(const VMRegisters &reg, const VMFrame *f, int a, int b, int c
 
 	case CAST_S2N:
 		ASSERTD(a); ASSERTS(b);
-		reg.d[a] = reg.s[b].Len() == 0? NAME_None : FName(reg.s[b]).GetIndex();
+		reg.d[a] = reg.s[b].length() == 0? NAME_None : FName(reg.s[b]).GetIndex();
 		break;
 
 	case CAST_N2S:

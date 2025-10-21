@@ -586,11 +586,11 @@ void M_ScreenShot (const char *filename)
 		{
 			autoname = screenshot_dir;
 		}
-		dirlen = autoname.Len();
+		dirlen = autoname.length();
 		if (dirlen == 0)
 		{
 			autoname = M_GetScreenshotsPath();
-			dirlen = autoname.Len();
+			dirlen = autoname.length();
 		}
 		if (dirlen > 0)
 		{
@@ -672,11 +672,11 @@ CCMD(openscreenshots)
 	{
 		autoname = screenshot_dir;
 	}
-	dirlen = autoname.Len();
+	dirlen = autoname.length();
 	if (dirlen == 0)
 	{
 		autoname = M_GetScreenshotsPath();
-		dirlen = autoname.Len();
+		dirlen = autoname.length();
 	}
 	if (dirlen > 0)
 	{

@@ -3007,7 +3007,7 @@ static void CheckForHacks(BuildInfo& buildinfo)
 	// Heretic sky textures are marked as only 128 pixels tall,
 	// even though they are really 200 pixels tall.
 	if (gameinfo.gametype == GAME_Heretic &&
-		buildinfo.Name.Len() == 4 &&
+		buildinfo.Name.length() == 4 &&
 		buildinfo.Name[0] == 'S' &&
 		buildinfo.Name[1] == 'K' &&
 		buildinfo.Name[2] == 'Y' &&
@@ -3025,7 +3025,7 @@ static void CheckForHacks(BuildInfo& buildinfo)
 	// The Doom E1 sky has its patch's y offset at -8 instead of 0.
 	if (gameinfo.gametype == GAME_Doom &&
 		!(gameinfo.flags & GI_MAPxx) &&
-		buildinfo.Name.Len() == 4 &&
+		buildinfo.Name.length() == 4 &&
 		buildinfo.Parts.Size() == 1 &&
 		buildinfo.Height == 128 &&
 		buildinfo.Parts[0].OriginY == -8 &&
@@ -3173,7 +3173,7 @@ static int FileSystemPrintf(FSMessageLevel level, const char* fmt, ...)
 		DPrintf(DMSG_NOTIFY, "%s", text.c_str());
 		break;
 	}
-	return (int)text.Len();
+	return (int)text.length();
 }
 
 //==========================================================================
@@ -4158,7 +4158,7 @@ void I_UpdateWindowTitle()
 	}
 
 	// Strip out any color escape sequences before setting a window title
-	TArray<char> copy(titlestr.Len() + 1);
+	TArray<char> copy(titlestr.length() + 1);
 	const char* srcp = titlestr.c_str();
 	char* dstp = copy.Data();
 

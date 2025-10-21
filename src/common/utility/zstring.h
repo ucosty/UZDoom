@@ -203,10 +203,10 @@ public:
 	FString &operator << (char tail) { return *this += tail; }
 
 	const char &Front() const { assert(!empty()); return Chars[0]; }
-	const char &Back() const { assert(!empty()); return Chars[Len() - 1]; }
+	const char &Back() const { assert(!empty()); return Chars[length() - 1]; }
 
 	char *begin() const { return Chars; }
-	char *end() const { return &Chars[Len() - 1]; }
+	char *end() const { return &Chars[length() - 1]; }
 
 	FString Left (size_t numChars) const;
 	FString Right (size_t numChars) const;
@@ -251,7 +251,7 @@ public:
 		size_t i, j;
 
 		LockBuffer();
-		for (i = 0, j = Len(); i < j; ++i)
+		for (i = 0, j = length(); i < j; ++i)
 		{
 			if (IsOldChar(Chars[i]))
 			{
@@ -267,7 +267,7 @@ public:
 		size_t read, write, mylen;
 
 		LockBuffer();
-		for (read = write = 0, mylen = Len(); read < mylen; ++read)
+		for (read = write = 0, mylen = length(); read < mylen; ++read)
 		{
 			if (!IsKillChar(Chars[read]))
 			{
@@ -303,10 +303,10 @@ public:
 	uint64_t ToULong (int base=0) const;
 	double ToDouble () const;
 
-	size_t Len() const { return Data()->Len; }
+	size_t length() const { return Data()->Len; }
 	size_t CharacterCount() const;
 	int GetNextCharacter(int &position) const;
-	bool empty() const { return Len() == 0; }
+	bool empty() const { return length() == 0; }
 
 	void Truncate (size_t newlen);
 	void Remove(size_t index, size_t remlen);
@@ -453,14 +453,14 @@ namespace StringFormat
 
 template<> struct THashTraits<FString>
 {
-	hash_t Hash(const FString &key) { return (hash_t)SuperFastHash(key.c_str(), key.Len()); }
+	hash_t Hash(const FString &key) { return (hash_t)SuperFastHash(key.c_str(), key.length()); }
 	// Compares two keys, returning zero if they are the same.
 	int Compare(const FString &left, const FString &right) { return left.Compare(right); }
 };
 
 struct StringNoCaseHashTraits
 {
-	hash_t Hash(const FString& key) { return (hash_t)SuperFastHashI(key.c_str(), key.Len()); }
+	hash_t Hash(const FString& key) { return (hash_t)SuperFastHashI(key.c_str(), key.length()); }
 	// Compares two keys, returning zero if they are the same.
 	int Compare(const FString& left, const FString& right) { return left.CompareNoCase(right); }
 };

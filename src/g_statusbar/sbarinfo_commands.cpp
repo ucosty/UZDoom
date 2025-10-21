@@ -945,15 +945,15 @@ class CommandDrawString : public SBarInfoCommand
 				break;
 			case ALIGN_RIGHT:
 				if(script->spacingCharacter == '\0')
-					x -= static_cast<int> (font->StringWidth(str)+(spacing * str.Len()));
+					x -= static_cast<int> (font->StringWidth(str)+(spacing * str.length()));
 				else //monospaced, so just multiplay the character size
-					x -= static_cast<int> ((font->GetCharWidth((unsigned char) script->spacingCharacter) + spacing) * str.Len());
+					x -= static_cast<int> ((font->GetCharWidth((unsigned char) script->spacingCharacter) + spacing) * str.length());
 				break;
 			case ALIGN_CENTER:
 				if(script->spacingCharacter == '\0')
-					x -= static_cast<int> ((font->StringWidth(str)+(spacing * str.Len())) / 2);
+					x -= static_cast<int> ((font->StringWidth(str)+(spacing * str.length())) / 2);
 				else
-					x -= static_cast<int> ((font->GetCharWidth((unsigned char) script->spacingCharacter) + spacing) * str.Len() / 2);
+					x -= static_cast<int> ((font->GetCharWidth((unsigned char) script->spacingCharacter) + spacing) * str.length() / 2);
 				break;
 			}
 		}
@@ -1627,7 +1627,7 @@ class CommandDrawMugShot : public SBarInfoCommand
 			if(sc.CheckToken(TK_StringConst))
 			{
 				defaultFace = sc.String;
-				if(defaultFace.Len() > 3)
+				if(defaultFace.length() > 3)
 					sc.ScriptError("Default can not be longer than 3 characters.");
 				sc.MustGetToken(',');
 			}

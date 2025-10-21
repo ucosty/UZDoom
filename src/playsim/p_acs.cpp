@@ -1012,9 +1012,9 @@ int ACSStringPool::AddString(const char *str)
 
 int ACSStringPool::AddString(FString &str)
 {
-	unsigned int h = SuperFastHash(str.c_str(), str.Len());
+	unsigned int h = SuperFastHash(str.c_str(), str.length());
 	unsigned int bucketnum = h % NUM_BUCKETS;
-	int i = FindString(str.c_str(), str.Len(), h, bucketnum);
+	int i = FindString(str.c_str(), str.length(), h, bucketnum);
 	if (i >= 0)
 	{
 		return i | STRPOOL_LIBRARYID_OR;
@@ -1230,7 +1230,7 @@ int ACSStringPool::FindString(const char *str, size_t len, unsigned int h, unsig
 	{
 		PoolEntry *entry = &Pool[i];
 		assert(entry->Next != FREE_ENTRY);
-		if (entry->Hash == h && entry->Str.Len() == len &&
+		if (entry->Hash == h && entry->Str.length() == len &&
 			memcmp(entry->Str.c_str(), str, len) == 0)
 		{
 			return i;
@@ -1334,7 +1334,7 @@ void ACSStringPool::ReadStrings(FSerializer &file, const char *key)
 						file("string", Pool[ii].Str)
 							("locks", Pool[ii].Locks);
 
-						unsigned h = SuperFastHash(Pool[ii].Str.c_str(), Pool[ii].Str.Len());
+						unsigned h = SuperFastHash(Pool[ii].Str.c_str(), Pool[ii].Str.length());
 						unsigned bucketnum = h % NUM_BUCKETS;
 						Pool[ii].Hash = h;
 						Pool[ii].Next = PoolBuckets[bucketnum];

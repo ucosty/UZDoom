@@ -176,7 +176,7 @@ FString stb_include_string(FString str, FString filename, TArray<FString> &filen
         // no newlines, because we kept the #include newlines, which will get appended next
         last = inc_list[i].end;
     }
-    text.AppendCStrPart(str.c_str() + last, str.Len() - last);
+    text.AppendCStrPart(str.c_str() + last, str.length() - last);
     return text;
 }
 

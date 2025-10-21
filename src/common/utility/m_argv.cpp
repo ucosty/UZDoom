@@ -380,7 +380,7 @@ void FArgs::AppendArgsString(FString argv)
 	FString tmp;
 	bool has_tmp = false;
 
-	for(i = 0; i < argv.Len(); i++)
+	for(i = 0; i < argv.length(); i++)
 	{
 		if(argv[i] == ' ')
 		{
@@ -405,7 +405,7 @@ void FArgs::AppendArgsString(FString argv)
 			lastSection = i + 1;
 			tmp = "";
 			has_tmp = false;
-			for(;(i + 1) < argv.Len() && argv[i + 1] == ' '; i++, lastSection++);
+			for(;(i + 1) < argv.length() && argv[i + 1] == ' '; i++, lastSection++);
 			lastStart = i + 1;
 		}
 		else if(argv[i] == '\'' || argv[i] == '"')
@@ -415,7 +415,7 @@ void FArgs::AppendArgsString(FString argv)
 			has_tmp = true;
 			bool wasSlash = false;
 
-			for(i++; (argv[i] != lastQuoteType || wasSlash) && i < argv.Len(); i++)
+			for(i++; (argv[i] != lastQuoteType || wasSlash) && i < argv.length(); i++)
 			{
 				if(i == '\\' && !wasSlash)
 				{
@@ -499,7 +499,7 @@ void FArgs::CollectFiles(const char *finalname, const char **param, const char *
 
 		if (extlen > 0)
 		{ // Argument's extension must match.
-			size_t len = Argv[i].Len();
+			size_t len = Argv[i].length();
 			useit = (len >= extlen && stricmp(&Argv[i][len - extlen], extension) == 0);
 		}
 		else

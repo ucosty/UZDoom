@@ -50,7 +50,7 @@ bool FUE1Model::Load( const char *filename, int lumpnum, const char *buffer, int
 	int lumpnum2;
 	hasSurfaces = true;
 	FString realfilename = fileSystem.GetFileFullName(lumpnum);
-	if ( realfilename.find("_d.3d") == realfilename.Len()-5 )
+	if ( realfilename.find("_d.3d") == realfilename.length()-5 )
 	{
 		realfilename.Substitute("_d.3d","_a.3d");
 		lumpnum2 = fileSystem.CheckNumForFullName(realfilename.c_str());

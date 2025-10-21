@@ -317,7 +317,7 @@ void C_DoCommand (const char *cmd, int keynum)
 			}
 			else
 			{ // Get the variable's value
-				if (var->GetDescription().Len()) Printf("%s\n", GStrings.localize(var->GetDescription().c_str()));
+				if (var->GetDescription().length()) Printf("%s\n", GStrings.localize(var->GetDescription().c_str()));
 				Printf ("\"%s\" is \"%s\" ", var->GetName(), var->GetHumanString());
 				Printf ("(default: \"%s\")\n", var->GetHumanStringDefault());
 			}
@@ -443,7 +443,7 @@ bool FConsoleCommand::AddToHash (FConsoleCommand **table)
 	key = MakeKey (m_Name.c_str());
 	bucket = &table[key % HASH_SIZE];
 
-	if (ScanChainForName (*bucket, m_Name.c_str(), m_Name.Len(), &insert))
+	if (ScanChainForName (*bucket, m_Name.c_str(), m_Name.length(), &insert))
 	{
 		return false;
 	}

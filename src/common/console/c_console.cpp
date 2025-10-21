@@ -965,7 +965,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			strip_whitespace(&bufferText);
 			Printf(127, TEXTCOLOR_WHITE "]%s\n", bufferText.c_str());
 
-			if (bufferText.Len() == 0)
+			if (bufferText.length() == 0)
 			{
 				// Command line is empty, so do nothing to the history
 			}

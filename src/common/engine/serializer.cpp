@@ -1596,7 +1596,7 @@ Dictionary *DictionaryFromString(const FString &string)
 	}
 
 	rapidjson::Document doc;
-	doc.Parse(string.c_str(), string.Len());
+	doc.Parse(string.c_str(), string.length());
 
 	if (doc.GetType() != rapidjson::Type::kObjectType)
 	{

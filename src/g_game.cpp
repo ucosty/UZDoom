@@ -1761,7 +1761,7 @@ void FLevelLocals::DoReborn (int playernum, bool force)
 	if (!multiplayer && !(flags2 & LEVEL2_ALLOWRESPAWN) && !sv_singleplayerrespawn &&
 		!G_SkillProperty(SKILLP_PlayerRespawn))
 	{
-		if (!(cl_restartondeath) && (BackupSaveName.Len() > 0 && FileExists (BackupSaveName)))
+		if (!(cl_restartondeath) && (BackupSaveName.length() > 0 && FileExists (BackupSaveName)))
 		{ // Load game from the last point it was saved
 			savename = BackupSaveName;
 			gameaction = ga_autoloadgame;
@@ -2983,7 +2983,7 @@ void G_DoPlayDemo (void)
 		// don't spend a lot of time in loadlevel
 		precache = false;
 		demonew = true;
-		if (mapname.Len() != 0)
+		if (mapname.length() != 0)
 		{
 			G_InitNew (mapname.c_str(), false);
 		}

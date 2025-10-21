@@ -1146,7 +1146,7 @@ void FTextureManager::AddLocalizedVariants()
 						auto langids = tokens[1].Split("-", FString::TOK_SKIPEMPTY);
 						for (auto &lang : langids)
 						{
-							if (lang.Len() == 2 || lang.Len() == 3)
+							if (lang.length() == 2 || lang.length() == 3)
 							{
 								uint32_t langid = MAKE_ID(lang[0], lang[1], lang[2], 0);
 								uint64_t comboid = (uint64_t(langid) << 32) | origTex.GetIndex();

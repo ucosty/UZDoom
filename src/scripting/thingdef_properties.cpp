@@ -1500,11 +1500,11 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, face, S, PlayerPawn)
 	PROP_STRING_PARM(str, 0);
 	FString tmp = str;
 
-	if (tmp.Len() == 0) defaults->NameVar(NAME_Face) = NAME_None;
+	if (tmp.length() == 0) defaults->NameVar(NAME_Face) = NAME_None;
 	else
 	{
 		std::ranges::transform(tmp, tmp.begin(), ::toupper);
-		bool valid = (tmp.Len() == 3 &&
+		bool valid = (tmp.length() == 3 &&
 			(((tmp[0] >= 'A') && (tmp[0] <= 'Z')) || ((tmp[0] >= '0') && (tmp[0] <= '9'))) &&
 			(((tmp[1] >= 'A') && (tmp[1] <= 'Z')) || ((tmp[1] >= '0') && (tmp[1] <= '9'))) &&
 			(((tmp[2] >= 'A') && (tmp[2] <= 'Z')) || ((tmp[2] >= '0') && (tmp[2] <= '9')))

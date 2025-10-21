@@ -6729,9 +6729,9 @@ void ChangeModelNative(
 	FString skinpath = p_skinpath;
 	FString animationpath = p_animationpath;
 
-	if (modelpath.Len() != 0 && modelpath[(int)modelpath.Len() - 1] != '/') modelpath += '/';
-	if (skinpath.Len() != 0 && skinpath[(int)skinpath.Len() - 1] != '/') skinpath += '/';
-	if (animationpath.Len() != 0 && animationpath[(int)animationpath.Len() - 1] != '/') animationpath += '/';
+	if (modelpath.length() != 0 && modelpath[(int)modelpath.length() - 1] != '/') modelpath += '/';
+	if (skinpath.length() != 0 && skinpath[(int)skinpath.length() - 1] != '/') skinpath += '/';
+	if (animationpath.length() != 0 && animationpath[(int)animationpath.length() - 1] != '/') animationpath += '/';
 
 	EnsureModelData(mobj);
 

@@ -473,12 +473,12 @@ void FIWadManager::CollectSearchPaths()
 			if (stricmp(key, "Path") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mSearchPaths.emplace_back(nice.c_str());
+				if (nice.length() > 0) mSearchPaths.emplace_back(nice.c_str());
 			}
 			else if (stricmp(key, "RecursivePath") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mRecursiveSearchPaths.emplace_back(nice.c_str());
+				if (nice.length() > 0) mRecursiveSearchPaths.emplace_back(nice.c_str());
 			}
 		}
 	}
@@ -660,7 +660,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 			DefaultExtension(custwad, ext);
 			bool isAbsolute = (custwad[0] == '/');
 #ifdef _WIN32
-			isAbsolute |= (custwad.Len() >= 2 && custwad[1] == ':');
+			isAbsolute |= (custwad.length() >= 2 && custwad[1] == ':');
 #endif
 			if (isAbsolute)
 			{

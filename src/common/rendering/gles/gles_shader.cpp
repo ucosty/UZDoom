@@ -100,8 +100,8 @@ static FString CalcProgramBinaryChecksum(const FString &vertex, const FString &f
 	md5.Update(vendor, (unsigned int)strlen((const char*)vendor));
 	md5.Update(renderer, (unsigned int)strlen((const char*)renderer));
 	md5.Update(version, (unsigned int)strlen((const char*)version));
-	md5.Update((const uint8_t *)vertex.c_str(), (unsigned int)vertex.Len());
-	md5.Update((const uint8_t *)fragment.c_str(), (unsigned int)fragment.Len());
+	md5.Update((const uint8_t *)vertex.c_str(), (unsigned int)vertex.length());
+	md5.Update((const uint8_t *)fragment.c_str(), (unsigned int)fragment.length());
 	md5.Final(digest);
 
 	char hexdigest[33];
@@ -253,7 +253,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 
 	//light_fragprog.Substitute("material_pbr", "material_normal");
 
-	if(light_fragprog.Len())
+	if(light_fragprog.length())
 		light_fragprog = "shaders_gles/glsl/material_normal.fp"; // NOTE: Always use normal material for now, ignore others
 
 
@@ -415,7 +415,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 	fp_comb << RemoveLayoutLocationDecl(GetStringFromLump(fp_lump), "in").c_str() << "\n";
 	FString placeholder = "\n";
 
-	if (proc_prog_lump.Len())
+	if (proc_prog_lump.length())
 	{
 		fp_comb << "#line 1\n";
 
@@ -483,7 +483,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 	}
 	fp_comb.Substitute("$placeholder$", placeholder);
 
-	if (light_fragprog.Len())
+	if (light_fragprog.length())
 	{
 		int pp_lump = fileSystem.CheckNumForFullName(light_fragprog.c_str(), 0);
 		if (pp_lump == -1) I_Error("Unable to load '%s'", light_fragprog.c_str());
@@ -511,8 +511,8 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 		shaderData->hVertProg = glCreateShader(GL_VERTEX_SHADER);
 		shaderData->hFragProg = glCreateShader(GL_FRAGMENT_SHADER);
 
-		int vp_size = (int)vp_comb.Len();
-		int fp_size = (int)fp_comb.Len();
+		int vp_size = (int)vp_comb.length();
+		int fp_size = (int)fp_comb.length();
 
 		const char *vp_ptr = vp_comb.c_str();
 		const char *fp_ptr = fp_comb.c_str();

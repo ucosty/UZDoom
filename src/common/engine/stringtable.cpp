@@ -221,7 +221,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 						langrows.Push(std::make_pair(column, default_table));
 						hasDefaultEntry = true;
 					}
-					else if (lang.Len() < 4)
+					else if (lang.length() < 4)
 					{
 						std::ranges::transform(lang, lang.begin(), ::tolower);
 						langrows.Push(std::make_pair(column, MAKE_ID(lang[0], lang[1], lang[2], 0)));
@@ -263,7 +263,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 			for (auto &langentry : langrows)
 			{
 				auto str = row[langentry.first];
-				if (str.Len() > 0)
+				if (str.length() > 0)
 				{
 					InsertString(filenum, langentry.second, strName, str);
 				}

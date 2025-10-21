@@ -1227,14 +1227,14 @@ void VMDisassemblyDumper::Write(VMScriptFunction *sfunc, const FString &fname)
 	{
 		FString fname_lower = fname.c_str();
 		std::transform(fname_lower.begin(), fname_lower.end(), fname_lower.begin(), ::tolower);
-		if (namefilter.Len() > 0 && fname_lower.find(namefilter) == std::string::npos)
+		if (namefilter.length() > 0 && fname_lower.find(namefilter) == std::string::npos)
 		{
 			return;
 		}
 
 		assert(sfunc != nullptr);
 
-		DumpFunction(dump, sfunc, fname.c_str(), (int)fname.Len());
+		DumpFunction(dump, sfunc, fname.c_str(), (int)fname.length());
 		codesize += sfunc->CodeSize;
 		datasize += sfunc->LineInfoCount * sizeof(FStatementInfo) + sfunc->ExtraSpace + sfunc->NumKonstD * sizeof(int) +
 			sfunc->NumKonstA * sizeof(void*) + sfunc->NumKonstF * sizeof(double) + sfunc->NumKonstS * sizeof(FString);

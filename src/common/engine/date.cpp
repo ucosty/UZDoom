@@ -196,7 +196,7 @@ static FString CheckStrfString(FString timeForm)
 	{
 		bool found = false;
 		// % at end
-		if (t.Len() == 0) return FString("%");
+		if (t.length() == 0) return FString("%");
 
 		// Single Character
 		for (size_t i = 0; i < sizeof(validSingles) / sizeof(validSingles[0]); i++)

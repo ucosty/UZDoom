@@ -368,11 +368,11 @@ CCMD (changemap)
 		{
 			mapname = primaryLevel->MapName.c_str();
 		}
-		else if (!strcmp(mapname, "+") && primaryLevel->NextMap.Len() > 0 && primaryLevel->NextMap.Compare("enDSeQ", 6))
+		else if (!strcmp(mapname, "+") && primaryLevel->NextMap.length() > 0 && primaryLevel->NextMap.Compare("enDSeQ", 6))
 		{
 			mapname = primaryLevel->NextMap.c_str();
 		}
-		else if (!strcmp(mapname, "+$") && primaryLevel->NextSecretMap.Len() > 0 && primaryLevel->NextSecretMap.Compare("enDSeQ", 6))
+		else if (!strcmp(mapname, "+$") && primaryLevel->NextSecretMap.length() > 0 && primaryLevel->NextSecretMap.Compare("enDSeQ", 6))
 		{
 			mapname = primaryLevel->NextSecretMap.c_str();
 		}
@@ -1011,7 +1011,7 @@ CCMD(nextmap)
 		return;
 	}
 	
-	if (primaryLevel->NextMap.Len() > 0 && primaryLevel->NextMap.Compare("enDSeQ", 6))
+	if (primaryLevel->NextMap.length() > 0 && primaryLevel->NextMap.Compare("enDSeQ", 6))
 	{
 		G_DeferedInitNew(primaryLevel->NextMap.c_str());
 	}
@@ -1035,7 +1035,7 @@ CCMD(nextsecret)
 		return;
 	}
 
-	if (primaryLevel->NextSecretMap.Len() > 0 && primaryLevel->NextSecretMap.Compare("enDSeQ", 6))
+	if (primaryLevel->NextSecretMap.length() > 0 && primaryLevel->NextSecretMap.Compare("enDSeQ", 6))
 	{
 		G_DeferedInitNew(primaryLevel->NextSecretMap.c_str());
 	}
@@ -1147,7 +1147,7 @@ CCMD(secret)
 		{
 			if (readbuffer[0] == '[')
 			{
-				inlevel = !strnicmp(readbuffer, maphdr.c_str(), maphdr.Len());
+				inlevel = !strnicmp(readbuffer, maphdr.c_str(), maphdr.length());
 				if (!foundsome)
 				{
 					FString levelname;
@@ -1155,7 +1155,7 @@ CCMD(secret)
 					FString ln = info->LookupLevelName();
 					levelname.Format("%s - %s", mapname, ln.c_str());
 					Printf(TEXTCOLOR_YELLOW "%s\n", levelname.c_str());
-					size_t llen = levelname.Len();
+					size_t llen = levelname.length();
 					levelname = "";
 					for(size_t ii=0; ii<llen; ii++) levelname += '-';
 					Printf(TEXTCOLOR_YELLOW "%s\n", levelname.c_str());
@@ -1169,7 +1169,7 @@ CCMD(secret)
 			if (readbuffer[0] != '[')
 			{
 				linebuild += readbuffer;
-				if (linebuild.Len() < 1023 || linebuild[1022] == '\n')
+				if (linebuild.length() < 1023 || linebuild[1022] == '\n')
 				{
 					// line complete so print it.
 					linebuild.Substitute("\r", "");

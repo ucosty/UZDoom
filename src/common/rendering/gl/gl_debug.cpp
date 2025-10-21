@@ -116,7 +116,7 @@ void FGLDebug::PushGroup(const FString &name)
 {
 	if (HasDebugApi() && gl_debug_level != 0)
 	{
-		glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, (GLsizei)name.Len(), name.c_str());
+		glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, (GLsizei)name.length(), name.c_str());
 	}
 
 	if (gpuStatActive)

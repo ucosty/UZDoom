@@ -89,11 +89,11 @@ FGameTexture *FMugShotFrame::GetTexture(const char *default_face, const char *sk
 	{
 		if (!health2 && (!healthspecial || index == 1))
 		{
-			sprite.LockBuffer()[2 + Graphic[index].Len()] += level;
+			sprite.LockBuffer()[2 + Graphic[index].length()] += level;
 		}
 		else
 		{
-			sprite.LockBuffer()[1 + Graphic[index].Len()] += level;
+			sprite.LockBuffer()[1 + Graphic[index].length()] += level;
 		}
 		sprite.UnlockBuffer();
 	}

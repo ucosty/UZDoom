@@ -67,7 +67,7 @@ struct CharacterLookup {
 };
 
 size_t find_first_not_matching(const FString& str, const std::string_view& charset) {
-    const auto length = str.Len();
+    const auto length = str.length();
     const auto lookup = CharacterLookup(charset);
     for (size_t i = 0; i < length; ++i) {
         if (const auto ch = str[i]; !lookup.contains(ch)) {
@@ -78,7 +78,7 @@ size_t find_first_not_matching(const FString& str, const std::string_view& chars
 }
 
 size_t find_last_not_matching(const FString& str, const std::string_view& charset) {
-    const auto length = str.Len();
+    const auto length = str.length();
     const auto lookup = CharacterLookup(charset);
     for (size_t i = length - 1; i > 0; --i) {
         if (const auto ch = str[i]; !lookup.contains(ch)) {
@@ -93,7 +93,7 @@ FString trim_left(const FString& str, const std::string_view& charset) {
     if (substring_start == std::string::npos) {
         return {};
     }
-    return str.substr(substring_start, str.Len() - substring_start);
+    return str.substr(substring_start, str.length() - substring_start);
 }
 
 FString trim_whitespace_left(const FString& str) {
@@ -105,7 +105,7 @@ FString trim_right(const FString& str, const std::string_view& charset) {
     if (substring_end == std::string::npos) {
         return {};
     }
-    return str.substr(0, str.Len() - substring_end);
+    return str.substr(0, str.length() - substring_end);
 }
 
 FString trim_whitespace_right(const FString& str) {
@@ -122,7 +122,7 @@ FString trim(const FString& str, const std::string_view& charset) {
     if (substring_start == std::string::npos) {
         return {};
     }
-    return str.substr(substring_start, str.Len() - substring_end - substring_start);
+    return str.substr(substring_start, str.length() - substring_end - substring_start);
 }
 
 void strip(FString *input, const std::string_view& charset) {

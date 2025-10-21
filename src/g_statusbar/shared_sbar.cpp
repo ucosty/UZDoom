@@ -886,7 +886,7 @@ void DBaseStatusBar::ShowPlayerName ()
 
 static FTextureID GetBorderTexture(FLevelLocals *Level)
 {
-	if (Level != nullptr && Level->info != nullptr && Level->info->BorderTexture.Len() != 0)
+	if (Level != nullptr && Level->info != nullptr && Level->info->BorderTexture.length() != 0)
 	{
 		auto picnum = TexMan.CheckForTexture (Level->info->BorderTexture.c_str(), ETextureType::Flat);
 		if (picnum.isValid()) return picnum;

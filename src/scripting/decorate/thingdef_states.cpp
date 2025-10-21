@@ -221,7 +221,7 @@ do_stop:
 
 			sc.UnGet ();
 
-			if (statestring.Len() != 4)
+			if (statestring.length() != 4)
 			{
 				sc.ScriptError ("Sprite names must be exactly 4 characters\n");
 			}
@@ -329,7 +329,7 @@ endofstate:
 			if (ScriptCode != nullptr)
 			{
 				auto funcsym = CreateAnonymousFunction(actor->VMType, nullptr, state.UseFlags);
-				state.ActionFunc = FunctionBuildList.AddFunction(bag.Namespace, bag.Version, funcsym, ScriptCode, FStringf("%s.StateFunction.%d", actor->TypeName.GetChars(), bag.statedef.GetStateCount()), true, bag.statedef.GetStateCount(), int(statestring.Len()), sc.LumpNum);
+				state.ActionFunc = FunctionBuildList.AddFunction(bag.Namespace, bag.Version, funcsym, ScriptCode, FStringf("%s.StateFunction.%d", actor->TypeName.GetChars(), bag.statedef.GetStateCount()), true, bag.statedef.GetStateCount(), int(statestring.length()), sc.LumpNum);
 			}
 			int count = bag.statedef.AddStates(&state, statestring.c_str(), scp);
 			if (count < 0)
@@ -628,7 +628,7 @@ void ParseFunctionParameters(FScanner &sc, PClassActor *cls, TArray<FxExpression
 		if (statedef != NULL && params[pnum] == TypeStateLabel && sc.CheckNumber())
 		{
 			// Special case: State label as an offset
-			if (sc.Number > 0 && statestring.Len() > 1)
+			if (sc.Number > 0 && statestring.length() > 1)
 			{
 				sc.ScriptError("You cannot use state jumps commands with a jump offset on multistate definitions\n");
 			}

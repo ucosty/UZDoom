@@ -851,7 +851,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, GetGravity, GetGravity)
 
 static void GetTag(AActor *self, const FString &def, FString *result)
 {
-	*result = self->GetTag(def.Len() == 0 ? nullptr : def.c_str());
+	*result = self->GetTag(def.length() == 0 ? nullptr : def.c_str());
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, GetTag, GetTag)

@@ -1772,7 +1772,7 @@ void FBaseCVar::ListVars (const char *filter, int listtype)
 					var->GetHumanString());
 
 				if (includedesc)
-					if (var->GetDescription().Len())
+					if (var->GetDescription().length())
 						Printf(" // \"%s\"\n", GStrings.localize(var->GetDescription().c_str()));
 					else
 						Printf("\n");
@@ -2025,9 +2025,9 @@ UCVarValue FZSStringCVar::GenericZSCVarCallback(UCVarValue value, ECVarType type
 		VMCall(func, param, 3, &ret, 1);
 	}
 
-	char * str = new char[val.Len() + 1];
-	memcpy(str, val.c_str(), val.Len() * sizeof(char));
-	str[val.Len()] = '\0';
+	char * str = new char[val.length() + 1];
+	memcpy(str, val.c_str(), val.length() * sizeof(char));
+	str[val.length()] = '\0';
 
 	UCVarValue v;
 	v.String = str;

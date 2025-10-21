@@ -8582,7 +8582,7 @@ void AActor::SetTag(const char *def)
 
 const char *AActor::GetCharacterName() const
 {
-	if (Conversation && Conversation->SpeakerName.Len() != 0)
+	if (Conversation && Conversation->SpeakerName.length() != 0)
 	{
 		const char *cname = Conversation->SpeakerName.c_str();
 		if (cname[0] == '$')

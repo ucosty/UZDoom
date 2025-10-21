@@ -342,7 +342,7 @@ FString *FSharedStringArena::Alloc(const FString &source)
 	unsigned int hash;
 	Node *strnode;
 
-	strnode = FindString(source.c_str(), source.Len(), hash);
+	strnode = FindString(source.c_str(), source.length(), hash);
 	if (strnode == NULL)
 	{
 		strnode = (Node *)iAlloc(sizeof(Node));
@@ -404,7 +404,7 @@ FSharedStringArena::Node *FSharedStringArena::FindString(const char *str, size_t
 
 	for (Node *node = Buckets[hash % countof(Buckets)]; node != NULL; node = node->Next)
 	{
-		if (node->Hash == hash && node->String.Len() == strlen && memcmp(&node->String[0], str, strlen) == 0)
+		if (node->Hash == hash && node->String.length() == strlen && memcmp(&node->String[0], str, strlen) == 0)
 		{
 			return node;
 		}

@@ -103,8 +103,8 @@ FString::FString (char oneChar)
 
 FString::FString (const FString &head, const FString &tail)
 {
-	size_t len1 = head.Len();
-	size_t len2 = tail.Len();
+	size_t len1 = head.length();
+	size_t len2 = tail.length();
 	AllocBuffer (len1 + len2);
 	StrCopy (Chars, head);
 	StrCopy (Chars + len1, tail);
@@ -112,7 +112,7 @@ FString::FString (const FString &head, const FString &tail)
 
 FString::FString (const FString &head, const char *tail)
 {
-	size_t len1 = head.Len();
+	size_t len1 = head.length();
 	size_t len2 = strlen (tail);
 	AllocBuffer (len1 + len2);
 	StrCopy (Chars, head);
@@ -121,7 +121,7 @@ FString::FString (const FString &head, const char *tail)
 
 FString::FString (const FString &head, char tail)
 {
-	size_t len1 = head.Len();
+	size_t len1 = head.length();
 	AllocBuffer (len1 + 1);
 	StrCopy (Chars, head);
 	Chars[len1] = tail;
@@ -131,7 +131,7 @@ FString::FString (const FString &head, char tail)
 FString::FString (const char *head, const FString &tail)
 {
 	size_t len1 = strlen (head);
-	size_t len2 = tail.Len();
+	size_t len2 = tail.length();
 	AllocBuffer (len1 + len2);
 	StrCopy (Chars, head, len1);
 	StrCopy (Chars + len1, tail);
@@ -148,7 +148,7 @@ FString::FString (const char *head, const char *tail)
 
 FString::FString (char head, const FString &tail)
 {
-	size_t len2 = tail.Len();
+	size_t len2 = tail.length();
 	AllocBuffer (1 + len2);
 	Chars[0] = head;
 	StrCopy (Chars + 1, tail);
@@ -275,7 +275,7 @@ FString &FString::operator = (const char *copyStr)
 
 TArrayView<uint8_t> FString::GetTArrayView()
 {
-	return TArrayView((uint8_t*)Chars, Len() + 1);
+	return TArrayView((uint8_t*)Chars, length() + 1);
 }
 
 void FString::Format (const char *fmt, ...)
@@ -312,7 +312,7 @@ void FString::VAppendFormat (const char *fmt, va_list arglist)
 char* FString::FormatHelper (const char *cstr, void* data, int len)
 {
 	FString *str = (FString *)data;
-	size_t len1 = str->Len();
+	size_t len1 = str->length();
 	if (len1 + len > str->Data()->AllocLen || str->Chars == &NullString.Nothing[0])
 	{
 		str->ReallocBuffer((len1 + len + 127) & ~127);
@@ -349,8 +349,8 @@ FString operator + (char head, const FString &tail)
 
 FString &FString::operator += (const FString &tail)
 {
-	size_t len1 = Len();
-	size_t len2 = tail.Len();
+	size_t len1 = length();
+	size_t len2 = tail.length();
 	ReallocBuffer (len1 + len2);
 	StrCopy (Chars + len1, tail);
 	return *this;
@@ -358,7 +358,7 @@ FString &FString::operator += (const FString &tail)
 
 FString &FString::operator += (const char *tail)
 {
-	size_t len1 = Len();
+	size_t len1 = length();
 	size_t len2 = strlen(tail);
 	ReallocBuffer (len1 + len2);
 	StrCopy (Chars + len1, tail, len2);
@@ -367,7 +367,7 @@ FString &FString::operator += (const char *tail)
 
 FString &FString::operator += (char tail)
 {
-	size_t len1 = Len();
+	size_t len1 = length();
 	ReallocBuffer (len1 + 1);
 	Chars[len1] = tail;
 	Chars[len1+1] = '\0';
@@ -378,7 +378,7 @@ FString &FString::AppendCStrPart (const char *tail, size_t tailLen)
 {
 	if (tailLen > 0)
 	{
-		size_t len1 = Len();
+		size_t len1 = length();
 		ReallocBuffer(len1 + tailLen);
 		StrCopy(Chars + len1, tail, tailLen);
 	}
@@ -426,7 +426,7 @@ void FString::Truncate(size_t newlen)
 		Data()->Release();
 		ResetToNull();
 	}
-	else if (newlen < Len())
+	else if (newlen < length())
 	{
 		ReallocBuffer (newlen);
 		Chars[newlen] = '\0';
@@ -435,9 +435,9 @@ void FString::Truncate(size_t newlen)
 
 void FString::Remove(size_t index, size_t remlen)
 {
-	if (index < Len())
+	if (index < length())
 	{
-		if (index + remlen >= Len())
+		if (index + remlen >= length())
 		{
 			Truncate(index);
 		}
@@ -445,8 +445,8 @@ void FString::Remove(size_t index, size_t remlen)
 		{
 			if (Data()->RefCount == 1)
 			{ // Can do this in place
-				memmove(Chars + index, Chars + index + remlen, Len() - index - remlen);
-				memset(Chars + Len() - remlen, 0, remlen);
+				memmove(Chars + index, Chars + index + remlen, length() - index - remlen);
+				memset(Chars + length() - remlen, 0, remlen);
 				Data()->Len -= (unsigned)remlen;
 			}
 			else
@@ -463,7 +463,7 @@ void FString::Remove(size_t index, size_t remlen)
 
 FString FString::Left (size_t numChars) const
 {
-	size_t len = Len();
+	size_t len = length();
 	if (len < numChars)
 	{
 		numChars = len;
@@ -473,7 +473,7 @@ FString FString::Left (size_t numChars) const
 
 FString FString::Right (size_t numChars) const
 {
-	size_t len = Len();
+	size_t len = length();
 	if (len < numChars)
 	{
 		numChars = len;
@@ -483,7 +483,7 @@ FString FString::Right (size_t numChars) const
 
 FString FString::Mid (size_t pos, size_t numChars) const
 {
-	size_t len = Len();
+	size_t len = length();
 	if (pos >= len)
 	{
 		return FString();
@@ -502,8 +502,8 @@ void FString::AppendCharacter(int codepoint)
 
 void FString::DeleteLastCharacter()
 {
-	if (Len() == 0) return;
-	auto pos = Len() - 1;
+	if (length() == 0) return;
+	auto pos = length() - 1;
 	while (pos > 0 && uint8_t(Chars[pos]) >= 0x80 && uint8_t(Chars[pos]) < 0xc0) pos--;
 	if (pos <= 0)
 	{
@@ -525,7 +525,7 @@ size_t FString::find(const FString &substr, const size_t startIndex) const {
 }
 
 size_t FString::find(const char *substr, const size_t startIndex) const {
-	if (startIndex > 0 && Len() <= startIndex) {
+	if (startIndex > 0 && length() <= startIndex) {
 		return -1;
 	}
 	const char *str = strstr (Chars + startIndex, substr);
@@ -537,7 +537,7 @@ size_t FString::find(const char *substr, const size_t startIndex) const {
 
 ptrdiff_t FString::IndexOf (char subchar, ptrdiff_t startIndex) const
 {
-	if (startIndex > 0 && Len() <= (size_t)startIndex)
+	if (startIndex > 0 && length() <= (size_t)startIndex)
 	{
 		return -1;
 	}
@@ -556,7 +556,7 @@ ptrdiff_t FString::IndexOfAny (const FString &charset, ptrdiff_t startIndex) con
 
 ptrdiff_t FString::IndexOfAny (const char *charset, ptrdiff_t startIndex) const
 {
-	if (startIndex > 0 && Len() <= (size_t)startIndex)
+	if (startIndex > 0 && length() <= (size_t)startIndex)
 	{
 		return -1;
 	}
@@ -570,14 +570,14 @@ ptrdiff_t FString::IndexOfAny (const char *charset, ptrdiff_t startIndex) const
 
 ptrdiff_t FString::LastIndexOf (char subchar) const
 {
-	return LastIndexOf (subchar, Len());
+	return LastIndexOf (subchar, length());
 }
 
 ptrdiff_t FString::LastIndexOf (char subchar, ptrdiff_t endIndex) const
 {
-	if ((size_t)endIndex > Len())
+	if ((size_t)endIndex > length())
 	{
-		endIndex = Len();
+		endIndex = length();
 	}
 	while (--endIndex >= 0)
 	{
@@ -592,10 +592,10 @@ ptrdiff_t FString::LastIndexOf (char subchar, ptrdiff_t endIndex) const
 ptrdiff_t FString::LastIndexOfBroken (const FString &_substr, ptrdiff_t endIndex) const
 {
 	const char *substr = _substr.c_str();
-	size_t substrlen = _substr.Len();
-	if ((size_t)endIndex > Len())
+	size_t substrlen = _substr.length();
+	if ((size_t)endIndex > length())
 	{
-		endIndex = Len();
+		endIndex = length();
 	}
 	substrlen--;
 	while (--endIndex >= ptrdiff_t(substrlen))
@@ -610,12 +610,12 @@ ptrdiff_t FString::LastIndexOfBroken (const FString &_substr, ptrdiff_t endIndex
 
 ptrdiff_t FString::LastIndexOfAny (const FString &charset) const
 {
-	return LastIndexOfAny (charset.Chars, Len());
+	return LastIndexOfAny (charset.Chars, length());
 }
 
 ptrdiff_t FString::LastIndexOfAny (const char *charset) const
 {
-	return LastIndexOfAny (charset, ptrdiff_t(Len()));
+	return LastIndexOfAny (charset, ptrdiff_t(length()));
 }
 
 ptrdiff_t FString::LastIndexOfAny (const FString &charset, ptrdiff_t endIndex) const
@@ -625,9 +625,9 @@ ptrdiff_t FString::LastIndexOfAny (const FString &charset, ptrdiff_t endIndex) c
 
 ptrdiff_t FString::LastIndexOfAny (const char *charset, ptrdiff_t endIndex) const
 {
-	if ((size_t)endIndex > Len())
+	if ((size_t)endIndex > length())
 	{
-		endIndex = Len();
+		endIndex = length();
 	}
 	while (--endIndex >= 0)
 	{
@@ -641,17 +641,17 @@ ptrdiff_t FString::LastIndexOfAny (const char *charset, ptrdiff_t endIndex) cons
 
 ptrdiff_t FString::LastIndexOf (const FString &substr) const
 {
-	return LastIndexOf(substr.Chars, Len() - substr.Len(), substr.Len());
+	return LastIndexOf(substr.Chars, length() - substr.length(), substr.length());
 }
 
 ptrdiff_t FString::LastIndexOf (const FString &substr, ptrdiff_t endIndex) const
 {
-	return LastIndexOf(substr.Chars, endIndex, substr.Len());
+	return LastIndexOf(substr.Chars, endIndex, substr.length());
 }
 
 ptrdiff_t FString::LastIndexOf (const char *substr) const
 {
-	return LastIndexOf(substr, Len() - strlen(substr), strlen(substr));
+	return LastIndexOf(substr, length() - strlen(substr), strlen(substr));
 }
 
 ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex) const
@@ -661,9 +661,9 @@ ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex) const
 
 ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t substrlen) const
 {
-	if ((size_t)endIndex + substrlen > Len())
+	if ((size_t)endIndex + substrlen > length())
 	{
-		endIndex = Len() - substrlen;
+		endIndex = length() - substrlen;
 	}
 	while (endIndex >= 0)
 	{
@@ -678,7 +678,7 @@ ptrdiff_t FString::LastIndexOf (const char *substr, ptrdiff_t endIndex, size_t s
 
 void FString::Insert (size_t index, const FString &instr)
 {
-	Insert (index, instr.Chars, instr.Len());
+	Insert (index, instr.Chars, instr.length());
 }
 
 void FString::Insert (size_t index, const char *instr)
@@ -690,7 +690,7 @@ void FString::Insert (size_t index, const char *instr, size_t instrlen)
 {
 	if (instrlen > 0)
 	{
-		size_t mylen = Len();
+		size_t mylen = length();
 		if (index >= mylen)
 		{
 			AppendCStrPart(instr, instrlen);
@@ -739,7 +739,7 @@ void FString::MergeChars (char merger, char newchar)
 	size_t read, write, mylen;
 
 	LockBuffer();
-	for (read = write = 0, mylen = Len(); read < mylen; )
+	for (read = write = 0, mylen = length(); read < mylen; )
 	{
 		if (Chars[read] == merger)
 		{
@@ -763,7 +763,7 @@ void FString::MergeChars (const char *charset, char newchar)
 	size_t read, write, mylen;
 
 	LockBuffer();
-	for (read = write = 0, mylen = Len(); read < mylen; )
+	for (read = write = 0, mylen = length(); read < mylen; )
 	{
 		if (strchr (charset, Chars[read]) != NULL)
 		{
@@ -784,17 +784,17 @@ void FString::MergeChars (const char *charset, char newchar)
 
 bool FString::Substitute (const FString &oldstr, const FString &newstr)
 {
-	return Substitute (oldstr.Chars, newstr.Chars, oldstr.Len(), newstr.Len());
+	return Substitute (oldstr.Chars, newstr.Chars, oldstr.length(), newstr.length());
 }
 
 bool FString::Substitute (const char *oldstr, const FString &newstr)
 {
-	return Substitute (oldstr, newstr.Chars, strlen(oldstr), newstr.Len());
+	return Substitute (oldstr, newstr.Chars, strlen(oldstr), newstr.length());
 }
 
 bool FString::Substitute (const FString &oldstr, const char *newstr)
 {
-	return Substitute (oldstr.Chars, newstr, oldstr.Len(), strlen(newstr));
+	return Substitute (oldstr.Chars, newstr, oldstr.length(), strlen(newstr));
 }
 
 bool FString::Substitute (const char *oldstr, const char *newstr)
@@ -807,10 +807,10 @@ bool FString::Substitute (const char *oldstr, const char *newstr, size_t oldstrl
 	if (oldstr == nullptr || newstr == nullptr || *oldstr == 0) return false;
 	bool found = false;
 	LockBuffer();
-	for (size_t checkpt = 0; checkpt < Len(); )
+	for (size_t checkpt = 0; checkpt < length(); )
 	{
 		char *match = strstr (Chars + checkpt, oldstr);
-		size_t len = Len();
+		size_t len = length();
 		if (match != NULL)
 		{
 			found = true;
@@ -845,7 +845,7 @@ octdigits	= [0-7];
 [\000-\377] { return false; }*/
 
 	//FIX for "0" returning false, doesn't fix 0 with whitespace, but that isn't necessary for savegame loading, so it'll need to be fixed later
-	if(Len() == 1 && Chars[0] == '0') return true;
+	if(length() == 1 && Chars[0] == '0') return true;
 
 
 
@@ -971,7 +971,7 @@ void FString::StrCopy (char *to, const char *from, size_t len)
 
 void FString::StrCopy (char *to, const FString &from)
 {
-	StrCopy (to, from.Chars, from.Len());
+	StrCopy (to, from.Chars, from.length());
 }
 
 void FString::AllocBuffer (size_t len)
@@ -1020,7 +1020,7 @@ void FString::Split(TArray<FString>& tokens, const char *delimiter, EmptyTokenTy
 {
 	assert(nullptr != delimiter);
 
-	const auto selfLen = Len();
+	const auto selfLen = length();
 	const auto delimLen = strlen(delimiter);
 	size_t lastPos = 0;
 

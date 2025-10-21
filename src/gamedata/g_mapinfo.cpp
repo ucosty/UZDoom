@@ -355,15 +355,15 @@ FString level_info_t::LookupLevelName(uint32_t *langtable)
 			char checkstring[32];
 
 			// Strip out the header from the localized string
-			if (MapName.Len() > 3 && MapName[0] == 'E' && MapName[2] == 'M')
+			if (MapName.length() > 3 && MapName[0] == 'E' && MapName[2] == 'M')
 			{
 				mysnprintf (checkstring, countof(checkstring), "%s: ", MapName.c_str());
 			}
-			else if (MapName.Len() > 3 && MapName[0] == 'M' && MapName[1] == 'A' && MapName[2] == 'P')
+			else if (MapName.length() > 3 && MapName[0] == 'M' && MapName[1] == 'A' && MapName[2] == 'P')
 			{
 				mysnprintf (checkstring, countof(checkstring), "%d: ", atoi(&MapName[3]));
 			}
-			else if (MapName.Len() > 5 && MapName[0] == 'L' && MapName[1] == 'E' && MapName[2] == 'V' && MapName[3] == 'E' && MapName[4] == 'L')
+			else if (MapName.length() > 5 && MapName[0] == 'L' && MapName[1] == 'E' && MapName[2] == 'V' && MapName[3] == 'E' && MapName[4] == 'L')
 			{
 				mysnprintf (checkstring, countof(checkstring), "%d: ", atoi(&MapName[5]));
 			}
@@ -447,7 +447,7 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 
 bool level_info_t::isValid()
 {
-	return MapName.Len() != 0 || this == &TheDefaultLevelInfo;
+	return MapName.length() != 0 || this == &TheDefaultLevelInfo;
 }
 
 //==========================================================================
@@ -667,7 +667,7 @@ bool FMapInfoParser::ParseLookupName(FString &dest)
 		}
 		while (sc.CheckString(","));
 		// strip off the last newline
-		dest.Truncate(dest.Len()-1);
+		dest.Truncate(dest.length()-1);
 		return false;
 	}
 }

@@ -59,7 +59,7 @@ bool FOBJModel::Load(const char* fn, int lumpnum, const char* buffer, int length
 			}
 			if (nlpos == -1)
 			{
-				nlpos = objBuf.Len();
+				nlpos = objBuf.length();
 			}
 			FString lineStr(objBuf.c_str() + bpos, nlpos - bpos);
 			mtlUsages.Push(lineStr);
@@ -78,7 +78,7 @@ bool FOBJModel::Load(const char* fn, int lumpnum, const char* buffer, int length
 			nlpos = objBuf.IndexOf('\n', bpos);
 			if (nlpos == -1)
 			{
-				nlpos = objBuf.Len();
+				nlpos = objBuf.length();
 			}
 			memcpy(wObjBuf + bpos, mtlUsages[i].c_str(), nlpos - bpos);
 		}
@@ -269,7 +269,7 @@ bool FOBJModel::ParseFaceSide(const FString &sideStr, OBJFace &face, int sidx)
 	{
 		TArray<FString> sides = sideStr.Split(newSideSep, FString::TOK_KEEPEMPTY);
 
-		if (sides[0].Len() > 0)
+		if (sides[0].length() > 0)
 		{
 			origIdx = atoi(sides[0].c_str());
 			side.vertref = ResolveIndex(origIdx, FaceElement::VertexIndex);
@@ -280,7 +280,7 @@ bool FOBJModel::ParseFaceSide(const FString &sideStr, OBJFace &face, int sidx)
 			return false;
 		}
 
-		if (sides[1].Len() > 0)
+		if (sides[1].length() > 0)
 		{
 			origIdx = atoi(sides[1].c_str());
 			side.uvref = ResolveIndex(origIdx, FaceElement::UVIndex);
@@ -292,7 +292,7 @@ bool FOBJModel::ParseFaceSide(const FString &sideStr, OBJFace &face, int sidx)
 
 		if (sides.Size() > 2)
 		{
-			if (sides[2].Len() > 0)
+			if (sides[2].length() > 0)
 			{
 				origIdx = atoi(sides[2].c_str());
 				side.normref = ResolveIndex(origIdx, FaceElement::VNormalIndex);

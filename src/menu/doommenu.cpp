@@ -1260,7 +1260,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 					pItemText = skill.MenuNamesForPlayerClass.CheckKey(gs->PlayerClass);
 				}
 
-				if (skill.PicName.Len() != 0 && pItemText == nullptr)
+				if (skill.PicName.length() != 0 && pItemText == nullptr)
 				{
 					FTextureID tex = GetMenuTexture(skill.PicName.c_str());
 					if (skill.MenuName.empty() || OkForLocalization(tex, skill.MenuName.c_str()))
@@ -1289,7 +1289,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 
 				EColorRange color = (EColorRange)skill.GetTextColor();
 				if (color == CR_UNTRANSLATED) color = ld->mFontColor;
-				if (skill.PicName.Len() != 0 && pItemText == nullptr)
+				if (skill.PicName.length() != 0 && pItemText == nullptr)
 				{
 					FTextureID tex = GetMenuTexture(skill.PicName.c_str());
 					if (skill.MenuName.empty() || OkForLocalization(tex, skill.MenuName.c_str()))

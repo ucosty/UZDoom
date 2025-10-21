@@ -101,7 +101,7 @@ CCMD (addkeysection)
 
 		FString name(argv[2]);
 		// Limit the ini name to 32 chars
-		if (name.Len() > 32)
+		if (name.length() > 32)
 		{
 			DPrintf(DMSG_ERROR, "WARNING: %s is too long as an ini name! The ini name should be 32 bytes or less.\n", &name[0]);
 			name.Truncate(32);

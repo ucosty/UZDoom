@@ -109,7 +109,7 @@ void FShaderProgram::CompileShader(ShaderType type)
 	FGLDebug::LabelObject(GL_SHADER, handle, mShaderNames[type].c_str());
 
 	const FString &patchedCode = mShaderSources[type];
-	int lengths[1] = { (int)patchedCode.Len() };
+	int lengths[1] = { (int)patchedCode.length() };
 	const char *sources[1] = { patchedCode.c_str() };
 	glShaderSource(handle, 1, sources, lengths);
 

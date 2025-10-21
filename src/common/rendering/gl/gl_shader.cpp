@@ -91,8 +91,8 @@ static FString CalcProgramBinaryChecksum(const FString &vertex, const FString &f
 	md5.Update(vendor, (unsigned int)strlen((const char*)vendor));
 	md5.Update(renderer, (unsigned int)strlen((const char*)renderer));
 	md5.Update(version, (unsigned int)strlen((const char*)version));
-	md5.Update((const uint8_t *)vertex.c_str(), (unsigned int)vertex.Len());
-	md5.Update((const uint8_t *)fragment.c_str(), (unsigned int)fragment.Len());
+	md5.Update((const uint8_t *)vertex.c_str(), (unsigned int)vertex.length());
+	md5.Update((const uint8_t *)fragment.c_str(), (unsigned int)fragment.length());
 	md5.Final(digest);
 
 	char hexdigest[33];
@@ -233,7 +233,7 @@ FString ProcessShaderError(const char * shaderError, TArray<FString> &filenames_
 
 	int64_t lump_num = 0;
 
-	while(cur < err.Len())
+	while(cur < err.length())
 	{
 		if(state != SKIP_TO_NEWLINE)
 		{
@@ -271,7 +271,7 @@ FString ProcessShaderError(const char * shaderError, TArray<FString> &filenames_
 				int64_t old_len = cur - line_start;
 				FString new_err = "File '" + filenames_for_error[lump_num - 1] + "', Line " + line_num_str + ": ";
 				
-				int64_t diff = new_err.Len() - old_len;
+				int64_t diff = new_err.length() - old_len;
 
 				err = err.Left(line_start) + new_err + err.Mid(line_start + old_len);
 
@@ -288,7 +288,7 @@ FString ProcessShaderError(const char * shaderError, TArray<FString> &filenames_
 		{
 			if(err[cur] == '\n' || err[cur] == '\r')
 			{
-				while(cur < err.Len() && (err[cur] == '\n' || err[cur] == '\r'))
+				while(cur < err.length() && (err[cur] == '\n' || err[cur] == '\r'))
 				{
 					cur++;
 				}
@@ -640,8 +640,8 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 		FGLDebug::LabelObject(GL_SHADER, hVertProg, vert_prog_lump);
 		FGLDebug::LabelObject(GL_SHADER, hFragProg, frag_prog_lump);
 
-		int vp_size = (int)vp_comb.Len();
-		int fp_size = (int)fp_comb.Len();
+		int vp_size = (int)vp_comb.length();
+		int fp_size = (int)fp_comb.length();
 
 		const char *vp_ptr = vp_comb.c_str();
 		const char *fp_ptr = fp_comb.c_str();

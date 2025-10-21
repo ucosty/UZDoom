@@ -238,7 +238,7 @@ ADD_STAT (interpolations)
 	FString out;
 	for (auto Level : AllLevels())
 	{
-		if (out.Len() > 0) out << '\n';
+		if (out.length() > 0) out << '\n';
 		out.AppendFormat("%s: %d interpolations", Level->MapName.c_str(), Level->interpolator.CountInterpolations ());
 		
 	}

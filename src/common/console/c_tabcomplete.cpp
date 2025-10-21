@@ -168,18 +168,18 @@ void C_TabComplete (bool goForward)
 
 
 		// Skip any spaces at beginning of command line
-		for (i = 0; i < CmdLineText.Len(); ++i)
+		for (i = 0; i < CmdLineText.length(); ++i)
 		{
 			if (CmdLineText[i] != ' ')
 				break;
 		}
-		if (i == CmdLineText.Len())
+		if (i == CmdLineText.length())
 		{ // Line was nothing but spaces
 			return;
 		}
 		TabStart = i;
 
-		TabSize = (int)CmdLineText.Len() - TabStart;
+		TabSize = (int)CmdLineText.length() - TabStart;
 
 		if (!FindTabCommand(&CmdLineText[TabStart], &TabPos, TabSize))
 			return;		// No initial matches

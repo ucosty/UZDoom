@@ -107,7 +107,7 @@ void FShaderProgram::CompileShader(ShaderType type)
 
 
 	const FString &patchedCode = mShaderSources[type];
-	int lengths[1] = { (int)patchedCode.Len() };
+	int lengths[1] = { (int)patchedCode.length() };
 	const char *sources[1] = { patchedCode.c_str() };
 	glShaderSource(handle, 1, sources, lengths);
 

@@ -3014,9 +3014,9 @@ static int PatchStrings (int dummy, int flags)
 		{
 			holdstring += skipwhite (Line2);
 			strip_whitespace_right(&holdstring);
-			if (holdstring.Len() > 0 && holdstring[holdstring.Len()-1] == '\\')
+			if (holdstring.length() > 0 && holdstring[holdstring.length()-1] == '\\')
 			{
-				holdstring.Truncate(holdstring.Len()-1);
+				holdstring.Truncate(holdstring.length()-1);
 				Line2 = igets ();
 			}
 			else
@@ -3068,7 +3068,7 @@ static int PatchSpriteNames (int dummy, int flags)
 		{
 			stripwhite(Line2);
 			FString newname = skipwhite (Line2);
-			if (newname.Len() != 4)
+			if (newname.length() != 4)
 			{
 				Printf("Sprite name must be 4 characters long, got '%s'\n", newname.c_str());
 				continue;

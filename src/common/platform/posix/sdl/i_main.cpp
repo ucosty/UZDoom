@@ -137,12 +137,12 @@ void I_DetectOS()
 
 	if (uname(&unameInfo) == 0)
 	{
-		const char* const separator = operatingSystem.Len() > 0 ? ", " : "";
+		const char* const separator = operatingSystem.length() > 0 ? ", " : "";
 		operatingSystem.AppendFormat("%s%s %s on %s", separator, unameInfo.sysname, unameInfo.release, unameInfo.machine);
 		sys_ostype.Format("%s %s on %s", unameInfo.sysname, unameInfo.release, unameInfo.machine);
 	}
 
-	if (operatingSystem.Len() > 0)
+	if (operatingSystem.length() > 0)
 		Printf("OS: %s\n", operatingSystem.c_str());
 }
 
