@@ -45,11 +45,12 @@ bool FOBJModel::Load(const char* fn, int lumpnum, const char* buffer, int length
 		// Ensure usemtl statements remain intact
 		TArray<FString> mtlUsages;
 		TArray<ptrdiff_t> mtlUsageIdxs;
-		ptrdiff_t bpos = 0, nlpos = 0, slashpos = 0;
+		size_t bpos = 0;
+		ptrdiff_t nlpos = 0, slashpos = 0;
 		while (1)
 		{
-			bpos = objBuf.IndexOf("\nusemtl", bpos);
-			if (bpos == -1) break;
+			bpos = objBuf.find("\nusemtl", bpos);
+			if (bpos == std::string::npos) break;
 			slashpos = objBuf.IndexOf('/', bpos);
 			nlpos = objBuf.IndexOf('\n', ++bpos);
 			if (slashpos > nlpos || slashpos == -1)
@@ -86,8 +87,8 @@ bool FOBJModel::Load(const char* fn, int lumpnum, const char* buffer, int length
 		// Find each OBJ line comment, and convert each to a C-style line comment
 		while (1)
 		{
-			bpos = objBuf.IndexOf('#', bpos);
-			if (bpos == -1) break;
+			bpos = objBuf.find('#', bpos);
+			if (bpos == std::string::npos) break;
 			if (objBuf[(unsigned int)bpos + 1] == '\n')
 			{
 				wObjBuf[bpos] = ' ';
@@ -264,7 +265,7 @@ bool FOBJModel::ParseFaceSide(const FString &sideStr, OBJFace &face, int sidx)
 {
 	OBJFaceSide side;
 	int origIdx;
-	if (sideStr.IndexOf(newSideSep) >= 0)
+	if (sideStr.find(newSideSep) != std::string::npos)
 	{
 		TArray<FString> sides = sideStr.Split(newSideSep, FString::TOK_KEEPEMPTY);
 

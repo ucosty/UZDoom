@@ -419,19 +419,19 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 		{
 			FString pp_code = LoadPublicShaderLump(material_lump);
 
-			if (pp_code.IndexOf("ProcessMaterial") < 0 && pp_code.IndexOf("SetupMaterial") < 0)
+			if (pp_code.find("ProcessMaterial") == std::string::npos && pp_code.find("SetupMaterial") == std::string::npos)
 			{
 				// this looks like an old custom hardware shader.
 				// add ProcessMaterial function that calls the older ProcessTexel function
 
-				if (pp_code.IndexOf("GetTexCoord") >= 0)
+				if (pp_code.find("GetTexCoord") != std::string::npos)
 				{
 					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat2.fp").c_str() << "\n";
 				}
 				else
 				{
 					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat.fp").c_str() << "\n";
-					if (pp_code.IndexOf("ProcessTexel") < 0)
+					if (pp_code.find("ProcessTexel") == std::string::npos)
 					{
 						// this looks like an even older custom hardware shader.
 						// We need to replace the ProcessTexel call to make it work.
@@ -440,7 +440,7 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 					}
 				}
 
-				if (pp_code.IndexOf("ProcessLight") >= 0)
+				if (pp_code.find("ProcessLight") != std::string::npos)
 				{
 					// The ProcessLight signatured changed. Forward to the old one.
 					code << "\nvec4 ProcessLight(vec4 color);\n";
@@ -452,13 +452,13 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 			code << RemoveLegacyUserUniforms(pp_code).c_str();
 			code.Substitute("gl_TexCoord[0]", "vTexCoord");	// fix old custom shaders.
 
-			if (pp_code.IndexOf("ProcessLight") < 0)
+			if (pp_code.find("ProcessLight") == std::string::npos)
 			{
 				code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultlight.fp").c_str() << "\n";
 			}
 
 			// ProcessMaterial must be considered broken because it requires the user to fill in data they possibly cannot know all about.
-			if (pp_code.IndexOf("ProcessMaterial") >= 0 && pp_code.IndexOf("SetupMaterial") < 0)
+			if (pp_code.find("ProcessMaterial") != std::string::npos && pp_code.find("SetupMaterial") == std::string::npos)
 			{
 				// This reactivates the old logic and disables all features that cannot be supported with that method.
 				placeholder << "#define LEGACY_USER_SHADER\n";

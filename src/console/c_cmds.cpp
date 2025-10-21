@@ -674,7 +674,7 @@ UNSAFE_CCMD (load)
 		Printf("saving to an absolute path is not allowed\n");
 		return;
 	}
-	if (fname.IndexOf("..") > 0)
+	if (fname.find("..") != std::string::npos)
 	{
 		Printf("'..' not allowed in file names\n");
 		return;
@@ -713,7 +713,7 @@ UNSAFE_CCMD(save)
 		Printf("saving to an absolute path is not allowed\n");
 		return;
 	}
-	if (fname.IndexOf("..") >= 0)
+	if (fname.find("..") != std::string::npos)
 	{
 		Printf("'..' not allowed in file names\n");
 		return;

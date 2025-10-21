@@ -3268,7 +3268,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 
 	lfi.gameTypeFilter.push_back(LumpFilterIWAD.c_str());
 	// Workaround for old Doom filter names.
-	if (LumpFilterIWAD.IndexOf("doom.id.doom") >= 0)
+	if (LumpFilterIWAD.find("doom.id.doom") != std::string::npos)
 	{
 		FString NewFilterName = (FString)"doom.doom" + LumpFilterIWAD.Mid(12); // "doom.id.doom" is 12 characters
 		lfi.gameTypeFilter.push_back(NewFilterName.c_str());

@@ -95,7 +95,7 @@ bool FPlayList::ChangeList (const char *path)
 		}
 
 		// Check for relative paths.
-		auto slashpos = song.IndexOf('/');
+		auto slashpos = song.find('/');
 
 		if (slashpos == 0)
 		{
@@ -107,7 +107,7 @@ bool FPlayList::ChangeList (const char *path)
 			// Name is something like X:/, so it's absolute.
 		}
 #endif
-		else if (song.IndexOf("://") == slashpos - 1)
+		else if (song.find("://") == slashpos - 1)
 		{
 			// Name is a URL, so it's absolute.
 		}

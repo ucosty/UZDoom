@@ -531,20 +531,6 @@ size_t FString::find(const char *substr, const size_t startIndex) const {
 	return str - Chars;
 }
 
-ptrdiff_t FString::IndexOf (const char *substr, ptrdiff_t startIndex) const
-{
-	if (startIndex > 0 && Len() <= (size_t)startIndex)
-	{
-		return -1;
-	}
-	char *str = strstr (Chars + startIndex, substr);
-	if (str == NULL)
-	{
-		return -1;
-	}
-	return str - Chars;
-}
-
 ptrdiff_t FString::IndexOf (char subchar, ptrdiff_t startIndex) const
 {
 	if (startIndex > 0 && Len() <= (size_t)startIndex)
@@ -1227,17 +1213,17 @@ void FString::Split(TArray<FString>& tokens, const char *delimiter, EmptyTokenTy
 {
 	assert(nullptr != delimiter);
 
-	const auto selfLen = static_cast<ptrdiff_t>(Len());
-	const auto delimLen = static_cast<ptrdiff_t>(strlen(delimiter));
-	ptrdiff_t lastPos = 0;
+	const auto selfLen = Len();
+	const auto delimLen = strlen(delimiter);
+	size_t lastPos = 0;
 
 	if (selfLen == 0) return;	// Empty strings do not contain tokens, even with TOK_KEEPEMPTY.
 
 	while (lastPos <= selfLen)
 	{
-		auto pos = IndexOf(delimiter, lastPos);
+		auto pos = find(delimiter, lastPos);
 
-		if (-1 == pos)
+		if (pos == std::string::npos)
 		{
 			pos = selfLen;
 		}

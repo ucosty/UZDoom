@@ -298,21 +298,21 @@ static FString GetDeviceName()
 	device.Substitute("(TM) ", "");
 	device.Substitute("Mesa ", "");
 	device.Substitute("DRI ", "");
-	auto pos = device.IndexOf("Intel(R)");
+	auto pos = device.find("Intel(R)");
 	if (pos >= 0)
 	{
 		device.Substitute("(R) ", "");
-		auto pos = device.IndexOf("(");
+		auto pos = device.find("(");
 		if (pos >= 0) device.Truncate(pos);
 	}
 
-	pos = device.IndexOf("(LLVM");
+	pos = device.find("(LLVM");
 	if (pos >= 0) device.Truncate(pos);
-	pos = device.IndexOf("(DRM");
+	pos = device.find("(DRM");
 	if (pos >= 0) device.Truncate(pos);
-	pos = device.IndexOf("(RADV");
+	pos = device.find("(RADV");
 	if (pos >= 0) device.Truncate(pos);
-	pos = device.IndexOf(", LLVM");
+	pos = device.find(", LLVM");
 	if (pos >= 0)
 	{
 		device.Truncate(pos);

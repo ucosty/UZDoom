@@ -87,14 +87,14 @@ FString RemoveLegacyUserUniforms(FString code)
 
 	// The following code searches for legacy uniform declarations in the shader itself and replaces them with whitespace.
 
-	ptrdiff_t len = code.Len();
+	const auto len = code.Len();
 	char *chars = code.LockBuffer();
 
 	ptrdiff_t startIndex = 0;
 	while (true)
 	{
-		ptrdiff_t matchIndex = code.IndexOf("uniform", startIndex);
-		if (matchIndex == -1)
+		size_t matchIndex = code.find("uniform", startIndex);
+		if (matchIndex == std::string::npos)
 			break;
 
 		bool isLegacyUniformName = false;
@@ -140,8 +140,8 @@ FString RemoveLegacyUserUniforms(FString code)
 	// Modern GLSL only allows use of 'texture'.
 	while (true)
 	{
-		ptrdiff_t matchIndex = code.IndexOf("texture2d", startIndex);
-		if (matchIndex == -1)
+		const auto matchIndex = code.find("texture2d", startIndex);
+		if (matchIndex == std::string::npos)
 			break;
 
 		foundtexture2d = true;
@@ -168,15 +168,15 @@ FString RemoveLegacyUserUniforms(FString code)
 
 FString RemoveSamplerBindings(FString code, TArray<std::pair<FString, int>> &samplerstobind)
 {
-	ptrdiff_t len = code.Len();
+	const auto len = code.Len();
 	char *chars = code.LockBuffer();
 
 	ptrdiff_t startIndex = 0;
 	ptrdiff_t startpos, endpos = 0;
 	while (true)
 	{
-		ptrdiff_t matchIndex = code.IndexOf("layout(binding", startIndex);
-		if (matchIndex == -1)
+		const auto matchIndex = code.find("layout(binding", startIndex);
+		if (matchIndex == std::string::npos)
 			break;
 
 		bool isSamplerUniformName = false;
@@ -238,14 +238,14 @@ FString RemoveLayoutLocationDecl(FString code, const char *inoutkeyword)
 {
 	char *chars = code.LockBuffer();
 
-	ptrdiff_t startIndex = 0;
+	size_t startIndex = 0;
 	while (true)
 	{
-		ptrdiff_t matchIndex = code.IndexOf("layout(location", startIndex);
-		if (matchIndex == -1)
+		const auto matchIndex = code.find("layout(location", startIndex);
+		if (matchIndex == std::string::npos)
 			break;
 
-		ptrdiff_t endIndex = matchIndex;
+		size_t endIndex = matchIndex;
 
 		// Find end of layout declaration
 		while (chars[endIndex] != ')' && chars[endIndex] != 0)

@@ -286,7 +286,7 @@ void FSavegameManagerBase::DoSave(int Selected, const char *savegamestring)
 				Printf("saving to an absolute path is not allowed\n");
 				failed = true;
 			}
-			else if (filename.IndexOf("..") >= 0)
+			else if (filename.find("..") != std::string::npos)
 			{
 				Printf("'..' not allowed in file names\n");
 				failed = true;

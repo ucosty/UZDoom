@@ -907,9 +907,9 @@ FxMultiNameState::FxMultiNameState(const char *_statestring, const FScriptPositi
 {
 	FName scopename = NAME_None;
 	FString statestring = _statestring;
-	auto scopeindex = statestring.IndexOf("::");
+	auto scopeindex = statestring.find("::");
 
-	if (scopeindex >= 0)
+	if (scopeindex != std::string::npos)
 	{
 		scopename = FName(statestring.c_str(), scopeindex, false);
 		statestring = statestring.Right((ptrdiff_t)statestring.Len() - scopeindex - 2);

@@ -543,11 +543,11 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 				filenames_for_error.Push(lump_filename);
 			}
 
-			if (pp_data.IndexOf("ProcessMaterial") < 0 && pp_data.IndexOf("SetupMaterial") < 0)
+			if (pp_data.find("ProcessMaterial") == std::string::npos && pp_data.find("SetupMaterial") == std::string::npos)
 			{
 				// this looks like an old custom hardware shader.
 
-				if (pp_data.IndexOf("GetTexCoord") >= 0)
+				if (pp_data.find("GetTexCoord") != std::string::npos)
 				{
 					int pl_lump = fileSystem.CheckNumForFullName("shaders/glsl/func_defaultmat2.fp", 0);
 					if (pl_lump == -1) I_Error("Unable to load '%s'", "shaders/glsl/func_defaultmat2.fp");
@@ -559,7 +559,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 					if (pl_lump == -1) I_Error("Unable to load '%s'", "shaders/glsl/func_defaultmat.fp");
 					fp_comb << "\n" << GetStringFromLump(pl_lump);
 
-					if (pp_data.IndexOf("ProcessTexel") < 0)
+					if (pp_data.find("ProcessTexel") == std::string::npos)
 					{
 						// this looks like an even older custom hardware shader.
 						// We need to replace the ProcessTexel call to make it work.
@@ -568,7 +568,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 					}
 				}
 
-				if (pp_data.IndexOf("ProcessLight") >= 0)
+				if (pp_data.find("ProcessLight") != std::string::npos)
 				{
 					// The ProcessLight signatured changed. Forward to the old one.
 					fp_comb << "\nvec4 ProcessLight(vec4 color);\n";
@@ -579,7 +579,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 			fp_comb << RemoveLegacyUserUniforms(pp_data).c_str();
 			fp_comb.Substitute("gl_TexCoord[0]", "vTexCoord");	// fix old custom shaders.
 
-			if (pp_data.IndexOf("ProcessLight") < 0)
+			if (pp_data.find("ProcessLight") == std::string::npos)
 			{
 				int pl_lump = fileSystem.CheckNumForFullName("shaders/glsl/func_defaultlight.fp", 0);
 				if (pl_lump == -1) I_Error("Unable to load '%s'", "shaders/glsl/func_defaultlight.fp");
@@ -587,7 +587,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 			}
 
 			// ProcessMaterial must be considered broken because it requires the user to fill in data they possibly cannot know all about.
-			if (pp_data.IndexOf("ProcessMaterial") >= 0 && pp_data.IndexOf("SetupMaterial") < 0)
+			if (pp_data.find("ProcessMaterial") != std::string::npos && pp_data.find("SetupMaterial") == std::string::npos)
 			{
 				// This reactivates the old logic and disables all features that cannot be supported with that method.
 				placeholder << "#define LEGACY_USER_SHADER\n";
