@@ -36,19 +36,19 @@ ErrorWindow::ErrorWindow(std::vector<uint8_t> initminidump) : Widget(nullptr, Wi
 
 	LogView = new LogViewer(this);
 	ClipboardButton = new PushButton(this);
-	ClipboardButton->OnClick = [=]() { OnClipboardButtonClicked(); };
+	ClipboardButton->OnClick = [this] { OnClipboardButtonClicked(); };
 	ClipboardButton->SetText("Copy to clipboard");
 
 	if (minidump.empty())
 	{
 		RestartButton = new PushButton(this);
-		RestartButton->OnClick = [=]() { OnRestartButtonClicked(); };
+		RestartButton->OnClick = [this] { OnRestartButtonClicked(); };
 		RestartButton->SetText("Restart");
 	}
 	else
 	{
 		SaveReportButton = new PushButton(this);
-		SaveReportButton->OnClick = [=]() { OnSaveReportButtonClicked(); };
+		SaveReportButton->OnClick = [this] { OnSaveReportButtonClicked(); };
 		SaveReportButton->SetText("Save Report");
 	}
 
@@ -153,7 +153,7 @@ LogViewer::LogViewer(Widget* parent) : Widget(parent)
 	SetNoncontentSizes(8.0, 8.0, 3.0, 8.0);
 
 	scrollbar = new Scrollbar(this);
-	scrollbar->FuncScroll = [=]() { OnScrollbarScroll(); };
+	scrollbar->FuncScroll = [this] { OnScrollbarScroll(); };
 }
 
 void LogViewer::SetText(const std::string& text, const std::string& log)

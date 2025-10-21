@@ -204,7 +204,7 @@ void DrawerThreads::StartThreads()
 					thread->num_cores = I_GetNumaNodeThreadCount(numaNode);
 					thread->numa_node = numaNode;
 					thread->num_numa_nodes = I_GetNumaNodeCount();
-					thread->thread = std::thread([=]() { queue->WorkerMain(thread); });
+					thread->thread = std::thread([=] { queue->WorkerMain(thread); });
 					I_SetThreadNumaNode(thread->thread, numaNode);
 				}
 			}
@@ -219,7 +219,7 @@ void DrawerThreads::StartThreads()
 				thread->num_cores = num_threads;
 				thread->numa_node = 0;
 				thread->num_numa_nodes = 1;
-				thread->thread = std::thread([=]() { queue->WorkerMain(thread); });
+				thread->thread = std::thread([=] { queue->WorkerMain(thread); });
 				I_SetThreadNumaNode(thread->thread, 0);
 			}
 		}

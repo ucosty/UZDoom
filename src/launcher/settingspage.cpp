@@ -98,7 +98,7 @@ SettingsPage::SettingsPage(LauncherWindow* launcher, const FStartupSelectionInfo
 		++i;
 	}
 
-	LangList->OnChanged = [=](int i) { OnLanguageChanged(i); };
+	LangList->OnChanged = [this](int i) { OnLanguageChanged(i); };
 }
 
 void SettingsPage::SetValues(FStartupSelectionInfo& info) const

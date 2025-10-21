@@ -509,8 +509,8 @@ DEFINE_ACTION_FUNCTION(FCanvas, GetClipRect)
 
 void CalcFullscreenScale(DrawParms *parms, double srcwidth, double srcheight, int oautoaspect, DoubleRect &rect)
 {
-	auto GetWidth = [=]() { return parms->viewport.width; };
-	auto GetHeight = [=]() {return parms->viewport.height; };
+	auto GetWidth = [=] { return parms->viewport.width; };
+	auto GetHeight = [=] {return parms->viewport.height; };
 
 	int autoaspect = oautoaspect;
 	if (autoaspect == FSMode_ScaleToScreen)
@@ -637,8 +637,8 @@ DEFINE_ACTION_FUNCTION(FCanvas, GetFullscreenRect)
 
 bool SetTextureParms(F2DDrawer * drawer, DrawParms *parms, FGameTexture *img, double xx, double yy)
 {
-	auto GetWidth = [=]() { return parms->viewport.width; };
-	auto GetHeight = [=]() {return parms->viewport.height; };
+	auto GetWidth = [=] { return parms->viewport.width; };
+	auto GetHeight = [=] {return parms->viewport.height; };
 	if (img != NULL)
 	{
 		parms->x = xx;

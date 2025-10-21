@@ -122,7 +122,7 @@ void FThinkerCollection::RunThinkers(FLevelLocals *Level)
 	Level->flags3 &= ~LEVEL3_LIGHTCREATED;
 
 
-	auto recreateLights = [=]() {
+	auto recreateLights = [=] {
 		auto it = Level->GetThinkerIterator<AActor>();
 
 		// Set dynamic lights at the end of the tick, so that this catches all changes being made through the last frame.
@@ -289,7 +289,7 @@ void FThinkerCollection::RunClientSideThinkers(FLevelLocals* Level)
 		dolights = false;
 	}
 
-	auto recreateLights = [=]() {
+	auto recreateLights = [=] {
 		auto it = Level->GetClientSideThinkerIterator<AActor>();
 
 		// Set dynamic lights at the end of the tick, so that this catches all changes being made through the last frame.

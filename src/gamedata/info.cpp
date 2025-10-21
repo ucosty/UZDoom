@@ -129,7 +129,7 @@ void FState::SetAction(const char *name)
 
 void FState::CheckCallerType(AActor *self, AActor *stateowner)
 {
-	auto CheckType = [=](AActor *check, PType *requiredType)
+	auto CheckType = [this](AActor *check, PType *requiredType)
 	{
 		// This should really never happen. Any valid action function must have actor pointers here.
 		if (!requiredType->isObjectPointer())

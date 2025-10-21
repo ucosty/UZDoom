@@ -169,7 +169,7 @@ NetStartWindow::NetStartWindow(bool host) : Widget(nullptr, WidgetType::Window)
 	MessageLabel->SetTextAlignment(TextLabelAlignment::Center);
 	ProgressLabel->SetTextAlignment(TextLabelAlignment::Center);
 
-	AbortButton->OnClick = [=]() { OnClose(); };
+	AbortButton->OnClick = [this] { OnClose(); };
 	AbortButton->SetText("Abort");
 
 	if (host)
@@ -177,15 +177,15 @@ NetStartWindow::NetStartWindow(bool host) : Widget(nullptr, WidgetType::Window)
 		hosting = true;
 
 		ForceStartButton = new PushButton(this);
-		ForceStartButton->OnClick = [=]() { ForceStart(); };
+		ForceStartButton->OnClick = [this] { ForceStart(); };
 		ForceStartButton->SetText("Start Game");
 
 		KickButton = new PushButton(this);
-		KickButton->OnClick = [=]() { OnKick(); };
+		KickButton->OnClick = [this] { OnKick(); };
 		KickButton->SetText("Kick");
 
 		BanButton = new PushButton(this);
-		BanButton->OnClick = [=]() { OnBan(); };
+		BanButton->OnClick = [this] { OnBan(); };
 		BanButton->SetText("Ban");
 	}
 
@@ -193,7 +193,7 @@ NetStartWindow::NetStartWindow(bool host) : Widget(nullptr, WidgetType::Window)
 	LobbyWindow->SetColumnWidths({ 30.0, 30.0, 200.0, 50.0 });
 
 	CallbackTimer = new Timer(this);
-	CallbackTimer->FuncExpired = [=]() { OnCallbackTimerExpired(); };
+	CallbackTimer->FuncExpired = [this] { OnCallbackTimerExpired(); };
 	CallbackTimer->Start(500);
 }
 
