@@ -871,7 +871,7 @@ int S_GetMusic (const char **name)
 {
 	int order;
 
-	if (mus_playing.name.IsNotEmpty())
+	if (!mus_playing.name.empty())
 	{
 		*name = mus_playing.name.c_str();
 		order = mus_playing.baseorder;
@@ -1088,7 +1088,7 @@ CCMD (playliststatus)
 
 CCMD(currentmusic)
 {
-	if (mus_playing.name.IsNotEmpty())
+	if (!mus_playing.name.empty())
 	{
 		Printf("Currently playing music '%s'\n", mus_playing.name.c_str());
 	}

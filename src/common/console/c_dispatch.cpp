@@ -99,7 +99,7 @@ public:
 
 	bool Tick() override
 	{
-		if (Text.IsNotEmpty() && Command != nullptr)
+		if (!Text.empty() && Command != nullptr)
 		{
 			FCommandLine args(Text.c_str());
 			Command->Run(args, 0);
@@ -714,11 +714,11 @@ static int DumpHash (FConsoleCommand **table, bool aliases, const char *pattern=
 
 void FConsoleAlias::PrintAlias ()
 {
-	if (m_Command[0].IsNotEmpty())
+	if (!m_Command[0].empty())
 	{
 		Printf (TEXTCOLOR_YELLOW "%s : %s\n", m_Name.c_str(), m_Command[0].c_str());
 	}
-	if (m_Command[1].IsNotEmpty())
+	if (!m_Command[1].empty())
 	{
 		Printf (TEXTCOLOR_ORANGE "%s : %s\n", m_Name.c_str(), m_Command[1].c_str());
 	}

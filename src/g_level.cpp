@@ -238,12 +238,12 @@ bool CreateCutscene(CutsceneDef* cs, DObject* runner, level_info_t* map)
 {
 	if (cs->function.CompareNoCase("none") == 0)
 		return true;	// play nothing but return as being validated
-	if (cs->function.IsNotEmpty())
+	if (!cs->function.empty())
 	{
 		CallCreateMapFunction(cs->function.c_str(), runner, map);
 		return true;
 	}
-	else if (cs->video.IsNotEmpty())
+	else if (!cs->video.empty())
 	{
 		AddGenericVideo(runner, cs->video, cs->GetSound(), cs->framespersec);
 		return true;
@@ -593,7 +593,7 @@ void G_InitNew (const char *mapname, bool bTitleLevel)
 		auto redirectmap = FindLevelInfo(mapname);
 		if (redirectmap->RedirectCVAR != NAME_None)
 			redirectmap = redirectmap->CheckLevelRedirect();
-		if (redirectmap && redirectmap->MapName.IsNotEmpty())
+		if (redirectmap && !redirectmap->MapName.empty())
 				mapname = redirectmap->MapName.c_str();
 	}
 
@@ -1031,7 +1031,7 @@ DIntermissionController* FLevelLocals::CreateIntermission()
 		{
 			// Only start the finale if the next level's cluster is different
 			// than the current one and we're not in deathmatch.
-			if (nextcluster->EnterText.IsNotEmpty())
+			if (!nextcluster->EnterText.empty())
 			{
 				controller = F_StartFinale (nextcluster->MessageMusic.c_str(), nextcluster->musicorder,
 					nextcluster->cdtrack, nextcluster->cdid,
@@ -1041,7 +1041,7 @@ DIntermissionController* FLevelLocals::CreateIntermission()
 					nextcluster->flags & CLUSTER_LOOKUPENTERTEXT,
 					false);
 			}
-			else if (thiscluster->ExitText.IsNotEmpty())
+			else if (!thiscluster->ExitText.empty())
 			{
 				controller = F_StartFinale (thiscluster->MessageMusic.c_str(), thiscluster->musicorder,
 					thiscluster->cdtrack, nextcluster->cdid,
@@ -2469,7 +2469,7 @@ void FLevelLocals::SetInterMusic(const char *nextmap)
 	auto mus = info->MapInterMusic.CheckKey(nextmap);
 	if (mus != nullptr)
 		S_ChangeMusic(mus->first.c_str(), mus->second);
-	else if (info->InterMusic.IsNotEmpty())
+	else if (!info->InterMusic.empty())
 		S_ChangeMusic(info->InterMusic.c_str(), info->intermusicorder);
 	else
 		S_ChangeMusic(gameinfo.intermissionMusic.c_str(), gameinfo.intermissionOrder);

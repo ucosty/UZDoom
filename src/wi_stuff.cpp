@@ -393,7 +393,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 	level_info_t* li = FindLevelInfo(wbs->current.c_str());
 	if (li != nullptr)
 	{
-		if (li->ExitAnim.IsNotEmpty())
+		if (!li->ExitAnim.empty())
 		{
 			id24anim = true;
 			exitpic = li->ExitAnim.c_str();
@@ -402,7 +402,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 		else
 		{
 			exitpic = li->ExitPic.c_str();
-			if (li->ExitPic.IsNotEmpty()) tilebackground = false;
+			if (!li->ExitPic.empty()) tilebackground = false;
 		}
 	}
 	lumpname = exitpic;
@@ -412,7 +412,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 		level_info_t* li = FindLevelInfo(wbs->next.c_str());
 		if (li != NULL)
 		{
-			if (li->EnterAnim.IsNotEmpty())
+			if (!li->EnterAnim.empty())
 			{
 				id24anim = true;
 				lumpname = li->EnterAnim.c_str();
@@ -421,7 +421,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 			else
 			{
 				lumpname = li->EnterPic.c_str();
-				if (li->EnterPic.IsNotEmpty()) tilebackground = false;
+				if (!li->EnterPic.empty()) tilebackground = false;
 			}
 		}
 	}
@@ -954,7 +954,7 @@ void DInterBackground::updateAnimatedBack()
 	unsigned int i;
 
 	bcnt++;
-	if (bcnt == 1 && muslump.IsNotEmpty())
+	if (bcnt == 1 && !muslump.empty())
 	{
 		S_ChangeMusic(muslump.c_str());
 	}
@@ -1148,7 +1148,7 @@ DEFINE_ACTION_FUNCTION(DInterBackground, drawBackground)
 
 bool DInterBackground::IsUsingMusic()
 {
-	return muslump.IsNotEmpty();
+	return !muslump.empty();
 }
 
 DEFINE_ACTION_FUNCTION(DInterBackground, IsUsingMusic)

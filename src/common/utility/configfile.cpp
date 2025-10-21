@@ -800,7 +800,7 @@ bool FConfigFile::WriteConfigFile () const
 	while (section != NULL)
 	{
 		entry = section->RootEntry;
-		if (section->Note.IsNotEmpty())
+		if (!section->Note.empty())
 		{
 			file->Write (section->Note.c_str(), section->Note.Len());
 		}

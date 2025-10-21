@@ -657,7 +657,7 @@ void MapLoader::ProcessEDSectors()
 
 void MapLoader::LoadMapinfoACSLump()
 {
-	if (Level->info->acsName.IsNotEmpty())
+	if (!Level->info->acsName.empty())
 	{
 		int lump = fileSystem.CheckNumForName(Level->info->acsName.c_str());
 		if (lump >= 0) Level->Behaviors.LoadModule(lump);

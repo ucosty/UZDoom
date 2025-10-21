@@ -2739,7 +2739,7 @@ void G_ParseMapInfo(FString basemapinfo)
 	}
 
 	// Parse the default MAPINFO for the current game. This lump *MUST* come from zdoom.pk3.
-	if (basemapinfo.IsNotEmpty())
+	if (!basemapinfo.empty())
 	{
 		FMapInfoParser parse;
 		level_info_t defaultinfo;
@@ -2807,7 +2807,7 @@ void G_ParseMapInfo(FString basemapinfo)
 	// Find any and all secret maps.
 	for (unsigned int i = 0; i < wadlevelinfos.Size(); i++)
 	{
-		if (wadlevelinfos[i].NextSecretMap.IsNotEmpty() && wadlevelinfos[i].NextSecretMap != wadlevelinfos[i].NextMap)
+		if (!wadlevelinfos[i].NextSecretMap.empty() && wadlevelinfos[i].NextSecretMap != wadlevelinfos[i].NextMap)
 		{
 			secretMaps.Push(wadlevelinfos[i].NextSecretMap);
 		}

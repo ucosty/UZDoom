@@ -443,7 +443,7 @@ void FreeSBarInfoScript()
 
 void SBarInfo::Load()
 {
-	if(gameinfo.statusbar.IsNotEmpty())
+	if(!gameinfo.statusbar.empty())
 	{
 		int lump = fileSystem.CheckNumForFullName(gameinfo.statusbar.c_str(), true);
 		if(lump != -1)

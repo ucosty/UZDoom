@@ -1816,7 +1816,7 @@ void player_t::Serialize(FSerializer &arc)
 		oldbuttons = ~0;
 		original_oldbuttons = ~0;
 	}
-	if (skinname.IsNotEmpty())
+	if (!skinname.empty())
 	{
 		userinfo.SkinChanged(skinname.c_str(), CurrentPlayerClass);
 	}

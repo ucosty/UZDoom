@@ -57,7 +57,7 @@ static FString StaticLastMessage;
 void PrintPickupMessage(bool localview, const FString &str)
 {
 	// [MK] merge identical messages on same tic unless disabled in gameinfo
-	if (str.IsNotEmpty() && localview && (gameinfo.nomergepickupmsg || StaticLastMessageTic != gametic || StaticLastMessage.Compare(str)))
+	if (!str.empty() && localview && (gameinfo.nomergepickupmsg || StaticLastMessageTic != gametic || StaticLastMessage.Compare(str)))
 	{
 		StaticLastMessageTic = gametic;
 		StaticLastMessage = str;

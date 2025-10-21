@@ -2337,7 +2337,7 @@ void FormatMapName(FLevelLocals *self, int cr, FString *result)
 
 	*result = "";
 	// If a label is specified, use it uncontitionally here.
-	if (self->info->MapLabel.IsNotEmpty())
+	if (!self->info->MapLabel.empty())
 	{
 		if (self->info->MapLabel.Compare("*"))
 			*result << self->info->MapLabel;

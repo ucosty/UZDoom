@@ -823,11 +823,11 @@ public:
 				break;
 			}
 		}
-		if (arg0str.IsNotEmpty() && (P_IsACSSpecial(th->special) || th->special == 0))
+		if (!arg0str.empty() && (P_IsACSSpecial(th->special) || th->special == 0))
 		{
 			th->args[0] = -FName(arg0str).GetIndex();
 		}
-		if (arg1str.IsNotEmpty() && (P_IsThingSpecial(th->special) || th->special == 0))
+		if (!arg1str.empty() && (P_IsThingSpecial(th->special) || th->special == 0))
 		{
 			th->args[1] = -FName(arg1str).GetIndex();
 		}
@@ -1201,7 +1201,7 @@ public:
 			}
 		}
 
-		if (tagstring.IsNotEmpty())
+		if (!tagstring.empty())
 		{
 			FScanner sc;
 			sc.OpenString("tagstring", tagstring);
@@ -1240,11 +1240,11 @@ public:
 			ld->sidedef[0] = (side_t*)(intptr_t)(1);
 			Printf("Line %d has no first side.\n", index);
 		}
-		if (arg0str.IsNotEmpty() && (P_IsACSSpecial(ld->special) || ld->special == 0))
+		if (!arg0str.empty() && (P_IsACSSpecial(ld->special) || ld->special == 0))
 		{
 			ld->args[0] = -FName(arg0str).GetIndex();
 		}
-		if (arg1str.IsNotEmpty() && (P_IsThingSpecial(ld->special) || ld->special == 0))
+		if (!arg1str.empty() && (P_IsThingSpecial(ld->special) || ld->special == 0))
 		{
 			ld->args[1] = -FName(arg1str).GetIndex();
 		}
@@ -2230,7 +2230,7 @@ public:
 			}
 		}
 
-		if (tagstring.IsNotEmpty())
+		if (!tagstring.empty())
 		{
 			FScanner sc;
 			sc.OpenString("tagstring", tagstring);

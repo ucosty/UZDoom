@@ -294,7 +294,7 @@ void S_Start()
 			// Parse the global SNDINFO
 			S_ParseSndInfo(true);
 
-			if (LocalSndInfo.IsNotEmpty())
+			if (!LocalSndInfo.empty())
 			{
 				// Now parse the local SNDINFO
 				int j = fileSystem.CheckNumForFullName(LocalSndInfo.c_str(), true);
@@ -311,7 +311,7 @@ void S_Start()
 
 		if (parse_ss)
 		{
-			S_ParseSndSeq(LocalSndSeq.IsNotEmpty() ? fileSystem.CheckNumForFullName(LocalSndSeq.c_str(), true) : -1);
+			S_ParseSndSeq(!LocalSndSeq.empty() ? fileSystem.CheckNumForFullName(LocalSndSeq.c_str(), true) : -1);
 		}
 
 		LastLocalSndInfo = LocalSndInfo;

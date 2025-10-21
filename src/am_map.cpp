@@ -881,8 +881,8 @@ void AM_StaticInit()
 	CheatKey.Clear();
 	EasyKey.Clear();
 
-	if (gameinfo.mMapArrow.IsNotEmpty()) AM_ParseArrow(MapArrow, gameinfo.mMapArrow.c_str());
-	if (gameinfo.mCheatMapArrow.IsNotEmpty()) AM_ParseArrow(CheatMapArrow, gameinfo.mCheatMapArrow.c_str());
+	if (!gameinfo.mMapArrow.empty()) AM_ParseArrow(MapArrow, gameinfo.mMapArrow.c_str());
+	if (!gameinfo.mCheatMapArrow.empty()) AM_ParseArrow(CheatMapArrow, gameinfo.mCheatMapArrow.c_str());
 	AM_ParseArrow(CheatKey, gameinfo.mCheatKey.c_str());
 	AM_ParseArrow(EasyKey, gameinfo.mEasyKey.c_str());
 	if (MapArrow.Size() == 0) I_FatalError("No automap arrow defined");

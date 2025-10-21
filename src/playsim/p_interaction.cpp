@@ -219,7 +219,7 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 	}
 
 	FString obit = DamageTypeDefinition::GetObituary(mod);
-	if (attacker == nullptr && obit.IsNotEmpty()) messagename = obit.c_str();
+	if (attacker == nullptr && !obit.empty()) messagename = obit.c_str();
 	else
 	{
 		switch (mod.GetIndex())
@@ -251,7 +251,7 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 				VMValue params[] = { self, inflictor, mod.GetIndex() };
 				VMReturn rett(&ret);
 				VMCall(func, params, countof(params), &rett, 1);
-				if (ret.IsNotEmpty()) message = ret.c_str();
+				if (!ret.empty()) message = ret.c_str();
 			}
 
 		}
@@ -270,7 +270,7 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 						VMValue params[] = { attacker, self, inflictor, mod.GetIndex(), !!(dmgflags & DMG_PLAYERATTACK) };
 						VMReturn rett(&ret);
 						VMCall(func, params, countof(params), &rett, 1);
-						if (ret.IsNotEmpty()) message = ret.c_str();
+						if (!ret.empty()) message = ret.c_str();
 					}
 				}
 			}

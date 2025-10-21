@@ -624,7 +624,7 @@ FString FIWadManager::IWADPathFileSearch(const FString &file)
 	for (const FString& path : mRecursiveSearchPaths)
 	{
 		FString f = RecursiveFileExists(path, file);
-		if (f.IsNotEmpty()) return f;
+		if (!f.empty()) return f;
 	}
 
 	return "";
@@ -679,7 +679,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 				for (const auto& dir : mRecursiveSearchPaths)
 				{
 					FString fullpath = RecursiveFileExists(dir, custwad);
-					if (fullpath.IsNotEmpty())
+					if (!fullpath.empty())
 					{
 						mFoundWads.emplace_back( fullpath, "", -1 );
 					}
@@ -717,7 +717,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		if (infndx >= 0)
 		{
 			auto &wadinfo = mIWadInfos[infndx];
-			if (wadinfo.Required.IsNotEmpty())
+			if (!wadinfo.Required.empty())
 			{
 				bool found = false;
 				// needs to be loaded with another IWAD (HexenDK)
@@ -881,7 +881,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	}
 
 	fileSystem.SetIwadNum(iwadnum);
-	if (picks[pick].mRequiredPath.IsNotEmpty())
+	if (!picks[pick].mRequiredPath.empty())
 	{
 		D_AddFile (wadfiles, picks[pick].mRequiredPath.c_str(), true, -1, GameConfig);
 		iwadnum++;
@@ -891,7 +891,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 
 	auto info = mIWadInfos[picks[pick].mInfoIndex];
 
-	if(info.SupportWAD.IsNotEmpty())
+	if(!info.SupportWAD.empty())
 	{
 		// For net games all wads must be explicitly named to make it easier for the host to know
 		// exactly what's being loaded.
@@ -899,7 +899,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		{
 			FString supportWAD = IWADPathFileSearch(info.SupportWAD);
 
-			if(supportWAD.IsNotEmpty())
+			if(!supportWAD.empty())
 			{
 				D_AddFile(wadfiles, supportWAD.c_str(), true, -1, GameConfig, true);
 			}

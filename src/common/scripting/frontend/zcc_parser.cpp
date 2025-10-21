@@ -76,7 +76,7 @@ static FString ResolveIncludePath(const FString &path,const FString &lumpname){
 				{
 					fullPath = fullPath.Mid(0, slash_index);
 				}
-				else if (fullPath.IsNotEmpty())
+				else if (!fullPath.empty())
 				{
 					fullPath = "";
 				}

@@ -622,7 +622,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IsEmpty, StringIsEmpty)
 
 static int StringIsNotEmpty(FString *self)
 {
-	return self->IsNotEmpty();
+	return !self->empty();
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IsNotEmpty, StringIsNotEmpty)
@@ -633,7 +633,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IsNotEmpty, StringIsNotEmpty)
 
 static void StringStripRight(FString* self, const FString& junk)
 {
-	if (junk.IsNotEmpty()) self->StripRight(junk);
+	if (!junk.empty()) self->StripRight(junk);
 	else self->StripRight();
 }
 
@@ -647,7 +647,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripRight, StringStripRight)
 
 static void StringStripLeft(FString* self, const FString& junk)
 {
-	if (junk.IsNotEmpty()) self->StripLeft(junk);
+	if (!junk.empty()) self->StripLeft(junk);
 	else self->StripLeft();
 }
 
@@ -661,7 +661,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, StripLeft, StringStripLeft)
 
 static void StringStripLeftRight(FString* self, const FString& junk)
 {
-	if (junk.IsNotEmpty()) self->StripLeftRight(junk);
+	if (!junk.empty()) self->StripLeftRight(junk);
 	else self->StripLeftRight();
 }
 

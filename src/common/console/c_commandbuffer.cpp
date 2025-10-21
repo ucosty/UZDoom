@@ -295,7 +295,7 @@ void FCommandBuffer::AddChar(int character)
 
 void FCommandBuffer::AddString(FString clip)
 {
-	if (clip.IsNotEmpty())
+	if (!clip.empty())
 	{
 		// Only paste the first line.
 		auto brk = clip.IndexOfAny("\r\n\b");

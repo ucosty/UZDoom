@@ -307,7 +307,7 @@ FString C_NameKeys (int *keys, int count, bool colors)
 			}
 		}
 		if (key == 0) continue;
-		if (result.IsNotEmpty()) result += colors? TEXTCOLOR_BLACK ", " TEXTCOLOR_NORMAL : ", ";
+		if (!result.empty()) result += colors? TEXTCOLOR_BLACK ", " TEXTCOLOR_NORMAL : ", ";
 		result += KeyName(key);
 	}
 	return result;

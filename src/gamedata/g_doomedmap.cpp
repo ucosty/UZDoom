@@ -239,7 +239,7 @@ void FMapInfoParser::ParseDoomEdNums()
 					sc.MustGetNumber();
 
 				}
-				if (specialname.IsNotEmpty() && (i < minargs || i > maxargs))
+				if (!specialname.empty() && (i < minargs || i > maxargs))
 				{
 					sc.ScriptMessage("Incorrect number of args for special %s, min = %d, max = %d, found = %d", specialname.c_str(), minargs, maxargs, i);
 					error++;

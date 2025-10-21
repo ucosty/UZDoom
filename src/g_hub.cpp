@@ -128,7 +128,7 @@ void G_LeavingHub(FLevelLocals *Level, int mode, cluster_info_t * cluster, wbsta
 					wbs->plyr[j].ssecret += hubdata[i].plyr[j].ssecret;
 				}
 			}
-			if (cluster->ClusterName.IsNotEmpty())
+			if (!cluster->ClusterName.empty())
 			{
 				if (cluster->flags & CLUSTER_LOOKUPNAME)
 				{

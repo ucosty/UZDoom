@@ -269,7 +269,7 @@ static int ParseStandardProperty(FScanner &scanner, UMapEntry *mape, int *id24_l
 			{
 				epi.mEpisodeName = strbin1(split[1].c_str());
 			}
-			if (split.Size() > 2 && split[2].IsNotEmpty())
+			if (split.Size() > 2 && !split[2].empty())
 			{
 				split[2].ToLower();
 				epi.mShortcut = split[2][0];
@@ -437,17 +437,17 @@ void CommitUMapinfo(level_info_t *defaultinfo)
 			levelinfo = &wadlevelinfos[levelindex];
 			*levelinfo = *defaultinfo;
 		}
-		if (map.MapName.IsNotEmpty()) levelinfo->MapName = map.MapName;
-		if (map.LevelName.IsNotEmpty())
+		if (!map.MapName.empty()) levelinfo->MapName = map.MapName;
+		if (!map.LevelName.empty())
 		{
 			levelinfo->LevelName = map.LevelName;
 			levelinfo->PName = "";	// clear the map name patch to force the string version to be shown - unless explicitly overridden right next.
 		}
-		if (map.author.IsNotEmpty())
+		if (!map.author.empty())
 		{
 			levelinfo->AuthorName = map.author;
 		}
-		if (map.label.IsNotEmpty())
+		if (!map.label.empty())
 		{
 			levelinfo->MapLabel = map.label;
 		}
@@ -510,14 +510,14 @@ void CommitUMapinfo(level_info_t *defaultinfo)
 		}
 
 		const int exflags = FExitText::DEF_TEXT | FExitText::DEF_BACKDROP | FExitText::DEF_MUSIC;
-		if (map.InterText.IsNotEmpty())
+		if (!map.InterText.empty())
 		{
 			if (map.InterText.Compare("-") != 0)
 				levelinfo->ExitMapTexts[NAME_Normal] = { exflags, 0, map.InterText, map.interbackdrop, map.intermusic[0]? map.intermusic : gameinfo.intermissionMusic };
 			else
 				levelinfo->ExitMapTexts[NAME_Normal] = { 0, 0 };
 		}
-		if (map.InterTextSecret.IsNotEmpty())
+		if (!map.InterTextSecret.empty())
 		{
 			if (map.InterTextSecret.Compare("-") != 0)
 				levelinfo->ExitMapTexts[NAME_Secret] = { exflags, 0, map.InterTextSecret, map.interbackdrop, map.intermusic[0] ? map.intermusic : gameinfo.intermissionMusic };

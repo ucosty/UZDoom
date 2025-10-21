@@ -277,7 +277,7 @@ bool M_SaveDefaults (const char *filename)
 		GameConfig->ChangePathName (filename);
 	}
 	GameConfig->ArchiveGlobalData ();
-	if (gameinfo.ConfigName.IsNotEmpty())
+	if (!gameinfo.ConfigName.empty())
 	{
 		GameConfig->ArchiveGameData (gameinfo.ConfigName.c_str());
 	}

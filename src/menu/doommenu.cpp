@@ -287,7 +287,7 @@ bool M_SetSpecialMenu(FName& menu, int param)
 	DMenuDescriptor** desc = MenuDescriptors.CheckKey(menu);
 	if (desc != nullptr)
 	{
-		if ((*desc)->mNetgameMessage.IsNotEmpty() && netgame && !demoplayback)
+		if (!(*desc)->mNetgameMessage.empty() && netgame && !demoplayback)
 		{
 			M_StartMessage((*desc)->mNetgameMessage.c_str(), 1);
 			return false;
@@ -417,7 +417,7 @@ CCMD (menu_quit)
 	{
 		if (!netgame)
 		{
-			if (gameinfo.quitSound.IsNotEmpty())
+			if (!gameinfo.quitSound.empty())
 			{
 				S_Sound(CHAN_VOICE, CHANF_UI|(haptics_do_menus?CHANF_RUMBLE:CHANF_NORUMBLE), gameinfo.quitSound, snd_menuvolume, ATTN_NONE);
 				I_WaitVBL(105);
@@ -678,7 +678,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 			int spacing = ld->mLinespacing;
 			for (unsigned i = 0; i < AllEpisodes.Size(); i++)
 			{
-				if (AllEpisodes[i].mPicName.IsNotEmpty())
+				if (!AllEpisodes[i].mPicName.empty())
 				{
 					FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
 					if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
@@ -710,7 +710,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 				for (unsigned i = 0; i < AllEpisodes.Size(); i++)
 				{
 					DMenuItemBase *it = nullptr;
-					if (AllEpisodes[i].mPicName.IsNotEmpty())
+					if (!AllEpisodes[i].mPicName.empty())
 					{
 						FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
 						if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
@@ -726,7 +726,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 				for(unsigned i = 0; i < AllEpisodes.Size(); i++)
 				{
 					DMenuItemBase *it = nullptr;
-					if (AllEpisodes[i].mPicName.IsNotEmpty())
+					if (!AllEpisodes[i].mPicName.empty())
 					{
 						FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
 						if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
@@ -1214,7 +1214,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 
 				for (unsigned i = 0; i < MenuSkills.Size(); i++)
 				{
-					if (MenuSkills[i]->PicName.IsNotEmpty())
+					if (!MenuSkills[i]->PicName.empty())
 					{
 						FTextureID tex = GetMenuTexture(MenuSkills[i]->PicName.c_str());
 						if (MenuSkills[i]->MenuName.empty() || OkForLocalization(tex, MenuSkills[i]->MenuName.c_str()))

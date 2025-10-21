@@ -154,18 +154,18 @@ void AddGenericVideo(DObject* runner, const FString& fn, int soundid, int fps)
 int CutsceneDef::GetSound()
 {
 	FSoundID id = INVALID_SOUND;
-	if (soundName.IsNotEmpty()) id = soundEngine->FindSound(soundName.c_str());
+	if (!soundName.empty()) id = soundEngine->FindSound(soundName.c_str());
 	if (id == INVALID_SOUND) id = soundEngine->FindSoundByResID(soundID);
 	return id.index();
 }
 
 void CutsceneDef::Create(DObject* runner)
 {
-	if (function.IsNotEmpty())
+	if (!function.empty())
 	{
 		CallCreateFunction(function.c_str(), runner);
 	}
-	else if (video.IsNotEmpty())
+	else if (!video.empty())
 	{
 		AddGenericVideo(runner, video, GetSound(), framespersec);
 	}
@@ -310,7 +310,7 @@ bool ScreenJobValidate()
 
 bool StartCutscene(CutsceneDef& cs, int flags, const CompletionFunc& completion_)
 {
-	if ((cs.function.IsNotEmpty() || cs.video.IsNotEmpty()) && cs.function.CompareNoCase("none") != 0)
+	if ((!cs.function.empty() || !cs.video.empty()) && cs.function.CompareNoCase("none") != 0)
 	{
 		cutscene.completion = completion_;
 		cutscene.runner = CreateRunner();

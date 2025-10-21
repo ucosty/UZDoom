@@ -197,7 +197,7 @@ void FSerializer::Close()
 	}
 	if (mErrors > 0)
 	{
-		if (mLumpName.IsNotEmpty())
+		if (!mLumpName.empty())
 			I_Error("%d errors parsing JSON lump %s", mErrors, mLumpName.c_str());
 		else
 			I_Error("%d errors parsing JSON", mErrors);

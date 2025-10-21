@@ -337,11 +337,11 @@ static void ParseLock(FScanner &sc, int &currentnumber)
 		}
 	}
 	// copy the messages if the other one does not exist
-	if (lock->RemoteMsg.empty() && lock->Message.IsNotEmpty())
+	if (lock->RemoteMsg.empty() && !lock->Message.empty())
 	{
 		lock->RemoteMsg = lock->Message;
 	}
-	if (lock->Message.empty() && lock->RemoteMsg.IsNotEmpty())
+	if (lock->Message.empty() && !lock->RemoteMsg.empty())
 	{
 		lock->Message = lock->RemoteMsg;
 	}

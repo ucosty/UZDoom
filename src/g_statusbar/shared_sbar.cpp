@@ -1107,7 +1107,7 @@ void DBaseStatusBar::DrawLog ()
 	int hudwidth, hudheight;
 	const FString & text = (inter_subtitles && CPlayer->SubtitleCounter) ? CPlayer->SubtitleText : CPlayer->LogText;
 
-	if (text.IsNotEmpty())
+	if (!text.empty())
 	{
 		// This uses the same scaling as regular HUD messages
 		auto scale = active_con_scaletext(twod, generic_ui || log_vgafont);

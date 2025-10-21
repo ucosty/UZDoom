@@ -281,7 +281,7 @@ CUSTOM_CVAR (String, vid_cursor, "None", CVAR_ARCHIVE | CVAR_NOINITCALL)
 	bool res = false;
 	
 
-	if (!stricmp(self, "None" ) && gameinfo.CursorPic.IsNotEmpty())
+	if (!stricmp(self, "None" ) && !gameinfo.CursorPic.empty())
 	{
 		res = I_SetCursor(TexMan.GetGameTextureByName(gameinfo.CursorPic.c_str()));
 	}
@@ -1581,7 +1581,7 @@ void D_DoAdvanceDemo (void)
 		break;
 	}
 
-	if (pagename.IsNotEmpty())
+	if (!pagename.empty())
 	{
 		Page = TexMan.CheckForTexture(pagename.c_str(), ETextureType::MiscPatch);
 	}
@@ -2166,7 +2166,7 @@ static void CheckCmdLine()
 	{
 		startmap = "&wt@01";
 	}
-	autostart = StoredWarp.IsNotEmpty();
+	autostart = !StoredWarp.empty();
 
 	setskill = -1;
 	const char *val = Args->CheckValue ("-skill");
@@ -2205,7 +2205,7 @@ static void CheckCmdLine()
 	// won't be able to handle it, so we take it out of the command line and set
 	// it up like -warp.
 	FString mapvalue = Args->TakeValue("+map");
-	if (mapvalue.IsNotEmpty())
+	if (!mapvalue.empty())
 	{
 		if (!P_CheckMapData(mapvalue.c_str()))
 		{
@@ -3666,7 +3666,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 						if (demorecording)
 							G_BeginRecording(startmap.c_str());
 						G_InitNew(startmap.c_str(), false);
-						if (StoredWarp.IsNotEmpty())
+						if (!StoredWarp.empty())
 						{
 							AddCommandString(StoredWarp.c_str());
 							StoredWarp = "";
@@ -3785,7 +3785,7 @@ static int D_DoomMain_Internal (void)
 
 	// +logfile gets checked too late to catch the full startup log in the logfile so do some extra check for it here.
 	FString logfile = Args->TakeValue("+logfile");
-	if (logfile.IsNotEmpty())
+	if (!logfile.empty())
 	{
 		execLogfile(logfile.c_str());
 	}
@@ -4142,7 +4142,7 @@ void I_UpdateWindowTitle()
 	switch (I_FriendlyWindowTitle)
 	{
 	case 1:
-		if (level.LevelName.IsNotEmpty())
+		if (!level.LevelName.empty())
 		{
 			titlestr.Format("%s - %s", level.LevelName.c_str(), GameStartupInfo.Name.c_str());
 			break;

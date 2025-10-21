@@ -1468,7 +1468,7 @@ class GLDefsParser
 		if (disable_fullbright_specified)
 			tex->SetDisableFullbright(disable_fullbright);
 
-		if (usershader.shader.IsNotEmpty())
+		if (!usershader.shader.empty())
 		{
 			int firstUserTexture;
 			if ((mlay.Normal || tex->GetNormalmap()) && (mlay.Specular || tex->GetSpecularmap()))
@@ -1909,7 +1909,7 @@ class GLDefsParser
 				desc.defines.AppendFormat("#define %s texture%d\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
 			}
 
-			if (desc.shader.IsNotEmpty())
+			if (!desc.shader.empty())
 			{
 				if (tex->isWarped() != 0)
 				{

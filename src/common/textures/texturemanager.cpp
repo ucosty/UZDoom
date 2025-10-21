@@ -420,7 +420,7 @@ FTextureID FTextureManager::AddGameTexture (FGameTexture *texture, bool addtohas
 	}
 
 	// Textures without name can't be looked for
-	if (addtohash && texture->GetName().IsNotEmpty())
+	if (addtohash && !texture->GetName().empty())
 	{
 		bucket = int(MakeKey (texture->GetName().c_str()) % HASH_SIZE);
 		hash = HashFirst[bucket];

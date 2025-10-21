@@ -36,7 +36,7 @@ struct CutsceneDef
 	bool transitiononly = false; // only play when transitioning between maps, but not when starting on a map or ending a game.
 
 	void Create(DObject* runner);
-	bool isdefined() { return video.IsNotEmpty() || function.IsNotEmpty(); }
+	bool isdefined() { return !video.empty() || !function.empty(); }
 	int GetSound();
 };
 

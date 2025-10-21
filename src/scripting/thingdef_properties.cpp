@@ -1489,7 +1489,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, soundclass, S, PlayerPawn)
 
 	FString tmp = str;
 	tmp.ReplaceChars (' ', '_');
-	defaults->NameVar(NAME_SoundClass) = tmp.IsNotEmpty()? FName(tmp) : NAME_None;
+	defaults->NameVar(NAME_SoundClass) = !tmp.empty()? FName(tmp) : NAME_None;
 }
 
 //==========================================================================

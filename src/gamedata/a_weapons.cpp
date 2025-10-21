@@ -404,7 +404,7 @@ void FWeaponSlots::StandardSetup(PClassActor *type)
 void FWeaponSlots::LocalSetup(PClassActor *type)
 {
 	P_PlaybackKeyConfWeapons(this);
-	if (WeaponSection.IsNotEmpty())
+	if (!WeaponSection.empty())
 	{
 		FString sectionclass(WeaponSection);
 		sectionclass << '.' << type->TypeName.GetChars();
@@ -562,7 +562,7 @@ CCMD (setslot)
 			FString config(GameConfig->GetConfigPath(false));
 			Printf(TEXTCOLOR_BLUE "Add the following to " TEXTCOLOR_ORANGE "%s" TEXTCOLOR_BLUE
 				" to retain these bindings:\n" TEXTCOLOR_NORMAL "[", config.c_str());
-			if (WeaponSection.IsNotEmpty())
+			if (!WeaponSection.empty())
 			{
 				Printf("%s.", WeaponSection.c_str());
 			}

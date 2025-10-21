@@ -150,7 +150,7 @@ void DrawFullscreenSubtitle(FFont* font, const char *text)
 
 void DIntermissionScreen::Init(FIntermissionAction *desc, bool first)
 {
-	if (!first && desc->mMusic.IsNotEmpty())
+	if (!first && !desc->mMusic.empty())
 	{
 		S_ChangeMusic (desc->mMusic.c_str(), desc->mMusicOrder, desc->mMusicLooping);
 	}

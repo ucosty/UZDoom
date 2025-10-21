@@ -1252,7 +1252,7 @@ CCMD(idmus)
 
 			if ((info = FindLevelInfo(map.c_str())))
 			{
-				if (info->Music.IsNotEmpty())
+				if (!info->Music.empty())
 				{
 					S_ChangeMusic(info->Music.c_str(), info->musicorder);
 					Printf("%s\n", GStrings.GetString("STSTR_MUS"));
@@ -1347,22 +1347,22 @@ CCMD (mapinfo)
 
 	Printf("[ Map Info For: '%s' ]\n\n", myLevel->MapName.c_str());
 
-	if (myLevel->LevelName.IsNotEmpty())
+	if (!myLevel->LevelName.empty())
 		Printf("           LevelName: %s\n", myLevel->LookupLevelName().c_str());
 
-	if (myLevel->AuthorName.IsNotEmpty())
+	if (!myLevel->AuthorName.empty())
 		Printf("          AuthorName: %s\n", testlocalised(myLevel->AuthorName.c_str()));
 
 	if (myLevel->levelnum)
 		Printf("            LevelNum: %i\n", myLevel->levelnum);
 
-	if (myLevel->NextMap.IsNotEmpty())
+	if (!myLevel->NextMap.empty())
 		Printf("                Next: %s\n", myLevel->NextMap.c_str());
 
-	if (myLevel->NextSecretMap.IsNotEmpty())
+	if (!myLevel->NextSecretMap.empty())
 		Printf("          SecretNext: %s\n", myLevel->NextSecretMap.c_str());
 
-	if (myLevel->Music.IsNotEmpty())
+	if (!myLevel->Music.empty())
 		Printf("               Music: %s%s\n", myLevel->Music[0] == '$'? "D_" : "", testlocalised(myLevel->Music.c_str()));
 
 	if (myLevel->pixelstretch != 0.0) // yes, we're making a dummy if statement to fix the misleading indentation warnings
@@ -1371,13 +1371,13 @@ CCMD (mapinfo)
 	if (myLevel->RedirectType != NAME_None)
 		Printf("     Redirect (Item): %s\n", myLevel->RedirectType.GetChars());
 
-	if (myLevel->RedirectMapName.IsNotEmpty())
+	if (!myLevel->RedirectMapName.empty())
 		Printf("      Redirect (Map): %s\n", myLevel->RedirectMapName.c_str());
 
 	if (myLevel->RedirectCVAR != NAME_None)
 		Printf("CVAR_Redirect (CVAR): %s\n", myLevel->RedirectCVAR.GetChars());
 
-	if (myLevel->RedirectCVARMapName.IsNotEmpty())
+	if (!myLevel->RedirectCVARMapName.empty())
 		Printf(" CVAR_Redirect (Map): %s\n", myLevel->RedirectCVARMapName.c_str());
 
 	if ((int8_t)myLevel->lightmode != -128) // yes, we're making a dummy if statement to fix the misleading indentation warnings

@@ -69,7 +69,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 		FString filename = fullpath.Right(fullpath.Len() - lastindex - 1);
 
 		// Proceed only if locating a file (i.e. `file` isn't a path to just a directory.)
-		if (filename.IsNotEmpty())
+		if (!filename.empty())
 		{
 			DIR *d;
 			struct dirent *dir;
@@ -254,7 +254,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 				FString dir;
 
 				dir = NicePath(value);
-				if (dir.IsNotEmpty())
+				if (!dir.empty())
 				{
 					BFSwad.Format("%s%s%s", dir.c_str(), dir.Back() == '/' ? "" : "/", file);
 					if (DirEntryExists(BFSwad.c_str()))
@@ -268,7 +268,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 				FString dir;
 
 				dir = NicePath(value);
-				if (dir.IsNotEmpty())
+				if (!dir.empty())
 				{
 					if (dir.Back() == '/')
 						dir.Truncate(dir.Len() - 1);
@@ -276,7 +276,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 					// Folders can't be used here since those are going to be checked
 					// recursively, so only find actual files.
 					FString path = RecursiveFileExists(dir, file);
-					if (path.IsNotEmpty())
+					if (!path.empty())
 					{
 						return path.c_str();
 					}

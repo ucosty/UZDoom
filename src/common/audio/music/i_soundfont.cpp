@@ -171,7 +171,7 @@ FSF2Reader::FSF2Reader(const char *fn)
 FileReader FSF2Reader::OpenMainConfigFile()
 {
 	FileReader fr;
-	if (mMainConfigForSF2.IsNotEmpty())
+	if (!mMainConfigForSF2.empty())
 	{
 		fr.OpenMemory(mMainConfigForSF2.c_str(), mMainConfigForSF2.Len());
 	}
@@ -407,7 +407,7 @@ void FSoundFontManager::CollectSoundfonts()
 
 				dir = NicePath(value);
 				FixPathSeperator(dir);
-				if (dir.IsNotEmpty())
+				if (!dir.empty())
 				{
 					if (FileSys::ScanDirectory(list, dir.c_str(), "*", true))
 					{

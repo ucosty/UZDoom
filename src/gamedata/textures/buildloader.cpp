@@ -265,7 +265,7 @@ void InitBuildTiles()
 		if (base.Compare("palette.dat") == 0 && fileSystem.FileLength(i) >= 768)	// must be a valid palette, i.e. at least 256 colors.
 		{
 			FString path = ExtractFilePath(name);
-			if (path.IsNotEmpty() && path.Back() != '/') path += '/';
+			if (!path.empty() && path.Back() != '/') path += '/';
 
 			int translation = BuildPaletteTranslation(i);
 			auto remap = GPalette.GetTranslation(TRANSLATION_Standard, translation);

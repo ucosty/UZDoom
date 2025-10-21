@@ -161,7 +161,7 @@ int D_PlayerClassToInt (const char *classname)
 		{
 			auto type = PlayerClasses[i].Type;
 
-			if (type->GetDisplayName().IsNotEmpty() && type->GetDisplayName().CompareNoCase(classname) == 0)
+			if (!type->GetDisplayName().empty() && type->GetDisplayName().CompareNoCase(classname) == 0)
 			{
 				return i;
 			}

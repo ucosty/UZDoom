@@ -527,7 +527,7 @@ string:
 		}
 		StringBuffer[StringLen++] = *cursor;
 	}
-	if (BigStringBuffer.IsNotEmpty() || StringLen == MAX_STRING_SIZE)
+	if (!BigStringBuffer.empty() || StringLen == MAX_STRING_SIZE)
 	{
 		BigStringBuffer.AppendCStrPart(StringBuffer, StringLen);
 		String = BigStringBuffer.LockBuffer();

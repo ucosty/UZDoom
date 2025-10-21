@@ -503,7 +503,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 		if (!CheckStrifeItem(player, reply->ItemCheck[i].Item, reply->ItemCheck[i].Amount))
 		{
 			// No, you don't. Say so and let the NPC animate negatively.
-			if (reply->QuickNo.IsNotEmpty() && isconsole)
+			if (!reply->QuickNo.empty() && isconsole)
 			{
 				TerminalResponse(reply->QuickNo.c_str());
 			}
@@ -586,7 +586,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 	}
 
 	// Update the quest log, if needed.
-	if (reply->LogString.IsNotEmpty())
+	if (!reply->LogString.empty())
 	{
 		const char *log = reply->LogString.c_str();
 		if (log[0] == '$')

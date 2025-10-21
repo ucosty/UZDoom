@@ -131,7 +131,7 @@ void MapLoader::LoadStrifeConversations (MapData *map, const char *mapname)
 			}
 		}
 
-		if (gameinfo.Dialogue.IsNotEmpty())
+		if (!gameinfo.Dialogue.empty())
 		{
 			if (LoadScriptFile(gameinfo.Dialogue.c_str(), false, 0))
 			{

@@ -751,7 +751,7 @@ protected:
 
 	inline void STRINGBUILDER_START(FString &Builder)
 	{
-		if (Builder.IsNotEmpty() || ACS_StringBuilderStack.Size())
+		if (!Builder.empty() || ACS_StringBuilderStack.Size())
 		{
 			ACS_StringBuilderStack.Push(Builder);
 			Builder = "";
@@ -1359,7 +1359,7 @@ void ACSStringPool::ReadStrings(FSerializer &file, const char *key)
 void ACSStringPool::WriteStrings(FSerializer &file, const char *key) const
 {
 	int32_t i, poolsize = (int32_t)Pool.Size();
-	
+
 	if (poolsize == 0)
 	{ // No need to write if we don't have anything.
 		return;
@@ -1483,7 +1483,7 @@ void P_CollectACSGlobalStrings()
 		}
 	}
 	for(auto Level : AllLevels())
-	{ 
+	{
 		Level->Behaviors.MarkLevelVarStrings();
 	}
 	P_MarkWorldVarStrings();
@@ -2256,8 +2256,8 @@ FBehavior::FBehavior()
 	FunctionProfileData = NULL;
 
 }
-	
-	
+
+
 bool FBehavior::Init(FLevelLocals *Level, int lumpnum, FileReader * fr, int len, int reallumpnum)
 {
 	uint8_t *object;
@@ -3212,7 +3212,7 @@ inline bool FBehavior::CopyStringToArray(int arraynum, int index, int maxLength,
 	if ((unsigned)arraynum >= (unsigned)NumTotalArrays || index < 0)
 		return false;
 	const ArrayInfo *array = Arrays[arraynum];
-	
+
 	if ((signed)array->ArraySize - index < maxLength) maxLength = (signed)array->ArraySize - index;
 
 	while (maxLength-- > 0)
@@ -4007,7 +4007,7 @@ int DLevelScript::DoSetMaster (AActor *self, AActor *master)
                 AActor * attacker=master->player->attacker;
                 if (attacker)
                 {
-                    if (!(attacker->flags&MF_FRIENDLY) || 
+                    if (!(attacker->flags&MF_FRIENDLY) ||
                         (deathmatch && attacker->FriendPlayer!=0 && attacker->FriendPlayer!=self->FriendPlayer))
                     {
                         self->LastHeard = self->target = attacker;
@@ -4373,7 +4373,7 @@ void DLevelScript::DoSetActorProperty (AActor *actor, int property, int value)
 			{
 				actor->player->SoundClass = Level->Behaviors.LookupString(value);
 			}
-		}	
+		}
 		break;
 	case APROP_FriendlySeeBlocks:
 		actor->friendlyseeblocks = value;
@@ -4550,7 +4550,7 @@ int DLevelScript::CheckActorProperty (int tid, int property, int value)
 		case APROP_AttackSound:	string = S_GetSoundName(actor->AttackSound); break;
 		case APROP_PainSound:	string = S_GetSoundName(actor->PainSound); break;
 		case APROP_DeathSound:	string = S_GetSoundName(actor->DeathSound); break;
-		case APROP_ActiveSound:	string = S_GetSoundName(actor->ActiveSound); break; 
+		case APROP_ActiveSound:	string = S_GetSoundName(actor->ActiveSound); break;
 		case APROP_Species:		string = actor->GetSpecies().GetChars(); break;
 		case APROP_NameTag:		string = actor->GetTag(); break;
 		case APROP_DamageType:	string = actor->DamageType.GetChars(); break;
@@ -4882,7 +4882,7 @@ enum EACSFunctions
 int DLevelScript::SideFromID(int id, int side)
 {
 	if (side != 0 && side != 1) return -1;
-	
+
 	if (id == 0)
 	{
 		if (activationline == NULL) return -1;
@@ -5205,9 +5205,9 @@ void DLevelScript::SetActorTeleFog(AActor *activator, int tid, FString telefogsr
 	{
 		if (activator != NULL)
 		{
-			if (telefogsrc.IsNotEmpty())
+			if (!telefogsrc.empty())
 				activator->TeleFogSourceType = PClass::FindActor(telefogsrc);
-			if (telefogdest.IsNotEmpty())
+			if (!telefogdest.empty())
 				activator->TeleFogDestType = PClass::FindActor(telefogdest);
 		}
 	}
@@ -5220,9 +5220,9 @@ void DLevelScript::SetActorTeleFog(AActor *activator, int tid, FString telefogsr
 		PClassActor * dest = PClass::FindActor(telefogdest);
 		while ((actor = iterator.Next()))
 		{
-			if (telefogsrc.IsNotEmpty())
+			if (!telefogsrc.empty())
 				actor->TeleFogSourceType = src;
-			if (telefogdest.IsNotEmpty())
+			if (!telefogdest.empty())
 				actor->TeleFogDestType = dest;
 		}
 	}
@@ -5233,7 +5233,7 @@ int DLevelScript::SwapActorTeleFog(AActor *activator, int tid)
 	int count = 0;
 	if (tid == 0)
 	{
-		if ((activator == NULL) || (activator->TeleFogSourceType == activator->TeleFogDestType)) 
+		if ((activator == NULL) || (activator->TeleFogSourceType == activator->TeleFogDestType))
 			return 0; //Does nothing if they're the same.
 
 		std::swap (activator->TeleFogSourceType, activator->TeleFogDestType);
@@ -5243,10 +5243,10 @@ int DLevelScript::SwapActorTeleFog(AActor *activator, int tid)
 	{
 		auto iterator = Level->GetActorIterator(tid);
 		AActor *actor;
-		
+
 		while ((actor = iterator.Next()))
 		{
-			if (actor->TeleFogSourceType == actor->TeleFogDestType) 
+			if (actor->TeleFogSourceType == actor->TeleFogDestType)
 				continue; //They're the same. Save the effort.
 
 			std::swap (actor->TeleFogSourceType, actor->TeleFogDestType);
@@ -5471,7 +5471,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 				activator = Level->SingleActorFromTID(args[0], NULL);
 			}
 			return activator != NULL;
-		
+
 		case ACSF_SetActivatorToTarget:
 			MIN_ARG_COUNT(1);
 			// [KS] I revised this a little bit
@@ -5532,7 +5532,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 			{
 				return p[args[1]];
 			}
-			else 
+			else
 			{
 				return 0;
 			}
@@ -5637,7 +5637,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 		case ACSF_CheckActorProperty:
 			MIN_ARG_COUNT(3);
 			return (CheckActorProperty(args[0], args[1], args[2]));
-        
+
         case ACSF_SetActorVelocity:
 			MIN_ARG_COUNT(6);
 		{
@@ -5655,7 +5655,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 					P_Thing_SetVelocity(actor, vel, !!args[4], !!args[5]);
 				}
 			}
-			return 0; 
+			return 0;
 		}
 
 		case ACSF_SetUserVariable:
@@ -5676,7 +5676,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 				else
 				{
 					auto iterator = Level->GetActorIterator(args[0]);
-	                
+
 					while ( (actor = iterator.Next()) )
 					{
 						SetUserVariable(actor, varname, 0, args[2]);
@@ -5686,14 +5686,14 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 			}
 			return cnt;
 		}
-		
+
 		case ACSF_GetUserVariable:
 			MIN_ARG_COUNT(2);
 		{
 			FName varname(Level->Behaviors.LookupString(args[1]), true);
 			if (varname != NAME_None)
 			{
-				AActor *a = Level->SingleActorFromTID(args[0], activator); 
+				AActor *a = Level->SingleActorFromTID(args[0], activator);
 				return a != NULL ? GetUserVariable(a, varname, 0) : 0;
 			}
 			return 0;
@@ -5717,7 +5717,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 				else
 				{
 					auto iterator = Level->GetActorIterator(args[0]);
-	                
+
 					while ( (actor = iterator.Next()) )
 					{
 						SetUserVariable(actor, varname, args[2], args[3]);
@@ -5727,14 +5727,14 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 			}
 			return cnt;
 		}
-		
+
 		case ACSF_GetUserArray:
 			MIN_ARG_COUNT(3);
 		{
 			FName varname(Level->Behaviors.LookupString(args[1]), true);
 			if (varname != NAME_None)
 			{
-				AActor *a = Level->SingleActorFromTID(args[0], activator); 
+				AActor *a = Level->SingleActorFromTID(args[0], activator);
 				return a != NULL ? GetUserVariable(a, varname, args[2]) : 0;
 			}
 			return 0;
@@ -5839,7 +5839,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 				}
 			}
 			return FIXED_MAX;
-        
+
         case ACSF_CheckSight:
 			MIN_ARG_COUNT(3);
         {
@@ -5851,7 +5851,7 @@ int DLevelScript::CallFunction(int argCount, int funcIndex, int32_t *args, int &
 			if (args[2] & 1) flags |= SF_IGNOREWATERBOUNDARY;
 			if (args[2] & 2) flags |= SF_SEEPASTBLOCKEVERYTHING | SF_SEEPASTSHOOTABLELINES;
 
-			if (args[0] == 0) 
+			if (args[0] == 0)
 			{
 				source = (AActor *) activator;
 
@@ -6272,7 +6272,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 		{
 			const char *type = Level->Behaviors.LookupString(args[1]);
 			AActor *inv;
-			
+
 			if (type != NULL)
 			{
 				if (args[0] == 0)
@@ -6290,7 +6290,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 				{
 					auto it = Level->GetActorIterator(args[0]);
 					AActor *actor;
-					
+
 					while ((actor = it.Next()) != NULL)
 					{
 						inv = actor->FindInventory(type);
@@ -6473,7 +6473,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 				{
 					canraiseall &= P_Thing_CanRaise(actor);
 				}
-				
+
 				return canraiseall;
 			}
 			break;
@@ -6493,7 +6493,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			MIN_ARG_COUNT(1);
 			actor = Level->SingleActorFromTID(args[0], activator);
 			return actor != NULL? AngleToACS(actor->Angles.Roll) : 0;
-		
+
 		// [ZK] A_Warp in ACS
 		case ACSF_Warp:
 			MIN_ARG_COUNT(6);
@@ -6502,10 +6502,10 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			{
 				return false;
 			}
-			
+
 			const int dest = args[0];
 			const int flags = args[5];
-			
+
 			AActor* const reference = ((flags & WARPF_USEPTR) && (AAPTR_DEFAULT != dest))
 				? COPY_AAPTREX(Level, activator, dest)
 				: Level->SingleActorFromTID(dest, activator);
@@ -6515,7 +6515,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 				// there is no actor to warp to
 				return false;
 			}
-			
+
 			const double xofs = ACSToDouble(args[1]);
 			const double yofs = ACSToDouble(args[2]);
 			const double zofs = ACSToDouble(args[3]);
@@ -6528,23 +6528,23 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			{
 				return false;
 			}
-			
+
 			if (argCount > 6)
 			{
 				const char* const statename = Level->Behaviors.LookupString(args[6]);
-				
+
 				if (nullptr != statename)
 				{
 					const bool exact = argCount > 7 && !!args[7];
 					FState* const state = activator->GetClass()->FindStateByString(statename, exact);
-					
+
 					if (nullptr != state)
 					{
 						activator->SetState(state);
 					}
 				}
 			}
-			
+
 			return true;
 		}
 		case ACSF_GetMaxInventory:
@@ -6588,7 +6588,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 				}
 			}
 			break;
-		
+
 		case ACSF_SpawnParticle:
 			MIN_ARG_COUNT(1);
 		{
@@ -6605,7 +6605,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			int accelx = argCount > 10 ? args[10] : 0;
 			int accely = argCount > 11 ? args[11] : 0;
 			int accelz = argCount > 12 ? args[12] : 0;
-			int startalpha = argCount > 13 ? args[13] : 0xFF; // Byte trans			
+			int startalpha = argCount > 13 ? args[13] : 0xFF; // Byte trans
 			int fadestep = argCount > 14 ? args[14] : -1;
 			double endsize = argCount > 15 ? args[15] : -1.;
 
@@ -6659,7 +6659,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			const char *clsname = Level->Behaviors.LookupString(args[0]);
 			return !!PClass::FindActor(clsname);
 		}
-		
+
 		case ACSF_DamageActor: // [arookas] wrapper around P_DamageMobj
 			MIN_ARG_COUNT(6);
 		{
@@ -8642,7 +8642,7 @@ scriptwait:
 						FString uppername = Level->MapName;
 						uppername.ToUpper();
 						work += uppername;
-						break; 
+						break;
 					}
 
 					case PRINTNAME_NEXTLEVEL:
@@ -10244,7 +10244,7 @@ scriptwait:
 
 				STACK(7) = changes;
 				sp -= 6;
-			}	
+			}
 			break;
 
 		case PCD_UNMORPHACTOR:
@@ -10275,7 +10275,7 @@ scriptwait:
 
 				STACK(2) = changes;
 				sp -= 1;
-			}	
+			}
 			break;
 
 		case PCD_SAVESTRING:
@@ -10284,7 +10284,7 @@ scriptwait:
 				const int str = GlobalACSStrings.AddString(work);
 				PushToStack(str);
 				STRINGBUILDER_FINISH(work);
-			}		
+			}
 			break;
 
 		case PCD_STRCPYTOSCRIPTCHRANGE:
@@ -10307,9 +10307,9 @@ scriptwait:
 				}
 
 				index += STACK(6);
-				
+
 				lookup = Level->Behaviors.LookupString (STACK(2));
-				
+
 				if (!lookup) {
 					// no data, operation complete
 	STRCPYTORANGECOMPLETE:
@@ -10338,7 +10338,7 @@ scriptwait:
 							localarrays->Set(locals, a, index++, *lookup);
 							if (! (*(lookup++))) goto STRCPYTORANGECOMPLETE; // complete with terminating 0
 						}
-						
+
 						Stack[sp-6] = !(*lookup); // true/success if only terminating 0 was not copied
 					}
 					break;
@@ -10361,7 +10361,7 @@ scriptwait:
 							ACS_WorldArrays[a][index++] = *lookup;
 							if (! (*(lookup++))) goto STRCPYTORANGECOMPLETE; // complete with terminating 0
 						}
-						
+
 						Stack[sp-6] = !(*lookup); // true/success if only terminating 0 was not copied
 					}
 					break;
@@ -10374,7 +10374,7 @@ scriptwait:
 							ACS_GlobalArrays[a][index++] = *lookup;
 							if (! (*(lookup++))) goto STRCPYTORANGECOMPLETE; // complete with terminating 0
 						}
-						
+
 						Stack[sp-6] = !(*lookup); // true/success if only terminating 0 was not copied
 					}
 					break;
@@ -10643,7 +10643,7 @@ int P_StartScript (FLevelLocals *Level, AActor *who, line_t *where, int script, 
 					}
 					Printf(PRINT_BOLD, ")\n");
 				}
-				
+
 				return false;
 			}
 

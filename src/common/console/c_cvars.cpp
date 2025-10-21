@@ -203,7 +203,7 @@ FBaseCVar::FBaseCVar (const char *var_name, uint32_t flags, void *callback, cons
 
 FBaseCVar::~FBaseCVar ()
 {
-	if (VarName.IsNotEmpty())
+	if (!VarName.empty())
 	{
 		FBaseCVar *var, *prev;
 
@@ -984,7 +984,7 @@ int FColorCVar::ToInt2 (UCVarValue value, ECVarType type)
 		// the only time this might be called before that is when loading
 		// zdoom.ini, this shouldn't be a problem.
 
-		if (string.IsNotEmpty())
+		if (!string.empty())
 		{
 			ret = V_GetColorFromString (string.c_str());
 		}
@@ -1703,7 +1703,7 @@ CCMD (toggle)
 			val.Bool = !val.Bool;
 			var->SetGenericRep (val, CVAR_Bool);
 			auto msg = var->GetToggleMessage(val.Bool);
-			if (msg.IsNotEmpty())
+			if (!msg.empty())
 			{
 				Printf(PRINT_NOTIFY, "%s\n", msg.c_str());
 			}

@@ -235,7 +235,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 			if (filtercol > -1)
 			{
 				auto filterstr = row[filtercol];
-				if (filterstr.IsNotEmpty())
+				if (!filterstr.empty())
 				{
 					bool ok = false;
 					if (sysCallbacks.CheckGame)

@@ -860,7 +860,7 @@ void ZCCCompiler::CreateClassTypes()
 
 				do
 				{
-					if (build.IsNotEmpty()) build += '.';
+					if (!build.empty()) build += '.';
 					build += FName(p->Id).GetChars();
 					p = static_cast<decltype(p)>(p->SiblingNext);
 				} while (p != ParentName);
@@ -1799,7 +1799,7 @@ FString ZCCCompiler::FlagsToString(uint32_t flags)
 	{
 		if (flags & (1 << i))
 		{
-			if (build.IsNotEmpty()) build += ", ";
+			if (!build.empty()) build += ", ";
 			build += flagnames[i];
 		}
 	}

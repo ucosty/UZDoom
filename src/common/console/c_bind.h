@@ -63,7 +63,7 @@ public:
 
 	void SetBind(unsigned int key, const char *bind, bool override = true)
 	{
-		if (!override && Binds[key].IsNotEmpty()) return;
+		if (!override && !Binds[key].empty()) return;
 		if (key < NUM_KEYS) Binds[key] = bind;
 	}
 

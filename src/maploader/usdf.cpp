@@ -498,7 +498,7 @@ class USDFParser : public UDMFParserBase
 			for (auto i = startpos; i < numnodes; i++)
 			{
 				FString key = dialogues[i]->ThisNodeName;
-				if (key.IsNotEmpty())
+				if (!key.empty())
 				{
 					key.ToLower();
 					if (nameToIndex.CheckKey(key))
@@ -516,7 +516,7 @@ class USDFParser : public UDMFParserBase
 				for (auto i = startpos; i < numnodes; i++)
 				{
 					FString itemLinkKey = dialogues[i]->ItemCheckNodeName;
-					if (itemLinkKey.IsNotEmpty())
+					if (!itemLinkKey.empty())
 					{
 						itemLinkKey.ToLower();
 						if (nameToIndex.CheckKey(itemLinkKey))
@@ -531,7 +531,7 @@ class USDFParser : public UDMFParserBase
 					FStrifeDialogueReply *NodeCheck = dialogues[i]->Children;
 					while (NodeCheck)
 					{
-						if (NodeCheck->NextNodeName.IsNotEmpty())
+						if (!NodeCheck->NextNodeName.empty())
 						{
 							FString key = NodeCheck->NextNodeName;
 							key.ToLower();

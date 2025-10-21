@@ -420,7 +420,7 @@ DEFINE_ACTION_FUNCTION(_TexMan, GetName)
 
 	if (tex != nullptr)
 	{
-		if (tex->GetName().IsNotEmpty()) retval = tex->GetName();
+		if (!tex->GetName().empty()) retval = tex->GetName();
 		else
 		{
 			// Textures for full path names do not have their own name, they merely link to the source lump.

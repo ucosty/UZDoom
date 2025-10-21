@@ -64,7 +64,7 @@ bool FPlayList::ChangeList (const char *path)
 	first = true;
 	pls = false;
 	playlistdir = ExtractFilePath(path);
-	while ((song = NextLine(fr)).IsNotEmpty())
+	while (!(song = NextLine(fr)).empty())
 	{
 		if (first)
 		{
@@ -118,7 +118,7 @@ bool FPlayList::ChangeList (const char *path)
 		}
 
 		// Just to make sure
-		if (song.IsNotEmpty())
+		if (!song.empty())
 		{
 			Songs.Push(song);
 		}

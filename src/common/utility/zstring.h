@@ -201,8 +201,8 @@ public:
 	FString &operator << (const char *tail) { return *this += tail; }
 	FString &operator << (char tail) { return *this += tail; }
 
-	const char &Front() const { assert(IsNotEmpty()); return Chars[0]; }
-	const char &Back() const { assert(IsNotEmpty()); return Chars[Len() - 1]; }
+	const char &Front() const { assert(!empty()); return Chars[0]; }
+	const char &Back() const { assert(!empty()); return Chars[Len() - 1]; }
 
 	FString Left (size_t numChars) const;
 	FString Right (size_t numChars) const;
@@ -320,7 +320,6 @@ public:
 	size_t CharacterCount() const;
 	int GetNextCharacter(int &position) const;
 	bool empty() const { return Len() == 0; }
-	bool IsNotEmpty() const { return Len() != 0; }
 
 	void Truncate (size_t newlen);
 	void Remove(size_t index, size_t remlen);

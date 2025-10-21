@@ -680,7 +680,7 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 				TexPartBuild part;
 				TexInit init;
 				ParsePatch(sc, buildinfo, part, init);
-				if (init.TexName.IsNotEmpty())
+				if (!init.TexName.empty())
 				{
 					buildinfo.Parts.Push(part);
 					init.UseType = ETextureType::WallPatch;
@@ -697,7 +697,7 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 				TexPartBuild part;
 				TexInit init;
 				ParsePatch(sc, buildinfo, part, init);
-				if (init.TexName.IsNotEmpty())
+				if (!init.TexName.empty())
 				{
 					buildinfo.Parts.Push(part);
 					init.UseType = ETextureType::Sprite;
@@ -714,7 +714,7 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 				TexPartBuild part;
 				TexInit init;
 				ParsePatch(sc, buildinfo, part, init);
-				if (init.TexName.IsNotEmpty())
+				if (!init.TexName.empty())
 				{
 					buildinfo.Parts.Push(part);
 					init.UseType = ETextureType::MiscPatch;

@@ -269,7 +269,7 @@ void FGameConfigFile::DoAutoloadSetup (FIWadManager *iwad_man)
 		{
 			FString workname = *pAuto;
 
-			while (workname.IsNotEmpty())
+			while (!workname.empty())
 			{
 				FString section = workname + ".Autoload";
 				CreateSectionAtStart(section.c_str());
