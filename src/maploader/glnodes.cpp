@@ -1012,8 +1012,8 @@ static FString CreateCacheName(MapData *map, bool create)
 	path << '/' << lumpname.Left(separator);
 	if (create) CreatePath(path.c_str());
 
-	lumpname.ReplaceChars('/', '%');
-	lumpname.ReplaceChars(':', '$');
+	std::ranges::replace(lumpname, '/', '%');
+	std::ranges::replace(lumpname, ':', '$');
 	path << '/' << lumpname.Right((ptrdiff_t)lumpname.Len() - separator - 1) << ".gzc";
 	return path;
 }

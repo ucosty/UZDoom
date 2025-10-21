@@ -911,14 +911,6 @@ void FString::Insert (size_t index, const char *instr, size_t instrlen)
 	}
 }
 
-void FString::ReplaceChars (char oldchar, char newchar)
-{
-	if (oldchar == '\0')
-		return;
-
-	ReplaceChars([&oldchar](char c){ return c == oldchar; }, newchar);
-}
-
 void FString::ReplaceChars (const char *oldcharset, char newchar)
 {
 	if (oldcharset == NULL || oldcharset[0] == '\0')

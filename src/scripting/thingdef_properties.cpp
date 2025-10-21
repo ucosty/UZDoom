@@ -1488,7 +1488,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, soundclass, S, PlayerPawn)
 	PROP_STRING_PARM(str, 0);
 
 	FString tmp = str;
-	tmp.ReplaceChars (' ', '_');
+	std::ranges::replace(tmp, ' ', '_');
 	defaults->NameVar(NAME_SoundClass) = !tmp.empty()? FName(tmp) : NAME_None;
 }
 

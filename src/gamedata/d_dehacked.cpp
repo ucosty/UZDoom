@@ -1128,15 +1128,16 @@ static void SetDehParams(FState *state, int codepointer, VMDisassemblyDumper &di
 		sfunc->ImplicitArgs = numargs;
 		state->SetAction(sfunc);
 		FString sanitizedPatchName = pstate->PatchName.c_str();
-		sanitizedPatchName.ReplaceChars(':', '_');
-		sanitizedPatchName.ReplaceChars('.', '_');
-		sanitizedPatchName.ReplaceChars('-', '_');
-		sanitizedPatchName.ReplaceChars(' ', '_');
-		sanitizedPatchName.ReplaceChars('\\', '_');
-		sanitizedPatchName.ReplaceChars('/', '_');
-		sanitizedPatchName.ReplaceChars('*', '_');
-		sanitizedPatchName.ReplaceChars('?', '_');
-		sanitizedPatchName.ReplaceChars('"', '_');
+		std::ranges::replace(sanitizedPatchName, ':', '_');
+		std::ranges::replace(sanitizedPatchName, '.', '_');
+		std::ranges::replace(sanitizedPatchName, '-', '_');
+		std::ranges::replace(sanitizedPatchName, ' ', '_');
+		std::ranges::replace(sanitizedPatchName, '\\', '_');
+		std::ranges::replace(sanitizedPatchName, '/', '_');
+		std::ranges::replace(sanitizedPatchName, '*', '_');
+		std::ranges::replace(sanitizedPatchName, '?', '_');
+		std::ranges::replace(sanitizedPatchName, '"', '_');
+
 		sfunc->PrintableName = ClassDataAllocator.Strdup(FStringf("Dehacked.%s.%d.%s.%d.%d", sanitizedPatchName.c_str(), index, MBFCodePointers[codepointer].name.GetChars(), value1, value2).c_str());
 		sfunc->QualifiedName = sfunc->PrintableName;
 

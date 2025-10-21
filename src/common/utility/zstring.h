@@ -270,7 +270,6 @@ public:
 		UnlockBuffer();
 	}
 
-	void ReplaceChars (char oldchar, char newchar);
 	void ReplaceChars (const char *oldcharset, char newchar);
 
 	template<typename Func>

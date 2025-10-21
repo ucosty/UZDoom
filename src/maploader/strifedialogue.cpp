@@ -326,8 +326,8 @@ FStrifeDialogueNode *MapLoader::ReadRetailNode (const char *name, FileReader &lu
 	if (name && speech.Name[0])
 	{
 		FString label = speech.Name;
-		label.ReplaceChars(' ', '_');
-		label.ReplaceChars('\'', '_');
+		std::ranges::replace(label, ' ', '_');
+		std::ranges::replace(label, '\'', '_');
 		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.c_str());
 		if (!GStrings.exists(node->SpeakerName.c_str() + 1)) node->SpeakerName = speech.Name;
 
@@ -427,8 +427,8 @@ FStrifeDialogueNode *MapLoader::ReadTeaserNode (const char *name, FileReader &lu
 	if ((name && speech.Name[0]))
 	{
 		FString label = speech.Name;
-		label.ReplaceChars(' ', '_');
-		label.ReplaceChars('\'', '_');
+		std::ranges::replace(label, ' ', '_');
+		std::ranges::replace(label, '\'', '_');
 		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.c_str());
 		if (!GStrings.exists(node->SpeakerName.c_str() + 1)) node->SpeakerName = speech.Name;
 	}

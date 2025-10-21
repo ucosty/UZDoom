@@ -66,7 +66,8 @@ bool FOBJModel::Load(const char* fn, int lumpnum, const char* buffer, int length
 		}
 
 		// Replace forward slashes with percent signs so they aren't parsed as line comments
-		objBuf.ReplaceChars('/', *newSideSep);
+		std::ranges::replace(objBuf, '/', *newSideSep);
+
 		char* wObjBuf = objBuf.LockBuffer();
 
 		// Substitute broken usemtl statements with old ones
