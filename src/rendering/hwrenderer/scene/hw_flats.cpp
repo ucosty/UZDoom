@@ -441,7 +441,7 @@ void HWFlat::Process(HWDrawInfo *di, sector_t * model, int whichplane, bool fog)
 	}
 	else 
 	{
-		texture = NULL;
+		texture = nullptr;
 		lightlevel = abs(lightlevel);
 	}
 
@@ -543,7 +543,7 @@ void HWFlat::ProcessSector(HWDrawInfo *di, sector_t * frontsector, int which)
 		TextureFx = &frontsector->planes[sector_t::floor].TextureFx;
 
 		port = frontsector->ValidatePortal(sector_t::floor);
-		if ((stack = (port != NULL)))
+		if ((stack = (port != nullptr)))
 		{
             /* to be redone in a less invasive manner
 			if (port->mType == PORTS_STACKEDSECTORTHING)
@@ -568,7 +568,7 @@ void HWFlat::ProcessSector(HWDrawInfo *di, sector_t * frontsector, int which)
 			if (x.ffloors.Size())
 			{
 				light = P_GetPlaneLight(sector, &frontsector->floorplane, false);
-				if ((!(sector->GetFlags(sector_t::floor)&PLANEF_ABSLIGHTING) || light->lightsource == NULL)
+				if ((!(sector->GetFlags(sector_t::floor)&PLANEF_ABSLIGHTING) || light->lightsource == nullptr)
 					&& (light->p_lightlevel != &frontsector->lightlevel))
 				{
 					lightlevel = hw_ClampLight(*light->p_lightlevel);
@@ -600,7 +600,7 @@ void HWFlat::ProcessSector(HWDrawInfo *di, sector_t * frontsector, int which)
 		AddColor = frontsector->AdditiveColors[sector_t::ceiling];
 		TextureFx = &frontsector->planes[sector_t::ceiling].TextureFx;
 		port = frontsector->ValidatePortal(sector_t::ceiling);
-		if ((stack = (port != NULL)))
+		if ((stack = (port != nullptr)))
 		{
             /* as above for floors
 			if (port->mType == PORTS_STACKEDSECTORTHING)

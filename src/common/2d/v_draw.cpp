@@ -639,7 +639,7 @@ bool SetTextureParms(F2DDrawer * drawer, DrawParms *parms, FGameTexture *img, do
 {
 	auto GetWidth = [=] { return parms->viewport.width; };
 	auto GetHeight = [=] {return parms->viewport.height; };
-	if (img != NULL)
+	if (img != nullptr)
 	{
 		parms->x = xx;
 		parms->y = yy;
@@ -839,7 +839,7 @@ bool ParseDrawTextureTags(F2DDrawer *drawer, FGameTexture *img, double x, double
 
 	if (type == DrawTexture_Normal)
 	{
-		if (img == NULL || !img->isValid())
+		if (img == nullptr || !img->isValid())
 		{
 			ListEnd(tags);
 			return false;
@@ -880,7 +880,7 @@ bool ParseDrawTextureTags(F2DDrawer *drawer, FGameTexture *img, double x, double
 	parms->style.BlendOp = 255;		// Dummy "not set" value
 	parms->masked = true;
 	parms->bilinear = false;
-	parms->specialcolormap = NULL;
+	parms->specialcolormap = nullptr;
 	parms->desaturate = 0;
 	parms->cleanmode = DTA_Base;
 	parms->scalex = parms->scaley = 1;
@@ -1046,7 +1046,7 @@ bool ParseDrawTextureTags(F2DDrawer *drawer, FGameTexture *img, double x, double
 			if (boolval)
 			{
 				assert(type != DrawTexture_Text);
-				if (img == NULL) return false;
+				if (img == nullptr) return false;
 				parms->cleanmode = DTA_Fullscreen;
 				parms->fsscalemode = (uint8_t)twod->fullscreenautoaspect;
 				parms->virtWidth = img->GetDisplayWidth();
@@ -1060,7 +1060,7 @@ bool ParseDrawTextureTags(F2DDrawer *drawer, FGameTexture *img, double x, double
 			if (intval >= 0 && intval <= 3)
 			{
 				assert(type != DrawTexture_Text);
-				if (img == NULL) return false;
+				if (img == nullptr) return false;
 				parms->cleanmode = DTA_Fullscreen;
 				parms->fsscalemode = (uint8_t)intval;
 				parms->virtWidth = img->GetDisplayWidth();
@@ -1399,7 +1399,7 @@ bool ParseDrawTextureTags(F2DDrawer *drawer, FGameTexture *img, double x, double
 		return false;
 	}
 
-	if (img != NULL)
+	if (img != nullptr)
 	{
 		SetTextureParms(drawer, parms, img, x, y);
 
@@ -1990,7 +1990,7 @@ DEFINE_ACTION_FUNCTION(FCanvas, ClearStencil)
 DEFINE_ACTION_FUNCTION(_Screen, SetTransform)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(transform, DShape2DTransform);
+	PARAM_OBJECT_NOT_nullptr(transform, DShape2DTransform);
 
 	if (!twod->HasBegun2D()) ThrowAbortException(X_OTHER, "Attempt to draw to screen outside a draw function");
 
@@ -2002,7 +2002,7 @@ DEFINE_ACTION_FUNCTION(_Screen, SetTransform)
 DEFINE_ACTION_FUNCTION(FCanvas, SetTransform)
 {
 	PARAM_SELF_PROLOGUE(FCanvas);
-	PARAM_OBJECT_NOT_NULL(transform, DShape2DTransform);
+	PARAM_OBJECT_NOT_nullptr(transform, DShape2DTransform);
 
 	self->Drawer.SetTransform(*transform);
 	self->Tex->NeedUpdate();

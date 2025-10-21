@@ -485,8 +485,8 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 //
 	FString vp_comb;
 
-	assert(screen->mLights != NULL);
-	assert(screen->mBones != NULL);
+	assert(screen->mLights != nullptr);
+	assert(screen->mBones != nullptr);
 
 
 	if ((gl.flags & RFL_SHADER_STORAGE_BUFFER) && screen->allowSSBO())
@@ -512,7 +512,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 	FString placeholder = "\n";
 	TArray<FString> filenames_for_error;
 
-	if (proc_prog_lump != NULL)
+	if (proc_prog_lump != nullptr)
 	{
 		fp_comb << "#line 1\n";
 
@@ -665,7 +665,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 			glGetShaderiv(hVertProg, GL_INFO_LOG_LENGTH, &info_log_length);
 			buffer.Resize(info_log_length + 1);
 
-			glGetShaderInfoLog(hVertProg, info_log_length + 1, NULL, buffer.Data());
+			glGetShaderInfoLog(hVertProg, info_log_length + 1, nullptr, buffer.Data());
 			if (*buffer.Data())
 			{
 				//error << "Vertex shader:\n" << buffer.Data() << "\n";
@@ -684,7 +684,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 			glGetShaderiv(hFragProg, GL_INFO_LOG_LENGTH, &info_log_length);
 			buffer.Resize(info_log_length + 1);
 
-			glGetShaderInfoLog(hFragProg, info_log_length + 1, NULL, buffer.Data());
+			glGetShaderInfoLog(hFragProg, info_log_length + 1, nullptr, buffer.Data());
 			if (*buffer.Data())
 			{
 				error << "Fragment shader:\n" << ProcessShaderError(buffer.Data(), filenames_for_error) << "\n";
@@ -711,7 +711,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 			glGetProgramiv(hShader, GL_INFO_LOG_LENGTH, &info_log_length);
 			buffer.Resize(info_log_length + 1);
 
-			glGetProgramInfoLog(hShader, info_log_length + 1, NULL, buffer.Data());
+			glGetProgramInfoLog(hShader, info_log_length + 1, nullptr, buffer.Data());
 			if (*buffer.Data())
 			{
 				error << "Linking:\n" << buffer.Data() << "\n";
@@ -846,7 +846,7 @@ FShader *FShaderCollection::Compile (const char *ShaderName, const char *ShaderP
 	if (!usediscard) defines += "#define NO_ALPHATEST\n";
 	if (passType == GBUFFER_PASS) defines += "#define GBUFFER_PASS\n";
 
-	FShader *shader = NULL;
+	FShader *shader = nullptr;
 	try
 	{
 		shader = new FShader(ShaderName);
@@ -857,8 +857,8 @@ FShader *FShaderCollection::Compile (const char *ShaderName, const char *ShaderP
 	}
 	catch(CRecoverableError &err)
 	{
-		if (shader != NULL) delete shader;
-		shader = NULL;
+		if (shader != nullptr) delete shader;
+		shader = nullptr;
 		I_FatalError("Unable to load shader %s:\n%s\n", ShaderName, err.GetMessage());
 	}
 	return shader;
@@ -893,7 +893,7 @@ bool FShaderManager::CompileNextShader()
 FShaderManager::~FShaderManager()
 {
 	glUseProgram(0);
-	mActiveShader = NULL;
+	mActiveShader = nullptr;
 
 	for (auto collection : mPassShaders)
 		delete collection;
@@ -903,7 +903,7 @@ void FShaderManager::SetActiveShader(FShader *sh)
 {
 	if (mActiveShader != sh)
 	{
-		glUseProgram(sh!= NULL? sh->GetHandle() : 0);
+		glUseProgram(sh!= nullptr? sh->GetHandle() : 0);
 		mActiveShader = sh;
 	}
 }
@@ -944,7 +944,7 @@ FShaderCollection::FShaderCollection(EPassType passType)
 	mMaterialShadersNAT.Clear();
 	for (int i = 0; i < MAX_EFFECTS; i++)
 	{
-		mEffectShaders[i] = NULL;
+		mEffectShaders[i] = nullptr;
 	}
 }
 
@@ -1033,16 +1033,16 @@ void FShaderCollection::Clean()
 {
 	for (unsigned int i = 0; i < mMaterialShadersNAT.Size(); i++)
 	{
-		if (mMaterialShadersNAT[i] != NULL) delete mMaterialShadersNAT[i];
+		if (mMaterialShadersNAT[i] != nullptr) delete mMaterialShadersNAT[i];
 	}
 	for (unsigned int i = 0; i < mMaterialShaders.Size(); i++)
 	{
-		if (mMaterialShaders[i] != NULL) delete mMaterialShaders[i];
+		if (mMaterialShaders[i] != nullptr) delete mMaterialShaders[i];
 	}
 	for (int i = 0; i < MAX_EFFECTS; i++)
 	{
-		if (mEffectShaders[i] != NULL) delete mEffectShaders[i];
-		mEffectShaders[i] = NULL;
+		if (mEffectShaders[i] != nullptr) delete mEffectShaders[i];
+		mEffectShaders[i] = nullptr;
 	}
 	mMaterialShaders.Clear();
 	mMaterialShadersNAT.Clear();
@@ -1077,12 +1077,12 @@ int FShaderCollection::Find(const char * shn)
 
 FShader *FShaderCollection::BindEffect(int effect)
 {
-	if (effect >= 0 && effect < MAX_EFFECTS && mEffectShaders[effect] != NULL)
+	if (effect >= 0 && effect < MAX_EFFECTS && mEffectShaders[effect] != nullptr)
 	{
 		mEffectShaders[effect]->Bind();
 		return mEffectShaders[effect];
 	}
-	return NULL;
+	return nullptr;
 }
 
 

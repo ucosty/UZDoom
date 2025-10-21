@@ -61,7 +61,7 @@ void C_PrintInv(AActor *target)
 	AActor *item;
 	int count = 0;
 
-	if (target == NULL)
+	if (target == nullptr)
 	{
 		Printf("No target found!\n");
 		return;
@@ -72,7 +72,7 @@ void C_PrintInv(AActor *target)
 	else
 		Printf("Inventory for Target '%s':\n", target->GetClass()->TypeName.GetChars());
 
-	for (item = target->Inventory; item != NULL; item = item->Inventory)
+	for (item = target->Inventory; item != nullptr; item = item->Inventory)
 	{
 		Printf ("    %s #%u (%d/%d)\n", item->GetClass()->TypeName.GetChars(),
 			item->InventoryID,

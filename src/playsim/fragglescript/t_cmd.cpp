@@ -181,7 +181,7 @@ void FS_EmulateCmd(FLevelLocals *Level, char * string)
 		else if (sc.Compare("gr_fogcolor"))
 		{
 			sc.MustGetString();
-			Level->fadeto = (uint32_t)strtoull(sc.String, NULL, 16);
+			Level->fadeto = (uint32_t)strtoull(sc.String, nullptr, 16);
 		}
 
 		else

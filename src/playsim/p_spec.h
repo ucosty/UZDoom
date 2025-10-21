@@ -87,11 +87,11 @@ class MapLoader;
 void	P_UpdateSpecials (FLevelLocals *);
 
 // when needed
-bool	P_ActivateLine (line_t *ld, AActor *mo, int side, int activationType, DVector3 *optpos = NULL);
-bool	P_TestActivateLine (line_t *ld, AActor *mo, int side, int activationType, DVector3 *optpos = NULL);
+bool	P_ActivateLine (line_t *ld, AActor *mo, int side, int activationType, DVector3 *optpos = nullptr);
+bool	P_TestActivateLine (line_t *ld, AActor *mo, int side, int activationType, DVector3 *optpos = nullptr);
 bool	P_PredictLine (line_t *ld, AActor *mo, int side, int activationType);
 
-void 	P_ActorInSpecialSector (AActor *victim, sector_t * sector = NULL, F3DFloor* Ffloor = NULL);
+void 	P_ActorInSpecialSector (AActor *victim, sector_t * sector = nullptr, F3DFloor* Ffloor = nullptr);
 void	P_ActorOnSpecialFlat (AActor *victim, int floorType);
 void	P_SectorDamage(FLevelLocals *Level, int tag, int amount, FName type, PClassActor *protectClass, int flags);
 void	P_SetSectorFriction (FLevelLocals *level, int tag, int amount, bool alterFlag);
@@ -110,15 +110,15 @@ inline bool checkForSpecialSector(AActor* mo, sector_t* sec)
 //
 // getNextSector()
 // Return sector_t * of sector next to current.
-// NULL if not two-sided line
+// nullptr if not two-sided line
 //
 inline sector_t *getNextSector (line_t *line, const sector_t *sec)
 {
 	if (!(line->flags & ML_TWOSIDED))
-		return NULL;
+		return nullptr;
 
 	return line->frontsector == sec ?
-		   (line->backsector != sec ? line->backsector : NULL) :
+		   (line->backsector != sec ? line->backsector : nullptr) :
 	       line->frontsector;
 }
 
@@ -131,8 +131,8 @@ inline sector_t *getNextSector (line_t *line, const sector_t *sec)
 
 #define BUTTONTIME TICRATE		// 1 second, in ticks. 
 
-bool	P_ChangeSwitchTexture (side_t *side, int useAgain, uint8_t special, bool *quest=NULL);
-bool	P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *optpos = NULL);
+bool	P_ChangeSwitchTexture (side_t *side, int useAgain, uint8_t special, bool *quest=nullptr);
+bool	P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *optpos = nullptr);
 
 #include "a_plats.h"
 #include "a_pillar.h"

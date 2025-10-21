@@ -416,7 +416,7 @@ void R_Init ()
 	R_InitTranslationTables ();
 	R_SetViewSize (screenblocks);
 
-	if (SWRenderer == NULL)
+	if (SWRenderer == nullptr)
 	{
 		SWRenderer = CreateSWRenderer();
 	}
@@ -706,7 +706,7 @@ void FRenderViewpoint::SetViewAngle(const FViewWindow& viewWindow)
 
 	if (bDoOrtho || bDoOob) // These auto-ensure that camera and camera->ViewPos exist
 	{
-		if (camera->tracer != NULL)
+		if (camera->tracer != nullptr)
 		{
 			OffPos = camera->tracer->Pos();
 		}
@@ -823,7 +823,7 @@ void R_ClearPastViewer (AActor *actor)
 
 void R_RebuildViewInterpolation(player_t *player)
 {
-	if (player == NULL || player->camera == NULL)
+	if (player == nullptr || player->camera == nullptr)
 		return;
 
 	if (!NoInterpolateView)

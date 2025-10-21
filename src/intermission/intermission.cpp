@@ -237,9 +237,9 @@ bool DIntermissionScreen::CheckOverlay(int i)
 	if (mOverlays[i].mCondition == NAME_Multiplayer && !multiplayer) return false;
 	else if (mOverlays[i].mCondition != NAME_None)
 	{
-		if (multiplayer || players[0].mo == NULL) return false;
+		if (multiplayer || players[0].mo == nullptr) return false;
 		const PClass *cls = PClass::FindClass(mOverlays[i].mCondition);
-		if (cls == NULL) return false;
+		if (cls == nullptr) return false;
 		if (!players[0].mo->IsKindOf(cls)) return false;
 	}
 	return true;
@@ -559,11 +559,11 @@ void DIntermissionScreenCast::Init(FIntermissionAction *desc, bool first)
 	Super::Init(desc, first);
 	mName = static_cast<FIntermissionActionCast*>(desc)->mName.c_str();
 	mClass = PClass::FindActor(static_cast<FIntermissionActionCast*>(desc)->mCastClass);
-	if (mClass != NULL) mDefaults = GetDefaultByType(mClass);
+	if (mClass != nullptr) mDefaults = GetDefaultByType(mClass);
 	else
 	{
-		mDefaults = NULL;
-		caststate = NULL;
+		mDefaults = nullptr;
+		caststate = nullptr;
 		return;
 	}
 
@@ -582,7 +582,7 @@ void DIntermissionScreenCast::Init(FIntermissionAction *desc, bool first)
 	}
 	else
 	{
-		advplayerstate = NULL;
+		advplayerstate = nullptr;
 		casttranslation = NO_TRANSLATION;
 		if (mDefaults->Translation != NO_TRANSLATION)
 		{
@@ -608,11 +608,11 @@ int DIntermissionScreenCast::Responder (FInputEvent *ev)
 
 	castdeath = true;
 
-	if (mClass != NULL)
+	if (mClass != nullptr)
 	{
 		FName label[] = {NAME_Death, NAME_Cast};
 		caststate = mClass->FindState(2, label);
-		if (caststate == NULL) return -1;
+		if (caststate == nullptr) return -1;
 
 		casttics = caststate->GetTics();
 		castframes = 0;
@@ -634,7 +634,7 @@ int DIntermissionScreenCast::Responder (FInputEvent *ev)
 void DIntermissionScreenCast::PlayAttackSound()
 {
 	// sound hacks....
-	if (caststate != NULL && castattacking)
+	if (caststate != nullptr && castattacking)
 	{
 		for (unsigned i = 0; i < mCastSounds.Size(); i++)
 		{
@@ -654,10 +654,10 @@ int DIntermissionScreenCast::Ticker ()
 {
 	Super::Ticker();
 
-	if (--casttics > 0 && caststate != NULL)
+	if (--casttics > 0 && caststate != nullptr)
 		return 0; 				// not time to change state yet
 
-	if (caststate == NULL || caststate->GetTics() == -1 || caststate->GetNextState() == NULL ||
+	if (caststate == nullptr || caststate->GetTics() == -1 || caststate->GetNextState() == nullptr ||
 		(caststate->GetNextState() == caststate && castdeath))
 	{
 		return -1;
@@ -685,7 +685,7 @@ int DIntermissionScreenCast::Ticker ()
 			else
 				basestate = caststate = mDefaults->MissileState;
 			castonmelee ^= 1;
-			if (caststate == NULL)
+			if (caststate == nullptr)
 			{
 				if (castonmelee)
 					basestate = caststate = mDefaults->MeleeState;
@@ -725,7 +725,7 @@ void DIntermissionScreenCast::Drawer ()
 	Super::Drawer();
 
 	const char *name = mName;
-	if (name != NULL)
+	if (name != nullptr)
 	{
 		auto font = generic_ui ? NewSmallFont : SmallFont;
 		if (*name == '$') name = GStrings.GetString(name+1);
@@ -737,14 +737,14 @@ void DIntermissionScreenCast::Drawer ()
 	}
 
 	// draw the current frame in the middle of the screen
-	if (caststate != NULL)
+	if (caststate != nullptr)
 	{
 		DVector2 castscale = mDefaults->Scale;
 
 		int castsprite = caststate->sprite;
 
 		if (!(mDefaults->flags4 & MF4_NOSKIN) &&
-			mDefaults->SpawnState != NULL && caststate->sprite == mDefaults->SpawnState->sprite &&
+			mDefaults->SpawnState != nullptr && caststate->sprite == mDefaults->SpawnState->sprite &&
 			mClass->IsDescendantOf(NAME_PlayerPawn) &&
 			Skins.Size() > 0)
 		{
@@ -941,7 +941,7 @@ bool DIntermissionController::NextPage ()
 	}
 	bg.SetInvalid();
 
-	if (mScreen != NULL)
+	if (mScreen != nullptr)
 	{
 		bg = mScreen->GetBackground(&fill);
 		mScreen->Destroy();
@@ -971,7 +971,7 @@ again:
 	if (mDesc->mLink != NAME_None)
 	{
 		FIntermissionDescriptor **pDesc = IntermissionDescriptors.CheckKey(mDesc->mLink);
-		if (pDesc != NULL)
+		if (pDesc != nullptr)
 		{
 			if (mDeleteDesc) delete mDesc;
 			mDeleteDesc = false;
@@ -990,7 +990,7 @@ void DIntermissionController::Start()
 
 bool DIntermissionController::Responder (FInputEvent *ev)
 {
-	if (mScreen != NULL)
+	if (mScreen != nullptr)
 	{
 		if (ev->Type == EV_KeyDown)
 		{
@@ -1030,7 +1030,7 @@ bool DIntermissionController::Ticker ()
 	{
 		mSentAdvance = false;
 	}
-	if (mScreen != NULL)
+	if (mScreen != nullptr)
 	{
 		mAdvance |= (mScreen->Ticker() == -1);
 	}
@@ -1047,7 +1047,7 @@ bool DIntermissionController::Ticker ()
 
 void DIntermissionController::Drawer ()
 {
-	if (mScreen != NULL)
+	if (mScreen != nullptr)
 	{
 		twod->ClearScreen();
 		mScreen->Drawer();
@@ -1057,9 +1057,9 @@ void DIntermissionController::Drawer ()
 void DIntermissionController::OnDestroy ()
 {
 	Super::OnDestroy();
-	if (mScreen != NULL) mScreen->Destroy();
+	if (mScreen != nullptr) mScreen->Destroy();
 	if (mDeleteDesc) delete mDesc;
-	mDesc = NULL;
+	mDesc = nullptr;
 }
 
 

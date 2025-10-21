@@ -218,7 +218,7 @@ void HWWall::ProcessDecal(HWDrawInfo *di, DBaseDecal *decal, const FVector3 &nor
 
 	
 	auto texture = TexMan.GetGameTexture(decalTile);
-	if (texture == NULL) return;
+	if (texture == nullptr) return;
 
 	
 	// the sectors are only used for their texture origin coordinates

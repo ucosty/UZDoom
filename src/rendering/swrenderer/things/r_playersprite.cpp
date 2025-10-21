@@ -86,7 +86,7 @@ namespace swrenderer
 		int 		i;
 		DPSprite*	psp;
 		DPSprite*	weapon;
-		sector_t*	sec = NULL;
+		sector_t*	sec = nullptr;
 		int			floorlight, ceilinglight;
 		F3DFloor *rover;
 
@@ -144,7 +144,7 @@ namespace swrenderer
 		// get light level
 		int lightlevel = (floorlight + ceilinglight) >> 1;
 
-		if (Thread->Viewport->viewpoint.camera->player != NULL)
+		if (Thread->Viewport->viewpoint.camera->player != nullptr)
 		{
 			auto viewport = Thread->Viewport.get();
 			

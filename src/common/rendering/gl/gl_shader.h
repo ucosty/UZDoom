@@ -349,7 +349,7 @@ public:
 		{
 			return mMaterialShaders[eff];
 		}
-		return NULL;
+		return nullptr;
 	}
 };
 

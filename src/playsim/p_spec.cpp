@@ -106,7 +106,7 @@ bool FLevelLocals::CheckIfExitIsGood (AActor *self, level_info_t *info)
 	cluster_info_t *clusterdef;
 
 	// The world can always exit itself.
-	if (self == NULL)
+	if (self == nullptr)
 		return true;
 
 	// We must kill all monsters to exit the Level
@@ -122,9 +122,9 @@ bool FLevelLocals::CheckIfExitIsGood (AActor *self, level_info_t *info)
 	// Is this a singleplayer game and the next map is part of the same hub and we're dead?
 	if (self->health <= 0 &&
 		!multiplayer &&
-		info != NULL &&
+		info != nullptr &&
 		info->cluster == cluster &&
-		(clusterdef = FindClusterInfo(cluster)) != NULL &&
+		(clusterdef = FindClusterInfo(cluster)) != nullptr &&
 		clusterdef->flags & CLUSTER_HUB)
 	{
 		return false;
@@ -227,7 +227,7 @@ DEFINE_ACTION_FUNCTION(_Line, Activate)
 	PARAM_POINTER(mo, AActor);
 	PARAM_INT(side);
 	PARAM_INT(activationType);
-	ACTION_RETURN_BOOL(P_ActivateLine(self, mo, side, activationType, NULL));
+	ACTION_RETURN_BOOL(P_ActivateLine(self, mo, side, activationType, nullptr));
 }
 
 DEFINE_ACTION_FUNCTION(_Line, RemoteActivate)
@@ -273,7 +273,7 @@ bool P_TestActivateLine (line_t *line, AActor *mo, int side, int activationType,
 	else if (line->special == Teleport &&
 		(lineActivation & SPAC_Cross) &&
 		activationType == SPAC_PCross &&
-		mo != NULL &&
+		mo != nullptr &&
 		mo->flags & MF_MISSILE)
 	{ // Let missiles use regular player teleports
 		lineActivation |= SPAC_PCross;
@@ -430,7 +430,7 @@ bool P_PredictLine(line_t *line, AActor *mo, int side, int activationType)
 //
 void P_ActorInSpecialSector (AActor *victim, sector_t * sector, F3DFloor* Ffloor)
 {
-	if (sector == NULL)
+	if (sector == nullptr)
 		sector = victim->Sector;
 
 	// Falling, not all the way down yet?
@@ -472,7 +472,7 @@ void P_ActorInSpecialSector (AActor *victim, sector_t * sector, F3DFloor* Ffloor
 		// different damage types yet, so that's not happening for now.
 		// [MK] account for subclasses that may have "Full" protection (i.e.: prevent leaky damage)
 		int ironfeet = 0;
-		for (auto i = victim->Inventory; i != NULL; i = i->Inventory)
+		for (auto i = victim->Inventory; i != nullptr; i = i->Inventory)
 		{
 			if (i->IsKindOf(NAME_PowerIronFeet))
 			{
@@ -497,7 +497,7 @@ void P_ActorInSpecialSector (AActor *victim, sector_t * sector, F3DFloor* Ffloor
 			{
 				if (!(victim->player && victim->player->cheats & (CF_GODMODE | CF_GODMODE2)))
 				{
-					P_DamageMobj(victim, NULL, NULL, sector->damageamount, sector->damagetype);
+					P_DamageMobj(victim, nullptr, nullptr, sector->damageamount, sector->damagetype);
 				}
 				if (victim->player && (sector->Flags & SECF_ENDLEVEL) && victim->player->health <= 10 && (!deathmatch || !(dmflags & DF_NO_EXIT)))
 				{
@@ -536,23 +536,23 @@ static void DoSectorDamage(AActor *actor, sector_t *sec, int amount, FName type,
 	if (!(actor->flags & MF_SHOOTABLE))
 		return;
 
-	if (!(flags & DAMAGE_NONPLAYERS) && actor->player == NULL)
+	if (!(flags & DAMAGE_NONPLAYERS) && actor->player == nullptr)
 		return;
 
-	if (!(flags & DAMAGE_PLAYERS) && actor->player != NULL)
+	if (!(flags & DAMAGE_PLAYERS) && actor->player != nullptr)
 		return;
 
 	if (!(flags & DAMAGE_IN_AIR) && !actor->isAtZ(sec->floorplane.ZatPoint(actor)) && !actor->waterlevel)
 		return;
 
-	if (protectClass != NULL)
+	if (protectClass != nullptr)
 	{
 		if (actor->FindInventory(protectClass, !!(flags & DAMAGE_SUBCLASSES_PROTECT)))
 			return;
 	}
 
 	int dflags = (flags & DAMAGE_NO_ARMOR) ? DMG_NO_ARMOR : 0;
-	P_DamageMobj (actor, NULL, NULL, amount, type, dflags);
+	P_DamageMobj (actor, nullptr, nullptr, amount, type, dflags);
 }
 
 void P_SectorDamage(FLevelLocals *Level, int tag, int amount, FName type, PClassActor *protectClass, int flags)
@@ -565,7 +565,7 @@ void P_SectorDamage(FLevelLocals *Level, int tag, int amount, FName type, PClass
 		sector_t *sec = &Level->sectors[secnum];
 
 		// Do for actors in this sector.
-		for (actor = sec->thinglist; actor != NULL; actor = next)
+		for (actor = sec->thinglist; actor != nullptr; actor = next)
 		{
 			next = actor->snext;
 			DoSectorDamage(actor, sec, amount, type, protectClass, flags);
@@ -576,7 +576,7 @@ void P_SectorDamage(FLevelLocals *Level, int tag, int amount, FName type, PClass
 		{
 			sector_t *sec2 = sec->e->XFloor.attached[i];
 
-			for (actor = sec2->thinglist; actor != NULL; actor = next)
+			for (actor = sec2->thinglist; actor != nullptr; actor = next)
 			{
 				next = actor->snext;
 				// Only affect actors touching the 3D floor
@@ -599,7 +599,7 @@ void P_SectorDamage(FLevelLocals *Level, int tag, int amount, FName type, PClass
 						// Here we pass the DAMAGE_IN_AIR flag to disable the floor check, since it
 						// only works with the real sector's floor. We did the appropriate height checks
 						// for 3D floors already.
-						DoSectorDamage(actor, NULL, amount, type, protectClass, flags | DAMAGE_IN_AIR);
+						DoSectorDamage(actor, nullptr, amount, type, protectClass, flags | DAMAGE_IN_AIR);
 					}
 				}
 			}
@@ -618,9 +618,9 @@ CVAR(Bool, cl_showsecretmessage, true, CVAR_ARCHIVE)
 
 void P_GiveSecret(FLevelLocals *Level, AActor *actor, bool printmessage, bool playsound, int sectornum)
 {
-	if (actor != NULL)
+	if (actor != nullptr)
 	{
-		if (actor->player != NULL)
+		if (actor->player != nullptr)
 		{
 			actor->player->secretcount++;
 		}
@@ -672,12 +672,12 @@ void P_ActorOnSpecialFlat (AActor *victim, int floorType)
 	if (Terrains[floorType].DamageAmount &&
 		!(Level->time % (Terrains[floorType].DamageTimeMask+1)))
 	{
-		AActor *ironfeet = NULL;
+		AActor *ironfeet = nullptr;
 
 		if (Terrains[floorType].AllowProtection)
 		{
 			auto pitype = PClass::FindActor(NAME_PowerIronFeet);
-			for (ironfeet = victim->Inventory; ironfeet != NULL; ironfeet = ironfeet->Inventory)
+			for (ironfeet = victim->Inventory; ironfeet != nullptr; ironfeet = ironfeet->Inventory)
 			{
 				if (ironfeet->IsKindOf (pitype))
 					break;
@@ -685,9 +685,9 @@ void P_ActorOnSpecialFlat (AActor *victim, int floorType)
 		}
 
 		int damage = 0;
-		if (ironfeet == NULL)
+		if (ironfeet == nullptr)
 		{
-			damage = P_DamageMobj (victim, NULL, NULL, Terrains[floorType].DamageAmount,
+			damage = P_DamageMobj (victim, nullptr, nullptr, Terrains[floorType].DamageAmount,
 				Terrains[floorType].DamageMOD);
 		}
 		if (damage > 0 && Terrains[floorType].Splash != -1)

@@ -102,7 +102,7 @@ void V_AddPlayerBlend (player_t *CPlayer, float blend[4], float maxinvalpha, int
 	auto Level = CPlayer->mo->Level;
 
 	// [RH] All powerups can affect the screen blending now
-	for (AActor *item = CPlayer->mo->Inventory; item != NULL; item = item->Inventory)
+	for (AActor *item = CPlayer->mo->Inventory; item != nullptr; item = item->Inventory)
 	{
 		PalEntry color = 0;
 
@@ -346,10 +346,10 @@ FVector4 V_CalcBlend(sector_t* viewsector, PalEntry* modulateColor)
 		V_AddPlayerBlend(player, blend, 0.5, 175);
 	}
 
-	if (players[consoleplayer].camera != NULL)
+	if (players[consoleplayer].camera != nullptr)
 	{
 		// except for fadeto effects
-		player_t* player = (players[consoleplayer].camera->player != NULL) ? players[consoleplayer].camera->player : &players[consoleplayer];
+		player_t* player = (players[consoleplayer].camera->player != nullptr) ? players[consoleplayer].camera->player : &players[consoleplayer];
 		V_AddBlend(player->BlendR, player->BlendG, player->BlendB, player->BlendA, blend);
 	}
 

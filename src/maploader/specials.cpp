@@ -418,7 +418,7 @@ void MapLoader::SpawnPortal(line_t *line, int sectortag, int plane, int bytealph
 void MapLoader::SpawnSkybox(AActor *origin)
 {
 	sector_t *Sector = origin->Sector;
-	if (Sector == NULL)
+	if (Sector == nullptr)
 	{
 		Printf("Sector not initialized for SkyCamCompat\n");
 		origin->Sector = Sector = Level->PointInSector(origin->Pos());
@@ -778,7 +778,7 @@ void MapLoader::SpawnSpecials ()
 			}
 			else if (line.args[1] == 3 || line.args[1] == 4)
 			{
-				unsigned pnum = Level->GetPortal(line.args[1] == 3 ? PORTS_PLANE : PORTS_HORIZON, line.args[2], line.frontsector, NULL, { 0,0 });
+				unsigned pnum = Level->GetPortal(line.args[1] == 3 ? PORTS_PLANE : PORTS_HORIZON, line.args[2], line.frontsector, nullptr, { 0,0 });
 				CopyPortal(line.args[0], line.args[2], pnum, 0, true);
 			}
 			break;
@@ -880,7 +880,7 @@ void MapLoader::SpawnSpecials ()
 		}
 	}
 	// [RH] Start running any open scripts on this map
-	Level->Behaviors.StartTypedScripts (SCRIPT_Open, NULL, false);
+	Level->Behaviors.StartTypedScripts (SCRIPT_Open, nullptr, false);
 }
 
 //-----------------------------------------------------------------------------
@@ -1138,7 +1138,7 @@ void MapLoader::SpawnLights(sector_t *sector)
 /////////////////////////////
 //
 // P_GetPushThing() returns a pointer to an MT_PUSH or MT_PULL thing,
-// NULL otherwise.
+// nullptr otherwise.
 
 AActor *MapLoader::GetPushThing(int s)
 {
@@ -1198,7 +1198,7 @@ void MapLoader::SpawnPushers()
 					if (thing) {	// No MT_P* means no effect
 						// [RH] Allow narrowing it down by tid
 						if (!l->args[1] || l->args[1] == thing->tid)
-							Level->CreateThinker<DPusher>(DPusher::p_push, l->args[3] ? l : NULL, l->args[2],
+							Level->CreateThinker<DPusher>(DPusher::p_push, l->args[3] ? l : nullptr, l->args[2],
 								0, thing, s);
 					}
 				}
@@ -1212,7 +1212,7 @@ void MapLoader::SpawnPushers()
 					if (thing->IsKindOf(NAME_PointPusher) ||
 						thing->IsKindOf(NAME_PointPuller))
 					{
-						Level->CreateThinker<DPusher>(DPusher::p_push, l->args[3] ? l : NULL, l->args[2], 0, thing, thing->Sector->Index());
+						Level->CreateThinker<DPusher>(DPusher::p_push, l->args[3] ? l : nullptr, l->args[2], 0, thing, thing->Sector->Index());
 					}
 				}
 			}

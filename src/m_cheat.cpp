@@ -64,7 +64,7 @@ uint8_t globalfreeze, globalchangefreeze;	// user's freeze state.
 
 void cht_DoMDK(player_t *player, const char *mod)
 {
-	if (player->mo == NULL)
+	if (player->mo == nullptr)
 	{
 		Printf("%s\n", GStrings.GetString("TXT_WHAT_KILL"));
 	}
@@ -180,7 +180,7 @@ void cht_DoCheat (player_t *player, int cheat)
 		break;
 
 	case CHT_FLY:
-		if (player->mo != NULL)
+		if (player->mo != nullptr)
 		{
 			player->mo->flags7 ^= MF7_FLYCHEAT;
 			if (player->mo->flags7 & MF7_FLYCHEAT)
@@ -229,10 +229,10 @@ void cht_DoCheat (player_t *player, int cheat)
 		break;
 
 	case CHT_CHAINSAW:
-		if (player->mo != NULL && player->health >= 0)
+		if (player->mo != nullptr && player->health >= 0)
 		{
 			type = PClass::FindActor("Chainsaw");
-			if (player->mo->FindInventory (type) == NULL)
+			if (player->mo->FindInventory (type) == nullptr)
 			{
 				player->mo->GiveInventoryType (type);
 			}
@@ -245,10 +245,10 @@ void cht_DoCheat (player_t *player, int cheat)
 		break;
 
 	case CHT_POWER:
-		if (player->mo != NULL && player->health >= 0)
+		if (player->mo != nullptr && player->health >= 0)
 		{
 			item = player->mo->FindInventory (PClass::FindActor(NAME_PowerWeaponLevel2), true);
-			if (item != NULL)
+			if (item != nullptr)
 			{
 				item->Destroy ();
 				msg = GStrings.GetString("TXT_CHEATPOWEROFF");
@@ -296,10 +296,10 @@ void cht_DoCheat (player_t *player, int cheat)
 				Level->flags2 ^= LEVEL2_ALLMAP;
 			}
 		}
-		else if (player->mo != NULL && player->health >= 0)
+		else if (player->mo != nullptr && player->health >= 0)
 		{
 			item = player->mo->FindInventory(BeholdPowers[i]);
-			if (item == NULL)
+			if (item == nullptr)
 			{
 				if (i != 0)
 				{
@@ -344,7 +344,7 @@ void cht_DoCheat (player_t *player, int cheat)
 		break;
 
 	case CHT_HEALTH:
-		if (player->mo != NULL && player->playerstate == PST_LIVE)
+		if (player->mo != nullptr && player->playerstate == PST_LIVE)
 		{
 			player->health = player->mo->health = player->mo->GetDefault()->health;
 			msg = GStrings.GetString("TXT_CHEATHEALTH");
@@ -475,7 +475,7 @@ void cht_DoCheat (player_t *player, int cheat)
 		break;
 
 	case CHT_LEGO:
-		if (player->mo != NULL && player->health >= 0)
+		if (player->mo != nullptr && player->health >= 0)
 		{
 			static VMFunction *gsp = nullptr;
 			if (gsp == nullptr) PClass::FindFunction(&gsp, NAME_Sigil, NAME_GiveSigilPiece);
@@ -488,7 +488,7 @@ void cht_DoCheat (player_t *player, int cheat)
 				VMCall(gsp, params, 1, &ret, 1);
 				item = player->mo->FindInventory(NAME_Sigil);
 
-				if (item != NULL)
+				if (item != nullptr)
 				{
 					if (oldpieces == 5)
 					{
@@ -658,7 +658,7 @@ void cht_Suicide (player_t *plyr)
 	// so the console has not gone up yet. Use a temporary thinker to delay
 	// the suicide until the game ticks so that death noises can be heard on
 	// the initial tick.
-	if (plyr->mo != NULL)
+	if (plyr->mo != nullptr)
 	{
 		DSuicider *suicide = plyr->mo->Level->CreateThinker<DSuicider>();
 		suicide->Pawn = plyr->mo;

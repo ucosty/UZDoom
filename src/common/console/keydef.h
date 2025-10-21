@@ -153,7 +153,7 @@ enum EKeyCodes
 // codes are used for translating between axes and keys.
 enum EAxisCodes
 {
-	AXIS_CODE_NULL = -1,
+	AXIS_CODE_nullptr = -1,
 
 	AXIS_CODE_JOY1_PLUS = 0,
 	AXIS_CODE_JOY1_MINUS,

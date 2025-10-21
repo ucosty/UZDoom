@@ -82,7 +82,7 @@ public:
 
 	void Open(const char *label)
 	{
-		size_t labellen = label != NULL ? strlen(label) : 0;
+		size_t labellen = label != nullptr ? strlen(label) : 0;
 		CheckWrap(labellen + 1 + NeedSpace);
 		if (NeedSpace)
 		{
@@ -91,13 +91,13 @@ public:
 		}
 		Str << '(';
 		ConsecOpens++;
-		if (label != NULL)
+		if (label != nullptr)
 		{
 			Str.AppendCStrPart(label, labellen);
 		}
 		Column += labellen + 1 + NeedSpace;
 		NestDepth++;
-		NeedSpace = (label != NULL);
+		NeedSpace = (label != nullptr);
 	}
 	void Close()
 	{
@@ -229,7 +229,7 @@ static void PrintNodes(FLispString &out, const ZCC_TreeNode *node, bool newlist=
 {
 	const ZCC_TreeNode *p;
 
-	if (node == NULL)
+	if (node == nullptr)
 	{
 		out.Add("nil", 3);
 	}
@@ -237,7 +237,7 @@ static void PrintNodes(FLispString &out, const ZCC_TreeNode *node, bool newlist=
 	{
 		if (newlist)
 		{
-			out.Open(NULL);
+			out.Open(nullptr);
 		}
 		p = node;
 		do
@@ -367,7 +367,7 @@ static void PrintEnum(FLispString &out, const ZCC_TreeNode *node)
 	out.Open("enum");
 	out.AddName(enode->NodeName);
 	PrintBuiltInType(out, enode->EnumType);
-	out.Add(enode->Elements == NULL ? "nil" : "...", 3);
+	out.Add(enode->Elements == nullptr ? "nil" : "...", 3);
 	out.Close();
 }
 

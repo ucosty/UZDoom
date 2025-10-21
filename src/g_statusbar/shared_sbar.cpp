@@ -146,7 +146,7 @@ void V_DrawFrame(F2DDrawer* drawer, int left, int top, int width, int height, bo
 	FGameTexture* p;
 	const gameborder_t* border = &gameinfo.Border;
 	// Sanity check for incomplete gameinfo
-	if (border == NULL)
+	if (border == nullptr)
 		return;
 	int offset = border->offset;
 	int right = left + width;
@@ -224,9 +224,9 @@ void ST_LoadCrosshair(bool alwaysload)
 	int num = 0;
 
 	if (!crosshairforce &&
-		players[consoleplayer].camera != NULL &&
-		players[consoleplayer].camera->player != NULL &&
-		players[consoleplayer].camera->player->ReadyWeapon != NULL)
+		players[consoleplayer].camera != nullptr &&
+		players[consoleplayer].camera->player != nullptr &&
+		players[consoleplayer].camera->player->ReadyWeapon != nullptr)
 	{
 		num = players[consoleplayer].camera->player->ReadyWeapon->IntVar(NAME_Crosshair);
 	}
@@ -250,10 +250,10 @@ void ST_LoadCrosshair(bool alwaysload)
 
 void ST_Clear()
 {
-	if (StatusBar != NULL)
+	if (StatusBar != nullptr)
 	{
 		StatusBar->Destroy();
-		StatusBar = NULL;
+		StatusBar = nullptr;
 	}
 	ST_UnloadCrosshair();
 }
@@ -302,10 +302,10 @@ static void CreateGameInfoStatusBar(bool &shouldWarn)
 
 void ST_CreateStatusBar(bool bTitleLevel)
 {
-	if (StatusBar != NULL)
+	if (StatusBar != nullptr)
 	{
 		StatusBar->Destroy();
-		StatusBar = NULL;
+		StatusBar = nullptr;
 	}
 	GC::AddMarkerFunc([]() { GC::Mark(StatusBar); });
 
@@ -392,7 +392,7 @@ DBaseStatusBar::DBaseStatusBar ()
 	CrosshairSize = PrevCrosshairSize = 1.;
 	memset(Messages, 0, sizeof(Messages));
 	Displacement = 0;
-	CPlayer = NULL;
+	CPlayer = nullptr;
 	ShowLog = false;
 	defaultScale = { (double)CleanXfac, (double)CleanYfac };
 	SetSize(0);
@@ -747,13 +747,13 @@ void DBaseStatusBar::CallTick()
 
 void DBaseStatusBar::AttachMessage (DHUDMessageBase *msg, uint32_t id, int layer)
 {
-	DHUDMessageBase *old = NULL;
+	DHUDMessageBase *old = nullptr;
 	DObject* pointing;
 	TObjPtr<DHUDMessageBase *>*prevp;
 	DHUDMessageBase* prev;
 
-	old = (id == 0 || id == 0xFFFFFFFF) ? NULL : DetachMessage (id);
-	if (old != NULL)
+	old = (id == 0 || id == 0xFFFFFFFF) ? nullptr : DetachMessage (id);
+	if (old != nullptr)
 	{
 		old->Destroy();
 	}
@@ -771,7 +771,7 @@ void DBaseStatusBar::AttachMessage (DHUDMessageBase *msg, uint32_t id, int layer
 	// The ID serves as a priority, where lower numbers appear in front of
 	// higher numbers. (i.e. The list is sorted in descending order, since
 	// it gets drawn back to front.)
-	while (prev != NULL && prev->SBarID > id)
+	while (prev != nullptr && prev->SBarID > id)
 	{
 		pointing = prev;
 		prevp = &prev->Next;
@@ -805,7 +805,7 @@ DHUDMessageBase *DBaseStatusBar::DetachMessage (DHUDMessageBase *msg)
 			prev = &probe->Next;
 			probe = probe->Next;
 		}
-		if (probe != NULL)
+		if (probe != nullptr)
 		{
 			GC::WriteBarrier(pointing, probe->Next);
 			*prev = probe->Next;
@@ -813,7 +813,7 @@ DHUDMessageBase *DBaseStatusBar::DetachMessage (DHUDMessageBase *msg)
 			return probe;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 DHUDMessageBase *DBaseStatusBar::DetachMessage (uint32_t id)
@@ -830,7 +830,7 @@ DHUDMessageBase *DBaseStatusBar::DetachMessage (uint32_t id)
 			prev = &probe->Next;
 			probe = probe->Next;
 		}
-		if (probe != NULL)
+		if (probe != nullptr)
 		{
 			GC::WriteBarrier(pointing, probe->Next);
 			*prev = probe->Next;
@@ -838,7 +838,7 @@ DHUDMessageBase *DBaseStatusBar::DetachMessage (uint32_t id)
 			return probe;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //---------------------------------------------------------------------------
@@ -854,7 +854,7 @@ void DBaseStatusBar::DetachAllMessages ()
 		DHUDMessageBase *probe = Messages[i];
 
 		Messages[i] = nullptr;
-		while (probe != NULL)
+		while (probe != nullptr)
 		{
 			DHUDMessageBase *next = probe->Next;
 			probe->Destroy();
@@ -971,7 +971,7 @@ void DBaseStatusBar::RefreshBackground () const
 		if (setblocks >= 10)
 		{
 			FGameTexture *p = TexMan.GetGameTextureByName(gameinfo.Border.b.c_str());
-			if (p != NULL)
+			if (p != nullptr)
 			{
 				if (!ui_screenborder_classic_scaling)
 				{
@@ -1343,7 +1343,7 @@ void DBaseStatusBar::ScreenSizeChanged ()
 	for (size_t i = 0; i < countof(Messages); ++i)
 	{
 	DHUDMessageBase *message = Messages[i];
-		while (message != NULL)
+		while (message != nullptr)
 		{
 			message->CallScreenSizeChanged ();
 			message = message->Next;
@@ -1404,7 +1404,7 @@ CCMD (showpop)
 	{
 		Printf ("Usage: showpop <popnumber>\n");
 	}
-	else if (StatusBar != NULL)
+	else if (StatusBar != nullptr)
 	{
 		int popnum = atoi (argv[1]);
 		if (popnum < 0)
@@ -1432,7 +1432,7 @@ static DObject *InitObject(PClass *type, int paramnum, VM_ARGS)
 
 int GetInventoryIcon(AActor *item, uint32_t flags, int *applyscale)
 {
-	if (applyscale != NULL)
+	if (applyscale != nullptr)
 	{
 		*applyscale = false;
 	}
@@ -1440,7 +1440,7 @@ int GetInventoryIcon(AActor *item, uint32_t flags, int *applyscale)
 	if (item == nullptr) return 0;
 
 	FTextureID picnum, Icon = item->TextureIDVar(NAME_Icon), AltIcon = item->TextureIDVar(NAME_AltHUDIcon);
-	FState * state = NULL, *ReadyState;
+	FState * state = nullptr, *ReadyState;
 
 	picnum.SetNull();
 	if (flags & DI_ALTICONFIRST)
@@ -1464,7 +1464,7 @@ int GetInventoryIcon(AActor *item, uint32_t flags, int *applyscale)
 		{
 			state = item->SpawnState;
 
-			if (applyscale != NULL && !(flags & DI_FORCESCALE))
+			if (applyscale != nullptr && !(flags & DI_FORCESCALE))
 			{
 				*applyscale = true;
 			}

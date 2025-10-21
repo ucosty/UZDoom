@@ -246,7 +246,7 @@ public:
 	FFont* mTooltipFont;
 	static int InMenu;
 
-	DMenu(DMenu *parent = NULL);
+	DMenu(DMenu *parent = nullptr);
 	bool TranslateKeyboardEvents();
 	virtual void Close();
 

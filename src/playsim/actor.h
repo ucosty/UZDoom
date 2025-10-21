@@ -956,7 +956,7 @@ public:
 		return static_cast<T *> (FindInventory (RUNTIME_CLASS(T)));
 	}
 
-	// Adds one item of a particular type. Returns NULL if it could not be added.
+	// Adds one item of a particular type. Returns nullptr if it could not be added.
 	AActor *GiveInventoryType (PClassActor *type);
 
 	// Set the alphacolor field properly
@@ -992,7 +992,7 @@ public:
 
 	inline bool IsNoClip2() const;
 	void CheckPortalTransition(bool islinked);
-	DVector3 GetPortalTransition(double byoffset, sector_t **pSec = NULL);
+	DVector3 GetPortalTransition(double byoffset, sector_t **pSec = nullptr);
 
 	// What species am I?
 	FName GetSpecies();
@@ -1129,7 +1129,7 @@ public:
 
 	double GetGravity() const;
 	bool IsSentient() const;
-	const char *GetTag(const char *def = NULL) const;
+	const char *GetTag(const char *def = nullptr) const;
 	void SetTag(const char *def);
 	const char *GetCharacterName() const;
 
@@ -1255,7 +1255,7 @@ public:
 	int16_t			LightLevel;		// Allows for overriding sector light levels.
 	uint16_t			SpawnAngle;
 
-	TObjPtr<AActor*> target;			// thing being chased/attacked (or NULL)
+	TObjPtr<AActor*> target;			// thing being chased/attacked (or nullptr)
 									// also the originator for missiles
 	TObjPtr<AActor*>	lastenemy;		// Last known enemy -- killough 2/15/98
 	TObjPtr<AActor*> LastHeard;		// [RH] Last actor this one heard
@@ -1435,7 +1435,7 @@ private:
 	bool FixMapthingPos();
 
 public:
-	void LinkToWorld (FLinkContext *ctx, bool spawningmapthing=false, sector_t *sector = NULL);
+	void LinkToWorld (FLinkContext *ctx, bool spawningmapthing=false, sector_t *sector = nullptr);
 	void UnlinkFromWorld(FLinkContext *ctx);
 	void AdjustFloorClip ();
 	bool IsMapActor();

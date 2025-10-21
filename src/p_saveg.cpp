@@ -359,7 +359,7 @@ void FLevelLocals::RecalculateDrawnSubsectors()
 	{
 		for (unsigned int j = 0; j<sub.numlines; j++)
 		{
-			if (sub.firstline[j].linedef != NULL &&
+			if (sub.firstline[j].linedef != nullptr &&
 				(sub.firstline[j].linedef->flags & ML_MAPPED))
 			{
 				sub.flags |= SSECMF_DRAWN;
@@ -573,7 +573,7 @@ void FLevelLocals::SerializeSounds(FSerializer &arc)
 	if (isPrimaryLevel())
 	{
 		S_SerializeSounds(arc);
-		const char *name = NULL;
+		const char *name = nullptr;
 		uint8_t order;
 		float musvol = MusicVolume;
 
@@ -902,7 +902,7 @@ void FLevelLocals::SpawnExtraPlayers()
 
 	for (i = 0; i < MAXPLAYERS; ++i)
 	{
-		if (PlayerInGame(i) && Players[i]->mo == NULL)
+		if (PlayerInGame(i) && Players[i]->mo == nullptr)
 		{
 			Players[i]->playerstate = PST_ENTER;
 			SpawnPlayer(&playerstarts[i], i, (flags2 & LEVEL2_PRERAISEWEAPON) ? SPF_WEAPONFULLYUP : 0);

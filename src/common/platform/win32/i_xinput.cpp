@@ -243,8 +243,8 @@ static const EAxisCodes AxisCodes[][2] =
 	{ AXIS_CODE_PAD_LTHUMB_DOWN, AXIS_CODE_PAD_LTHUMB_UP },
 	{ AXIS_CODE_PAD_RTHUMB_RIGHT, AXIS_CODE_PAD_RTHUMB_LEFT },
 	{ AXIS_CODE_PAD_RTHUMB_DOWN, AXIS_CODE_PAD_RTHUMB_UP },
-	{ AXIS_CODE_PAD_LTRIGGER, AXIS_CODE_NULL },
-	{ AXIS_CODE_PAD_RTRIGGER, AXIS_CODE_NULL }
+	{ AXIS_CODE_PAD_LTRIGGER, AXIS_CODE_nullptr },
+	{ AXIS_CODE_PAD_RTRIGGER, AXIS_CODE_nullptr }
 };
 
 FXInputController::DefaultAxisConfig FXInputController::DefaultAxes[NUM_AXES] =
@@ -470,7 +470,7 @@ void FXInputController::Detached()
 	}
 	Joy_GenerateButtonEvents(LastButtons, 0, 16, KEY_PAD_DPAD_UP);
 	LastButtons = 0;
-	UpdateJoystickMenu(NULL);
+	UpdateJoystickMenu(nullptr);
 }
 
 //==========================================================================
@@ -487,7 +487,7 @@ void FXInputController::AddAxes(float axes[NUM_AXIS_CODES])
 	{
 		// Add to the game axis.
 		float axis_value = float(Axes[i].Value * Multiplier * Axes[i].Multiplier);
-		int code = AXIS_CODE_NULL;
+		int code = AXIS_CODE_nullptr;
 
 		if (axis_value > 0.0f)
 		{
@@ -498,7 +498,7 @@ void FXInputController::AddAxes(float axes[NUM_AXIS_CODES])
 			code = AxisCodes[i][1];
 		}
 
-		if (code != AXIS_CODE_NULL)
+		if (code != AXIS_CODE_nullptr)
 		{
 			axes[code] += fabs(axis_value);
 		}
@@ -892,7 +892,7 @@ void FXInputController::SetEnabled(bool enabled)
 FXInputManager::FXInputManager()
 {
 	XInputDLL = LoadLibrary(XINPUT_DLL);
-	if (XInputDLL != NULL)
+	if (XInputDLL != nullptr)
 	{
 		InputGetState = (XInputGetStateType)GetProcAddress(XInputDLL, "XInputGetState");
 		InputSetState = (XInputSetStateType)GetProcAddress(XInputDLL, "XInputSetState");
@@ -901,15 +901,15 @@ FXInputManager::FXInputManager()
 		// Treat XInputEnable() function as optional
 		// It is not available in xinput9_1_0.dll which is XINPUT_DLL in modern SDKs
 		// See https://msdn.microsoft.com/en-us/library/windows/desktop/hh405051(v=vs.85).aspx
-		if (InputGetState == NULL || InputSetState == NULL || InputGetCapabilities == NULL)
+		if (InputGetState == nullptr || InputSetState == nullptr || InputGetCapabilities == nullptr)
 		{
 			FreeLibrary(XInputDLL);
-			XInputDLL = NULL;
+			XInputDLL = nullptr;
 		}
 	}
 	for (int i = 0; i < XUSER_MAX_COUNT; ++i)
 	{
-		Devices[i] = (XInputDLL != NULL) ? new FXInputController(i) : NULL;
+		Devices[i] = (XInputDLL != nullptr) ? new FXInputController(i) : nullptr;
 	}
 }
 
@@ -923,12 +923,12 @@ FXInputManager::~FXInputManager()
 {
 	for (int i = 0; i < XUSER_MAX_COUNT; ++i)
 	{
-		if (Devices[i] != NULL)
+		if (Devices[i] != nullptr)
 		{
 			delete Devices[i];
 		}
 	}
-	if (XInputDLL != NULL)
+	if (XInputDLL != nullptr)
 	{
 		FreeLibrary(XInputDLL);
 	}
@@ -942,7 +942,7 @@ FXInputManager::~FXInputManager()
 
 bool FXInputManager::GetDevice()
 {
-	return (XInputDLL != NULL);
+	return (XInputDLL != nullptr);
 }
 
 //==========================================================================
@@ -1051,7 +1051,7 @@ void FXInputManager::Rumble(float low_freq, float high_freq) {
 
 IJoystickConfig *FXInputManager::Rescan()
 {
-	return NULL;
+	return nullptr;
 }
 
 //===========================================================================
@@ -1064,16 +1064,16 @@ void I_StartupXInput()
 {
 	if (!joy_xinput || !use_joystick || Args->CheckParm("-nojoy"))
 	{
-		if (JoyDevices[INPUT_XInput] != NULL)
+		if (JoyDevices[INPUT_XInput] != nullptr)
 		{
 			delete JoyDevices[INPUT_XInput];
-			JoyDevices[INPUT_XInput] = NULL;
-			UpdateJoystickMenu(NULL);
+			JoyDevices[INPUT_XInput] = nullptr;
+			UpdateJoystickMenu(nullptr);
 		}
 	}
 	else
 	{
-		if (JoyDevices[INPUT_XInput] == NULL)
+		if (JoyDevices[INPUT_XInput] == nullptr)
 		{
 			FJoystickCollection *joys = new FXInputManager;
 			if (joys->GetDevice())
@@ -1092,7 +1092,7 @@ void I_Rumble(double high_freq, double low_freq, double _left_trig, double _righ
 	if (!use_joystick) return;
 
 	FXInputManager* XInputManager = & static_cast<FXInputManager&> (*JoyDevices[INPUT_XInput]);
-	if (XInputManager != NULL)
+	if (XInputManager != nullptr)
 	{
 		XInputManager->Rumble(high_freq, low_freq);
 	}

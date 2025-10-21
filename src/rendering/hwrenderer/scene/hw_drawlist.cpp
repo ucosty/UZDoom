@@ -82,7 +82,7 @@ static StaticSortNodeArray SortNodes;
 void HWDrawList::Reset()
 {
 	if (sorted) SortNodes.Release(SortNodeStart);
-	sorted=NULL;
+	sorted=nullptr;
 	walls.Clear();
 	flats.Clear();
 	sprites.Clear();
@@ -98,7 +98,7 @@ inline void SortNode::UnlinkFromChain()
 {
 	if (parent) parent->next=next;
 	if (next) next->parent=parent;
-	parent=next=NULL;
+	parent=next=nullptr;
 }
 
 //==========================================================================
@@ -165,12 +165,12 @@ void HWDrawList::MakeSortList()
 	unsigned i;
 
 	SortNodeStart=SortNodes.Size();
-	p=NULL;
+	p=nullptr;
 	n=SortNodes.GetNew();
 	for(i=0;i<drawitems.Size();i++)
 	{
 		n->itemindex=(int)i;
-		n->left=n->equal=n->right=NULL;
+		n->left=n->equal=n->right=nullptr;
 		n->parent=p;
 		p=n;
 		if (i!=drawitems.Size()-1)
@@ -181,7 +181,7 @@ void HWDrawList::MakeSortList()
 		}
 		else
 		{
-			n->next=NULL;
+			n->next=nullptr;
 		}
 	}
 }
@@ -197,7 +197,7 @@ SortNode * HWDrawList::FindSortPlane(SortNode * head)
 	while (head->next && drawitems[head->itemindex].rendertype!=DrawType_FLAT) 
 		head=head->next;
 	if (drawitems[head->itemindex].rendertype==DrawType_FLAT) return head;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -210,7 +210,7 @@ SortNode * HWDrawList::FindSortWall(SortNode * head)
 {
 	float farthest = -FLT_MAX;
 	float nearest = FLT_MAX;
-	SortNode * best = NULL;
+	SortNode * best = nullptr;
 	SortNode * node = head;
 	float bestdist = FLT_MAX;
 
@@ -225,7 +225,7 @@ SortNode * HWDrawList::FindSortWall(SortNode * head)
 		}
 		node = node->next;
 	}
-	if (farthest == INT_MIN) return NULL;
+	if (farthest == INT_MIN) return nullptr;
 	node = head;
 	farthest = (farthest + nearest) / 2;
 	while (node)
@@ -626,7 +626,7 @@ SortNode * HWDrawList::SortSpriteList(SortNode * head)
 
 	for(i=0;i<sortspritelist.Size();i++)
 	{
-		sortspritelist[i]->next=NULL;
+		sortspritelist[i]->next=nullptr;
 		if (parent) parent->equal=sortspritelist[i];
 		parent=sortspritelist[i];
 	}

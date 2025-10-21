@@ -54,11 +54,11 @@
 struct FState; // needed for FxConstant. Maybe move the state constructor to a subclass later?
 
 #define CHECKRESOLVED() if (isresolved) return this; isresolved=true;
-#define SAFE_DELETE(p) if (p!=NULL) { delete p; p=NULL; }
-#define RESOLVE(p,c) if (p!=NULL) p = p->Resolve(c)
-#define ABORT(p) if (!(p)) { delete this; return NULL; }
+#define SAFE_DELETE(p) if (p!=nullptr) { delete p; p=nullptr; }
+#define RESOLVE(p,c) if (p!=nullptr) p = p->Resolve(c)
+#define ABORT(p) if (!(p)) { delete this; return nullptr; }
 #define SAFE_RESOLVE(p,c) RESOLVE(p,c); ABORT(p) 
-#define SAFE_RESOLVE_OPT(p,c) if (p!=NULL) { SAFE_RESOLVE(p,c) }
+#define SAFE_RESOLVE_OPT(p,c) if (p!=nullptr) { SAFE_RESOLVE(p,c) }
 
 class VMFunctionBuilder;
 class FxJumpStatement;
@@ -1893,7 +1893,7 @@ public:
 	FxSequence(const FScriptPosition &pos) : FxExpression(EFX_Sequence, pos) {}
 	FxExpression *Resolve(FCompileContext&);
 	ExpEmit Emit(VMFunctionBuilder *build);
-	void Add(FxExpression *expr) { if (expr != NULL) Expressions.Push(expr); expr->NeedResult = false; }
+	void Add(FxExpression *expr) { if (expr != nullptr) Expressions.Push(expr); expr->NeedResult = false; }
 	VMFunction *GetDirectFunction(PFunction *func, const VersionInfo &ver);
 	bool CheckReturn();
 };

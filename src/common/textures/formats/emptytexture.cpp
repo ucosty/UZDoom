@@ -61,10 +61,10 @@ public:
 FImageSource *EmptyImage_TryCreate(FileReader & file, int lumpnum)
 {
 	char check[8];
-	if (file.GetLength() != 8) return NULL;
+	if (file.GetLength() != 8) return nullptr;
 	file.Seek(0, FileReader::SeekSet);
-	if (file.Read(check, 8) != 8) return NULL;
-	if (memcmp(check, "\0\0\0\0\0\0\0\0", 8)) return NULL;
+	if (file.Read(check, 8) != 8) return nullptr;
+	if (memcmp(check, "\0\0\0\0\0\0\0\0", 8)) return nullptr;
 
 	return new FEmptyTexture(lumpnum);
 }

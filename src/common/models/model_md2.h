@@ -99,15 +99,15 @@ public:
 	FDMDModel() 
 	{ 
 		mLumpNum = -1;
-		frames = NULL;
-		skins = NULL;
+		frames = nullptr;
+		skins = nullptr;
 		for (int i = 0; i < MAX_LODS; i++)
 		{
-			lods[i].triangles = NULL;
+			lods[i].triangles = nullptr;
 		}
 		info.numLODs = 0;
-		texCoords = NULL;
-		framevtx = NULL;
+		texCoords = nullptr;
+		framevtx = nullptr;
 	}
 	virtual ~FDMDModel();
 

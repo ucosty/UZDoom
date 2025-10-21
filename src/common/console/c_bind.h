@@ -52,7 +52,7 @@ class FKeyBindings
 public:
 	void PerformBind(FCommandLine &argv, const char *msg);
 	bool DoKey(event_t *ev);
-	void ArchiveBindings(FConfigFile *F, const char *matchcmd = NULL);
+	void ArchiveBindings(FConfigFile *F, const char *matchcmd = nullptr);
 	int  GetKeysForCommand (const char *cmd, int *first, int *second);
 	TArray<int> GetKeysForCommand (const char *cmd);
 	void UnbindACommand (const char *str);
@@ -79,7 +79,7 @@ public:
 			auto c = Binds[index].c_str();
 			if (*c) return c;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 };

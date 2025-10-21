@@ -166,8 +166,8 @@ struct vertex_t
 		viewangle = 0;
 		dirty = true;
 		numheights = numsectors = 0;
-		sectors = NULL;
-		heightlist = NULL;
+		sectors = nullptr;
+		heightlist = nullptr;
 	}
 
 	~vertex_t()
@@ -250,8 +250,8 @@ struct FUDMFKey
 	FUDMFKey& operator =(const FString &val)
 	{
 		Type = UDMF_String;
-		IntVal = (int)strtoll(val.c_str(), NULL, 0);
-		FloatVal = strtod(val.c_str(), NULL);
+		IntVal = (int)strtoll(val.c_str(), nullptr, 0);
+		FloatVal = strtod(val.c_str(), nullptr);
 		StringVal = val;
 		return *this;
 	}
@@ -683,7 +683,7 @@ struct sector_t
 	secplane_t	floorplane, ceilingplane;	// [RH] store floor and ceiling planes instead of heights
 	DVector2	centerspot;					// origin for any sounds played by the sector
 	TStaticPointedArray<line_t *> Lines;
-	sector_t *heightsec;					// killough 3/7/98: support flat heights drawn at another sector's heights other sector, or NULL if no other sector
+	sector_t *heightsec;					// killough 3/7/98: support flat heights drawn at another sector's heights other sector, or nullptr if no other sector
 
 	struct msecnode_t *sectorportal_thinglist;		// for cross-portal rendering.
 	struct msecnode_t *touching_renderthings; 		// this is used to allow wide things to be rendered not only from their main sector.
@@ -822,7 +822,7 @@ public:
 		return (MoreFlags & SECMF_IGNOREHEIGHTSEC)? nullptr : heightsec;
 	}
 
-	double GetFriction(int plane = sector_t::floor, double *movefac = NULL) const;
+	double GetFriction(int plane = sector_t::floor, double *movefac = nullptr) const;
 	bool TriggerSectorActions(AActor *thing, int activation);
 
 	DInterpolation *SetInterpolation(int position, bool attach);
@@ -1142,8 +1142,8 @@ public:
 	void SetSpecial(const secspecial_t *spec);
 	bool PlaneMoving(int pos);
 
-	inline double HighestCeilingAt(AActor *a, sector_t **resultsec = NULL);
-	inline double LowestFloorAt(AActor *a, sector_t **resultsec = NULL);
+	inline double HighestCeilingAt(AActor *a, sector_t **resultsec = nullptr);
+	inline double LowestFloorAt(AActor *a, sector_t **resultsec = nullptr);
 
 	bool isClosed() const
 	{
@@ -1275,7 +1275,7 @@ struct side_t
 
 	int dithertranscount;
 
-	int GetLightLevel (bool foggy, int baselight, int which, bool is3dlight=false, int *pfakecontrast_usedbygzdoom=NULL) const;
+	int GetLightLevel (bool foggy, int baselight, int which, bool is3dlight=false, int *pfakecontrast_usedbygzdoom=nullptr) const;
 
 	void SetLight(int16_t l)
 	{
@@ -1580,7 +1580,7 @@ inline vertex_t *side_t::V2() const
 // As an mobj moves through the world, these nodes are created and
 // destroyed, with the links changed appropriately.
 //
-// For the links, NULL means top or end of list.
+// For the links, nullptr means top or end of list.
 
 struct msecnode_t
 {
@@ -1621,7 +1621,7 @@ struct seg_t
 
 	// Sector references. Could be retrieved from linedef, too.
 	sector_t*		frontsector;
-	sector_t*		backsector;		// NULL for one-sided lines
+	sector_t*		backsector;		// nullptr for one-sided lines
 
 	seg_t*			PartnerSeg;
 	subsector_t*	Subsector;
@@ -1735,7 +1735,7 @@ struct FMiniBSP
 
 enum SurfaceType
 {
-	ST_NULL,
+	ST_nullptr,
 	ST_MIDDLEWALL,
 	ST_UPPERWALL,
 	ST_LOWERWALL,
@@ -1812,8 +1812,8 @@ sector_t *FindModelFloorSector(sector_t *sec, double floordestheight);		// jff 2
 sector_t *FindModelCeilingSector(sector_t *sec, double floordestheight);		// jff 2/04/98
 double FindLowestCeilingPoint(const sector_t *sec, vertex_t **v);
 
-double NextHighestCeilingAt(sector_t *sec, double x, double y, double bottomz, double topz, int flags = 0, sector_t **resultsec = NULL, F3DFloor **resultffloor = NULL);
-double NextLowestFloorAt(sector_t *sec, double x, double y, double z, int flags = 0, double steph = 0, sector_t **resultsec = NULL, F3DFloor **resultffloor = NULL);
+double NextHighestCeilingAt(sector_t *sec, double x, double y, double bottomz, double topz, int flags = 0, sector_t **resultsec = nullptr, F3DFloor **resultffloor = nullptr);
+double NextLowestFloorAt(sector_t *sec, double x, double y, double z, int flags = 0, double steph = 0, sector_t **resultsec = nullptr, F3DFloor **resultffloor = nullptr);
 
 // This setup is to allow the VM call directily into the implementation.
 // With a member function this may be subject to OS implementation details, e.g. on Windows 32 bit members use a different calling convention than regular functions.

@@ -140,7 +140,7 @@ namespace swrenderer
 				if (Level->flags & LEVEL_DOUBLESKY)
 					backskytex = GetSWTex(sky2tex);
 				else
-					backskytex = NULL;
+					backskytex = nullptr;
 				skyflip = 0;
 				frontdpos = Level->sky1pos;
 				backdpos = Level->sky2pos;
@@ -150,7 +150,7 @@ namespace swrenderer
 			else if (pl->sky == PL_SKYFLAT)
 			{	// use sky2
 				frontskytex = GetSWTex(sky2tex);
-				backskytex = NULL;
+				backskytex = nullptr;
 				frontcyl = sky2cyl;
 				skyflip = 0;
 				frontdpos = Level->sky2pos;
@@ -180,7 +180,7 @@ namespace swrenderer
 				{ // [RH] The blank texture: Use normal sky instead.
 					goto sky1;
 				}
-				backskytex = NULL;
+				backskytex = nullptr;
 
 				// Horizontal offset is turned into an angle offset,
 				// to allow sky rotation as well as careful positioning.
@@ -207,7 +207,7 @@ namespace swrenderer
 			}
 		}
 		frontpos = int(fmod(frontdpos, sky1cyl * 65536.0));
-		if (backskytex != NULL)
+		if (backskytex != nullptr)
 		{
 			backpos = int(fmod(backdpos, sky2cyl * 65536.0));
 		}

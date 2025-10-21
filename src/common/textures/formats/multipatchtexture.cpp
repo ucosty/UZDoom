@@ -167,7 +167,7 @@ void FMultiPatchTexture::CopyToBlock(uint8_t *dest, int dwidth, int dheight, FIm
 	if (ClipCopyPixelRect(&cr, xpos, ypos, pixels, srcwidth, srcheight, step_x, step_y, rotate))
 	{
 		dest += ypos + dheight * xpos;
-		if (translation == NULL)
+		if (translation == nullptr)
 		{
 			for (int x = 0; x < srcwidth; x++)
 			{

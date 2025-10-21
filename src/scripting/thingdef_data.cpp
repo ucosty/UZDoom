@@ -510,7 +510,7 @@ static FFlagDef *FindFlag (FFlagDef *flags, int numflags, const char *flag)
 			max = mid - 1;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -564,7 +564,7 @@ FFlagDef *FindFlag (const PClass *type, const char *part1, const char *part2, bo
 
 	FFlagDef *def;
 
-	if (part2 == NULL)
+	if (part2 == nullptr)
 	{ // Search all lists
 		int max = strict ? 2 : NUM_FLAG_LISTS;
 		for (int i = 0; i < max; ++i)
@@ -572,7 +572,7 @@ FFlagDef *FindFlag (const PClass *type, const char *part1, const char *part2, bo
 			if ((FlagLists[i].Use & 1) && type->IsDescendantOf (*FlagLists[i].Type))
 			{
 				def = FindFlag (FlagLists[i].Defs, FlagLists[i].NumDefs, part1);
-				if (def != NULL)
+				if (def != nullptr)
 				{
 					return def;
 				}
@@ -591,13 +591,13 @@ FFlagDef *FindFlag (const PClass *type, const char *part1, const char *part2, bo
 				}
 				else
 				{
-					return NULL;
+					return nullptr;
 				}
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -646,7 +646,7 @@ FPropertyInfo *FindProperty(const char * string)
 			max = mid - 1;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================

@@ -209,13 +209,13 @@ FMaterial * FMaterial::ValidateTexture(FGameTexture * gtex, int scaleflags, bool
 		if (!gtex->expandSprites()) scaleflags &= ~CTF_Expand;
 
 		FMaterial *hwtex = gtex->Material[scaleflags];
-		if (hwtex == NULL && create)
+		if (hwtex == nullptr && create)
 		{
 			hwtex = screen->CreateMaterial(gtex, scaleflags);
 		}
 		return hwtex;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void DeleteMaterial(FMaterial* mat)

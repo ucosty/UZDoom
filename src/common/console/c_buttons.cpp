@@ -77,13 +77,13 @@ int ButtonMap::ListActionCommands (const char *pattern)
 
 	for (auto& btn : NumToName)
 	{
-		if (pattern == NULL || CheckWildcards (pattern,
+		if (pattern == nullptr || CheckWildcards (pattern,
 			(mysnprintf (matcher, countof(matcher), "+%s", btn.c_str()), matcher)))
 		{
 			Printf ("+%s\n", btn.c_str());
 			count++;
 		}
-		if (pattern == NULL || CheckWildcards (pattern,
+		if (pattern == nullptr || CheckWildcards (pattern,
 			(mysnprintf (matcher, countof(matcher), "-%s", btn.c_str()), matcher)))
 		{
 			Printf ("-%s\n", btn.c_str());

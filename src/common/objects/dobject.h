@@ -387,7 +387,7 @@ T* Create(Args&&... args)
 // already been processed by the GC.
 static inline void GC::WriteBarrier(DObject *pointing, DObject *pointed)
 {
-	if (pointed != NULL && pointed->IsWhite() && pointing->IsBlack())
+	if (pointed != nullptr && pointed->IsWhite() && pointing->IsBlack())
 	{
 		Barrier(pointing, pointed);
 	}
@@ -395,9 +395,9 @@ static inline void GC::WriteBarrier(DObject *pointing, DObject *pointed)
 
 static inline void GC::WriteBarrier(DObject *pointed)
 {
-	if (pointed != NULL && State == GCS_Propagate && pointed->IsWhite())
+	if (pointed != nullptr && State == GCS_Propagate && pointed->IsWhite())
 	{
-		Barrier(NULL, pointed);
+		Barrier(nullptr, pointed);
 	}
 }
 
@@ -423,11 +423,11 @@ inline bool DObject::IsA (const PClass *type) const
 
 template<class T> T *dyn_cast(DObject *p)
 {
-	if (p != NULL && p->IsKindOf(RUNTIME_CLASS_CASTLESS(T)))
+	if (p != nullptr && p->IsKindOf(RUNTIME_CLASS_CASTLESS(T)))
 	{
 		return static_cast<T *>(p);
 	}
-	return NULL;
+	return nullptr;
 }
 
 

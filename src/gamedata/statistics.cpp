@@ -316,7 +316,7 @@ static FSessionStatistics *StatisticsEntry(FStatistics *stats, const char *text,
 	time (&clock);
 	lt = localtime (&clock);
 
-	if (lt != NULL)
+	if (lt != nullptr)
 		mysnprintf(s.name, countof(s.name), "%02d.%02d.%04d",lt->tm_mday, lt->tm_mon+1, lt->tm_year+1900);
 	else
 		strcpy(s.name,"00.00.0000");
@@ -375,7 +375,7 @@ void STAT_StartNewGame(const char *mapname)
 			}
 		}
 	}
-	StartEpisode = NULL;
+	StartEpisode = nullptr;
 }
 
 //==========================================================================
@@ -447,23 +447,23 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 	StoreLevelStats(Level);
 
 	level_info_t *thisinfo = Level->info;
-	level_info_t *nextinfo = NULL;
+	level_info_t *nextinfo = nullptr;
 	
 	if (strncmp(newl, "enDSeQ", 6))
 	{
 		level_info_t *l = FindLevelInfo (newl);
 		nextinfo = l->CheckLevelRedirect ();
-		if (nextinfo == NULL) nextinfo = l;
+		if (nextinfo == nullptr) nextinfo = l;
 	}
 
 	if (savestatistics == 1)
 	{
-		if ((nextinfo == NULL || (nextinfo->flags2 & LEVEL2_ENDGAME)) && StartEpisode != NULL)
+		if ((nextinfo == nullptr || (nextinfo->flags2 & LEVEL2_ENDGAME)) && StartEpisode != nullptr)
 		{
 			// we reached the end of this episode
 			int wad = 0;
 			MapData * map = P_OpenMapData(StartEpisode->mEpisodeMap.c_str(), false);
-			if (map != NULL)
+			if (map != nullptr)
 			{
 				wad = fileSystem.GetFileContainer(map->lumpnum);
 				delete map;
@@ -544,7 +544,7 @@ void STAT_Serialize(FSerializer &arc)
 		if (arc.isReading())
 		{
 			arc("startlevel", startlevel);
-			StartEpisode = NULL;
+			StartEpisode = nullptr;
 			for (unsigned int j = 0; j < AllEpisodes.Size(); j++)
 			{
 				if (!AllEpisodes[j].mEpisodeMap.CompareNoCase(startlevel))
@@ -557,7 +557,7 @@ void STAT_Serialize(FSerializer &arc)
 		}
 		else
 		{
-			if (StartEpisode != NULL) startlevel = StartEpisode->mEpisodeMap;
+			if (StartEpisode != nullptr) startlevel = StartEpisode->mEpisodeMap;
 			arc("startlevel", startlevel);
 		}
 		arc("levels", LevelData);
@@ -619,7 +619,7 @@ ADD_STAT(statistics)
 ADD_STAT(velocity)
 {
 	FString compose;
-	if (players[consoleplayer].mo != NULL && gamestate == GS_LEVEL) {
+	if (players[consoleplayer].mo != nullptr && gamestate == GS_LEVEL) {
 		compose += std::format("Current velocity: {:.2f}\n", players[consoleplayer].mo->Vel.Length());
 		compose += std::format("Level {} - Velocity Max: {:.2f}, Velocity Average: {:.2f}\n", primaryLevel->MapName.c_str(), primaryLevel->max_velocity, primaryLevel->avg_velocity);
 	}

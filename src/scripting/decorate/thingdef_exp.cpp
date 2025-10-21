@@ -561,7 +561,7 @@ static FxExpression *ParseExpression0 (FScanner &sc, PClassActor *cls)
 		FString tokname = sc.TokenName(sc.TokenType, sc.String);
 		sc.ScriptError ("Unexpected token %s", tokname.c_str());
 	}
-	return NULL;
+	return nullptr;
 }
 
 static FRandom *ParseRNG(FScanner &sc, bool client)
@@ -626,7 +626,7 @@ static FxExpression *ParseRandomPick(FScanner &sc, FName identifier, PClassActor
 static FxExpression *ParseRandom2(FScanner &sc, PClassActor *cls, bool client)
 {
 	FRandom *rng = ParseRNG(sc, client);
-	FxExpression *mask = NULL;
+	FxExpression *mask = nullptr;
 
 	sc.MustGetToken('(');
 

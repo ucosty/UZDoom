@@ -360,11 +360,11 @@ public:
 	VMFrame *PopFrame();
 	VMFrame *TopFrame()
 	{
-		assert(Blocks != NULL && Blocks->LastFrame != NULL);
+		assert(Blocks != nullptr && Blocks->LastFrame != nullptr);
 		return Blocks->LastFrame;
 	}
   bool HasFrames() {
-    return Blocks != NULL && Blocks->LastFrame != NULL;
+    return Blocks != nullptr && Blocks->LastFrame != nullptr;
   }
 	static int OffsetLastFrame() { return (int)(ptrdiff_t)offsetof(BlockHeader, LastFrame); }
 private:

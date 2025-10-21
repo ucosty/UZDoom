@@ -240,7 +240,7 @@ void DDoor::Tick ()
 //
 // [RH] DoorSound: Plays door sound depending on direction and speed
 //
-// If curseq is non-NULL, then it will check if the desired sound sequence
+// If curseq is non-nullptr, then it will check if the desired sound sequence
 // will result in a different command stream than the current one. If not,
 // then it does nothing.
 //
@@ -267,14 +267,14 @@ void DDoor::DoorSound(bool raise, DSeqNode *curseq) const
 
 	if (m_Sector->seqType >= 0)
 	{
-		if (curseq == NULL || !SN_AreModesSame(m_Sector->seqType, SEQ_DOOR, choice, curseq->GetModeNum()))
+		if (curseq == nullptr || !SN_AreModesSame(m_Sector->seqType, SEQ_DOOR, choice, curseq->GetModeNum()))
 		{
 			SN_StartSequence(m_Sector, CHAN_CEILING, m_Sector->seqType, SEQ_DOOR, choice);
 		}
 	}
 	else if (m_Sector->SeqName != NAME_None)
 	{
-		if (curseq == NULL || !SN_AreModesSame(m_Sector->SeqName, choice, curseq->GetModeNum()))
+		if (curseq == nullptr || !SN_AreModesSame(m_Sector->SeqName, choice, curseq->GetModeNum()))
 		{
 			SN_StartSequence(m_Sector, CHAN_CEILING, m_Sector->SeqName, choice);
 		}
@@ -302,12 +302,12 @@ void DDoor::DoorSound(bool raise, DSeqNode *curseq) const
 			{
 				const char *texname;
 
-				if (line->backsector == NULL)
+				if (line->backsector == nullptr)
 					continue;
 
 				auto tex = TexMan.GetGameTexture(line->sidedef[0]->GetTexture(side_t::top));
-				texname = tex ? tex->GetName().c_str() : NULL;
-				if (texname != NULL && texname[0] == 'D' && texname[1] == 'O' && texname[2] == 'R')
+				texname = tex ? tex->GetName().c_str() : nullptr;
+				if (texname != nullptr && texname[0] == 'D' && texname[1] == 'O' && texname[2] == 'R')
 				{
 					switch (texname[3])
 					{
@@ -337,7 +337,7 @@ void DDoor::DoorSound(bool raise, DSeqNode *curseq) const
 			}
 			break;
 		}
-		if (curseq == NULL || !SN_AreModesSame(snd, choice, curseq->GetModeNum()))
+		if (curseq == nullptr || !SN_AreModesSame(snd, choice, curseq->GetModeNum()))
 		{
 			SN_StartSequence(m_Sector, CHAN_CEILING, snd, choice);
 		}
@@ -451,7 +451,7 @@ bool FLevelLocals::EV_DoDoor (DDoor::EVlDoor type, line_t *line, AActor *thing,
 			return false;
 
 		// if the wrong side of door is pushed, give oof sound
-		if (line->sidedef[1] == NULL)			// killough
+		if (line->sidedef[1] == nullptr)			// killough
 		{
 			S_Sound (thing, CHAN_VOICE, 0, "*usefail", 1, ATTN_NORM);
 			return false;
@@ -484,7 +484,7 @@ bool FLevelLocals::EV_DoDoor (DDoor::EVlDoor type, line_t *line, AActor *thing,
 						//		run into them (otherwise opening them would be
 						//		a real pain).
 					{
-						if (!thing->player || thing->player->Bot != NULL)
+						if (!thing->player || thing->player->Bot != nullptr)
 							return false;	// JDC: bad guys never close doors
 											//Added by MC: Neither do bots.
 
@@ -568,7 +568,7 @@ void DAnimatedDoor::Serialize(FSerializer &arc)
 bool DAnimatedDoor::StartClosing ()
 {
 	// CAN DOOR CLOSE?
-	if (m_Sector->touching_thinglist != NULL)
+	if (m_Sector->touching_thinglist != nullptr)
 	{
 		return false;
 	}
@@ -601,7 +601,7 @@ bool DAnimatedDoor::StartClosing ()
 
 void DAnimatedDoor::Tick ()
 {
-	if (m_DoorAnim == NULL)
+	if (m_DoorAnim == nullptr)
 	{
 		// can only happen when a bad savegame is loaded.
 		Destroy();
@@ -782,9 +782,9 @@ bool FLevelLocals::EV_SlidingDoor (line_t *line, AActor *actor, int tag, int spe
 		sec = line->backsector;
 
 		// Make sure door isn't already being animated
-		if (sec->ceilingdata != NULL )
+		if (sec->ceilingdata != nullptr )
 		{
-			if (actor == NULL || actor->player == NULL)
+			if (actor == nullptr || actor->player == nullptr)
 				return false;
 
 			if (sec->ceilingdata->IsA (RUNTIME_CLASS(DAnimatedDoor)))
@@ -801,7 +801,7 @@ bool FLevelLocals::EV_SlidingDoor (line_t *line, AActor *actor, int tag, int spe
 		else if (type == DAnimatedDoor::adClose)
 			return false;
 		FDoorAnimation *anim = TexAnim.FindAnimatedDoor (line->sidedef[0]->GetTexture(side_t::top));
-		if (anim != NULL)
+		if (anim != nullptr)
 		{
 			CreateThinker<DAnimatedDoor>(sec, line, speed, delay, anim, type);
 			return true;
@@ -813,7 +813,7 @@ bool FLevelLocals::EV_SlidingDoor (line_t *line, AActor *actor, int tag, int spe
 	while ((secnum = it.Next()) >= 0)
 	{
 		sec = &sectors[secnum];
-		if (sec->ceilingdata != NULL)
+		if (sec->ceilingdata != nullptr)
 		{
 			// Check if the animated door is already open and waiting, if so, close it.
 			if (sec->ceilingdata->IsA (RUNTIME_CLASS(DAnimatedDoor)))
@@ -832,12 +832,12 @@ bool FLevelLocals::EV_SlidingDoor (line_t *line, AActor *actor, int tag, int spe
 
 		for (auto line : sec->Lines)
 		{
-			if (line->backsector == NULL)
+			if (line->backsector == nullptr)
 			{
 				continue;
 			}
 			FDoorAnimation *anim = TexAnim.FindAnimatedDoor (line->sidedef[0]->GetTexture(side_t::top));
-			if (anim != NULL)
+			if (anim != nullptr)
 			{
 				rtn = true;
 				CreateThinker<DAnimatedDoor>(sec, line, speed, delay, anim, type);

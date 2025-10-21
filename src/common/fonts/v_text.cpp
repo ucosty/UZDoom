@@ -69,7 +69,7 @@ TArray<FBrokenLines> V_BreakLines (FFont *font, int maxwidth, const uint8_t *str
 {
 	TArray<FBrokenLines> Lines(128);
 
-	const uint8_t *space = NULL, *start = string;
+	const uint8_t *space = nullptr, *start = string;
 	int c, w, nw;
 	FString lastcolor, linecolor;
 	bool lastWasSpace = false;
@@ -161,7 +161,7 @@ TArray<FBrokenLines> V_BreakLines (FFont *font, int maxwidth, const uint8_t *str
 			w = 0;
 			lastWasSpace = false;
 			start = space;
-			space = NULL;
+			space = nullptr;
 
 			while (*start && myisspace (*start) && *start != '\n')
 				start++;

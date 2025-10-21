@@ -915,7 +915,7 @@ void D_Display ()
 
 	SetDeltaTime();
 
-	if (nodrawers || screen == NULL)
+	if (nodrawers || screen == nullptr)
 		return; 				// for comparative timing / profiling
 
 	if (!AppActive && !setmodeneeded && (screen->IsFullscreen() || !vid_activeinbackground))
@@ -931,7 +931,7 @@ void D_Display ()
 	r_UseVanillaTransparency = UseVanillaTransparency(); // [SP] Cache UseVanillaTransparency() call
 	r_renderercaps = GetCaps(); // [SP] Get the current capabilities of the renderer
 
-	if (players[consoleplayer].camera == NULL)
+	if (players[consoleplayer].camera == nullptr)
 	{
 		players[consoleplayer].camera = players[consoleplayer].mo;
 	}
@@ -1165,7 +1165,7 @@ void D_Display ()
 		{
 			FTextureID picnum = TexMan.CheckForTexture (D_DrawIcon, ETextureType::MiscPatch);
 
-			D_DrawIcon = NULL;
+			D_DrawIcon = nullptr;
 			if (picnum.isValid())
 			{
 				auto tex = TexMan.GetGameTexture(picnum);
@@ -1638,7 +1638,7 @@ void ParseCVarInfo()
 		while (sc.GetToken())
 		{
 			FString cvarname;
-			char *cvardefault = NULL;
+			char *cvardefault = nullptr;
 			ECVarType cvartype = CVAR_Dummy;
 			int cvarflags = CVAR_MOD|CVAR_ARCHIVE;
 			FBaseCVar *cvar;
@@ -1730,7 +1730,7 @@ void ParseCVarInfo()
 			}
 			// The next token must be the cvar name.
 			sc.MustGetToken(TK_Identifier);
-			if (FindCVar(sc.String, NULL) != NULL)
+			if (FindCVar(sc.String, nullptr) != nullptr)
 			{
 				sc.ScriptError("cvar '%s' already exists", sc.String);
 			}
@@ -1763,7 +1763,7 @@ void ParseCVarInfo()
 			}
 			// Now create the cvar.
 			cvar = customCVar ? C_CreateZSCustomCVar(cvarname.c_str(), cvartype, cvarflags, customCVarClassName) : C_CreateCVar(cvarname.c_str(), cvartype, cvarflags);
-			if (cvardefault != NULL)
+			if (cvardefault != nullptr)
 			{
 				UCVarValue val;
 				val.String = cvardefault;
@@ -1849,7 +1849,7 @@ static FString ParseGameInfo(std::vector<std::string> &pwads, const char *fn, co
 	bool isDir;
 
 	const char *lastSlash = strrchr (fn, '/');
-	if (lastSlash == NULL)
+	if (lastSlash == nullptr)
 	    lastSlash = strrchr (fn, ':');
 
 	sc.OpenMem("GAMEINFO", data, size);
@@ -1873,7 +1873,7 @@ static FString ParseGameInfo(std::vector<std::string> &pwads, const char *fn, co
 				// before looking for it in the current directory.
 
 				FString checkpath;
-				if (lastSlash != NULL)
+				if (lastSlash != nullptr)
 				{
 					checkpath = FString(fn, lastSlash - fn) + '/' + sc.String;
 				}
@@ -2052,19 +2052,19 @@ static void AddAutoloadFiles(const char *autoname, std::vector<std::string>& all
 	{
 		if ((GameStartupInfo.LoadLights == 1 || (GameStartupInfo.LoadLights != 0 && autoloadlights)) && !(Args->CheckParm("-nolights")))
 		{
-			const char *lightswad = BaseFileSearch ("lights.pk3", NULL, true, GameConfig);
+			const char *lightswad = BaseFileSearch ("lights.pk3", nullptr, true, GameConfig);
 			if (lightswad)
 				D_AddFile (allwads, lightswad, true, -1, GameConfig, true);
 		}
 		if ((GameStartupInfo.LoadBrightmaps == 1 || (GameStartupInfo.LoadBrightmaps != 0 && autoloadbrightmaps)) && !(Args->CheckParm("-nobrightmaps")))
 		{
-			const char *bmwad = BaseFileSearch ("brightmaps.pk3", NULL, true, GameConfig);
+			const char *bmwad = BaseFileSearch ("brightmaps.pk3", nullptr, true, GameConfig);
 			if (bmwad)
 				D_AddFile (allwads, bmwad, true, -1, GameConfig, true);
 		}
 		if ((GameStartupInfo.LoadWidescreen == 1 || (GameStartupInfo.LoadWidescreen != 0 && autoloadwidescreen)) && !(Args->CheckParm("-nowidescreen")))
 		{
-			const char *wswad = BaseFileSearch ("game_widescreen_gfx.pk3", NULL, true, GameConfig);
+			const char *wswad = BaseFileSearch ("game_widescreen_gfx.pk3", nullptr, true, GameConfig);
 			if (wswad)
 				D_AddFile (allwads, wswad, true, -1, GameConfig, true);
 		}
@@ -2080,7 +2080,7 @@ static void AddAutoloadFiles(const char *autoname, std::vector<std::string>& all
 		// voices. I never got around to writing the utility to do it, though.
 		// And I probably never will now. But I know at least one person uses
 		// it for something else, so this gets to stay here.
-		const char *wad = BaseFileSearch ("zvox.wad", NULL, false, GameConfig);
+		const char *wad = BaseFileSearch ("zvox.wad", nullptr, false, GameConfig);
 		if (wad)
 			D_AddFile (allwads, wad, true, -1, GameConfig, true);
 
@@ -2225,7 +2225,7 @@ static void CheckCmdLine()
 
 	// turbo option  // [RH] (now a cvar)
 	v = Args->CheckValue("-turbo");
-	if (v != NULL)
+	if (v != nullptr)
 	{
 		double amt = atof(v);
 		Printf ("turbo scale: %.0f%%\n", amt);
@@ -2235,7 +2235,7 @@ static void CheckCmdLine()
 	v = Args->CheckValue ("-timer");
 	if (v)
 	{
-		double time = strtod (v, NULL);
+		double time = strtod (v, nullptr);
 		Printf ("Levels will end after %g minute%s.\n", time, time > 1 ? "s" : "");
 		timelimit = (float)time;
 	}
@@ -2520,7 +2520,7 @@ void RenameNerve(FileSystem& fileSystem)
 	{
 		auto fr = fileSystem.GetFileReader(w);
 		int isizecheck = -1;
-		if (fr == NULL)
+		if (fr == nullptr)
 		{
 			continue;
 		}
@@ -2858,7 +2858,7 @@ static bool System_DisableTextureFilter()
 
 static void System_OnScreenSizeChanged()
 {
-	if (StatusBar != NULL)
+	if (StatusBar != nullptr)
 	{
 		StatusBar->CallScreenSizeChanged();
 	}
@@ -2943,7 +2943,7 @@ void System_CrashInfo(char* buffer, size_t bufflen, const char *lfstr)
 		buffer += snprintf(buffer, buffend - buffer, " %s", Args->GetArg(i));
 	}
 
-	for (i = 0; (arg = fileSystem.GetResourceFileName(i)) != NULL; ++i)
+	for (i = 0; (arg = fileSystem.GetResourceFileName(i)) != nullptr; ++i)
 	{
 		buffer += mysnprintf(buffer, buffend - buffer, "%sWad %d: %s", lfstr, i, arg);
 	}
@@ -3232,7 +3232,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 	FArgs *execFiles = new FArgs;
 	if (!(Args->CheckParm("-noautoexec")))
 		GameConfig->AddAutoexec(execFiles, gameinfo.ConfigName.c_str());
-	exec = D_MultiExec(execFiles, NULL);
+	exec = D_MultiExec(execFiles, nullptr);
 	delete execFiles;
 
 	// Process .cfg files at the start of the command line.
@@ -3243,7 +3243,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 	// [RH] process all + commands on the command line
 	exec = C_ParseCmdLineParams(exec);
 
-	if (exec != NULL)
+	if (exec != nullptr)
 	{
 		exec->AddPullins(allwads, GameConfig);
 	}
@@ -3257,7 +3257,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 		{ GAME_Raven,			"game-Raven" },
 		{ GAME_DoomStrifeChex,	"game-DoomStrifeChex" },
 		{ GAME_DoomChex,		"game-DoomChex" },
-		{ GAME_Any, NULL }
+		{ GAME_Any, nullptr }
 	};
 
 	for (auto& inf : blanket)
@@ -3326,11 +3326,11 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 	ParseCVarInfo();
 
 	// Actually exec command line commands and exec files.
-	if (exec != NULL)
+	if (exec != nullptr)
 	{
 		exec->ExecCommands();
 		delete exec;
-		exec = NULL;
+		exec = nullptr;
 	}
 
 	if (!(restart || norun))
@@ -3551,7 +3551,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 		{
 			// At this point we cannot use the player's gender info yet so force 'male' here.
 			const char *str = GStrings.CheckString(startupString[p], nullptr, 0);
-			if (str != NULL && str[0] != '\0')
+			if (str != nullptr && str[0] != '\0')
 			{
 				Printf("%s\n", str);
 			}
@@ -3612,7 +3612,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 			StartScreen->Progress(max_progress);	// do this again because Progress advances the counter after redrawing.
 			StartScreen->Render(true);
 			delete StartScreen;
-			StartScreen = NULL;
+			StartScreen = nullptr;
 		}
 
 		while(!screen->CompileNextShader())
@@ -3623,7 +3623,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 		// Initialize the size of the 2D drawer so that an attempt to access it outside the draw code won't crash.
 		twod->Begin(screen->GetWidth(), screen->GetHeight());
 		twod->End();
-		UpdateJoystickMenu(NULL);
+		UpdateJoystickMenu(nullptr);
 		UpdateVRModes();
 		Local_Job_Init();
 
@@ -3639,7 +3639,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 		}
 
 		v = Args->CheckValue("-playdemo");
-		if (v != NULL)
+		if (v != nullptr)
 		{
 			singledemo = true;				// quit after one demo
 			G_DeferedPlayDemo (v);
@@ -3690,7 +3690,7 @@ static int D_InitGame(const FIWADInfo* iwad_info, std::vector<std::string>& allw
 				}
 				else if (demorecording)
 				{
-					G_BeginRecording(NULL);
+					G_BeginRecording(nullptr);
 				}
 			}
 		}
@@ -3772,8 +3772,8 @@ static int D_DoomMain_Internal (void)
 
 	// [RH] Make sure zdoom.pk3 is always loaded,
 	// as it contains magic stuff we need.
-	wad = BaseFileSearch(BASEWAD, NULL, true, GameConfig);
-	if (wad == NULL)
+	wad = BaseFileSearch(BASEWAD, nullptr, true, GameConfig);
+	if (wad == nullptr)
 	{
 		I_FatalError("Cannot find " BASEWAD);
 	}
@@ -3789,7 +3789,7 @@ static int D_DoomMain_Internal (void)
 	{
 		execLogfile(logfile.c_str());
 	}
-	else if (batchout != NULL && *batchout != 0)
+	else if (batchout != nullptr && *batchout != 0)
 	{
 		batchrun = true;
 		nosound = true;
@@ -3809,7 +3809,7 @@ static int D_DoomMain_Internal (void)
 
 	FString basewad = wad;
 
-	FString optionalwad = BaseFileSearch(OPTIONALWAD, NULL, true, GameConfig);
+	FString optionalwad = BaseFileSearch(OPTIONALWAD, nullptr, true, GameConfig);
 
 	iwad_man = new FIWadManager(basewad.c_str(), optionalwad.c_str());
 
@@ -3835,7 +3835,7 @@ static int D_DoomMain_Internal (void)
 		}
 		nospriterename = false;
 
-		if (iwad_man == NULL)
+		if (iwad_man == nullptr)
 		{
 			iwad_man = new FIWadManager(basewad.c_str(), optionalwad.c_str());
 		}
@@ -3895,7 +3895,7 @@ static int D_DoomMain_Internal (void)
 		allwads.clear();
 		allwads.shrink_to_fit();
 		delete iwad_man;	// now we won't need this anymore
-		iwad_man = NULL;
+		iwad_man = nullptr;
 		if (ret != 0) return ret;
 
 		D_DoAnonStats();
@@ -4042,7 +4042,7 @@ void D_Cleanup()
 	D_ErrorCleanup ();
 	P_Shutdown();
 
-	M_SaveDefaults(NULL);			// save config before the restart
+	M_SaveDefaults(nullptr);			// save config before the restart
 
 	// delete all data that cannot be left until reinitialization
 	CleanSWDrawer();
@@ -4072,7 +4072,7 @@ void D_Cleanup()
 	// Delete the reference to the VM functions here which were deleted and will be recreated after the restart.
 	AutoSegs::ActionFunctons.ForEach([](AFuncDesc *afunc)
 	{
-		*(afunc->VMPointer) = NULL;
+		*(afunc->VMPointer) = nullptr;
 	});
 
 	GC::DelSoftRootHead();
@@ -4152,8 +4152,8 @@ void I_UpdateWindowTitle()
 		titlestr = GameStartupInfo.Name;
 		break;
 	default:
-		I_UpdateDiscordPresence(false, NULL, GameStartupInfo.DiscordAppId.c_str(), GameStartupInfo.SteamAppId.c_str());
-		I_SetWindowTitle(NULL);
+		I_UpdateDiscordPresence(false, nullptr, GameStartupInfo.DiscordAppId.c_str(), GameStartupInfo.SteamAppId.c_str());
+		I_SetWindowTitle(nullptr);
 		return;
 	}
 

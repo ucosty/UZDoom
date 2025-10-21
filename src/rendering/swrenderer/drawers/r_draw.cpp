@@ -99,7 +99,7 @@ namespace swrenderer
 		{
 			ShadeFakeColormap[i].Color = ~0u;
 			ShadeFakeColormap[i].Desaturate = ~0u;
-			ShadeFakeColormap[i].Next = NULL;
+			ShadeFakeColormap[i].Next = nullptr;
 			ShadeFakeColormap[i].Maps = table;
 
 			for (j = 0; j < NUMCOLORMAPS; ++j)

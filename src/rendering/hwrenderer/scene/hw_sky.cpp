@@ -165,7 +165,7 @@ void HWWall::SkyPlane(HWWallDispatcher *di, sector_t *sector, int plane, bool al
 				else if (plane==0 && di->di->Viewpoint.Pos.Z <= myplane.ZatPoint(di->di->Viewpoint.Pos)) return;
 			}
 			auto glport = sector->GetPortalGroup(plane);
-			if (glport != NULL)
+			if (glport != nullptr)
 			{
 				if (sector->PortalBlocksView(plane)) return;
 				if (di->di && screen->instack[1 - plane]) return;
@@ -284,7 +284,7 @@ void HWWall::SkyTop(HWWallDispatcher *di, seg_t * seg,sector_t * fs,sector_t * b
 					// It is VERY important that this is only done for a floor height difference of 1
 					// or it will cause glitches elsewhere.
 					tex = TexMan.GetGameTexture(seg->sidedef->GetTexture(side_t::mid), true);
-					if (tex != NULL && !(seg->linedef->flags & ML_DONTPEGTOP) &&
+					if (tex != nullptr && !(seg->linedef->flags & ML_DONTPEGTOP) &&
 						seg->sidedef->GetTextureYOffset(side_t::mid) > 0)
 					{
 						ztop[0]=ztop[1]=32768.0f;
@@ -336,7 +336,7 @@ void HWWall::SkyTop(HWWallDispatcher *di, seg_t * seg,sector_t * fs,sector_t * b
 			{
 				auto pfront = fs->GetPortalGroup(sector_t::ceiling);
 				auto pback = bs->GetPortalGroup(sector_t::ceiling);
-				if (pfront == NULL || fs->PortalBlocksView(sector_t::ceiling)) return;
+				if (pfront == nullptr || fs->PortalBlocksView(sector_t::ceiling)) return;
 				if (pfront == pback && !bs->PortalBlocksView(sector_t::ceiling)) return;
 			}
 		}
@@ -419,7 +419,7 @@ void HWWall::SkyBottom(HWWallDispatcher *di, seg_t * seg,sector_t * fs,sector_t 
 			{
 				auto pfront = fs->GetPortalGroup(sector_t::floor);
 				auto pback = bs->GetPortalGroup(sector_t::floor);
-				if (pfront == NULL || fs->PortalBlocksView(sector_t::floor)) return;
+				if (pfront == nullptr || fs->PortalBlocksView(sector_t::floor)) return;
 				if (pfront == pback && !bs->PortalBlocksView(sector_t::floor)) return;
 			}
 		}

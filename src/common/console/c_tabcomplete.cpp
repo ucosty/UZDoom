@@ -286,9 +286,9 @@ bool C_TabCompleteList ()
 			// [Dusk] Print console commands blue, CVars green, aliases red.
 			const char* colorcode = "";
 			FConsoleCommand* ccmd;
-			if (FindCVar (TabCommands[i].TabName.GetChars(), NULL))
+			if (FindCVar (TabCommands[i].TabName.GetChars(), nullptr))
 				colorcode = TEXTCOLOR_GREEN;
-			else if ((ccmd = FConsoleCommand::FindByName (TabCommands[i].TabName.GetChars())) != NULL)
+			else if ((ccmd = FConsoleCommand::FindByName (TabCommands[i].TabName.GetChars())) != nullptr)
 			{
 				if (ccmd->IsAlias())
 					colorcode = TEXTCOLOR_RED;

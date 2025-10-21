@@ -74,7 +74,7 @@ struct OneKey
 
 
 		// Other calls check an actor that may have a key in its inventory.
-		for (AActor *item = owner->Inventory; item != NULL; item = item->Inventory)
+		for (AActor *item = owner->Inventory; item != nullptr; item = item->Inventory)
 		{
 			if (item->IsA(key))
 			{
@@ -127,7 +127,7 @@ struct Lock
 		if (!keylist.Size())
 		{
 			auto kt = PClass::FindActor(NAME_Key);
-			for (AActor *item = owner->Inventory; item != NULL; item = item->Inventory)
+			for (AActor *item = owner->Inventory; item != nullptr; item = item->Inventory)
 			{
 				if (item->IsKindOf (kt))
 				{
@@ -159,7 +159,7 @@ static const char * keywords_lock[]={
 	"REMOTEMESSAGE",
 	"MAPCOLOR",
 	"LOCKEDSOUND",
-	NULL
+	nullptr
 };
 
 //===========================================================================
@@ -225,7 +225,7 @@ static void ParseKeygroup(Keygroup *keygroup, FScanner &sc, bool ignorekey, int 
 
 static void PrintMessage (const char *str)
 {
-	if (str != NULL)
+	if (str != nullptr)
 	{
 		if (str[0]=='$') 
 		{
@@ -364,7 +364,7 @@ static void ClearLocks()
 		if (PClassActor::AllActorClasses[i]->IsDescendantOf(kt))
 		{
 			auto key = GetDefaultByType(PClassActor::AllActorClasses[i]);
-			if (key != NULL)
+			if (key != nullptr)
 			{
 				key->special1 = 0;
 			}
@@ -471,11 +471,11 @@ void P_InitKeyMessages()
 
 int P_CheckKeys (AActor *owner, int keynum, bool remote, bool quiet)
 {
-	const char *failtext = NULL;
+	const char *failtext = nullptr;
 	FSoundID *failsound;
 	int numfailsounds;
 
-	if (owner == NULL) return false;
+	if (owner == nullptr) return false;
 	if (keynum<=0) return true;
 	// Just a safety precaution. The messages should have been initialized upon game start.
 	if (!keysdone) P_InitKeyMessages();

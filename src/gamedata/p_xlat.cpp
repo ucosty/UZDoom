@@ -122,9 +122,9 @@ void FLevelLocals::TranslateLineDef (line_t *ld, maplinedef_t *mld, int lineinde
 		return;
 	}
 
-	FLineTrans *linetrans = NULL;
+	FLineTrans *linetrans = nullptr;
 	if (special < translator->SimpleLineTranslations.Size()) linetrans = &translator->SimpleLineTranslations[special];
-	if (linetrans != NULL && linetrans->special != 0)
+	if (linetrans != nullptr && linetrans->special != 0)
 	{
 		ld->special = linetrans->special;
 

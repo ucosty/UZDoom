@@ -191,7 +191,7 @@ void DLightningThinker::LightningFlash ()
 	// [ZZ] just in case
 	Level->localEventManager->WorldLightning();
 	// start LIGHTNING scripts
-	Level->Behaviors.StartTypedScripts (SCRIPT_Lightning, NULL, false);	// [RH] Run lightning scripts
+	Level->Behaviors.StartTypedScripts (SCRIPT_Lightning, nullptr, false);	// [RH] Run lightning scripts
 
 	// Calculate the next lighting flash
 	if (!NextLightningFlash)

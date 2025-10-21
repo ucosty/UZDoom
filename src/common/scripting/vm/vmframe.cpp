@@ -124,11 +124,11 @@ VMScriptFunction::VMScriptFunction(FName name)
 {
 	Name = name;
 	LineInfo = nullptr;
-	Code = NULL;
-	KonstD = NULL;
-	KonstF = NULL;
-	KonstS = NULL;
-	KonstA = NULL;
+	Code = nullptr;
+	KonstD = nullptr;
+	KonstF = nullptr;
+	KonstS = nullptr;
+	KonstA = nullptr;
 	LineInfoCount = 0;
 	ExtraSpace = 0;
 	CodeSize = 0;
@@ -147,9 +147,9 @@ VMScriptFunction::VMScriptFunction(FName name)
 
 VMScriptFunction::~VMScriptFunction()
 {
-	if (Code != NULL)
+	if (Code != nullptr)
 	{
-		if (KonstS != NULL)
+		if (KonstS != nullptr)
 		{
 			for (int i = 0; i < NumKonstS; ++i)
 			{
@@ -161,7 +161,7 @@ VMScriptFunction::~VMScriptFunction()
 
 void VMScriptFunction::Alloc(int numops, int numkonstd, int numkonstf, int numkonsts, int numkonsta, int numlinenumbers)
 {
-	assert(Code == NULL);
+	assert(Code == nullptr);
 	assert(numops > 0);
 	assert(numkonstd >= 0 && numkonstd <= 65535);
 	assert(numkonstf >= 0 && numkonstf <= 65535);
@@ -195,7 +195,7 @@ void VMScriptFunction::Alloc(int numops, int numkonstd, int numkonstf, int numko
 	}
 	else
 	{
-		KonstD = NULL;
+		KonstD = nullptr;
 	}
 	if (numkonstf > 0)
 	{
@@ -204,7 +204,7 @@ void VMScriptFunction::Alloc(int numops, int numkonstd, int numkonstf, int numko
 	}
 	else
 	{
-		KonstF = NULL;
+		KonstF = nullptr;
 	}
 	if (numkonsts > 0)
 	{
@@ -217,7 +217,7 @@ void VMScriptFunction::Alloc(int numops, int numkonstd, int numkonstf, int numko
 	}
 	else
 	{
-		KonstS = NULL;
+		KonstS = nullptr;
 	}
 	if (numkonsta > 0)
 	{
@@ -225,7 +225,7 @@ void VMScriptFunction::Alloc(int numops, int numkonstd, int numkonstf, int numko
 	}
 	else
 	{
-		KonstA = NULL;
+		KonstA = nullptr;
 	}
 	CodeSize = numops;
 	NumKonstD = numkonstd;
@@ -388,8 +388,8 @@ void VMFrame::InitRegS()
 
 VMFrameStack::VMFrameStack()
 {
-	Blocks = NULL;
-	UnusedBlocks = NULL;
+	Blocks = nullptr;
+	UnusedBlocks = nullptr;
 }
 
 //===========================================================================
@@ -400,27 +400,27 @@ VMFrameStack::VMFrameStack()
 
 VMFrameStack::~VMFrameStack()
 {
-	while (PopFrame() != NULL)
+	while (PopFrame() != nullptr)
 	{ }
-	if (Blocks != NULL)
+	if (Blocks != nullptr)
 	{
 		BlockHeader *block, *next;
-		for (block = Blocks; block != NULL; block = next)
+		for (block = Blocks; block != nullptr; block = next)
 		{
 			next = block->NextBlock;
 			delete[] (VM_UBYTE *)block;
 		}
-		Blocks = NULL;
+		Blocks = nullptr;
 	}
-	if (UnusedBlocks != NULL)
+	if (UnusedBlocks != nullptr)
 	{
 		BlockHeader *block, *next;
-		for (block = UnusedBlocks; block != NULL; block = next)
+		for (block = UnusedBlocks; block != nullptr; block = next)
 		{
 			next = block->NextBlock;
 			delete[] (VM_UBYTE *)block;
 		}
-		UnusedBlocks = NULL;
+		UnusedBlocks = nullptr;
 	}
 }
 
@@ -467,15 +467,15 @@ VMFrame *VMFrameStack::Alloc(int size)
 
 	size = (size + 15) & ~15;
 	block = Blocks;
-	if (block != NULL)
+	if (block != nullptr)
 	{
 		parent = block->LastFrame;
 	}
 	else
 	{
-		parent = NULL;
+		parent = nullptr;
 	}
-	if (block == NULL || ((VM_UBYTE *)block + block->BlockSize) < (block->FreeSpace + size))
+	if (block == nullptr || ((VM_UBYTE *)block + block->BlockSize) < (block->FreeSpace + size))
 	{ // Not enough space. Allocate a new block.
 		int blocksize = ((sizeof(BlockHeader) + 15) & ~15) + size;
 		BlockHeader **blockp;
@@ -483,14 +483,14 @@ VMFrame *VMFrameStack::Alloc(int size)
 		{
 			blocksize = BLOCK_SIZE;
 		}
-		for (blockp = &UnusedBlocks, block = *blockp; block != NULL; block = block->NextBlock)
+		for (blockp = &UnusedBlocks, block = *blockp; block != nullptr; block = block->NextBlock)
 		{
 			if (block->BlockSize >= blocksize)
 			{
 				break;
 			}
 		}
-		if (block != NULL)
+		if (block != nullptr)
 		{
 			*blockp = block->NextBlock;
 		}
@@ -500,7 +500,7 @@ VMFrame *VMFrameStack::Alloc(int size)
 			block->BlockSize = blocksize;
 		}
 		block->InitFreeSpace();
-		block->LastFrame = NULL;
+		block->LastFrame = nullptr;
 		block->NextBlock = Blocks;
 		Blocks = block;
 	}
@@ -524,14 +524,14 @@ VMFrame *VMFrameStack::Alloc(int size)
 
 VMFrame *VMFrameStack::PopFrame()
 {
-	if (Blocks == NULL)
+	if (Blocks == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	VMFrame *frame = Blocks->LastFrame;
-	if (frame == NULL)
+	if (frame == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	auto Func = static_cast<VMScriptFunction *>(frame->Func);
 	if (Func->SpecialInits.Size())
@@ -545,21 +545,21 @@ VMFrame *VMFrameStack::PopFrame()
 		(regs++)->~FString();
 	}
 	VMFrame *parent = frame->ParentFrame;
-	if (parent == NULL)
+	if (parent == nullptr)
 	{
 		// Popping the last frame off the stack.
-		if (Blocks != NULL)
+		if (Blocks != nullptr)
 		{
-			assert(Blocks->NextBlock == NULL);
-			Blocks->LastFrame = NULL;
+			assert(Blocks->NextBlock == nullptr);
+			Blocks->LastFrame = nullptr;
 			Blocks->InitFreeSpace();
 		}
-		return NULL;
+		return nullptr;
 	}
 	if ((VM_UBYTE *)parent < (VM_UBYTE *)Blocks || (VM_UBYTE *)parent >= (VM_UBYTE *)Blocks + Blocks->BlockSize)
 	{ // Parent frame is in a different block, so move this one to the unused list.
 		BlockHeader *next = Blocks->NextBlock;
-		assert(next != NULL);
+		assert(next != nullptr);
 		assert((VM_UBYTE *)parent >= (VM_UBYTE *)next && (VM_UBYTE *)parent < (VM_UBYTE *)next + next->BlockSize);
 		Blocks->NextBlock = UnusedBlocks;
 		UnusedBlocks = Blocks;
@@ -696,7 +696,7 @@ void VMCallCheckResult(VMFunction* func, VMValue* params, int numparams, VMRetur
 // VMFrameStack :: Call
 //
 // Calls a function, either native or scripted. If an exception occurs while
-// executing, the stack is cleaned up. If trap is non-NULL, it is set to the
+// executing, the stack is cleaned up. If trap is non-nullptr, it is set to the
 // VMException that was caught and the return value is negative. Otherwise,
 // any caught exceptions will be rethrown. Under normal termination, the
 // return value is the number of results from the function.
@@ -742,7 +742,7 @@ int VMCall(VMFunction *func, VMValue *params, int numparams, VMReturn *results, 
 #if 0
 	catch (VMException *exception)
 	{
-		if (trap != NULL)
+		if (trap != nullptr)
 		{
 			*trap = exception;
 			return -1;
@@ -752,7 +752,7 @@ int VMCall(VMFunction *func, VMValue *params, int numparams, VMReturn *results, 
 #endif
 }
 
-int VMCallWithDefaults(VMFunction *func, TArray<VMValue> &params, VMReturn *results, int numresults/*, VMException **trap = NULL*/)
+int VMCallWithDefaults(VMFunction *func, TArray<VMValue> &params, VMReturn *results, int numresults/*, VMException **trap = nullptr*/)
 {
 	if (func->DefaultArgs.Size() > params.Size())
 	{

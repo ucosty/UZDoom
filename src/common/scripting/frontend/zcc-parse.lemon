@@ -140,11 +140,11 @@ static void SetNodeLine(ZCC_TreeNode *name, int line)
 			int k = i + j;
 			if (k >= 0 && k < YY_ACTTAB_COUNT && yy_lookahead[k] == j)
 			{
-				expecting << (expecting.IsEmpty() ? "Expecting " : " or ") << ZCCTokenName(j);
+				expecting << (expecting.empty() ? "Expecting " : " or ") << ZCCTokenName(j);
 			}
 		}
 	}
-	stat->sc->ScriptMessage("%s\n%s\n", unexpected.GetChars(), expecting.GetChars());
+	stat->sc->ScriptMessage("%s\n%s\n", unexpected.c_str(), expecting.c_str());
 	FScriptPosition::ErrorCounter++;
 }
 %parse_accept { DPrintf(DMSG_SPAMMY, "Input accepted\n"); }
@@ -266,14 +266,14 @@ class_flags(X) ::= class_flags(A) NATIVE.					{ X.Flags = A.Flags | ZCC_Native; 
 class_flags(X) ::= class_flags(A) UI.						{ X.Flags = A.Flags | ZCC_UIFlag; X.Replaces = A.Replaces; X.Version = A.Version; X.Sealed = A.Sealed; X.DeprecationMessage = A.DeprecationMessage; }
 class_flags(X) ::= class_flags(A) PLAY.						{ X.Flags = A.Flags | ZCC_Play; X.Replaces = A.Replaces; X.Version = A.Version; X.Sealed = A.Sealed; X.DeprecationMessage = A.DeprecationMessage; }
 class_flags(X) ::= class_flags(A) REPLACES dottable_id(B).	{ X.Flags = A.Flags; X.Replaces = B; X.Version = A.Version; X.Sealed = A.Sealed; X.DeprecationMessage = A.DeprecationMessage; }
-class_flags(X) ::= class_flags(A) VERSION LPAREN STRCONST(C) RPAREN.	{ X.Flags = A.Flags | ZCC_Version; X.Replaces = A.Replaces; X.Version = C.String->GetChars(); X.Sealed = A.Sealed; X.DeprecationMessage = A.DeprecationMessage; }
+class_flags(X) ::= class_flags(A) VERSION LPAREN STRCONST(C) RPAREN.	{ X.Flags = A.Flags | ZCC_Version; X.Replaces = A.Replaces; X.Version = C.String->c_str(); X.Sealed = A.Sealed; X.DeprecationMessage = A.DeprecationMessage; }
 class_flags(X) ::= class_flags(A) SEALED LPAREN states_opt(B) RPAREN.		{ X.Flags = A.Flags | ZCC_Sealed; X.Replaces = A.Replaces; X.Version = A.Version; X.Sealed = B; X.DeprecationMessage = A.DeprecationMessage; }
 
 class_flags(X) ::= class_flags(A) DEPRECATED LPAREN STRCONST(C) opt_deprecation_message(D) RPAREN.
 {
 	X.Flags = A.Flags | ZCC_Deprecated;
 	X.Replaces = A.Replaces;
-	X.Version = C.String->GetChars();
+	X.Version = C.String->c_str();
 	X.Sealed =  A.Sealed;
 	X.DeprecationMessage = D.String;
 }
@@ -449,12 +449,12 @@ struct_flags(X) ::= struct_flags(A) PLAY.								{ X.Flags = A.Flags | ZCC_Play;
 struct_flags(X) ::= struct_flags(A) CLEARSCOPE.							{ X.Flags = A.Flags | ZCC_ClearScope; X.Version = A.Version; X.DeprecationMessage = A.DeprecationMessage; }
 struct_flags(X) ::= struct_flags(A) NATIVE.								{ X.Flags = A.Flags | ZCC_Native; X.Version = A.Version; X.DeprecationMessage = A.DeprecationMessage; }
 struct_flags(X) ::= struct_flags(A) UNSAFE LPAREN INTERNAL RPAREN.		{ X.Flags = A.Flags | ZCC_VMInternalStruct; X.Version = A.Version; X.DeprecationMessage = A.DeprecationMessage; }
-struct_flags(X) ::= struct_flags(A) VERSION LPAREN STRCONST(C) RPAREN.	{ X.Flags = A.Flags | ZCC_Version; X.Version = C.String->GetChars(); X.DeprecationMessage = A.DeprecationMessage; }
+struct_flags(X) ::= struct_flags(A) VERSION LPAREN STRCONST(C) RPAREN.	{ X.Flags = A.Flags | ZCC_Version; X.Version = C.String->c_str(); X.DeprecationMessage = A.DeprecationMessage; }
 
 struct_flags(X) ::= struct_flags(A) DEPRECATED LPAREN STRCONST(C) opt_deprecation_message(D) RPAREN.
 {
 	X.Flags = A.Flags | ZCC_Deprecated;
-	X.Version = C.String->GetChars();
+	X.Version = C.String->c_str();
 	X.DeprecationMessage = D.String;
 }
 
@@ -1352,7 +1352,7 @@ decl_flags(X) ::= decl_flags(F) DEPRECATED(B) LPAREN STRCONST(A) opt_deprecation
 		X = F;
 		X->Flags |= ZCC_Deprecated;
 	}
-	X->Version = A.String->GetChars();
+	X->Version = A.String->c_str();
 	X->DeprecationMessage = C.String;
 }
 
@@ -1372,7 +1372,7 @@ decl_flags(X) ::= decl_flags(F) VERSION(B) LPAREN STRCONST(A) RPAREN.
 		X = F;
 		X->Flags |= ZCC_Version;
 	}
-	X->Version = A.String->GetChars();
+	X->Version = A.String->c_str();
 }
 
 decl_flag(X) ::= NATIVE(T).		{ X.Int = ZCC_Native; X.SourceLoc =  T.SourceLoc; }

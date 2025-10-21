@@ -14,7 +14,7 @@ protected:
 	bool BadCoordinates = false;
 
 	void Skip();
-	FName ParseKey(bool checkblock = false, bool *isblock = NULL);
+	FName ParseKey(bool checkblock = false, bool *isblock = nullptr);
 	int CheckInt(FName key);
 	double CheckFloat(FName key);
 	double CheckCoordinate(FName key);

@@ -34,7 +34,7 @@
 #ifndef NO_GTK
 
 #if !DYN_GTK
-// Function addresses will never be NULL, but that's because we're using the
+// Function addresses will never be nullptr, but that's because we're using the
 // same code for both dynamic and static.
 #pragma GCC diagnostic ignored "-Waddress"
 #endif
@@ -218,8 +218,8 @@ public:
 
 		gtk_container_set_border_width (GTK_CONTAINER(widget), 15);
 
-		g_signal_connect (widget, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
-		g_signal_connect (widget, "key_press_event", G_CALLBACK(CheckEscape), NULL);
+		g_signal_connect (widget, "delete_event", G_CALLBACK(gtk_main_quit), nullptr);
+		g_signal_connect (widget, "key_press_event", G_CALLBACK(CheckEscape), nullptr);
 	}
 
 	~ZUIWindow()
@@ -228,7 +228,7 @@ public:
 		{
 			gtk_widget_destroy (widget);
 			// If we don't do this, then the X window might not actually disappear.
-			while (g_main_context_iteration (NULL, FALSE)) {}
+			while (g_main_context_iteration (nullptr, FALSE)) {}
 		}
 	}
 
@@ -293,7 +293,7 @@ public:
 		for (int i = 0; i < numwads; ++i)
 		{
 			const char *filepart = strrchr (wads[i].Path.c_str(), '/');
-			if (filepart == NULL)
+			if (filepart == nullptr)
 				filepart = wads[i].Path.c_str();
 			else
 				filepart++;
@@ -312,10 +312,10 @@ public:
 		// Create the tree view control to show the list.
 		widget = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
 		renderer = gtk_cell_renderer_text_new ();
-		column = gtk_tree_view_column_new_with_attributes ("IWAD", renderer, "text", 0, NULL);
+		column = gtk_tree_view_column_new_with_attributes ("IWAD", renderer, "text", 0, nullptr);
 		gtk_tree_view_append_column (GTK_TREE_VIEW(widget), column);
 		renderer = gtk_cell_renderer_text_new ();
-		column = gtk_tree_view_column_new_with_attributes ("Game", renderer, "text", 1, NULL);
+		column = gtk_tree_view_column_new_with_attributes ("Game", renderer, "text", 1, nullptr);
 		gtk_tree_view_append_column (GTK_TREE_VIEW(widget), column);
 
 		// Select the default IWAD.
@@ -358,7 +358,7 @@ class ZUIScrolledWindow : public ZUIWidget
 public:
 	ZUIScrolledWindow(ZUIWidget* child)
 	{
-		widget = gtk_scrolled_window_new(NULL, NULL);
+		widget = gtk_scrolled_window_new(nullptr, nullptr);
 		if(gtk_scrolled_window_set_min_content_height) gtk_scrolled_window_set_min_content_height((GtkScrolledWindow*)widget,150);
 		gtk_container_add(GTK_CONTAINER(widget), child->widget);
 	}

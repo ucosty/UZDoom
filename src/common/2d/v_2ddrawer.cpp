@@ -138,13 +138,13 @@ IMPLEMENT_CLASS(DShape2D, false, false)
 
 static void Shape2D_SetTransform(DShape2D* self, DShape2DTransform *transform)
 {
-	self->transform = PARAM_NULLCHECK(transform, transform)->transform;
+	self->transform = PARAM_nullptrCHECK(transform, transform)->transform;
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(DShape2D, SetTransform, Shape2D_SetTransform)
 {
 	PARAM_SELF_PROLOGUE(DShape2D);
-	PARAM_OBJECT_NOT_NULL(transform, DShape2DTransform);
+	PARAM_OBJECT_NOT_nullptr(transform, DShape2DTransform);
 	Shape2D_SetTransform(self, transform);
 	return 0;
 }

@@ -253,7 +253,7 @@ namespace swrenderer
 				{
 					rt_initcols(OffscreenColorBuffer + x * OffscreenBufferHeight);
 				}
-				for (FCoverageBuffer::Span *span = OffscreenCoverageBuffer->Spans[x]; span != NULL; span = span->NextSpan)
+				for (FCoverageBuffer::Span *span = OffscreenCoverageBuffer->Spans[x]; span != nullptr; span = span->NextSpan)
 				{
 					if (flags & DVF_SPANSONLY)
 					{
@@ -335,7 +335,7 @@ namespace swrenderer
 		}
 		if (k >= voxobj->NumMips) k = voxobj->NumMips - 1;
 
-		mip = &voxobj->Mips[k];		if (mip->GetSlabData(false) == NULL) return;
+		mip = &voxobj->Mips[k];		if (mip->GetSlabData(false) == nullptr) return;
 
 		minslabz >>= k;
 		maxslabz >>= k;

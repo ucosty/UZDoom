@@ -169,7 +169,7 @@ double FindLowestFloorSurrounding (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			ofloor = other->floorplane.ZatPoint (check->v1);
 			if (ofloor < floor && ofloor < sector->floorplane.ZatPoint (check->v1))
@@ -208,7 +208,7 @@ double FindHighestFloorSurrounding (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			ofloor = other->floorplane.ZatPoint (check->v1);
 			if (ofloor > floor)
@@ -255,7 +255,7 @@ double FindNextHighestFloor (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			ofloor = other->floorplane.ZatPoint (check->v1);
 			floor = sector->floorplane.ZatPoint (check->v1);
@@ -307,7 +307,7 @@ double FindNextLowestFloor (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			ofloor = other->floorplane.ZatPoint (check->v1);
 			floor = sector->floorplane.ZatPoint (check->v1);
@@ -359,7 +359,7 @@ double FindNextLowestCeiling (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			oceil = other->ceilingplane.ZatPoint(check->v1);
 			ceil = sector->ceilingplane.ZatPoint(check->v1);
@@ -411,7 +411,7 @@ double FindNextHighestCeiling (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			oceil = other->ceilingplane.ZatPoint(check->v1);
 			ceil = sector->ceilingplane.ZatPoint(check->v1);
@@ -454,7 +454,7 @@ double FindLowestCeilingSurrounding (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			oceil = other->ceilingplane.ZatPoint(check->v1);
 			if (oceil < height)
@@ -493,7 +493,7 @@ double FindHighestCeilingSurrounding (const sector_t *sector, vertex_t **v)
 
 	for (auto check : sector->Lines)
 	{
-		if (NULL != (other = getNextSector (check, sector)))
+		if (nullptr != (other = getNextSector (check, sector)))
 		{
 			oceil = other->ceilingplane.ZatPoint(check->v1);
 			if (oceil > height)
@@ -529,7 +529,7 @@ static inline void CheckShortestTex (FLevelLocals *Level, FTextureID texnum, dou
 	if (texnum.isValid() || (texnum.isNull() && (Level->i_compatflags & COMPATF_SHORTTEX)))
 	{
 		auto tex = TexMan.GetGameTexture(texnum);
-		if (tex != NULL)
+		if (tex != nullptr)
 		{
 			double h = tex->GetDisplayHeight();
 			if (h < minsize)
@@ -587,7 +587,7 @@ double FindShortestUpperAround (sector_t *sec)
 // a sector with that floor height across the lowest numbered two sided
 // line surrounding the sector.
 //
-// Note: If no sector at that height bounds the sector passed, return NULL
+// Note: If no sector at that height bounds the sector passed, return nullptr
 //
 // jff 02/03/98 Add routine to find numeric model floor
 //  around a sector specified by sector number
@@ -601,14 +601,14 @@ sector_t *FindModelFloorSector (sector_t *sect, double floordestheight)
 	for (auto check : sect->Lines)
 	{
 		sec = getNextSector (check, sect);
-		if (sec != NULL &&
+		if (sec != nullptr &&
 			(sec->floorplane.ZatPoint(check->v1) == floordestheight ||
 			 sec->floorplane.ZatPoint(check->v2) == floordestheight))
 		{
 			return sec;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //
@@ -618,7 +618,7 @@ sector_t *FindModelFloorSector (sector_t *sect, double floordestheight)
 // a sector with that ceiling height across the lowest numbered two sided
 // line surrounding the sector.
 //
-// Note: If no sector at that height bounds the sector passed, return NULL
+// Note: If no sector at that height bounds the sector passed, return nullptr
 //
 // jff 02/03/98 Add routine to find numeric model ceiling
 //  around a sector specified by sector number
@@ -633,14 +633,14 @@ sector_t *FindModelCeilingSector (sector_t *sect, double floordestheight)
 	for (auto check : sect->Lines)
 	{
 		sec = getNextSector (check, sect);
-		if (sec != NULL &&
+		if (sec != nullptr &&
 			(sec->ceilingplane.ZatPoint(check->v1) == floordestheight ||
 			 sec->ceilingplane.ZatPoint(check->v2) == floordestheight))
 		{
 			return sec;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //
@@ -652,7 +652,7 @@ int FindMinSurroundingLight (const sector_t *sector, int min)
 		
 	for (auto line : sector->Lines)
 	{
-		if (NULL != (check = getNextSector (line, sector)) &&
+		if (nullptr != (check = getNextSector (line, sector)) &&
 			check->lightlevel < min)
 		{
 			min = check->lightlevel;
@@ -668,11 +668,11 @@ double FindHighestFloorPoint (const sector_t *sector, vertex_t **v)
 {
 	double height = -FLT_MAX;
 	double probeheight;
-	vertex_t *spot = NULL;
+	vertex_t *spot = nullptr;
 
 	if (!sector->floorplane.isSlope())
 	{
-		if (v != NULL)
+		if (v != nullptr)
 		{
 			if (sector->Lines.Size() == 0) *v = &sector->Level->vertexes[0];
 			else *v = sector->Lines[0]->v1;
@@ -1058,7 +1058,7 @@ double NextHighestCeilingAt(sector_t *sec, double x, double y, double bottomz, d
 		}
 		if ((flags & FFCF_NOPORTALS) || sec->PortalBlocksMovement(sector_t::ceiling) || planeheight >= sec->GetPortalPlaneZ(sector_t::ceiling))
 		{ // Use sector's ceiling
-			if (resultffloor) *resultffloor = NULL;
+			if (resultffloor) *resultffloor = nullptr;
 			if (resultsec) *resultsec = sec;
 			return realceil;
 		}
@@ -1107,7 +1107,7 @@ double NextLowestFloorAt(sector_t *sec, double x, double y, double z, int flags,
 		}
 		if ((flags & FFCF_NOPORTALS) || sec->PortalBlocksMovement(sector_t::floor) || planeheight <= sec->GetPortalPlaneZ(sector_t::floor))
 		{ // Use sector's floor
-			if (resultffloor) *resultffloor = NULL;
+			if (resultffloor) *resultffloor = nullptr;
 			if (resultsec) *resultsec = sec;
 			return realfloor;
 		}
@@ -1158,7 +1158,7 @@ double GetFriction(const sector_t *self, int plane, double *pMoveFac)
  {
 	 for (auto line : sector->Lines)
 	 {
-		 if (line->backsector != NULL && line->special == ForceField)
+		 if (line->backsector != nullptr && line->special == ForceField)
 		 {
 			 line->flags &= ~(ML_BLOCKING | ML_BLOCKEVERYTHING);
 			 line->special = 0;
@@ -1201,7 +1201,7 @@ double GetFriction(const sector_t *self, int plane, double *pMoveFac)
 	 if (c == 0)
 	 {
 		 auto tex = TexMan.GetGameTexture(GetTexture(sector_t::floor));
-		 if (tex != NULL && tex->isGlowing())
+		 if (tex != nullptr && tex->isGlowing())
 		 {
 			 if (!tex->isAutoGlowing()) tex = TexMan.GetGameTexture(GetTexture(sector_t::floor), true);
 			 if (tex->isGlowing())	// recheck the current animation frame.
@@ -1246,7 +1246,7 @@ double GetFriction(const sector_t *self, int plane, double *pMoveFac)
 	 if (c == 0)
 	 {
 		 auto tex = TexMan.GetGameTexture(GetTexture(sector_t::ceiling));
-		 if (tex != NULL && tex->isGlowing())
+		 if (tex != nullptr && tex->isGlowing())
 		 {
 			 if (!tex->isAutoGlowing()) tex = TexMan.GetGameTexture(GetTexture(sector_t::ceiling), true);
 			 if (tex->isGlowing())	// recheck the current animation frame.
@@ -1270,7 +1270,7 @@ double GetFriction(const sector_t *self, int plane, double *pMoveFac)
 	 if (c == 0)
 	 {
 		 auto tex = TexMan.GetGameTexture(GetTexture(sector_t::floor));
-		 if (tex != NULL && tex->isGlowing())
+		 if (tex != nullptr && tex->isGlowing())
 		 {
 			 if (!tex->isAutoGlowing()) tex = TexMan.GetGameTexture(GetTexture(sector_t::floor), true);
 			 if (tex->isGlowing())	// recheck the current animation frame.
@@ -1493,7 +1493,7 @@ static FNodeBuilder PolyNodeBuilder(PolyNodeLevel);
 
 void subsector_t::BuildPolyBSP()
 {
-	assert((BSP == NULL || BSP->bDirty) && "BSP computed more than once");
+	assert((BSP == nullptr || BSP->bDirty) && "BSP computed more than once");
 
 	// Set up level information for the node builder.
 	PolyNodeLevel.Sides = &sector->Level->sides[0];
@@ -1504,12 +1504,12 @@ void subsector_t::BuildPolyBSP()
 	// Feed segs to the nodebuilder and build the nodes.
 	PolyNodeBuilder.Clear();
 	PolyNodeBuilder.AddSegs(firstline, numlines);
-	for (FPolyNode *pn = polys; pn != NULL; pn = pn->pnext)
+	for (FPolyNode *pn = polys; pn != nullptr; pn = pn->pnext)
 	{
 		PolyNodeBuilder.AddPolySegs(&pn->segs[0], (int)pn->segs.Size());
 	}
 	PolyNodeBuilder.BuildMini(false);
-	if (BSP == NULL)
+	if (BSP == nullptr)
 	{
 		BSP = new FMiniBSP;
 	}
@@ -1580,7 +1580,7 @@ int side_t::GetLightLevel (bool foggy, int baselight, int which, bool is3dlight,
 		}
 	}
 
-	if (pfakecontrast != NULL)
+	if (pfakecontrast != nullptr)
 	{
 		*pfakecontrast = 0;
 	}
@@ -1606,7 +1606,7 @@ int side_t::GetLightLevel (bool foggy, int baselight, int which, bool is3dlight,
 				rel = delta.X == 0 ? sector->Level->WallVertLight : 
 					  delta.Y == 0 ? sector->Level->WallHorizLight : 0;
 			}
-			if (pfakecontrast != NULL)
+			if (pfakecontrast != nullptr)
 			{
 				*pfakecontrast = rel;
 			}

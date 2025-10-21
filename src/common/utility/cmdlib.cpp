@@ -221,7 +221,7 @@ bool DirExists(const char *filename)
 bool DirEntryExists(const char *pathname, bool *isdir)
 {
 	if (isdir) *isdir = false;
-	if (pathname == NULL || *pathname == 0)
+	if (pathname == nullptr || *pathname == 0)
 		return false;
 
 #ifndef _WIN32
@@ -247,7 +247,7 @@ bool DirEntryExists(const char *pathname, bool *isdir)
 
 bool GetFileInfo(const char* pathname, size_t *size, time_t *time)
 {
-	if (pathname == NULL || *pathname == 0)
+	if (pathname == nullptr || *pathname == 0)
 		return false;
 
 #ifndef _WIN32
@@ -437,7 +437,7 @@ bool IsNum (const char *str)
 
 bool CheckWildcards (const char *pattern, const char *text)
 {
-	if (pattern == NULL || text == NULL)
+	if (pattern == nullptr || text == nullptr)
 		return true;
 
 	while (*pattern)
@@ -505,7 +505,7 @@ const char *myasctime ()
 
 	time (&clock);
 	lt = localtime (&clock);
-	if (lt != NULL)
+	if (lt != nullptr)
 	{
 		strftime(readabletime, 50, "%F %T", lt);
 		return readabletime;
@@ -601,7 +601,7 @@ void CreatePath(const char *fn)
 	do
 	{
 		p = strchr(p + 1, '/');
-		if (p != NULL)
+		if (p != nullptr)
 		{
 			*p = '\0';
 		}
@@ -611,7 +611,7 @@ void CreatePath(const char *fn)
 			free(copy);
 			return;
 		}
-		if (p != NULL)
+		if (p != nullptr)
 		{
 			*p = '/';
 		}
@@ -861,18 +861,18 @@ FString ExpandEnvVars(const char *searchpathstring)
 		"_"
 		"abcdefghijklmnopqrstuvwxyz";
 
-	if (searchpathstring == NULL)
+	if (searchpathstring == nullptr)
 		return FString("");
 
 	const char *dollar = strchr(searchpathstring, '$');
-	if (dollar == NULL)
+	if (dollar == nullptr)
 	{
 		return FString(searchpathstring);
 	}
 
 	const char *nextchars = searchpathstring;
 	FString out = FString(searchpathstring, dollar - searchpathstring);
-	while ( (dollar != NULL) && (*nextchars != 0) )
+	while ( (dollar != nullptr) && (*nextchars != 0) )
 	{
 		size_t length = strspn(dollar + 1, envvarnamechars);
 		if (length != 0)
@@ -885,7 +885,7 @@ FString ExpandEnvVars(const char *searchpathstring)
 			else
 			{
 				char *varvalue = getenv(varname.c_str());
-				if ( (varvalue != NULL) && (strlen(varvalue) != 0) )
+				if ( (varvalue != nullptr) && (strlen(varvalue) != 0) )
 				{
 					out += varvalue;
 				}
@@ -897,7 +897,7 @@ FString ExpandEnvVars(const char *searchpathstring)
 		}
 		nextchars = dollar + length + 1;
 		dollar = strchr(nextchars, '$');
-		if (dollar != NULL)
+		if (dollar != nullptr)
 		{
 			out += FString(nextchars, dollar - nextchars);
 		}
@@ -927,7 +927,7 @@ FString NicePath(const char *path)
 	}
 	return ExpandEnvVars(path);
 #else
-	if (path == NULL || *path == '\0')
+	if (path == nullptr || *path == '\0')
 	{
 		return FString("");
 	}
@@ -947,14 +947,14 @@ FString NicePath(const char *path)
 	else
 	{ // Get somebody else's home directory
 		slash = strchr(path, '/');
-		if (slash == NULL)
+		if (slash == nullptr)
 		{
 			slash = path + strlen(path);
 		}
 		FString who(path, slash - path);
 		pwstruct = getpwnam(who.c_str());
 	}
-	if (pwstruct == NULL)
+	if (pwstruct == nullptr)
 	{
 		return ExpandEnvVars(path);
 	}

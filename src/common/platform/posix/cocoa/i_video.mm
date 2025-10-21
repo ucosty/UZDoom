@@ -796,14 +796,14 @@ IVideo* Video;
 
 void I_ShutdownGraphics()
 {
-	if (NULL != screen)
+	if (nullptr != screen)
 	{
 		delete screen;
-		screen = NULL;
+		screen = nullptr;
 	}
 
 	delete Video;
-	Video = NULL;
+	Video = nullptr;
 }
 
 void I_InitGraphics()
@@ -828,7 +828,7 @@ bool I_SetCursor(FGameTexture *cursorpic)
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSCursor* cursor = nil;
 
-	if (NULL != cursorpic && cursorpic->isValid())
+	if (nullptr != cursorpic && cursorpic->isValid())
 	{
 		// Create bitmap image representation
 
@@ -839,7 +839,7 @@ bool I_SetCursor(FGameTexture *cursorpic)
 		const NSInteger imagePitch  = sbuffer.mWidth * 4;
 
 		NSBitmapImageRep* bitmapImageRep = [NSBitmapImageRep alloc];
-		[bitmapImageRep initWithBitmapDataPlanes:NULL
+		[bitmapImageRep initWithBitmapDataPlanes:nullptr
 									  pixelsWide:imageWidth
 									  pixelsHigh:imageHeight
 								   bitsPerSample:8

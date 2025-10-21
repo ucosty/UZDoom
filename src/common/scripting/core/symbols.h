@@ -130,8 +130,8 @@ class PSymbolConst : public PSymbol
 public:
 	PType *ValueType;
 
-	PSymbolConst(FName name, PType *type=NULL) : PSymbol(name), ValueType(type) {}
-	PSymbolConst() : PSymbol(NAME_None), ValueType(NULL) {}
+	PSymbolConst(FName name, PType *type=nullptr) : PSymbol(name), ValueType(type) {}
+	PSymbolConst() : PSymbol(NAME_None), ValueType(nullptr) {}
 };
 
 // A constant numeric value -------------------------------------------------
@@ -219,7 +219,7 @@ struct PSymbolTable
 	PSymbol *FindSymbolInTable(FName symname, PSymbolTable *&symtable);
 
 
-	// Places the symbol in the table and returns a pointer to it or NULL if
+	// Places the symbol in the table and returns a pointer to it or nullptr if
 	// a symbol with the same name is already in the table. This symbol is
 	// not copied and will be freed when the symbol table is destroyed.
 	PSymbol *AddSymbol (PSymbol *sym);

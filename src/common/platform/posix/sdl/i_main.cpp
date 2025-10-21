@@ -188,10 +188,10 @@ int main (int argc, char **argv)
 	progdir = PROGDIR;
 #else
 	char program[PATH_MAX];
-	if (realpath (argv[0], program) == NULL)
+	if (realpath (argv[0], program) == nullptr)
 		strcpy (program, argv[0]);
 	char *slash = strrchr (program, '/');
-	if (slash != NULL)
+	if (slash != nullptr)
 	{
 		*(slash + 1) = '\0';
 		progdir = program;

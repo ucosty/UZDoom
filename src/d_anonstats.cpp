@@ -141,7 +141,7 @@ bool I_HTTPRequest(const char* request)
 	}
 
 	server = gethostbyname(anonstats_host);
-	if (server == NULL)
+	if (server == nullptr)
 	{
 		DPrintf(DMSG_ERROR, "Error looking up hostname.\n");
 		return false;
@@ -209,8 +209,8 @@ static FString GetOSVersion()
 
 static int  GetCoreInfo()
 {
-	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = NULL;
-	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION ptr = NULL;
+	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = nullptr;
+	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION ptr = nullptr;
 	DWORD returnLength = 0;
 	int cores = 0;
 	uint32_t byteOffset = 0;

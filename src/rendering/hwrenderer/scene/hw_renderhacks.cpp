@@ -324,8 +324,8 @@ bool HWDrawInfo::DoOneSectorUpper(subsector_t * subsec, float Planez, area_t in_
 	// Do this first to avoid unnecessary recursion
 	for (uint32_t i = 0; i < subsec->numlines; i++)
 	{
-		if (subsec->firstline[i].backsector == NULL) return false;
-		if (subsec->firstline[i].PartnerSeg == NULL) return false;
+		if (subsec->firstline[i].backsector == nullptr) return false;
+		if (subsec->firstline[i].PartnerSeg == nullptr) return false;
 	}
 
 	for (uint32_t i = 0; i < subsec->numlines; i++)
@@ -382,8 +382,8 @@ bool HWDrawInfo::DoOneSectorLower(subsector_t * subsec, float Planez, area_t in_
 	// Do this first to avoid unnecessary recursion
 	for (uint32_t i = 0; i < subsec->numlines; i++)
 	{
-		if (subsec->firstline[i].backsector == NULL) return false;
-		if (subsec->firstline[i].PartnerSeg == NULL) return false;
+		if (subsec->firstline[i].backsector == nullptr) return false;
+		if (subsec->firstline[i].PartnerSeg == nullptr) return false;
 	}
 
 	for (uint32_t i = 0; i < subsec->numlines; i++)
@@ -441,8 +441,8 @@ bool HWDrawInfo::DoFakeBridge(subsector_t * subsec, float Planez, area_t in_area
 	// Do this first to avoid unnecessary recursion
 	for (uint32_t i = 0; i < subsec->numlines; i++)
 	{
-		if (subsec->firstline[i].backsector == NULL) return false;
-		if (subsec->firstline[i].PartnerSeg == NULL) return false;
+		if (subsec->firstline[i].backsector == nullptr) return false;
+		if (subsec->firstline[i].PartnerSeg == nullptr) return false;
 	}
 
 	for (uint32_t i = 0; i < subsec->numlines; i++)
@@ -494,8 +494,8 @@ bool HWDrawInfo::DoFakeCeilingBridge(subsector_t * subsec, float Planez, area_t 
 	// Do this first to avoid unnecessary recursion
 	for (uint32_t i = 0; i < subsec->numlines; i++)
 	{
-		if (subsec->firstline[i].backsector == NULL) return false;
-		if (subsec->firstline[i].PartnerSeg == NULL) return false;
+		if (subsec->firstline[i].backsector == nullptr) return false;
+		if (subsec->firstline[i].PartnerSeg == nullptr) return false;
 	}
 
 	for (uint32_t i = 0; i < subsec->numlines; i++)
@@ -575,12 +575,12 @@ void HWDrawInfo::HandleMissingTextures(area_t in_area)
 						{
 							if (MissingUpperTextures[k].sub == HandledSubsectors[j])
 							{
-								MissingUpperTextures[k].seg = NULL;
+								MissingUpperTextures[k].seg = nullptr;
 							}
 						}
 					}
 				}
-				else MissingUpperTextures[i].seg = NULL;
+				else MissingUpperTextures[i].seg = nullptr;
 				continue;
 			}
 		}
@@ -641,12 +641,12 @@ void HWDrawInfo::HandleMissingTextures(area_t in_area)
 						{
 							if (MissingLowerTextures[k].sub == HandledSubsectors[j])
 							{
-								MissingLowerTextures[k].seg = NULL;
+								MissingLowerTextures[k].seg = nullptr;
 							}
 						}
 					}
 				}
-				else MissingLowerTextures[i].seg = NULL;
+				else MissingLowerTextures[i].seg = nullptr;
 				continue;
 			}
 		}
@@ -851,7 +851,7 @@ void HWDrawInfo::PrepareUnhandledMissingTextures()
 		for (int i = MissingUpperSegs.Size() - 1; i >= 0; i--)
 		{
 			int index = MissingUpperSegs[i].MTI_Index;
-			if (index >= 0 && MissingUpperTextures[index].seg == NULL) continue;
+			if (index >= 0 && MissingUpperTextures[index].seg == nullptr) continue;
 
 			seg_t * seg = MissingUpperSegs[i].seg;
 
@@ -864,7 +864,7 @@ void HWDrawInfo::PrepareUnhandledMissingTextures()
 			if (seg->PartnerSeg && (seg->PartnerSeg->Subsector->flags & SSECF_DEGENERATE)) continue;
 			if (seg->backsector->transdoor) continue;
 			if (seg->backsector->GetTexture(sector_t::ceiling) == skyflatnum) continue;
-			if (seg->backsector->ValidatePortal(sector_t::ceiling) != NULL) continue;
+			if (seg->backsector->ValidatePortal(sector_t::ceiling) != nullptr) continue;
 
 			PrepareUpperGap(seg);
 		}
@@ -873,7 +873,7 @@ void HWDrawInfo::PrepareUnhandledMissingTextures()
 		for (int i = MissingLowerSegs.Size() - 1; i >= 0; i--)
 		{
 			int index = MissingLowerSegs[i].MTI_Index;
-			if (index >= 0 && MissingLowerTextures[index].seg == NULL) continue;
+			if (index >= 0 && MissingLowerTextures[index].seg == nullptr) continue;
 
 			seg_t * seg = MissingLowerSegs[i].seg;
 
@@ -882,7 +882,7 @@ void HWDrawInfo::PrepareUnhandledMissingTextures()
 			if (seg->frontsector->GetPlaneTexZ(sector_t::floor) > Viewpoint.Pos.Z) continue;	// out of sight
 			if (seg->backsector->transdoor) continue;
 			if (seg->backsector->GetTexture(sector_t::floor) == skyflatnum) continue;
-			if (seg->backsector->ValidatePortal(sector_t::floor) != NULL) continue;
+			if (seg->backsector->ValidatePortal(sector_t::floor) != nullptr) continue;
 
 			PrepareLowerGap(seg);
 		}

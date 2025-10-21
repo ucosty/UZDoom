@@ -80,7 +80,7 @@ EXTERN_CVAR(Int, vid_defheight)
 
 	memset(&displaysettings, 0, sizeof(displaysettings));
 	displaysettings.dmSize = sizeof(displaysettings);
-	EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &displaysettings);
+	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &displaysettings);
 	scrwidth = (int)displaysettings.dmPelsWidth;
 	scrheight = (int)displaysettings.dmPelsHeight;
 	GetWindowRect(mainwindow.GetHandle(), &rect);

@@ -73,7 +73,7 @@
 </Type>
 
 <Type Name="TObjPtr&lt;*&gt;">
-    <DisplayString Condition="o == nullptr">&lt;NULL&gt;</DisplayString>
+    <DisplayString Condition="o == nullptr">&lt;nullptr&gt;</DisplayString>
     <DisplayString Condition="o != nullptr">{o->Class->TypeName}</DisplayString>
 </Type>
 

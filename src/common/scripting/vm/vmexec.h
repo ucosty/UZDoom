@@ -124,7 +124,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		NEXTOP;
 
 	OP(LFP):
-		ASSERTA(a); assert(sfunc != NULL); assert(sfunc->ExtraSpace > 0);
+		ASSERTA(a); assert(sfunc != nullptr); assert(sfunc->ExtraSpace > 0);
 		reg.a[a] = f->GetExtra();
 		NEXTOP;
 
@@ -918,7 +918,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		{ // No return values
 			return 0;
 		}
-		assert(ret != NULL || numret == 0);
+		assert(ret != nullptr || numret == 0);
 		{
 			int retnum = a & ~RET_FINAL;
 			if (retnum < numret)
@@ -932,7 +932,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		}
 		NEXTOP;
 	OP(RETI):
-		assert(ret != NULL || numret == 0);
+		assert(ret != nullptr || numret == 0);
 		{
 			int retnum = a & ~RET_FINAL;
 			if (retnum < numret)
@@ -1922,7 +1922,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		ASSERTA(a); ASSERTA(B); ASSERTD(C);
 		c = reg.d[C];
 	Do_ADDA:
-		if (reg.a[B] == NULL)	// Leave NULL pointers as NULL pointers
+		if (reg.a[B] == nullptr)	// Leave nullptr pointers as nullptr pointers
 		{
 			c = 0;
 		}
@@ -1947,7 +1947,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		CMPJMP(reg.a[B] == konsta[C].v);
 		NEXTOP;
 
-	OP(NULLCHECK):
+	OP(nullptrCHECK):
 		ASSERTA(a);
 		if (PA == nullptr)
 		{
@@ -2238,7 +2238,7 @@ static void SetReturn(const VMRegisters &reg, VMFrame *frame, VMReturn *ret, VM_
 	const void *src;
 	VMScriptFunction *func = static_cast<VMScriptFunction *>(frame->Func);
 
-	assert(func != NULL && !(func->VarFlags & VARF_Native));
+	assert(func != nullptr && !(func->VarFlags & VARF_Native));
 	assert((regtype & ~REGT_KONST) == ret->RegType);
 
 	switch (regtype & REGT_TYPE)

@@ -326,7 +326,7 @@ void Mark(DObject **obj)
 	{
 		if (lobj->ObjectFlags & OF_EuthanizeMe)
 		{
-			*obj = (DObject *)NULL;
+			*obj = (DObject *)nullptr;
 		}
 		else if (lobj->IsWhite())
 		{

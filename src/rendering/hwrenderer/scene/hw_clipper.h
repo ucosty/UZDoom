@@ -70,7 +70,7 @@ public:
 
 		c->start = start;
 		c->end = end;
-		c->next = c->prev = NULL;
+		c->next = c->prev = nullptr;
 		return c;
 	}
     

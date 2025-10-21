@@ -56,7 +56,7 @@ DMenuItemBase *DOptionMenuDescriptor::GetItem(FName name)
 		FName nm = mItems[i]->mAction;
 		if (nm == name) return mItems[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 void SetCVarDescription(FBaseCVar* cvar, const FString* label)

@@ -109,7 +109,7 @@ void FNodeBuilder::FindUsedVertices (vertex_t *oldverts, int max)
 const int *FNodeBuilder::GetOldVertexTable()
 {
 	int *table = OldVertexTable;
-	OldVertexTable = NULL;
+	OldVertexTable = nullptr;
 	return table;
 }
 
@@ -126,7 +126,7 @@ void FNodeBuilder::MakeSegsFromSides ()
 
 	for (i = 0; i < Level.NumLines; ++i)
 	{
-		if (Level.Lines[i].sidedef[0] != NULL)
+		if (Level.Lines[i].sidedef[0] != nullptr)
 		{
 			CreateSeg (i, 0);
 		}
@@ -135,10 +135,10 @@ void FNodeBuilder::MakeSegsFromSides ()
 			Printf ("Linedef %d does not have a front side.\n", i);
 		}
 
-		if (Level.Lines[i].sidedef[1] != NULL)
+		if (Level.Lines[i].sidedef[1] != nullptr)
 		{
 			j = CreateSeg (i, 1);
-			if (Level.Lines[i].sidedef[0] != NULL)
+			if (Level.Lines[i].sidedef[0] != nullptr)
 			{
 				Segs[j-1].partner = j;
 				Segs[j].partner = j-1;
@@ -155,7 +155,7 @@ int FNodeBuilder::CreateSeg (int linenum, int sidenum)
 	seg.next = UINT_MAX;
 	seg.loopnum = 0;
 	seg.partner = UINT_MAX;
-	seg.hashnext = NULL;
+	seg.hashnext = nullptr;
 	seg.planefront = false;
 	seg.planenum = UINT_MAX;
 	seg.storedseg = UINT_MAX;
@@ -176,7 +176,7 @@ int FNodeBuilder::CreateSeg (int linenum, int sidenum)
 	}
 	seg.linedef = linenum;
 	side_t *sd = Level.Lines[linenum].sidedef[sidenum];
-	seg.sidedef = sd != NULL? sd->Index() : int(NO_SIDE);
+	seg.sidedef = sd != nullptr? sd->Index() : int(NO_SIDE);
 	seg.nextforvert = Vertices[seg.v1].segs;
 	seg.nextforvert2 = Vertices[seg.v2].segs2;
 
@@ -205,7 +205,7 @@ void FNodeBuilder::AddSegs(seg_t *segs, int numsegs)
 		seg.next = UINT_MAX;
 		seg.loopnum = 0;
 		seg.partner = UINT_MAX;
-		seg.hashnext = NULL;
+		seg.hashnext = nullptr;
 		seg.planefront = false;
 		seg.planenum = UINT_MAX;
 		seg.storedseg = UINT_MAX;
@@ -219,7 +219,7 @@ void FNodeBuilder::AddSegs(seg_t *segs, int numsegs)
 		vert.y = segs[i].v2->fixY();
 		seg.v2 = VertexMap->SelectVertexExact(vert);
 		seg.linedef = int(segs[i].linedef - Level.Lines);
-		seg.sidedef = segs[i].sidedef != NULL ? int(segs[i].sidedef - Level.Sides) : int(NO_SIDE);
+		seg.sidedef = segs[i].sidedef != nullptr ? int(segs[i].sidedef - Level.Sides) : int(NO_SIDE);
 		seg.nextforvert = Vertices[seg.v1].segs;
 		seg.nextforvert2 = Vertices[seg.v2].segs2;
 
@@ -242,13 +242,13 @@ void FNodeBuilder::AddPolySegs(FPolySeg *segs, int numsegs)
 		seg.next = UINT_MAX;
 		seg.loopnum = 0;
 		seg.partner = UINT_MAX;
-		seg.hashnext = NULL;
+		seg.hashnext = nullptr;
 		seg.planefront = false;
 		seg.planenum = UINT_MAX;
 		seg.storedseg = UINT_MAX;
 
 		side_t *side = segs[i].wall;
-		assert(side != NULL);
+		assert(side != nullptr);
 
 		seg.frontsector = side->sector;
 		seg.backsector = side->linedef->frontsector == side->sector ? side->linedef->backsector : side->linedef->frontsector;
@@ -283,7 +283,7 @@ void FNodeBuilder::GroupSegPlanes ()
 	{
 		FPrivSeg *seg = &Segs[i];
 		seg->next = i+1;
-		seg->hashnext = NULL;
+		seg->hashnext = nullptr;
 	}
 
 	Segs[Segs.Size()-1].next = UINT_MAX;
@@ -302,7 +302,7 @@ void FNodeBuilder::GroupSegPlanes ()
 
 		FPrivSeg *check = buckets[ang >>= 31-bucketbits];
 
-		while (check != NULL)
+		while (check != nullptr)
 		{
 			fixed_t cx1 = Vertices[check->v1].x;
 			fixed_t cy1 = Vertices[check->v1].y;
@@ -315,7 +315,7 @@ void FNodeBuilder::GroupSegPlanes ()
 			}
 			check = check->hashnext;
 		}
-		if (check != NULL)
+		if (check != nullptr)
 		{
 			seg->planenum = check->planenum;
 			const FSimpleLine *line = &Planes[seg->planenum];
@@ -371,7 +371,7 @@ void FNodeBuilder::GroupSegPlanesSimple()
 		FPrivSeg *seg = &Segs[i];
 		FSimpleLine *pline = &Planes[i];
 		seg->next = i+1;
-		seg->hashnext = NULL;
+		seg->hashnext = nullptr;
 		seg->planenum = i;
 		seg->planefront = true;
 		pline->x = Vertices[seg->v1].x;
@@ -402,7 +402,7 @@ void FNodeBuilder::FindPolyContainers (TArray<FPolyStart> &spots, TArray<FPolySt
 
 		if (GetPolyExtents (spot->polynum, bbox))
 		{
-			FPolyStart *anchor = NULL;
+			FPolyStart *anchor = nullptr;
 
 			unsigned int j;
 

@@ -52,28 +52,28 @@ void A_Unblock(AActor *self, bool drop)
 	self->flags &= ~MF_SOLID;
 
 	// If the actor has a conversation that sets an item to drop, drop that.
-	if (self->Conversation != NULL && self->Conversation->DropType != NULL)
+	if (self->Conversation != nullptr && self->Conversation->DropType != nullptr)
 	{
 		P_DropItem (self, self->Conversation->DropType, -1, 256);
-		self->Conversation = NULL;
+		self->Conversation = nullptr;
 		return;
 	}
 
-	self->Conversation = NULL;
+	self->Conversation = nullptr;
 
 	// If the actor has attached metadata for items to drop, drop those.
 	if (drop && !self->IsKindOf(NAME_PlayerPawn))	// [GRB]
 	{
 		auto di = self->GetDropItems();
 
-		if (di != NULL)
+		if (di != nullptr)
 		{
-			while (di != NULL)
+			while (di != nullptr)
 			{
 				if (di->Name != NAME_None)
 				{
 					PClassActor *ti = PClass::FindActor(di->Name);
-					if (ti != NULL)
+					if (ti != nullptr)
 					{
 						P_DropItem (self, ti, di->Amount, di->Probability);
 					}

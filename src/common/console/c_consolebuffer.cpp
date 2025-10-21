@@ -46,9 +46,9 @@
 
 FConsoleBuffer::FConsoleBuffer()
 {
-	mLogFile = NULL;
+	mLogFile = nullptr;
 	mAddType = NEWLINE;
-	mLastFont = NULL;
+	mLastFont = nullptr;
 	mLastDisplayWidth = -1;
 	mLastLineNeedsUpdate = false;
 	mTextLines = 0;

@@ -93,7 +93,7 @@ inline double AActor::GetGravity() const
 
 inline double AActor::AttackOffset(double offset)
 {
-	if (player != NULL)
+	if (player != nullptr)
 	{
 		return (FloatVar(NAME_AttackZOffset) + offset) * player->crouchfactor;
 	}

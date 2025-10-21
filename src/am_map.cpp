@@ -1332,7 +1332,7 @@ void DAutomap::startDisplay()
 		for (pnum=0;pnum<MAXPLAYERS;pnum++)
 			if (playeringame[pnum])
 				break;
-	assert(pnum >= 0 && pnum < MAXPLAYERS);
+	assert(pnum < MAXPLAYERS);
 	m_x = players[pnum].camera->X() - m_w/2;
 	m_y = players[pnum].camera->Y() - m_h/2;
 	changeWindowLoc();

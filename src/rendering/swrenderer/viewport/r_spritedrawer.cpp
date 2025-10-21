@@ -470,7 +470,7 @@ namespace swrenderer
 		if (translation != NO_TRANSLATION)
 		{
 			FRemapTable *table = GPalette.TranslationToTable(translation);
-			if (table != NULL)
+			if (table != nullptr)
 			{
 				if (viewport->RenderTarget->IsBgra())
 					SetTranslationMap((uint8_t*)table->Palette);

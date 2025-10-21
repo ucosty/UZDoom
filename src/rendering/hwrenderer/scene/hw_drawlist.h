@@ -73,9 +73,9 @@ struct HWDrawList
 public:
 	HWDrawList()
 	{
-		next=NULL;
+		next=nullptr;
 		SortNodeStart=-1;
-		sorted=NULL;
+		sorted=nullptr;
 	}
 	
 	~HWDrawList()

@@ -533,7 +533,7 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 		replace_multiple_chars(filename, ":\\/?|", '.');
 		filename << ".ast";
 		FileWriter *ff = FileWriter::Open(filename.c_str());
-		if (ff != NULL)
+		if (ff != nullptr)
 		{
 			ff->Write(ast.c_str(), ast.length());
 			delete ff;
@@ -572,7 +572,7 @@ ZCC_TreeNode *ZCC_AST::InitNode(size_t size, EZCCTreeNodeType type, ZCC_TreeNode
 	node->SiblingNext = node;
 	node->SiblingPrev = node;
 	node->NodeType = type;
-	if (basis != NULL)
+	if (basis != nullptr)
 	{
 		node->SourceName = basis->SourceName;
 		node->SourceLump = basis->SourceLump;
@@ -583,7 +583,7 @@ ZCC_TreeNode *ZCC_AST::InitNode(size_t size, EZCCTreeNodeType type, ZCC_TreeNode
 
 ZCC_TreeNode *ZCCParseState::InitNode(size_t size, EZCCTreeNodeType type)
 {
-	ZCC_TreeNode *node = ZCC_AST::InitNode(size, type, NULL);
+	ZCC_TreeNode *node = ZCC_AST::InitNode(size, type, nullptr);
 	node->SourceName = Strings.Alloc(sc->ScriptName);
 	node->SourceLump = sc->LumpNum;
 	return node;

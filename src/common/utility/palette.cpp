@@ -370,7 +370,7 @@ void MakeRemap(uint32_t* BaseColors, const uint32_t* colors, uint8_t* remap, con
 	}
 	for (i = k = 0, j = 255; i < numcolors; ++i)
 	{
-		if (useful == NULL || useful[i] != 0)
+		if (useful == nullptr || useful[i] != 0)
 		{
 			workspace[j].Color = colors[i] & 0xFFFFFF;
 			workspace[j].Foreign = 1;
@@ -560,7 +560,7 @@ PalEntry averageColor(const uint32_t* data, int size, int maxout)
 // V_GetColorFromString
 //
 // Passed a string of the form "#RGB", "#RRGGBB", "R G B", or "RR GG BB",
-// returns a number representing that color. If palette is non-NULL, the
+// returns a number representing that color. If palette is non-nullptr, the
 // index of the best match in the palette is returned, otherwise the
 // RRGGBB value is returned directly.
 //

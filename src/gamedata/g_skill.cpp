@@ -502,10 +502,10 @@ const char * G_SkillName()
 	player_t *player = &players[consoleplayer];
 	const char *playerclass = player->mo->GetInfo()->DisplayName.c_str();
 
-	if (playerclass != NULL)
+	if (playerclass != nullptr)
 	{
 		FString * pmnm = AllSkills[gameskill].MenuNamesForPlayerClass.CheckKey(playerclass);
-		if (pmnm != NULL) name = pmnm->c_str();
+		if (pmnm != nullptr) name = pmnm->c_str();
 	}
 
 	if (*name == '$') name = GStrings.GetString(name+1);

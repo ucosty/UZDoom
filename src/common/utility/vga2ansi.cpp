@@ -41,7 +41,7 @@ static void CPrint(const char* in)
 	DWORD bytes_written;
 	if (!StdOut)
 		return;
-	WriteFile(StdOut, in, strlen(in), &bytes_written, NULL);
+	WriteFile(StdOut, in, strlen(in), &bytes_written, nullptr);
 }
 #else
 static void CPrint(const char* in)

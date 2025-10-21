@@ -132,7 +132,7 @@ void D_GrabCVarDefaults()
 			SHOULD_BLACKLIST(anonstats_host)
 			SHOULD_BLACKLIST(sentstats_hwr_done)
 
-			var = FindCVar(CurrentFindCVar.c_str(), NULL);
+			var = FindCVar(CurrentFindCVar.c_str(), nullptr);
 
 			if (var && var->GetFlags() & CVAR_SYSTEM_ONLY)
 				blacklisted = true;
@@ -142,7 +142,7 @@ void D_GrabCVarDefaults()
 				sc.ScriptMessage("Cannot set cvar default for blacklisted cvar '%s'", sc.String);
 				sc.MustGetString(); // to ignore the value of the cvar
 			}
-			else if (var != NULL)
+			else if (var != nullptr)
 			{
 
 				if (var->GetFlags() & CVAR_ARCHIVE)

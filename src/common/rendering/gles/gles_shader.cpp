@@ -400,8 +400,8 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 //
 	FString vp_comb;
 
-	assert(screen->mLights != NULL);
-	assert(screen->mBones != NULL);
+	assert(screen->mLights != nullptr);
+	assert(screen->mBones != nullptr);
 
 	unsigned int lightbuffersize = screen->mLights->GetBlockSize();
 
@@ -542,18 +542,18 @@ bool FShader::Load(const char * name, const char * vert_prog_lump_, const char *
 
 		glLinkProgram(shaderData->hShader);
 
-		glGetShaderInfoLog(shaderData->hVertProg, 10000, NULL, buffer);
+		glGetShaderInfoLog(shaderData->hVertProg, 10000, nullptr, buffer);
 		if (*buffer)
 		{
 			error << "Vertex shader:\n" << buffer << "\n";
 		}
-		glGetShaderInfoLog(shaderData->hFragProg, 10000, NULL, buffer);
+		glGetShaderInfoLog(shaderData->hFragProg, 10000, nullptr, buffer);
 		if (*buffer)
 		{
 			error << "Fragment shader:\n" << buffer << "\n";
 		}
 
-		glGetProgramInfoLog(shaderData->hShader, 10000, NULL, buffer);
+		glGetProgramInfoLog(shaderData->hShader, 10000, nullptr, buffer);
 		if (*buffer)
 		{
 			error << "Linking:\n" << buffer << "\n";
@@ -772,7 +772,7 @@ FShaderManager::FShaderManager()
 FShaderManager::~FShaderManager()
 {
 	glUseProgram(0);
-	mActiveShader = NULL;
+	mActiveShader = nullptr;
 
 	for (auto collection : mPassShaders)
 		delete collection;
@@ -782,7 +782,7 @@ void FShaderManager::SetActiveShader(FShader::ShaderVariantData *sh)
 {
 	if (mActiveShader != sh)
 	{
-		glUseProgram(sh!= NULL? sh->GetHandle() : 0);
+		glUseProgram(sh!= nullptr? sh->GetHandle() : 0);
 		mActiveShader = sh;
 	}
 }
@@ -837,10 +837,10 @@ void FShaderCollection::CompileShaders(EPassType passType)
 	mMaterialShadersNAT.Clear();
 	for (int i = 0; i < MAX_EFFECTS; i++)
 	{
-		mEffectShaders[i] = NULL;
+		mEffectShaders[i] = nullptr;
 	}
 
-	for(int i=0;defaultshaders[i].ShaderName != NULL;i++)
+	for(int i=0;defaultshaders[i].ShaderName != nullptr;i++)
 	{
 		FShader *shc = Compile(defaultshaders[i].ShaderName, defaultshaders[i].gettexelfunc, defaultshaders[i].lightfunc, defaultshaders[i].Defines, true, passType);
 		mMaterialShaders.Push(shc);
@@ -883,16 +883,16 @@ void FShaderCollection::Clean()
 {
 	for (unsigned int i = 0; i < mMaterialShadersNAT.Size(); i++)
 	{
-		if (mMaterialShadersNAT[i] != NULL) delete mMaterialShadersNAT[i];
+		if (mMaterialShadersNAT[i] != nullptr) delete mMaterialShadersNAT[i];
 	}
 	for (unsigned int i = 0; i < mMaterialShaders.Size(); i++)
 	{
-		if (mMaterialShaders[i] != NULL) delete mMaterialShaders[i];
+		if (mMaterialShaders[i] != nullptr) delete mMaterialShaders[i];
 	}
 	for (int i = 0; i < MAX_EFFECTS; i++)
 	{
-		if (mEffectShaders[i] != NULL) delete mEffectShaders[i];
-		mEffectShaders[i] = NULL;
+		if (mEffectShaders[i] != nullptr) delete mEffectShaders[i];
+		mEffectShaders[i] = nullptr;
 	}
 	mMaterialShaders.Clear();
 	mMaterialShadersNAT.Clear();
@@ -927,12 +927,12 @@ int FShaderCollection::Find(const char * shn)
 
 FShader *FShaderCollection::BindEffect(int effect, ShaderFlavourData& flavour)
 {
-	if (effect >= 0 && effect < MAX_EFFECTS && mEffectShaders[effect] != NULL)
+	if (effect >= 0 && effect < MAX_EFFECTS && mEffectShaders[effect] != nullptr)
 	{
 		mEffectShaders[effect]->Bind(flavour);
 		return mEffectShaders[effect];
 	}
-	return NULL;
+	return nullptr;
 }
 
 

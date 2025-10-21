@@ -89,7 +89,7 @@ void StaticSerializeTranslations(FSerializer &arc)
 			for (unsigned int i = 0; i < size; ++i)
 			{
 				trans = GPalette.GetTranslation(TRANSLATION_LevelScripted, i);
-				if (trans != NULL && !trans->IsIdentity())
+				if (trans != nullptr && !trans->IsIdentity())
 				{
 					if (arc.BeginObject(nullptr))
 					{
@@ -124,7 +124,7 @@ void StaticSerializeTranslations(FSerializer &arc)
 			for (unsigned int i = 0; i < size; ++i)
 			{
 				trans = GPalette.GetTranslation(TRANSLATION_User, i);
-				if (trans != NULL && !trans->IsIdentity())
+				if (trans != nullptr && !trans->IsIdentity())
 				{
 					if (arc.BeginObject(nullptr))
 					{
@@ -472,12 +472,12 @@ static void R_CreatePlayerTranslation (float h, float s, float v, const FPlayerC
 	bases = s;
 	basev = v;
 
-	if (colorset != NULL && colorset->Lump >= 0 && fileSystem.FileLength(colorset->Lump) < 256)
+	if (colorset != nullptr && colorset->Lump >= 0 && fileSystem.FileLength(colorset->Lump) < 256)
 	{ // Bad table length. Ignore it.
-		colorset = NULL;
+		colorset = nullptr;
 	}
 
-	if (colorset != NULL)
+	if (colorset != nullptr)
 	{
 		bool identity = true;
 		// Use the pre-defined range instead of a custom one.
@@ -571,7 +571,7 @@ static void R_CreatePlayerTranslation (float h, float s, float v, const FPlayerC
 		}
 	}
 
-	if (alttable != NULL)
+	if (alttable != nullptr)
 	{
 		if (gameinfo.gametype == GAME_Heretic)
 		{
@@ -594,7 +594,7 @@ static void R_CreatePlayerTranslation (float h, float s, float v, const FPlayerC
 			// Is the player's translation range the same as the gem's and we are using a
 			// predefined translation? If so, then use the same one for the gem. Otherwise,
 			// build one as per usual.
-			if (colorset != NULL && start == 164 && end == 185)
+			if (colorset != nullptr && start == 164 && end == 185)
 			{
 				*alttable = *table;
 			}
@@ -647,14 +647,14 @@ void R_GetPlayerTranslation (int color, const FPlayerColorSet *colorset, FPlayer
 {
 	float h, s, v;
 
-	if (colorset != NULL)
+	if (colorset != nullptr)
 	{
 		color = colorset->RepresentativeColor;
 	}
 	RGBtoHSV (RPART(color)/255.f, GPART(color)/255.f, BPART(color)/255.f,
 		&h, &s, &v);
 
-	R_CreatePlayerTranslation (h, s, v, colorset, skin, table, NULL, NULL);
+	R_CreatePlayerTranslation (h, s, v, colorset, skin, table, nullptr, nullptr);
 }
 
 

@@ -35,10 +35,10 @@ public:
 	{
 		mDataLump = -1;
 		mAnivLump = -1;
-		dhead = NULL;
-		dpolys = NULL;
-		ahead = NULL;
-		averts = NULL;
+		dhead = nullptr;
+		dpolys = nullptr;
+		ahead = nullptr;
+		averts = nullptr;
 		numVerts = 0;
 		numFrames = 0;
 		numPolys = 0;

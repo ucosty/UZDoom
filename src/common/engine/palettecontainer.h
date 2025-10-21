@@ -34,7 +34,7 @@ struct FRemapTable
 	int crc32;
 	int Index;
 	int NumEntries;				// # of elements in this table (usually 256)
-	bool Inactive = false;				// This table is inactive and should be treated as if it was passed as NULL
+	bool Inactive = false;				// This table is inactive and should be treated as if it was passed as nullptr
 	bool TwodOnly = false;				// Only used for 2D rendering 
 	bool ForFont = false;				// Mark font translations because they may require different handling than the ones for sprites-
 	bool NoTransparency = false;		// This palette has no transparent index and must be excluded from all treatment for that.
@@ -85,8 +85,8 @@ private:
 constexpr FTranslationID NO_TRANSLATION = FTranslationID::fromInt(0);
 constexpr FTranslationID INVALID_TRANSLATION = FTranslationID::fromInt(-1);
 
-// A class that initializes unusued pointers to NULL. This is used so that when
-// the TAutoGrowArray below is expanded, the new elements will be NULLed.
+// A class that initializes unusued pointers to nullptr. This is used so that when
+// the TAutoGrowArray below is expanded, the new elements will be nullptred.
 class FRemapTablePtr
 {
 public:

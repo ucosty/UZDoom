@@ -122,8 +122,8 @@ public:
 
 	FStateDefinitions()
 	{
-		laststate = NULL;
-		laststatebeforelabel = NULL;
+		laststate = nullptr;
+		laststatebeforelabel = nullptr;
 		lastlabel = -1;
 	}
 

@@ -168,9 +168,9 @@ FResourceFile *FResourceFile::DoOpenResourceFile(const char *filename, FileReade
 	{
 		if (containeronly && func == CheckLump) break;
 		FResourceFile *resfile = func(filename, file, filter, Printf, sp);
-		if (resfile != NULL) return resfile;
+		if (resfile != nullptr) return resfile;
 	}
-	return NULL;
+	return nullptr;
 }
 
 FResourceFile *FResourceFile::OpenResourceFile(const char *filename, FileReader &file, bool containeronly, LumpFilterInfo* filter, FileSystemMessageFunc Printf, StringPool* sp)

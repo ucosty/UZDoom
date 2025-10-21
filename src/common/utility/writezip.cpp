@@ -57,7 +57,7 @@ using FileSys::FCompressedBuffer;
 static std::pair<uint16_t, uint16_t> time_to_dos(struct tm *time)
 {
 	std::pair<uint16_t, uint16_t> val;
-	if (time == NULL || time->tm_year < 80)
+	if (time == nullptr || time->tm_year < 80)
 	{
 		val.first = val.second = 0;
 	}

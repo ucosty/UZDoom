@@ -85,8 +85,8 @@ FImageSource *IMGZImage_TryCreate(FileReader & file, int lumpnum)
 	bool ispalette;
 
 	file.Seek(0, FileReader::SeekSet);
-	if (file.Read(&magic, 4) != 4) return NULL;
-	if (magic != MAKE_ID('I','M','G','Z')) return NULL;
+	if (file.Read(&magic, 4) != 4) return nullptr;
+	if (magic != MAKE_ID('I','M','G','Z')) return nullptr;
 	w = file.ReadUInt16();
 	h = file.ReadUInt16();
 	l = file.ReadInt16();

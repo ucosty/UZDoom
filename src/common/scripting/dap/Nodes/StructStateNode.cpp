@@ -35,7 +35,7 @@ bool StructStateNode::SerializeToProtocol(dap::Variable &variable)
 	} 
 	else if (!valid)
 	{
-		variable.value = StringFormat("%s <NULL>", typeval.c_str());
+		variable.value = StringFormat("%s <nullptr>", typeval.c_str());
 	}
 	else
 	{

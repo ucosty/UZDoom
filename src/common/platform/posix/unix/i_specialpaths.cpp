@@ -236,7 +236,7 @@ FString M_GetDemoPath()
 FString M_GetNormalizedPath(const char* path)
 {
 	char *actualpath;
-	actualpath = realpath(path, NULL);
+	actualpath = realpath(path, nullptr);
 	if (!actualpath) // error ?
 		return nullptr;
 	FString fullpath = actualpath;

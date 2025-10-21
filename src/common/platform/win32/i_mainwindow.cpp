@@ -35,9 +35,9 @@ void MainWindow::Create(const FString& caption, int x, int y, int width, int hei
 	WndClass.cbWndExtra = 0;
 	WndClass.hInstance = hInstance;
 	WndClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	WndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	WndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	WndClass.hbrBackground = CreateSolidBrush(RGB(0,0,0));
-	WndClass.lpszMenuName = NULL;
+	WndClass.lpszMenuName = nullptr;
 	WndClass.lpszClassName = WinClassName;
 
 	/* register this new class with Windows */
@@ -54,10 +54,10 @@ void MainWindow::Create(const FString& caption, int x, int y, int width, int hei
 		wcaption.c_str(),
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
 		x, y, width, height,
-		(HWND)NULL,
-		(HMENU)NULL,
+		(HWND)nullptr,
+		(HMENU)nullptr,
 		hInstance,
-		NULL);
+		nullptr);
 
 	if (!Window)
 	{

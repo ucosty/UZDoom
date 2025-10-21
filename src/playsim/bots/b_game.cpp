@@ -111,7 +111,7 @@ static const char *BotConfigStrings[] =
 	"reaction",
 	"isp",
 	"team",
-	NULL
+	nullptr
 };
 
 enum
@@ -167,7 +167,7 @@ void FCajunMaster::Init ()
 
 	t_join = (wanted_botnum + 1) * SPAWN_DELAY; //The + is to let player get away before the bots come in.
 
-	if (botinfo == NULL)
+	if (botinfo == nullptr)
 	{
 		LoadBots ();
 	}
@@ -175,7 +175,7 @@ void FCajunMaster::Init ()
 	{
 		botinfo_t *thebot = botinfo;
 
-		while (thebot != NULL)
+		while (thebot != nullptr)
 		{
 			thebot->inuse = BOTINUSE_No;
 			thebot = thebot->next;
@@ -194,7 +194,7 @@ void FCajunMaster::End ()
 	{
 		for (i = 0; i < MAXPLAYERS; i++)
 		{
-			if (players[i].Bot != NULL)
+			if (players[i].Bot != nullptr)
 			{
 				getspawned.Push(players[i].userinfo.GetName());
 			}
@@ -206,7 +206,7 @@ void FCajunMaster::End ()
 
 
 
-//Name can be optional, if = NULL
+//Name can be optional, if = nullptr
 //then a random bot is spawned.
 //If no bot with name = name found
 //the function will CONS print an
@@ -247,7 +247,7 @@ bool FCajunMaster::SpawnBot (const char *name, int color)
 			thebot = thebot->next;
 		}
 
-		if (thebot == NULL)
+		if (thebot == nullptr)
 		{
    		 	Printf ("couldn't find %s in %s\n", name, BOTFILENAME);
 			return false;
@@ -329,7 +329,7 @@ void FCajunMaster::TryAddBot (FLevelLocals *Level, TArrayView<uint8_t>& stream, 
 	skill.reaction = ReadInt8 (stream);
 	skill.isp = ReadInt8 (stream);
 
-	botinfo_t *thebot = NULL;
+	botinfo_t *thebot = nullptr;
 
 	if (consoleplayer == player)
 	{
@@ -347,14 +347,14 @@ void FCajunMaster::TryAddBot (FLevelLocals *Level, TArrayView<uint8_t>& stream, 
 		//Increment this.
 		botnum++;
 
-		if (thebot != NULL)
+		if (thebot != nullptr)
 		{
 			thebot->inuse = BOTINUSE_Yes;
 		}
 	}
 	else
 	{
-		if (thebot != NULL)
+		if (thebot != nullptr)
 		{
 			thebot->inuse = BOTINUSE_No;
 		}
@@ -388,7 +388,7 @@ bool FCajunMaster::DoAddBot (FLevelLocals *Level, TArrayView<uint8_t> info, bots
 	players[bnum].Bot->player = &players[bnum];
 	players[bnum].Bot->skill = skill;
 	playeringame[bnum] = true;
-	players[bnum].mo = NULL;
+	players[bnum].mo = nullptr;
 	players[bnum].playerstate = PST_ENTER;
 
 	if (teamplay)
@@ -471,7 +471,7 @@ void FCajunMaster::ForgetBots ()
 		thebot = next;
 	}
 
-	botinfo = NULL;
+	botinfo = nullptr;
 }
 
 #if defined _WIN32 || defined __APPLE__

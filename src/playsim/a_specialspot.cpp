@@ -122,7 +122,7 @@ struct FSpotList
 			numcalls++;
 			return spot;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	//----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ struct FSpotList
 
 	AActor *GetSpotWithMinMaxDistance(double x, double y, double mindist, double maxdist)
 	{
-		if (Spots.Size() == 0) return NULL;
+		if (Spots.Size() == 0) return nullptr;
 		int i = pr_spot() % Spots.Size();
 		int initial = i;
 
@@ -146,7 +146,7 @@ struct FSpotList
 			if ((distance >= mindist) && ((maxdist == 0) || (distance <= maxdist))) break;
 
 			i = (i+1) % Spots.Size();
-			if (i == initial) return NULL;
+			if (i == initial) return nullptr;
 		}
 		numcalls++;
 		return Spots[i];
@@ -166,7 +166,7 @@ struct FSpotList
 			numcalls++;
 			return Spots[i];
 		}
-		else return NULL;
+		else return nullptr;
 	}
 };
 
@@ -247,7 +247,7 @@ FSpotList *DSpotState::FindSpotList(PClassActor *type)
 bool DSpotState::AddSpot(AActor *spot)
 {
 	FSpotList *list = FindSpotList(spot->GetClass());
-	if (list != NULL) return list->Add(spot);
+	if (list != nullptr) return list->Add(spot);
 	return false;
 }
 
@@ -260,7 +260,7 @@ bool DSpotState::AddSpot(AActor *spot)
 bool DSpotState::RemoveSpot(AActor *spot)
 {
 	FSpotList *list = FindSpotList(spot->GetClass());
-	if (list != NULL) return list->Remove(spot);
+	if (list != nullptr) return list->Remove(spot);
 	return false;
 }
 
@@ -285,8 +285,8 @@ void DSpotState::Serialize(FSerializer &arc)
 AActor *DSpotState::GetNextInList(PClassActor *type, int skipcounter)
 {
 	FSpotList *list = FindSpotList(type);
-	if (list != NULL) return list->GetNextInList(skipcounter);
-	return NULL;
+	if (list != nullptr) return list->GetNextInList(skipcounter);
+	return nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -298,8 +298,8 @@ AActor *DSpotState::GetNextInList(PClassActor *type, int skipcounter)
 AActor *DSpotState::GetSpotWithMinMaxDistance(PClassActor *type, double x, double y, double mindist, double maxdist)
 {
 	FSpotList *list = FindSpotList(type);
-	if (list != NULL) return list->GetSpotWithMinMaxDistance(x, y, mindist, maxdist);
-	return NULL;
+	if (list != nullptr) return list->GetSpotWithMinMaxDistance(x, y, mindist, maxdist);
+	return nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -311,7 +311,7 @@ AActor *DSpotState::GetSpotWithMinMaxDistance(PClassActor *type, double x, doubl
 AActor *DSpotState::GetRandomSpot(PClassActor *type, bool onlyonce)
 {
 	FSpotList *list = FindSpotList(type);
-	if (list != NULL) return list->GetRandomSpot(onlyonce);
-	return NULL;
+	if (list != nullptr) return list->GetRandomSpot(onlyonce);
+	return nullptr;
 }
 

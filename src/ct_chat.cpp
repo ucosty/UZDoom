@@ -246,7 +246,7 @@ void CT_Drawer (void)
 	auto drawer = twod;
 	FFont *displayfont = NewConsoleFont;
 
-	if (players[consoleplayer].camera != NULL &&
+	if (players[consoleplayer].camera != nullptr &&
 		(buttonMap.ButtonDown(Button_ShowScores) ||
 		 players[consoleplayer].camera->health <= 0 ||
 		 SB_ForceActive))
@@ -373,7 +373,7 @@ static void CT_ClearChatMessage ()
 static void ShoveChatStr (const char *str, uint8_t who)
 {
 	// Don't send empty messages
-	if (str == NULL || str[0] == '\0')
+	if (str == nullptr || str[0] == '\0')
 		return;
 
 	if (netgame)
@@ -455,7 +455,7 @@ static bool DoSubstitution (FString &out, const char *in)
 			}
 			else if (strnicmp(a, "weapon", 6) == 0)
 			{
-				if (weapon == NULL)
+				if (weapon == nullptr)
 				{
 					out += "no weapon";
 				}
@@ -470,21 +470,21 @@ static bool DoSubstitution (FString &out, const char *in)
 			if (strnicmp(a, "armor", 5) == 0)
 			{
 				auto armor = player->mo->FindInventory(NAME_BasicArmor, true);
-				out += std::format("{}", armor != NULL ? armor->IntVar(NAME_Amount) : 0);
+				out += std::format("{}", armor != nullptr ? armor->IntVar(NAME_Amount) : 0);
 			}
 		}
 		else if (ByteLen == 9)
 		{
 			if (strnicmp(a, "ammocount", 9) == 0)
 			{
-				if (weapon == NULL)
+				if (weapon == nullptr)
 				{
 					out += '0';
 				}
 				else
 				{
-					out += std::format("{}", ammo1 != NULL ? ammo1->IntVar(NAME_Amount) : 0);
-					if (ammo2 != NULL)
+					out += std::format("{}", ammo1 != nullptr ? ammo1->IntVar(NAME_Amount) : 0);
+					if (ammo2 != nullptr)
 					{
 						out += std::format("/{}", ammo2->IntVar(NAME_Amount));
 					}
@@ -495,14 +495,14 @@ static bool DoSubstitution (FString &out, const char *in)
 		{
 			if (strnicmp(a, "ammo", 4) == 0)
 			{
-				if (ammo1 == NULL)
+				if (ammo1 == nullptr)
 				{
 					out += "no ammo";
 				}
 				else
 				{
 					out += std::format("{}", ammo1->GetClass()->TypeName.GetChars());
-					if (ammo2 != NULL)
+					if (ammo2 != nullptr)
 					{
 						out += std::format("/{}", ammo2->GetClass()->TypeName.GetChars());
 					}

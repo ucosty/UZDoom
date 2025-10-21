@@ -66,7 +66,7 @@ FResourceFile *CheckLump(const char *filename, FileReader &file, LumpFilterInfo*
 	auto rf = new FResourceFile(filename, file, sp);
 	if (OpenLump(rf, filter)) return rf;
 	file = rf->Destroy();
-	return NULL;
+	return nullptr;
 }
 
 }

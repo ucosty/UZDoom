@@ -1143,14 +1143,14 @@ DEFINE_ACTION_FUNCTION_NATIVE(FDynArray_TRS, Append, ArrayAppend<FDynArray_TRS>)
 DEFINE_ACTION_FUNCTION(FDynArray_TRS, Find)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FDynArray_TRS);
-	PARAM_POINTER_NOT_NULL(item, TRS);
+	PARAM_POINTER_NOT_nullptr(item, TRS);
 	ACTION_RETURN_INT(self->Find(*item));
 }
 
 DEFINE_ACTION_FUNCTION(FDynArray_TRS, Push)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FDynArray_TRS);
-	PARAM_POINTER_NOT_NULL(item, TRS);
+	PARAM_POINTER_NOT_nullptr(item, TRS);
 	ACTION_RETURN_INT(self->Push(*item));
 }
 
@@ -1173,7 +1173,7 @@ DEFINE_ACTION_FUNCTION(FDynArray_TRS, Insert)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FDynArray_TRS);
 	PARAM_INT(index);
-	PARAM_POINTER_NOT_NULL(item, TRS);
+	PARAM_POINTER_NOT_nullptr(item, TRS);
 	self->Insert(index, *item);
 	return 0;
 }

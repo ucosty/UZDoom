@@ -6,7 +6,7 @@ uint32_t SuperFastHashI (const char *data, size_t len);
 
 inline unsigned int MakeKey(const char* s)
 {
-	if (s == NULL)
+	if (s == nullptr)
 	{
 		return 0;
 	}

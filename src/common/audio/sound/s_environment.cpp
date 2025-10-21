@@ -121,16 +121,16 @@ const char *ReverbFieldNames[NUM_REVERB_FIELDS+2] =
 	"bEchoTimeScale",
 	"bModulationTimeScale",
 	"}",
-	NULL
+	nullptr
 };
 
-static const char *BoolNames[3] = { "False", "True", NULL };
+static const char *BoolNames[3] = { "False", "True", nullptr };
 
 static ReverbContainer DSPWater =
 {
 	// Based on the "off" reverb, this one uses the software water effect,
 	// which is completely independant from EAX-like reverb.
-	NULL,
+	nullptr,
 	"DSP Water",
 	0xffff,
 	true,
@@ -472,10 +472,10 @@ ReverbContainer *S_FindEnvironment (const char *name)
 {
 	ReverbContainer *probe = Environments;
 
-	if (name == NULL)
-		return NULL;
+	if (name == nullptr)
+		return nullptr;
 
-	while (probe != NULL)
+	while (probe != nullptr)
 	{
 		if (stricmp (probe->Name, name) == 0)
 		{
@@ -483,18 +483,18 @@ ReverbContainer *S_FindEnvironment (const char *name)
 		}
 		probe = probe->Next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 ReverbContainer *S_FindEnvironment (int id)
 {
 	ReverbContainer *probe = Environments;
 
-	while (probe != NULL && probe->ID < id)
+	while (probe != nullptr && probe->ID < id)
 	{
 		probe = probe->Next;
 	}
-	return (probe && probe->ID == id ? probe : NULL);
+	return (probe && probe->ID == id ? probe : nullptr);
 }
 
 void S_AddEnvironment (ReverbContainer *settings)
@@ -502,13 +502,13 @@ void S_AddEnvironment (ReverbContainer *settings)
 	ReverbContainer *probe = Environments;
 	ReverbContainer **ptr = &Environments;
 
-	while (probe != NULL && probe->ID < settings->ID)
+	while (probe != nullptr && probe->ID < settings->ID)
 	{
 		ptr = &probe->Next;
 		probe = probe->Next;
 	}
 
-	if (probe != NULL && probe->ID == settings->ID)
+	if (probe != nullptr && probe->ID == settings->ID)
 	{
 		// Built-in environments cannot be changed
 		if (!probe->Builtin)
@@ -618,7 +618,7 @@ void S_ReadReverbDef (FScanner &sc)
 		}
 
 		newenv = new ReverbContainer;
-		newenv->Next = NULL;
+		newenv->Next = nullptr;
 		newenv->Name = name;
 		newenv->ID = (id1 << 8) | id2;
 		newenv->Builtin = false;
@@ -631,14 +631,14 @@ void S_ReadReverbDef (FScanner &sc)
 void S_UnloadReverbDef ()
 {
 	ReverbContainer *probe = Environments;
-	ReverbContainer **pNext = NULL;
+	ReverbContainer **pNext = nullptr;
 
-	while (probe != NULL)
+	while (probe != nullptr)
 	{
 		ReverbContainer *next = probe->Next;
 		if (!probe->Builtin)
 		{
-			if (pNext != NULL) *pNext = probe->Next;
+			if (pNext != nullptr) *pNext = probe->Next;
 			free(const_cast<char *>(probe->Name));
 			delete probe;
 		}

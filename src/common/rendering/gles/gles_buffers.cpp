@@ -236,7 +236,7 @@ void GLBuffer::GPUDropSync()
 {
 	if (gles.glesMode > GLES_MODE_GLES && gles.useMappedBuffers && glFenceSync && glDeleteSync)
 	{
-		if (mGLSync != NULL)
+		if (mGLSync != nullptr)
 		{
 			glDeleteSync(mGLSync);
 		}
@@ -258,7 +258,7 @@ void GLBuffer::GPUWaitSync()
 
 		glDeleteSync(mGLSync);
 
-		mGLSync = NULL;
+		mGLSync = nullptr;
 	}
 }
 

@@ -137,7 +137,7 @@ static void I_CheckGUICapture ()
 	if (wantCapt != GUICapture)
 	{
 		GUICapture = wantCapt;
-		if (wantCapt && Keyboard != NULL)
+		if (wantCapt && Keyboard != nullptr)
 		{
 			Keyboard->AllKeysUp();
 		}
@@ -277,7 +277,7 @@ bool GUIWndProcHook(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESU
 
 		ev.data1 = LOWORD(lParam);
 		ev.data2 = HIWORD(lParam);
-		if (screen != NULL)
+		if (screen != nullptr)
 		{
 			screen->ScaleCoordsFromWindow(ev.data1, ev.data2);
 		}
@@ -321,7 +321,7 @@ bool GUIWndProcHook(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESU
 
 bool CallHook(FInputDevice *device, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *result)
 {
-	if (device == NULL)
+	if (device == nullptr)
 	{
 		return false;
 	}
@@ -338,7 +338,7 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			UINT size;
 
-			if (!GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &size, sizeof(RAWINPUTHEADER)) &&
+			if (!GetRawInputData((HRAWINPUT)lParam, RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) &&
 				size != 0)
 			{
 				TArray<uint8_t> array(size, true);
@@ -346,11 +346,11 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if (GetRawInputData((HRAWINPUT)lParam, RID_INPUT, buffer, &size, sizeof(RAWINPUTHEADER)) == size)
 				{
 					int code = GET_RAWINPUT_CODE_WPARAM(wParam);
-					if (Keyboard == NULL || !Keyboard->ProcessRawInput((RAWINPUT *)buffer, code))
+					if (Keyboard == nullptr || !Keyboard->ProcessRawInput((RAWINPUT *)buffer, code))
 					{
-						if (Mouse == NULL || !Mouse->ProcessRawInput((RAWINPUT *)buffer, code))
+						if (Mouse == nullptr || !Mouse->ProcessRawInput((RAWINPUT *)buffer, code))
 						{
-							if (JoyDevices[INPUT_RawPS2] != NULL)
+							if (JoyDevices[INPUT_RawPS2] != nullptr)
 							{
 								JoyDevices[INPUT_RawPS2]->ProcessRawInput((RAWINPUT *)buffer, code);
 							}
@@ -432,7 +432,7 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		InvalidateRect (hWnd, NULL, FALSE);
+		InvalidateRect (hWnd, nullptr, FALSE);
 		break;
 
 	case WM_KEYDOWN:
@@ -512,13 +512,13 @@ bool I_InitInput (void *hwnd)
 	Printf ("I_InitInput\n");
 
 	noidle = !!Args->CheckParm ("-noidle");
-	g_pdi = NULL;
+	g_pdi = nullptr;
 
-	hr = DirectInput8Create(g_hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&g_pdi, NULL);
+	hr = DirectInput8Create(g_hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&g_pdi, nullptr);
 	if (FAILED(hr))
 	{
 		Printf(TEXTCOLOR_ORANGE "DirectInput8Create failed: %08lx\n", hr);
-		g_pdi = NULL;	// Just to be sure DirectInput8Create didn't change it
+		g_pdi = nullptr;	// Just to be sure DirectInput8Create didn't change it
 	}
 
 	Printf ("I_StartupMouse\n");
@@ -542,28 +542,28 @@ bool I_InitInput (void *hwnd)
 // Free all input resources
 void I_ShutdownInput ()
 {
-	if (Keyboard != NULL)
+	if (Keyboard != nullptr)
 	{
 		delete Keyboard;
-		Keyboard = NULL;
+		Keyboard = nullptr;
 	}
-	if (Mouse != NULL)
+	if (Mouse != nullptr)
 	{
 		delete Mouse;
-		Mouse = NULL;
+		Mouse = nullptr;
 	}
 	for (int i = 0; i < NUM_JOYDEVICES; ++i)
 	{
-		if (JoyDevices[i] != NULL)
+		if (JoyDevices[i] != nullptr)
 		{
 			delete JoyDevices[i];
-			JoyDevices[i] = NULL;
+			JoyDevices[i] = nullptr;
 		}
 	}
 	if (g_pdi)
 	{
 		g_pdi->Release ();
-		g_pdi = NULL;
+		g_pdi = nullptr;
 	}
 }
 
@@ -575,7 +575,7 @@ void I_GetWindowEvent()
 	// crashed, we will execute the APC it sent now.
 	SleepEx (0, TRUE);
 
-	while (PeekMessage (&mess, NULL, 0, 0, PM_REMOVE))
+	while (PeekMessage (&mess, nullptr, 0, 0, PM_REMOVE))
 	{
 		if (mess.message == WM_QUIT)
 			throw CExitEvent(mess.wParam);
@@ -592,11 +592,11 @@ void I_GetEvent ()
 {
 	I_GetWindowEvent();
 
-	if (Keyboard != NULL)
+	if (Keyboard != nullptr)
 	{
 		Keyboard->ProcessInput();
 	}
-	if (Mouse != NULL)
+	if (Mouse != nullptr)
 	{
 		Mouse->ProcessInput();
 	}
@@ -625,7 +625,7 @@ void I_StartFrame ()
 	{
 		for (int i = 0; i < NUM_JOYDEVICES; ++i)
 		{
-			if (JoyDevices[i] != NULL)
+			if (JoyDevices[i] != nullptr)
 			{
 				JoyDevices[i]->ProcessInput();
 			}
@@ -646,7 +646,7 @@ void I_GetAxes(float axes[NUM_AXIS_CODES])
 	{
 		for (i = 0; i < NUM_JOYDEVICES; ++i)
 		{
-			if (JoyDevices[i] != NULL)
+			if (JoyDevices[i] != nullptr)
 			{
 				JoyDevices[i]->AddAxes(axes);
 			}
@@ -659,7 +659,7 @@ void I_GetJoysticks(TArray<IJoystickConfig *> &sticks)
 	sticks.Clear();
 	for (int i = 0; i < NUM_JOYDEVICES; ++i)
 	{
-		if (JoyDevices[i] != NULL)
+		if (JoyDevices[i] != nullptr)
 		{
 			JoyDevices[i]->GetDevices(sticks);
 		}
@@ -669,13 +669,13 @@ void I_GetJoysticks(TArray<IJoystickConfig *> &sticks)
 // If a new controller was added, returns a pointer to it.
 IJoystickConfig *I_UpdateDeviceList()
 {
-	IJoystickConfig *newone = NULL;
+	IJoystickConfig *newone = nullptr;
 	for (int i = 0; i < NUM_JOYDEVICES; ++i)
 	{
-		if (JoyDevices[i] != NULL)
+		if (JoyDevices[i] != nullptr)
 		{
 			IJoystickConfig *thisnewone = JoyDevices[i]->Rescan();
-			if (newone == NULL)
+			if (newone == nullptr)
 			{
 				newone = thisnewone;
 			}
@@ -686,7 +686,7 @@ IJoystickConfig *I_UpdateDeviceList()
 
 void I_PutInClipboard (const char *str)
 {
-	if (str == NULL || !OpenClipboard (mainwindow.GetHandle()))
+	if (str == nullptr || !OpenClipboard (mainwindow.GetHandle()))
 		return;
 	EmptyClipboard ();
 

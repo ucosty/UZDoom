@@ -272,49 +272,49 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, absangle, absangleDbl)	// should this be g
 
 static double Distance2DSquared(AActor *self, AActor *other)
 {
-	return self->Distance2DSquared(PARAM_NULLCHECK(other, other));
+	return self->Distance2DSquared(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Distance2DSquared, Distance2DSquared)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_FLOAT(self->Distance2DSquared(other));
 }
 
 static double Distance3DSquared(AActor *self, AActor *other)
 {
-	return self->Distance3DSquared(PARAM_NULLCHECK(other, other));
+	return self->Distance3DSquared(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Distance3DSquared, Distance3DSquared)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_FLOAT(self->Distance3DSquared(other));
 }
 
 static double Distance2D(AActor *self, AActor *other)
 {
-	return self->Distance2D(PARAM_NULLCHECK(other, other));
+	return self->Distance2D(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Distance2D, Distance2D)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_FLOAT(self->Distance2D(other));
 }
 
 static double Distance3D(AActor *self, AActor *other)
 {
-	return self->Distance3D(PARAM_NULLCHECK(other, other));
+	return self->Distance3D(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Distance3D, Distance3D)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_FLOAT(self->Distance3D(other));
 }
 
@@ -447,13 +447,13 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, Thrust, Thrust)
 
 static double AngleTo(AActor *self, AActor *targ, bool absolute)
 {
-	return self->AngleTo(PARAM_NULLCHECK(targ, targ), absolute).Degrees();
+	return self->AngleTo(PARAM_nullptrCHECK(targ, targ), absolute).Degrees();
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, AngleTo, AngleTo)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(targ, AActor);
+	PARAM_OBJECT_NOT_nullptr(targ, AActor);
 	PARAM_BOOL(absolute);
 	ACTION_RETURN_FLOAT(self->AngleTo(targ, absolute).Degrees());
 }
@@ -499,13 +499,13 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, Normalize180, Normalize180)
 
 static double DistanceBySpeed(AActor *self, AActor *targ, double speed)
 {
-	return self->DistanceBySpeed(PARAM_NULLCHECK(targ, targ), speed);
+	return self->DistanceBySpeed(PARAM_nullptrCHECK(targ, targ), speed);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, DistanceBySpeed, DistanceBySpeed)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(targ, AActor);
+	PARAM_OBJECT_NOT_nullptr(targ, AActor);
 	PARAM_FLOAT(speed);
 	ACTION_RETURN_FLOAT(self->DistanceBySpeed(targ, speed));
 }
@@ -541,25 +541,25 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, Vec2Angle, Vec2Angle)
 
 static void Vec3To(AActor *self, AActor *t, DVector3 *result)
 {
-	*result = self->Vec3To(PARAM_NULLCHECK(t, other));
+	*result = self->Vec3To(PARAM_nullptrCHECK(t, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Vec3To, Vec3To)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(t, AActor)
+	PARAM_OBJECT_NOT_nullptr(t, AActor)
 	ACTION_RETURN_VEC3(self->Vec3To(t));
 }
 
 static void Vec2To(AActor *self, AActor *t, DVector2 *result)
 {
-	*result = self->Vec2To(PARAM_NULLCHECK(t, other));
+	*result = self->Vec2To(PARAM_nullptrCHECK(t, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, Vec2To, Vec2To)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(t, AActor)
+	PARAM_OBJECT_NOT_nullptr(t, AActor)
 	ACTION_RETURN_VEC2(self->Vec2To(t));
 }
 
@@ -943,13 +943,13 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, GetDefaultSpeed, GetDefaultSpeed)
 
 static int isTeammate(AActor *self, AActor *other)
 {
-	return self->IsTeammate(PARAM_NULLCHECK(other, other));
+	return self->IsTeammate(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, isTeammate, isTeammate)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_BOOL(self->IsTeammate(other));
 }
 
@@ -966,25 +966,25 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, GetSpecies, GetSpecies)
 
 static int isFriend(AActor *self, AActor *other)
 {
-	return self->IsFriend(PARAM_NULLCHECK(other, other));
+	return self->IsFriend(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, isFriend, isFriend)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_BOOL(self->IsFriend(other));
 }
 
 static int isHostile(AActor *self, AActor *other)
 {
-	return self->IsHostile(PARAM_NULLCHECK(other, other));
+	return self->IsHostile(PARAM_nullptrCHECK(other, other));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, isHostile, isHostile)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	ACTION_RETURN_BOOL(self->IsHostile(other));
 }
 
@@ -1264,14 +1264,14 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, TraceBleedAngle, TraceBleedAngle)
 
 static void TraceBleedTLT(FTranslatedLineTarget *self, int damage, AActor *missile)
 {
-	P_TraceBleed(damage, self, PARAM_NULLCHECK(missile, missile));
+	P_TraceBleed(damage, self, PARAM_nullptrCHECK(missile, missile));
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_FTranslatedLineTarget, TraceBleed, TraceBleedTLT)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FTranslatedLineTarget);
 	PARAM_INT(damage);
-	PARAM_OBJECT_NOT_NULL(missile, AActor);
+	PARAM_OBJECT_NOT_nullptr(missile, AActor);
 	
 	P_TraceBleed(damage, self, missile);
 	return 0;
@@ -1449,7 +1449,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, RoughMonsterSearch, P_RoughMonsterSearch)
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, CheckSight, P_CheckSight)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(target, AActor);
+	PARAM_OBJECT_NOT_nullptr(target, AActor);
 	PARAM_INT(flags);
 	ACTION_RETURN_BOOL(P_CheckSight(self, target, flags));
 }
@@ -1633,7 +1633,7 @@ static void A_ExtChase(AActor *self, bool domelee, bool domissile, bool playacti
 {
 	// Now that A_Chase can handle state label parameters, this function has become rather useless...
 	A_DoChase(self, false,
-		domelee ? self->MeleeState : NULL, domissile ? self->MissileState : NULL,
+		domelee ? self->MeleeState : nullptr, domissile ? self->MissileState : nullptr,
 		playactive, nightmarefast, false, 0);
 }
 

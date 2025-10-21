@@ -172,7 +172,7 @@ static F3DFloor *Find3DFloor(sector_t* target, sector_t* model, int &ffloorIndex
 		}
 	}
 	ffloorIndex = -1;
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -236,7 +236,7 @@ static int CreateIndexedSectorVerticesLM(FFlatVertexBuffer* fvb, sector_t* sec, 
 	{
 		subsector_t* sub = sec->subsectors[i];
 		LightmapSurface* lightmap = &sub->lightmap[h][lightmapIndex];
-		if (lightmap->Type != ST_NULL)
+		if (lightmap->Type != ST_nullptr)
 		{
 			float* luvs = lightmap->TexCoords;
 			int lindex = lightmap->LightmapNum;
@@ -335,7 +335,7 @@ static int CreateIndexedVertices(FFlatVertexBuffer* fvb, int h, sector_t* sec, c
 		int ffloorIndex;
 		F3DFloor* ffloor = Find3DFloor(fsec, sec, ffloorIndex);
 
-		if (ffloor != NULL && ffloor->flags & FF_RENDERPLANES)
+		if (ffloor != nullptr && ffloor->flags & FF_RENDERPLANES)
 		{
 			bool dotop = (ffloor->top.model == sec) && (ffloor->top.isceiling == h);
 			bool dobottom = (ffloor->bottom.model == sec) && (ffloor->bottom.isceiling == h);
@@ -476,7 +476,7 @@ void CheckUpdate(FFlatVertexBuffer* fvb, sector_t* sector)
 {
 	CheckPlanes(fvb, sector);
 	sector_t* hs = sector->GetHeightSec();
-	if (hs != NULL) CheckPlanes(fvb, hs);
+	if (hs != nullptr) CheckPlanes(fvb, hs);
 	for (unsigned i = 0; i < sector->e->XFloor.ffloors.Size(); i++)
 		CheckPlanes(fvb, sector->e->XFloor.ffloors[i]->model);
 }

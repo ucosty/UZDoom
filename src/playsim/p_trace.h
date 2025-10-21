@@ -114,7 +114,7 @@ enum ETraceStatus
 
 bool Trace(const DVector3 &start, sector_t *sector, const DVector3 &direction, double maxDist,
 	ActorFlags ActorMask, uint32_t WallMask, AActor *ignore, FTraceResults &res, uint32_t traceFlags = 0,
-	ETraceStatus(*callback)(FTraceResults &res, void *) = NULL, void *callbackdata = NULL);
+	ETraceStatus(*callback)(FTraceResults &res, void *) = nullptr, void *callbackdata = nullptr);
 
 // [ZZ] this is the object that's used for ZScript
 class DLineTracer : public DObject

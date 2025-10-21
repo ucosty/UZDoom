@@ -277,7 +277,7 @@ void P_Ticker (void)
 		Level->maptime++;
 		Level->totaltime++;
 	}
-	if (players[consoleplayer].mo != NULL) {
+	if (players[consoleplayer].mo != nullptr) {
 		if (players[consoleplayer].mo->Vel.Length() > primaryLevel->max_velocity) { primaryLevel->max_velocity = players[consoleplayer].mo->Vel.Length(); }
 		primaryLevel->avg_velocity += (players[consoleplayer].mo->Vel.Length() - primaryLevel->avg_velocity) / primaryLevel->maptime;
 	}

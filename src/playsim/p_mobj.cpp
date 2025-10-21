@@ -460,7 +460,7 @@ void AActor::PostSerialize()
 	if (player)
 	{
 		if (Level->PlayerInGame(player) &&
-			player->cls != NULL &&
+			player->cls != nullptr &&
 			!(flags4 & MF4_NOSKIN) &&
 			state->sprite == GetDefaultByType(player->cls)->SpawnState->sprite)
 		{ // Give player back the skin
@@ -524,7 +524,7 @@ static int RemoveBehavior(AActor* self, PClass* type)
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, RemoveBehavior, RemoveBehavior)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_CLASS_NOT_NULL(type, DBehavior);
+	PARAM_CLASS_NOT_nullptr(type, DBehavior);
 	ACTION_RETURN_BOOL(self->RemoveBehavior(type->TypeName));
 }
 
@@ -583,7 +583,7 @@ static DBehavior* AddBehavior(AActor* self, PClass* type)
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, AddBehavior, AddBehavior)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_CLASS_NOT_NULL(type, DBehavior);
+	PARAM_CLASS_NOT_nullptr(type, DBehavior);
 	ACTION_RETURN_OBJECT(self->AddBehavior(*type));
 }
 
@@ -648,7 +648,7 @@ static DBehavior* FindBehavior(AActor* self, PClass* type)
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, FindBehavior, FindBehavior)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_CLASS_NOT_NULL(type, DBehavior);
+	PARAM_CLASS_NOT_nullptr(type, DBehavior);
 	ACTION_RETURN_OBJECT(self->FindBehavior(type->TypeName));
 }
 
@@ -721,7 +721,7 @@ static void MoveBehaviors(AActor* self, AActor* from)
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, MoveBehaviors, MoveBehaviors)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(from, AActor);
+	PARAM_OBJECT_NOT_nullptr(from, AActor);
 	self->MoveBehaviors(*from);
 	return 0;
 }
@@ -809,7 +809,7 @@ void AActor::LinkBehaviorsToLevel()
 
 static int InStateSequence(FState * newstate, FState * basestate)
 {
-	if (basestate == NULL) return false;
+	if (basestate == nullptr) return false;
 
 	FState * thisstate = basestate;
 	do
@@ -891,15 +891,15 @@ bool AActor::SetState (FState *newstate, bool nofunction)
 			Destroy();
 			return false;
 		}
-		if (newstate == NULL)
+		if (newstate == nullptr)
 		{
-			state = NULL;
+			state = nullptr;
 			Destroy ();
 			return false;
 		}
 		int prevsprite, newsprite;
 
-		if (state != NULL)
+		if (state != nullptr)
 		{
 			prevsprite = state->sprite;
 		}
@@ -936,7 +936,7 @@ bool AActor::SetState (FState *newstate, bool nofunction)
 				// for Dehacked, I would move sprite changing out of the states
 				// altogether, since actors rarely change their sprites after
 				// spawning.
-					if (player != NULL && Skins.Size() > 0)
+					if (player != nullptr && Skins.Size() > 0)
 					{
 						sprite = Skins[player->userinfo.GetSkin()].sprite;
 					}
@@ -963,7 +963,7 @@ bool AActor::SetState (FState *newstate, bool nofunction)
 				{
 					return false;
 				}
-				if (returned_state != NULL)
+				if (returned_state != nullptr)
 				{ // The action was an A_Jump-style function that wants to change the next state.
 					newstate = returned_state;
 					tics = 0;		 // make sure we loop and set the new state properly
@@ -999,7 +999,7 @@ DEFINE_ACTION_FUNCTION(AActor, SetState)
 
 static void DestroyAllInventory(AActor* actor)
 {
-	AActor *inv = PARAM_NULLCHECK(actor, self)->Inventory;
+	AActor *inv = PARAM_nullptrCHECK(actor, self)->Inventory;
 	if (inv != nullptr)
 	{
 		TArray<AActor *> toDelete;
@@ -1087,11 +1087,11 @@ AActor *AActor::FindInventory (PClassActor *type, bool subclass)
 {
 	AActor *item;
 
-	if (type == NULL)
+	if (type == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
-	for (item = Inventory; item != NULL; item = item->Inventory)
+	for (item = Inventory; item != nullptr; item = item->Inventory)
 	{
 		if (!subclass)
 		{
@@ -1171,7 +1171,7 @@ void AActor::CopyFriendliness (AActor *other, bool changeTarget, bool resetHealt
 	flags4 = (flags4 & ~(MF4_NOHATEPLAYERS | MF4_BOSSSPAWNED)) | (other->flags4 & (MF4_NOHATEPLAYERS | MF4_BOSSSPAWNED));
 	FriendPlayer = other->FriendPlayer;
 	DesignatedTeam = other->DesignatedTeam;
-	if (changeTarget && other->target != NULL && !(other->target->flags3 & MF3_NOTARGET) && !(other->target->flags7 & MF7_NEVERTARGET))
+	if (changeTarget && other->target != nullptr && !(other->target->flags3 & MF3_NOTARGET) && !(other->target->flags7 & MF7_NEVERTARGET))
 	{
 		// LastHeard must be set as well so that A_Look can react to the new target if called
 		LastHeard = target = other->target;
@@ -1183,7 +1183,7 @@ void AActor::CopyFriendliness (AActor *other, bool changeTarget, bool resetHealt
 DEFINE_ACTION_FUNCTION(AActor, CopyFriendliness)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(other, AActor);
+	PARAM_OBJECT_NOT_nullptr(other, AActor);
 	PARAM_BOOL(changetarget);
 	PARAM_BOOL(resethealth);
 	self->CopyFriendliness(other, changetarget, resethealth);
@@ -1257,7 +1257,7 @@ int P_GetRealMaxHealth(AActor *actor, int max)
 
 bool P_GiveBody(AActor *actor, int num, int max)
 {
-	if (actor->health <= 0 || (actor->player != NULL && actor->player->playerstate == PST_DEAD))
+	if (actor->health <= 0 || (actor->player != nullptr && actor->player->playerstate == PST_DEAD))
 	{ // Do not heal dead things.
 		return false;
 	}
@@ -1265,7 +1265,7 @@ bool P_GiveBody(AActor *actor, int num, int max)
 	player_t *player = actor->player;
 
 	num = clamp(num, -65536, 65536);	// prevent overflows for bad values
-	if (player != NULL)
+	if (player != nullptr)
 	{
 		max = P_GetRealMaxHealth(player->mo, max);	// do not pass voodoo dolls in here.
 		// [RH] For Strife: A negative value sets you up with a percentage of your full health.
@@ -1355,7 +1355,7 @@ bool AActor::CheckLocalView() const
 	{
 		return false;
 	}
-	if (p->camera->player == NULL &&
+	if (p->camera->player == nullptr &&
 		!(p->camera->flags3 & MF3_ISMONSTER))
 	{
 		return true;
@@ -1484,7 +1484,7 @@ bool AActor::IsInsideVisibleAngles() const
 bool AActor::IsVisibleToPlayer() const
 {
 	auto p = Level->GetConsolePlayer();
-	// [BB] Safety check. This should never be NULL. Nevertheless, we return true to leave the default ZDoom behavior unaltered.
+	// [BB] Safety check. This should never be nullptr. Nevertheless, we return true to leave the default ZDoom behavior unaltered.
 	if (p == nullptr || p->camera == nullptr )
 		return true;
 
@@ -1529,7 +1529,7 @@ bool AActor::IsVisibleToPlayer() const
 
 void AActor::ConversationAnimation (int animnum)
 {
-	FState * state = NULL;
+	FState * state = nullptr;
 	switch (animnum)
 	{
 	case 0:
@@ -1542,7 +1542,7 @@ void AActor::ConversationAnimation (int animnum)
 		state = FindState(NAME_No);
 		break;
 	}
-	if (state != NULL) SetState(state);
+	if (state != nullptr) SetState(state);
 }
 
 //============================================================================
@@ -1575,14 +1575,14 @@ void AActor::CallTouch(AActor *toucher)
 
 static int Grind(AActor* actor, int items)
 {
-	PARAM_NULLCHECK(actor, actor);
+	PARAM_nullptrCHECK(actor, actor);
 	// crunch bodies to giblets
 	if ((actor->flags & MF_CORPSE) && !(actor->flags3 & MF3_DONTGIB) && (actor->health <= 0))
 	{
 		FState * state = actor->FindState(NAME_Crush);
 
 		// In Heretic and Chex Quest we don't change the actor's sprite, just its size.
-		if (state == NULL && gameinfo.dontcrunchcorpses)
+		if (state == nullptr && gameinfo.dontcrunchcorpses)
 		{
 			actor->flags &= ~MF_SOLID;
 			actor->flags3 |= MF3_DONTGIB;
@@ -1596,16 +1596,16 @@ static int Grind(AActor* actor, int items)
 		// ZDoom behavior differs from standard as crushed corpses cannot be raised.
 		// The reason for the change was originally because of a problem with players,
 		// see rh_log entry for February 21, 1999. Don't know if it is still relevant.
-		if (state == NULL 									// Only use the default crushed state if:
+		if (state == nullptr 									// Only use the default crushed state if:
 			&& !(actor->flags & MF_NOBLOOD)						// 1. the monster bleeeds,
-			&& actor->player == NULL)								// 3. and the thing isn't a player.
+			&& actor->player == nullptr)								// 3. and the thing isn't a player.
 		{
 			isgeneric = true;
 			state = actor->FindState(NAME_GenericCrush);
-			if (state != NULL && (sprites[state->sprite].numframes <= 0))
-				state = NULL; // If one of these tests fails, do not use that state.
+			if (state != nullptr && (sprites[state->sprite].numframes <= 0))
+				state = nullptr; // If one of these tests fails, do not use that state.
 		}
-		if (state != NULL && !(actor->flags & MF_ICECORPSE))
+		if (state != nullptr && !(actor->flags & MF_ICECORPSE))
 		{
 			if (actor->flags4 & MF4_BOSSDEATH)
 			{
@@ -1634,18 +1634,18 @@ static int Grind(AActor* actor, int items)
 
 			PClassActor *i = PClass::FindActor("RealGibs");
 
-			if (i != NULL)
+			if (i != nullptr)
 			{
 				i = i->GetReplacement(actor->Level);
 
 				const AActor *defaults = GetDefaultByType (i);
-				if (defaults->SpawnState == NULL ||
+				if (defaults->SpawnState == nullptr ||
 					sprites[defaults->SpawnState->sprite].numframes == 0)
 				{ 
-					i = NULL;
+					i = nullptr;
 				}
 			}
-			if (i == NULL)
+			if (i == nullptr)
 			{
 				// if there's no gib sprite don't crunch it.
 				actor->flags &= ~MF_SOLID;
@@ -1657,7 +1657,7 @@ static int Grind(AActor* actor, int items)
 			}
 
 			AActor *gib = Spawn (actor->Level, i, actor->Pos(), ALLOW_REPLACE);
-			if (gib != NULL)
+			if (gib != nullptr)
 			{
 				gib->RenderStyle = actor->RenderStyle;
 				gib->Alpha = actor->Alpha;
@@ -1690,7 +1690,7 @@ static int Grind(AActor* actor, int items)
 	if (actor->flags6 & MF6_TOUCHY && (actor->flags6 & MF6_ARMED || actor->IsSentient()))
     {
 		actor->flags6 &= ~MF6_ARMED; // Disarm
-		P_DamageMobj (actor, NULL, NULL, actor->health, NAME_Crush, DMG_FORCED);  // kill object
+		P_DamageMobj (actor, nullptr, nullptr, actor->health, NAME_Crush, DMG_FORCED);  // kill object
 		return true;   // keep checking
     }
 
@@ -1748,7 +1748,7 @@ bool AActor::Massacre ()
 		do
 		{
 			prevhealth = health;
-			P_DamageMobj (this, NULL, NULL, TELEFRAG_DAMAGE, NAME_Massacre);
+			P_DamageMobj (this, nullptr, nullptr, TELEFRAG_DAMAGE, NAME_Massacre);
 		}
 		while (health != prevhealth && health > 0);	//abort if the actor wasn't hurt.
 		if (health > 0)
@@ -1991,12 +1991,12 @@ void P_ExplodeMissile (AActor *mo, line_t *line, AActor *target, bool onsky, FNa
 		if ((target->flags & (MF_SHOOTABLE | MF_CORPSE)) || (target->flags6 & MF6_KILLED))
 		{
 			if (target->flags & MF_NOBLOOD) nextstate = mo->FindState(NAME_Crash);
-			if (nextstate == NULL) nextstate = mo->FindState(NAME_Death, NAME_Extreme);
+			if (nextstate == nullptr) nextstate = mo->FindState(NAME_Death, NAME_Extreme);
 		}
 	}
-	if (nextstate == NULL) nextstate = mo->FindState(NAME_Death, damageType);
+	if (nextstate == nullptr) nextstate = mo->FindState(NAME_Death, damageType);
 	
-	if (onsky || (line != NULL && line->special == Line_Horizon))
+	if (onsky || (line != nullptr && line->special == Line_Horizon))
 	{
 		if (!(mo->flags3 & MF3_SKYEXPLODE))
 		{
@@ -2007,16 +2007,16 @@ void P_ExplodeMissile (AActor *mo, line_t *line, AActor *target, bool onsky, FNa
 		nextstate = mo->FindState(NAME_Death, NAME_Sky);
 	}
 
-	if (line != NULL && cl_missiledecals)
+	if (line != nullptr && cl_missiledecals)
 	{
 		DVector3 pos = mo->PosRelative(line);
 		int side = P_PointOnLineSidePrecise (pos, line);
-		if (line->sidedef[side] == NULL)
+		if (line->sidedef[side] == nullptr)
 			side ^= 1;
-		if (line->sidedef[side] != NULL)
+		if (line->sidedef[side] != nullptr)
 		{
 			FDecalBase *base = mo->DecalGenerator;
-			if (base != NULL)
+			if (base != nullptr)
 			{
 				// Find the nearest point on the line, and stick a decal there
 				DVector3 linepos;
@@ -2029,8 +2029,8 @@ void P_ExplodeMissile (AActor *mo, line_t *line, AActor *target, bool onsky, FNa
 
 					linepos = DVector3(line->v1->fPos() + line->Delta() * frac, pos.Z);
 
-					F3DFloor * ffloor=NULL;
-					if (line->sidedef[side^1] != NULL)
+					F3DFloor * ffloor=nullptr;
+					if (line->sidedef[side^1] != nullptr)
 					{
 						sector_t * backsector = line->sidedef[side^1]->sector;
 						extsector_t::xfloor &xf = backsector->e->XFloor;
@@ -2174,9 +2174,9 @@ bool AActor::FloorBounceMissile (secplane_t &plane, bool is3DFloor)
 		if (BounceFlags & BOUNCE_ExplodeOnWater)
 		{
 			if (flags & MF_MISSILE)
-				P_ExplodeMissile(this, NULL, NULL);
+				P_ExplodeMissile(this, nullptr, nullptr);
 			else
-				CallDie(NULL, NULL);
+				CallDie(nullptr, nullptr);
 			return true;
 		}
 		if (!(BounceFlags & BOUNCE_CanBounceWater))
@@ -2217,9 +2217,9 @@ bool AActor::FloorBounceMissile (secplane_t &plane, bool is3DFloor)
 	if (bouncecount>0 && --bouncecount==0)
 	{
 		if (flags & MF_MISSILE)
-			P_ExplodeMissile(this, NULL, NULL);
+			P_ExplodeMissile(this, nullptr, nullptr);
 		else
-			CallDie(NULL, NULL);
+			CallDie(nullptr, nullptr);
 		return true;
 	}
 
@@ -2331,7 +2331,7 @@ bool AActor::CanSeek(AActor *target) const
 DEFINE_ACTION_FUNCTION(AActor, CanSeek)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(target, AActor);
+	PARAM_OBJECT_NOT_nullptr(target, AActor);
 	ACTION_RETURN_BOOL(self->CanSeek(target));
 }
 
@@ -2353,7 +2353,7 @@ bool P_SeekerMissile (AActor *actor, DAngle thresh, DAngle turnMax, bool precise
 
 	speed = !usecurspeed ? actor->Speed : actor->VelToSpeed();
 	target = actor->tracer;
-	if (target == NULL || !actor->CanSeek(target))
+	if (target == nullptr || !actor->CanSeek(target))
 	{
 		return false;
 	}
@@ -2470,8 +2470,8 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 	// [anon] When friction is turned off, turn off the crouching and water
 	//  speed caps as well, since it is a sort of friction, and the modders
 	//  most likely want to deal with that themselves.
-	if ((mo->player != NULL && (mo->Level->i_compatflags & COMPATF_WALLRUN)) || ((mo->waterlevel >= 1 ||
-		(mo->player != NULL && mo->player->crouchfactor < 0.75)) && !(mo->flags8 & MF8_NOFRICTION)))
+	if ((mo->player != nullptr && (mo->Level->i_compatflags & COMPATF_WALLRUN)) || ((mo->waterlevel >= 1 ||
+		(mo->player != nullptr && mo->player->crouchfactor < 0.75)) && !(mo->flags8 & MF8_NOFRICTION)))
 	{
 		// preserve the direction instead of clamping x and y independently.
 		double cx = mo->Vel.X == 0 ? 1. : clamp(mo->Vel.X, -maxmove, maxmove) / mo->Vel.X;
@@ -2515,7 +2515,7 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 			mo->Vel.Zero();
 			if (!(mo->flags2 & MF2_DORMANT))
 			{
-				if (mo->SeeState != NULL) mo->SetState (mo->SeeState);
+				if (mo->SeeState != nullptr) mo->SetState (mo->SeeState);
 				else mo->SetIdle();
 			}
 			else
@@ -2623,19 +2623,19 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 			}
 
 			if (!(mo->flags & MF_MISSILE) && (mo->BounceFlags & BOUNCE_MBF) 
-				&& (BlockingMobj != NULL ? P_BounceActor(mo, BlockingMobj, false) : P_BounceWall(mo)))
+				&& (BlockingMobj != nullptr ? P_BounceActor(mo, BlockingMobj, false) : P_BounceWall(mo)))
 			{
 				// Do nothing, relevant actions already done in the condition.
 				// This allows to avoid setting velocities to 0 in the final else of this series.
 			}
 			else if ((mo->flags2 & (MF2_SLIDE|MF2_BLASTED) || bForceSlide) && !(mo->flags&MF_MISSILE))
 			{	// try to slide along it
-				if (BlockingMobj == NULL)
+				if (BlockingMobj == nullptr)
 				{ // slide against wall
-					if (BlockingLine != NULL &&
+					if (BlockingLine != nullptr &&
 						mo->player && mo->waterlevel && mo->waterlevel < 3 &&
 						(mo->player->cmd.forwardmove | mo->player->cmd.sidemove) &&
-						mo->BlockingLine->sidedef[1] != NULL)
+						mo->BlockingLine->sidedef[1] != nullptr)
 					{
 						double spd = mo->FloatVar(NAME_WaterClimbSpeed);
 						if (fabs(spd) >= EQUAL_EPSILON)
@@ -2719,7 +2719,7 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 						// Bounce test and code moved to P_BounceActor
 						if (!P_BounceActor(mo, BlockingMobj, false))
 						{	// Struck a player/creature
-							P_ExplodeMissile (mo, NULL, BlockingMobj);
+							P_ExplodeMissile (mo, nullptr, BlockingMobj);
 						}
 						return Oldfloorz;
 					}
@@ -2752,7 +2752,7 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 					else onsky = true;
 				}
 				// [RH] Don't explode on horizon lines.
-				if (mo->BlockingLine != NULL && mo->BlockingLine->special == Line_Horizon)
+				if (mo->BlockingLine != nullptr && mo->BlockingLine->special == Line_Horizon)
 				{
 					if (!(mo->flags3 & MF3_SKYEXPLODE))
 					{
@@ -2827,7 +2827,7 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 		!mo->waterlevel)
 	{ // [RH] Friction when falling is available for larger aircontrols
 		auto airfriction = mo->Level->airfriction;
-		if (player != NULL && airfriction != 1.)
+		if (player != nullptr && airfriction != 1.)
 		{
 			mo->Vel.X *= airfriction;
 			mo->Vel.Y *= airfriction;
@@ -2905,7 +2905,7 @@ static double P_XYMovement (AActor *mo, DVector2 scroll)
 		// Reducing player velocity is no longer needed to reduce
 		// bobbing, so ice works much better now.
 
-		double friction = P_GetFriction (mo, NULL);
+		double friction = P_GetFriction (mo, nullptr);
 
 		mo->Vel.X *= friction;
 		mo->Vel.Y *= friction;
@@ -2952,7 +2952,7 @@ static void P_MonsterFallingDamage (AActor *mo)
 		damage = int((vel - 23)*6);
 	}
 	if (!(mo->Level->flags3 & LEVEL3_PROPERMONSTERFALLINGDAMAGE)) damage = TELEFRAG_DAMAGE;
-	P_DamageMobj (mo, NULL, NULL, damage, NAME_Falling);
+	P_DamageMobj (mo, nullptr, nullptr, damage, NAME_Falling);
 }
 
 //
@@ -3047,7 +3047,7 @@ static void P_ZMovement (AActor *mo, double oldfloorz)
 	if (mo->Z() <= mo->floorz)
 	{	// Hit the floor
 		if ((!mo->player || !(mo->player->cheats & CF_PREDICTING)) &&
-			mo->Sector->SecActTarget != NULL &&
+			mo->Sector->SecActTarget != nullptr &&
 			mo->Sector->floorplane.ZatPoint(mo) == mo->floorz)
 		{ // [RH] Let the sector do something to the actor
 			mo->Sector->TriggerSectorActions(mo, SECSPAC_HitFloor);
@@ -3095,7 +3095,7 @@ static void P_ZMovement (AActor *mo, double oldfloorz)
 					P_HitFloor (mo);
 					// hit floor: direct damage callback
 					P_ProjectileHitPlane(mo, SECPART_Floor);
-					P_ExplodeMissile (mo, NULL, NULL, onsky);
+					P_ExplodeMissile (mo, nullptr, nullptr, onsky);
 					return;
 				}
 			}
@@ -3139,7 +3139,7 @@ static void P_ZMovement (AActor *mo, double oldfloorz)
 						// Squat down.
 						// Decrease viewheight for a moment after hitting the ground (hard),
 						// and utter appropriate sound.
-						PlayerLandedOnThing (mo, NULL);
+						PlayerLandedOnThing (mo, nullptr);
 					}
 				}
 				mo->Vel.Z = 0;
@@ -3160,7 +3160,7 @@ static void P_ZMovement (AActor *mo, double oldfloorz)
 	if (mo->Top() > mo->ceilingz)
 	{ // hit the ceiling
 		if ((!mo->player || !(mo->player->cheats & CF_PREDICTING)) &&
-			mo->Sector->SecActTarget != NULL &&
+			mo->Sector->SecActTarget != nullptr &&
 			mo->Sector->ceilingplane.ZatPoint(mo) == mo->ceilingz)
 		{ // [RH] Let the sector do something to the actor
 			mo->Sector->TriggerSectorActions (mo, SECSPAC_HitCeiling);
@@ -3203,7 +3203,7 @@ static void P_ZMovement (AActor *mo, double oldfloorz)
 				}
 				// hit ceiling: direct damage callback
 				P_ProjectileHitPlane(mo, SECPART_Ceiling);
-				P_ExplodeMissile (mo, NULL, NULL, onsky);
+				P_ExplodeMissile (mo, nullptr, nullptr, onsky);
 				return;
 			}
 		}
@@ -3218,19 +3218,19 @@ void P_CheckFakeFloorTriggers (AActor *mo, double oldz, bool oldz_has_viewheight
 		return;
 	}
 	sector_t *sec = mo->Sector;
-	assert (sec != NULL);
-	if (sec == NULL)
+	assert (sec != nullptr);
+	if (sec == nullptr)
 	{
 		return;
 	}
-	if (sec->heightsec != NULL && sec->SecActTarget != NULL)
+	if (sec->heightsec != nullptr && sec->SecActTarget != nullptr)
 	{
 		sector_t *hs = sec->heightsec;
 		double waterz = hs->floorplane.ZatPoint(mo);
 		double newz;
 		double viewheight;
 
-		if (mo->player != NULL)
+		if (mo->player != nullptr)
 		{
 			viewheight = mo->player->viewheight;
 		}
@@ -3372,7 +3372,7 @@ void AActor::FallAndSink(double grav, double oldfloorz)
 				Vel.Z -= grav;
 			}
 		}
-		if (player == NULL)
+		if (player == nullptr)
 		{
 			if (waterlevel >= 1)
 			{
@@ -3388,7 +3388,7 @@ void AActor::FallAndSink(double grav, double oldfloorz)
 
 					// If it's not a player, scale sinkspeed by its mass, with
 					// 100 being equivalent to a player.
-					if (player == NULL)
+					if (player == nullptr)
 					{
 						sinkspeed = sinkspeed * clamp(Mass, 1, 4000) / 100;
 					}
@@ -3562,8 +3562,8 @@ void AActor::AddToHash ()
 
 	if (tid == 0)
 	{
-		iprev = NULL;
-		inext = NULL;
+		iprev = nullptr;
+		inext = nullptr;
 		return;
 	}
 	else
@@ -3595,8 +3595,8 @@ void AActor::RemoveFromHash ()
 		{
 			inext->iprev = iprev;
 		}
-		iprev = NULL;
-		inext = NULL;
+		iprev = nullptr;
+		inext = nullptr;
 	}
 	tid = 0;
 }
@@ -3629,7 +3629,7 @@ void AActor::SetTID (int newTID)
 bool FLevelLocals::IsTIDUsed(int tid, bool clientside)
 {
 	AActor *probe = clientside ? ClientSideTIDHash[tid & 127] : TIDHash[tid & 127];
-	while (probe != NULL)
+	while (probe != nullptr)
 	{
 		if (probe->tid == tid)
 		{
@@ -3787,9 +3787,9 @@ bool AActor::Slam (AActor *thing)
 			if (health > 0)
 			{
 				FState *slam = FindState(NAME_Slam);
-				if (slam != NULL)
+				if (slam != nullptr)
 					SetState(slam);
-				else if (SeeState != NULL && !(flags8 & MF8_RETARGETAFTERSLAM))
+				else if (SeeState != nullptr && !(flags8 & MF8_RETARGETAFTERSLAM))
 					SetState (SeeState);
 				else
 					SetIdle();
@@ -3888,11 +3888,11 @@ bool AActor::AdjustReflectionAngle (AActor *thing, DAngle &angle)
 	//Always check for AIMREFLECT, no matter what else is checked above.
 	if (thing->flags7 & MF7_AIMREFLECT)
 	{
-		if (this->target != NULL)
+		if (this->target != nullptr)
 		{
 			A_Face(this, this->target);
 		}
-		else if (thing->target != NULL)
+		else if (thing->target != nullptr)
 		{
 			A_Face(this, thing->target);
 		}
@@ -3989,7 +3989,7 @@ bool AActor::IsOkayToAttack (AActor *link)
 
 	// Friend checks
 	if (link == Friend)									return false;
-	if (Friend == NULL)									return false;
+	if (Friend == nullptr)									return false;
 	if (Friend->IsFriend(link))							return false;
 	if ((link->flags5 & MF5_SUMMONEDMONSTER)			// No attack against minions on the same side
 		&& (link->tracer == Friend))					return false;
@@ -4141,7 +4141,7 @@ void AActor::SetRoll(DAngle r, int fflags)
 
 void AActor::SetViewPitch(DAngle p, int fflags)
 {
-	if (player != NULL || (fflags & SPF_FORCECLAMP))
+	if (player != nullptr || (fflags & SPF_FORCECLAMP))
 	{
 		p = ClampPitch(p);
 	}
@@ -4551,8 +4551,8 @@ void AActor::Tick ()
 
 	AActor *onmo;
 
-	//assert (state != NULL);
-	if (state == NULL)
+	//assert (state != nullptr);
+	if (state == nullptr)
 	{
 		Printf("Actor of type %s at (%f,%f) left without a state\n", GetClass()->TypeName.GetChars(), X(), Y());
 		Destroy();
@@ -4609,7 +4609,7 @@ void AActor::Tick ()
 			// by the order in the inventory, not the order in the thinker table
 			AActor *item = Inventory;
 			
-			while (item != NULL)
+			while (item != nullptr)
 			{
 				IFVIRTUALPTRNAME(item, NAME_Inventory, DoEffect)
 				{
@@ -4751,7 +4751,7 @@ void AActor::Tick ()
 		// [RH] Consider carrying sectors here
 		DVector2 cumm(0, 0);
 
-		if ((((flags8 & MF8_INSCROLLSEC) && Level->Scrolls.Size() > 0) || player != NULL) && !(flags & MF_NOCLIP) && !(flags & MF_NOSECTOR))
+		if ((((flags8 & MF8_INSCROLLSEC) && Level->Scrolls.Size() > 0) || player != nullptr) && !(flags & MF_NOCLIP) && !(flags & MF_NOSECTOR))
 		{
 			double height, waterheight;	// killough 4/4/98: add waterheight
 			const msecnode_t *node;
@@ -4784,7 +4784,7 @@ void AActor::Tick ()
 					scrollv.Zero();
 				}
 
-				if (player != NULL)
+				if (player != nullptr)
 				{
 					int scrolltype = sec->special;
 
@@ -4845,7 +4845,7 @@ void AActor::Tick ()
 					continue;
 				}
 				sector_t *heightsec = sec->GetHeightSec();
-				if (flags & MF_NOGRAVITY && heightsec == NULL)
+				if (flags & MF_NOGRAVITY && heightsec == nullptr)
 				{
 					continue;
 				}
@@ -4854,7 +4854,7 @@ void AActor::Tick ()
 				double height2 = sec->floorplane.ZatPoint(this);
 				if (isAbove(height))
 				{
-					if (heightsec == NULL)
+					if (heightsec == nullptr)
 					{
 						continue;
 					}
@@ -4874,7 +4874,7 @@ void AActor::Tick ()
 			// Some levels designed with Boom in mind actually want things to accelerate
 			// at neighboring scrolling sector boundaries. But it is only important for
 			// non-player objects.
-			if (player != NULL || !(Level->i_compatflags & COMPATF_BOOMSCROLL))
+			if (player != nullptr || !(Level->i_compatflags & COMPATF_BOOMSCROLL))
 			{
 				if (countx > 1)
 				{
@@ -5004,12 +5004,12 @@ void AActor::Tick ()
 					// we land on it. This could be considered as gravity making us continually
 					// bump into it, but it also avoids having to worry about walking on to
 					// something without dropping and not triggering anything.
-					if ((onmo->flags6 & MF6_BUMPSPECIAL) && ((player != NULL)
+					if ((onmo->flags6 & MF6_BUMPSPECIAL) && ((player != nullptr)
 						|| ((onmo->activationtype & THINGSPEC_MonsterTrigger) && (flags3 & MF3_ISMONSTER))
 						|| ((onmo->activationtype & THINGSPEC_MissileTrigger) && (flags & MF_MISSILE))
 						) && (Level->maptime > onmo->lastbump)) // Leave the bumper enough time to go away
 					{
-						if (player == NULL || !(player->cheats & CF_PREDICTING))
+						if (player == nullptr || !(player->cheats & CF_PREDICTING))
 						{
 							if (P_ActivateThingSpecial(onmo, this))
 								onmo->lastbump = Level->maptime + TICRATE;
@@ -5061,7 +5061,7 @@ void AActor::Tick ()
 		// Check for poison damage, but only once per PoisonPeriod tics (or once per second if none).
 		if (PoisonDurationReceived && (Level->time % (PoisonPeriodReceived ? PoisonPeriodReceived : TICRATE) == 0))
 		{
-			P_DamageMobj(this, NULL, Poisoner, PoisonDamageReceived, PoisonDamageTypeReceived != NAME_None ? PoisonDamageTypeReceived : (FName)NAME_Poison, 0);
+			P_DamageMobj(this, nullptr, Poisoner, PoisonDamageReceived, PoisonDamageTypeReceived != NAME_None ? PoisonDamageTypeReceived : (FName)NAME_Poison, 0);
 
 			--PoisonDurationReceived;
 
@@ -5071,8 +5071,8 @@ void AActor::Tick ()
 		}
 	}
 
-	assert (state != NULL);
-	if (state == NULL)
+	assert (state != nullptr);
+	if (state == nullptr)
 	{
 		Destroy();
 		return;
@@ -5167,7 +5167,7 @@ bool AActor::CheckNoDelay()
 				{
 					return false;		// freed itself
 				}
-				if (newstate != NULL)
+				if (newstate != nullptr)
 				{
 					return SetState(newstate);
 				}
@@ -5195,11 +5195,11 @@ void AActor::CheckSectorTransition(sector_t *oldsec)
 {
 	if (oldsec != Sector)
 	{
-		if (oldsec->SecActTarget != NULL)
+		if (oldsec->SecActTarget != nullptr)
 		{
 			oldsec->TriggerSectorActions(this, SECSPAC_Exit);
 		}
-		if (Sector->SecActTarget != NULL)
+		if (Sector->SecActTarget != nullptr)
 		{
 			int act = SECSPAC_Enter;
 			if (Z() <= Sector->floorplane.ZatPoint(this))
@@ -5210,7 +5210,7 @@ void AActor::CheckSectorTransition(sector_t *oldsec)
 			{
 				act |= SECSPAC_HitCeiling;
 			}
-			if (Sector->heightsec != NULL && Z() == Sector->heightsec->floorplane.ZatPoint(this))
+			if (Sector->heightsec != nullptr && Z() == Sector->heightsec->floorplane.ZatPoint(this))
 			{
 				act |= SECSPAC_HitFakeFloor;
 			}
@@ -5247,7 +5247,7 @@ static double UpdateWaterDepth(AActor* actor, bool splash)
 	actor->waterlevel = 0;
 	actor->waterdepth = 0;
 
-	if (actor->Sector == NULL)
+	if (actor->Sector == nullptr)
 	{
 		return fh;
 	}
@@ -5259,7 +5259,7 @@ static double UpdateWaterDepth(AActor* actor, bool splash)
 	else
 	{
 		const sector_t *hsec = actor->Sector->GetHeightSec();
-		if (hsec != NULL)
+		if (hsec != nullptr)
 		{
 			fh = hsec->floorplane.ZatPoint(actor);
 
@@ -5418,7 +5418,7 @@ void ConstructActor(AActor *actor, const DVector3 &pos, bool SpawningMapThing)
 	}
 	else
 	{
-		actor->Conversation = NULL;
+		actor->Conversation = nullptr;
 	}
 
 	actor->SetXYZ(pos);
@@ -5451,7 +5451,7 @@ void ConstructActor(AActor *actor, const DVector3 &pos, bool SpawningMapThing)
 	actor->sprite = st->sprite;
 	actor->frame = st->GetFrame();
 	actor->renderflags = (actor->renderflags & ~RF_FULLBRIGHT) | ActorRenderFlags::FromInt (st->GetFullbright());
-	actor->touching_sectorlist = nullptr;	// NULL head of sector list // phares 3/13/98
+	actor->touching_sectorlist = nullptr;	// nullptr head of sector list // phares 3/13/98
 	actor->touching_rendersectors = nullptr;
 	if (G_SkillProperty(SKILLP_FastMonsters))
 	{
@@ -5582,7 +5582,7 @@ void ConstructActor(AActor *actor, const DVector3 &pos, bool SpawningMapThing)
 
 AActor *AActor::StaticSpawn(FLevelLocals *Level, PClassActor *type, const DVector3 &pos, replace_t allowreplacement, bool SpawningMapThing)
 {
-	if (type == NULL)
+	if (type == nullptr)
 	{
 		I_Error("Tried to spawn a class-less actor\n");
 	}
@@ -5617,7 +5617,7 @@ AActor *AActor::StaticSpawn(FLevelLocals *Level, PClassActor *type, const DVecto
 DEFINE_ACTION_FUNCTION(AActor, Spawn)
 {
 	PARAM_PROLOGUE;
-	PARAM_CLASS_NOT_NULL(type, AActor);
+	PARAM_CLASS_NOT_nullptr(type, AActor);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);
 	PARAM_FLOAT(z);
@@ -5639,7 +5639,7 @@ static AActor* SpawnClientSide(PClassActor* type, double x, double y, double z, 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, SpawnClientSide, SpawnClientSide)
 {
 	PARAM_PROLOGUE;
-	PARAM_CLASS_NOT_NULL(type, AActor);
+	PARAM_CLASS_NOT_nullptr(type, AActor);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);
 	PARAM_FLOAT(z);
@@ -5650,7 +5650,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, SpawnClientSide, SpawnClientSide)
 PClassActor *ClassForSpawn(FName classname)
 {
 	PClass *cls = PClass::FindClass(classname);
-	if (cls == NULL)
+	if (cls == nullptr)
 	{
 		I_Error("Attempt to spawn actor of unknown type '%s'\n", classname.GetChars());
 	}
@@ -5685,7 +5685,7 @@ void AActor::HandleSpawnFlags ()
 	}
 	if (SpawnFlags & MTF_DORMANT)
 	{
-		CallDeactivate (NULL);
+		CallDeactivate (nullptr);
 	}
 	if (SpawnFlags & MTF_STANDSTILL)
 	{
@@ -5753,7 +5753,7 @@ void AActor::BeginPlay ()
 	if (flags2 & MF2_DORMANT)
 	{
 		flags2 &= ~MF2_DORMANT;
-		CallDeactivate (NULL);
+		CallDeactivate (nullptr);
 	}
 }
 
@@ -5818,7 +5818,7 @@ void AActor::Activate (AActor *activator)
 		{
 			flags2 &= ~MF2_DORMANT;
 			FState *state = FindState(NAME_Active);
-			if (state != NULL) 
+			if (state != nullptr)
 			{
 				SetState(state);
 			}
@@ -5863,7 +5863,7 @@ void AActor::Deactivate (AActor *activator)
 		{
 			flags2 |= MF2_DORMANT;
 			FState *state = FindState(NAME_Inactive);
-			if (state != NULL) 
+			if (state != nullptr)
 			{
 				SetState(state);
 			}
@@ -5945,7 +5945,7 @@ void AActor::OnDestroy ()
 	}
 
 	// Transform any playing sound into positioned, non-actor sounds.
-	S_RelinkSound (this, NULL);
+	S_RelinkSound (this, nullptr);
 
 	Super::OnDestroy();
 }
@@ -5974,7 +5974,7 @@ void AActor::AdjustFloorClip ()
 	{
 		DVector3 pos = PosRelative(m->m_sector);
 		sector_t* hsec = m->m_sector->GetHeightSec();
-		if (hsec == NULL)
+		if (hsec == nullptr)
 		{
 			if (m->m_sector->floorplane.ZatPoint(pos) == Z())
 			{
@@ -6235,7 +6235,7 @@ void FLevelLocals::PlayerSpawnPickClass (int playernum)
 {
 	auto p = Players[playernum];
 
-	if (p->cls == NULL)
+	if (p->cls == nullptr)
 	{
 		// [GRB] Pick a class from player class list
 		if (PlayerClasses.Size () > 1)
@@ -6272,13 +6272,13 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 	DVector3 spawn;
 	DAngle SpawnAngle;
 
-	if (mthing == NULL)
+	if (mthing == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	// not playing?
 	if ((unsigned)playernum >= (unsigned)MAXPLAYERS || !PlayerInGame(playernum) )
-		return NULL;
+		return nullptr;
 
 	// Old lerp data needs to go
 	if (playernum == consoleplayer)
@@ -6342,7 +6342,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 			p->mo->MoveBehaviors(*oldactor);
 		PlayerReborn (playernum);
 	}
-	else if (oldactor != NULL && oldactor->player == p && !(flags & SPF_TEMPPLAYER))
+	else if (oldactor != nullptr && oldactor->player == p && !(flags & SPF_TEMPPLAYER))
 	{
 		// Move the voodoo doll's inventory to the new player.
 		IFVM(Actor, ObtainInventory)
@@ -6384,7 +6384,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 	p->morphTics = 0;
 	p->MorphedPlayerClass = 0;
 	p->MorphStyle = 0;
-	p->MorphExitFlash = NULL;
+	p->MorphExitFlash = nullptr;
 	p->extralight = 0;
 	p->fixedcolormap = NOFIXEDCOLORMAP;
 	p->fixedlightlevel = -1;
@@ -6436,7 +6436,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 		}
 	}
 	else if ((multiplayer || (flags2 & LEVEL2_ALLOWRESPAWN) || sv_singleplayerrespawn ||
-		!!G_SkillProperty(SKILLP_PlayerRespawn)) && state == PST_REBORN && oldactor != NULL)
+		!!G_SkillProperty(SKILLP_PlayerRespawn)) && state == PST_REBORN && oldactor != nullptr)
 	{ // Special inventory handling for respawning in coop
 		IFVM(PlayerPawn, FilterCoopRespawnInventory)
 		{
@@ -6444,7 +6444,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 			VMCall(func, params, 3, nullptr, 0);
 		}
 	}
-	if (oldactor != NULL)
+	if (oldactor != nullptr)
 	{ // Remove any inventory left from the old actor. Coop handles
 	  // it above, but the other modes don't.
 		DestroyAllInventory(oldactor);
@@ -6459,7 +6459,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 		}
 	}
 
-	if (StatusBar != NULL && (playernum == consoleplayer || StatusBar->GetPlayer() == playernum))
+	if (StatusBar != nullptr && (playernum == consoleplayer || StatusBar->GetPlayer() == playernum))
 	{
 		StatusBar->AttachToPlayer (p);
 	}
@@ -6486,10 +6486,10 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 		}
 		else if (state == PST_REBORN)
 		{
-			assert (oldactor != NULL);
+			assert (oldactor != nullptr);
 
 			// before relocating all pointers to the player all sound targets
-			// pointing to the old actor have to be NULLed. Otherwise all
+			// pointing to the old actor have to be nullptred. Otherwise all
 			// monsters who last targeted this player will wake up immediately
 			// after the player has respawned.
 			AActor *th;
@@ -6528,37 +6528,37 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 	bool spawnmulti_cooponly = G_SkillProperty(SKILLP_SpawnMultiCoopOnly);
 
 	if (mthing->EdNum == 0 || mthing->EdNum == -1)
-		return NULL;
+		return nullptr;
 
 	// find which type to spawn
 	FDoomEdEntry *mentry = mthing->info;
 
-	if (mentry == NULL)
+	if (mentry == nullptr)
 	{
 		// [RH] Don't die if the map tries to spawn an unknown thing
 		Printf("Unknown type %i at (%.1f, %.1f)\n",
 			mthing->EdNum, mthing->pos.X, mthing->pos.Y);
 		mentry = DoomEdMap.CheckKey(0);
-		if (mentry == NULL)	// we need a valid entry for the rest of this function so if we can't find a default, let's exit right away.
+		if (mentry == nullptr)	// we need a valid entry for the rest of this function so if we can't find a default, let's exit right away.
 		{
-		return NULL;
+		return nullptr;
 	}
 	}
-	if (mentry->Type == NULL && mentry->Special <= 0)
+	if (mentry->Type == nullptr && mentry->Special <= 0)
 	{
 		// has been explicitly set to not spawning anything.
-		return NULL;
+		return nullptr;
 	}
 
 	// copy args to mapthing so that we have them in one place for the rest of this function	
 	if (mentry->ArgsDefined > 0)
 	{
-		if (mentry->Type!= NULL) mthing->special = mentry->Special;
+		if (mentry->Type!= nullptr) mthing->special = mentry->Special;
 		memcpy(mthing->args, mentry->Args, sizeof(mthing->args[0]) * mentry->ArgsDefined);
 	}
 
 	int pnum = -1;
-	if (mentry->Type == NULL)
+	if (mentry->Type == nullptr)
 	{
 
 		switch (mentry->Special)
@@ -6568,7 +6568,7 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 			// count deathmatch start positions
 			FPlayerStart start(mthing, 0);
 			deathmatchstarts.Push(start);
-			return NULL;
+			return nullptr;
 		}
 
 		case SMT_PolyAnchor:
@@ -6616,13 +6616,13 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 		}
 		if (!(mthing->flags & mask))
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		mask = G_SkillProperty(SKILLP_SpawnFilter);
 		if (!(mthing->SkillFilter & mask) && !mentry->NoSkillFlags)
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// Check class spawn masks. Now with player classes available
@@ -6655,7 +6655,7 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 			}
 			if (mask != -1 && (mthing->ClassFilter & mask) == 0)
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -6664,7 +6664,7 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 	{
 		// [RH] Only spawn spots that match position.
 		if (mthing->args[0] != position)
-			return NULL;
+			return nullptr;
 
 		// save spots for respawning in network games
 		FPlayerStart start(mthing, pnum+1);
@@ -6696,11 +6696,11 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 		{
 			return SpawnPlayer(&start, pnum, (flags2 & LEVEL2_PRERAISEWEAPON) ? SPF_WEAPONFULLYUP : 0);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// [RH] sound sequence overriders
-	if (mentry->Type == NULL && mentry->Special == SMT_SSeqOverride)
+	if (mentry->Type == nullptr && mentry->Special == SMT_SSeqOverride)
 	{
 		int type = mthing->args[0];
 		if (type == 255) type = -1;
@@ -6712,7 +6712,7 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 		{
 			PointInSector (mthing->pos)->seqType = type;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// [RH] If the thing's corresponding sprite has no frames, also map
@@ -6722,14 +6722,14 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 	i = mentry->Type->GetReplacement(this);
 
 		const AActor *defaults = GetDefaultByType (i);
-		if (defaults->SpawnState == NULL ||
+		if (defaults->SpawnState == nullptr ||
 			sprites[defaults->SpawnState->sprite].numframes == 0)
 		{
 			// We don't load mods for shareware games so we'll just ignore
 			// missing actors. Heretic needs this since the shareware includes
 			// the retail weapons in Deathmatch.
 			if (gameinfo.flags & GI_SHAREWARE)
-				return NULL;
+				return nullptr;
 
 			Printf ("%s at (%.1f, %.1f) has no frames\n",
 					i->TypeName.GetChars(), mthing->pos.X, mthing->pos.Y);
@@ -6767,14 +6767,14 @@ AActor *FLevelLocals::SpawnMapThing (FMapThing *mthing, int position)
 		if (GetDefaultByType(i)->flags7 & MF7_WEAPONSPAWN)
 		{
 			if ((mthing->flags & (MTF_DEATHMATCH|MTF_SINGLE)) == MTF_DEATHMATCH)
-				return NULL;
+				return nullptr;
 		}
 	}
 
 	// don't spawn any monsters if -nomonsters
 	if (((flags2 & LEVEL2_NOMONSTERS) || (dmflags & DF_NO_MONSTERS)) && info->flags3 & MF3_ISMONSTER )
 	{
-		return NULL;
+		return nullptr;
 	}
 	auto it = GetDefaultByType(i);
 
@@ -6964,7 +6964,7 @@ AActor *P_SpawnPuff (AActor *source, PClassActor *pufftype, const DVector3 &pos1
 
 	if (!(flags & PF_NORANDOMZ)) pos.Z += pr_spawnpuff.Random2() / 64.;
 	puff = Spawn(source->Level, pufftype, pos, ALLOW_REPLACE);
-	if (puff == NULL) return NULL;
+	if (puff == nullptr) return nullptr;
 
 	if ((puff->flags4 & MF4_RANDOMIZE) && puff->tics > 0)
 	{
@@ -6997,19 +6997,19 @@ AActor *P_SpawnPuff (AActor *source, PClassActor *pufftype, const DVector3 &pos1
 	// it will enter the crash state. This is used by the StrifeSpark
 	// and BlasterPuff.
 	FState *crashstate;
-	if ((flags & PF_HITSKY) && (crashstate = puff->FindState(NAME_Death, NAME_Sky, true)) != NULL)
+	if ((flags & PF_HITSKY) && (crashstate = puff->FindState(NAME_Death, NAME_Sky, true)) != nullptr)
 	{
 		puff->SetState (crashstate);
 	}
-	else if (!(flags & PF_HITTHING) && (crashstate = puff->FindState(NAME_Crash)) != NULL)
+	else if (!(flags & PF_HITTHING) && (crashstate = puff->FindState(NAME_Crash)) != nullptr)
 	{
 		puff->SetState (crashstate);
 	}
-	else if ((flags & PF_HITTHINGBLEED) && (crashstate = puff->FindState(NAME_Death, NAME_Extreme, true)) != NULL)
+	else if ((flags & PF_HITTHINGBLEED) && (crashstate = puff->FindState(NAME_Death, NAME_Extreme, true)) != nullptr)
 	{
 		puff->SetState (crashstate);
 	}
-	else if ((flags & PF_MELEERANGE) && puff->MeleeState != NULL)
+	else if ((flags & PF_MELEERANGE) && puff->MeleeState != nullptr)
 	{
 		// handle the hard coded state jump of Doom's bullet puff
 		// in a more flexible manner.
@@ -7182,10 +7182,10 @@ void P_BloodSplatter (const DVector3 &pos, AActor *originator, DAngle hitangle)
 
 	int bloodtype = cl_bloodtype;
 	
-	if (bloodcls != NULL && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
+	if (bloodcls != nullptr && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
 		bloodtype = 0;
 
-	if (bloodcls != NULL)
+	if (bloodcls != nullptr)
 	{
 		AActor *mo;
 
@@ -7221,14 +7221,14 @@ void P_BloodSplatter2 (const DVector3 &pos, AActor *originator, DAngle hitangle)
 
 	int bloodtype = cl_bloodtype;
 	
-	if (bloodcls != NULL && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
+	if (bloodcls != nullptr && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
 		bloodtype = 0;
 
 	DVector2 add;
 	add.X = (pr_splat() - 128) / 32.;
 	add.Y = (pr_splat() - 128) / 32.;
 
-	if (bloodcls != NULL)
+	if (bloodcls != nullptr)
 	{
 		AActor *mo;
 
@@ -7279,10 +7279,10 @@ void P_RipperBlood (AActor *mo, AActor *bleeder)
 
 	int bloodtype = cl_bloodtype;
 	
-	if (bloodcls != NULL && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
+	if (bloodcls != nullptr && !(GetDefaultByType(bloodcls)->flags4 & MF4_ALLOWPARTICLES))
 		bloodtype = 0;
 
-	if (bloodcls != NULL)
+	if (bloodcls != nullptr)
 	{
 		AActor *th;
 		th = Spawn (bleeder->Level, bloodcls, pos, NO_REPLACE); // GetBloodType already performed the replacement
@@ -7344,10 +7344,10 @@ bool P_HitWater (AActor * thing, sector_t * sec, const DVector3 &pos, bool check
 	if (thing->player && (thing->player->cheats & CF_PREDICTING))
 		return false;
 
-	AActor *mo = NULL;
+	AActor *mo = nullptr;
 	FSplashDef *splash;
 	int terrainnum;
-	sector_t *hsec = NULL;
+	sector_t *hsec = nullptr;
 	
 	// don't splash above the object
 	if (checkabove)
@@ -7396,7 +7396,7 @@ bool P_HitWater (AActor * thing, sector_t * sec, const DVector3 &pos, bool check
 		}
 	}
 	hsec = sec->GetHeightSec();
-	if (force || hsec == NULL || !(hsec->MoreFlags & SECMF_CLIPFAKEPLANES))
+	if (force || hsec == nullptr || !(hsec->MoreFlags & SECMF_CLIPFAKEPLANES))
 	{
 		terrainnum = sec->GetTerrain(sector_t::floor);
 	}
@@ -7423,7 +7423,7 @@ foundone:
 	// don't splash when touching an underwater floor
 	if (thing->waterlevel >= 1 && pos.Z <= thing->floorz) return Terrains[terrainnum].IsLiquid;
 
-	plane = hsec != NULL? &sec->heightsec->floorplane : &sec->floorplane;
+	plane = hsec != nullptr? &sec->heightsec->floorplane : &sec->floorplane;
 
 	// Don't splash for living things with small vertical velocities.
 	// There are levels where the constant splashing from the monsters gets extremely annoying
@@ -7491,7 +7491,7 @@ foundone:
 DEFINE_ACTION_FUNCTION(AActor, HitWater)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_POINTER_NOT_NULL(sec, sector_t);
+	PARAM_POINTER_NOT_nullptr(sec, sector_t);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);
 	PARAM_FLOAT(z);
@@ -7518,7 +7518,7 @@ bool P_HitFloor (AActor *thing)
 	if (thing->flags6 & MF6_TOUCHY && ((thing->flags6 & MF6_ARMED) || thing->IsSentient()) && thing->Vel.Z < -5)
 	{
 		thing->flags6 &= ~MF6_ARMED; // Disarm
-		P_DamageMobj (thing, NULL, NULL, thing->health, NAME_Crush, DMG_FORCED);  // kill object
+		P_DamageMobj (thing, nullptr, nullptr, thing->health, NAME_Crush, DMG_FORCED);  // kill object
 		return false;
 	}
 
@@ -7546,7 +7546,7 @@ bool P_HitFloor (AActor *thing)
 			}
 		}
 	}
-	if (m == NULL || m->m_sector->GetHeightSec() != NULL)
+	if (m == nullptr || m->m_sector->GetHeightSec() != nullptr)
 	{ 
 		return false;
 	}
@@ -7624,20 +7624,20 @@ bool P_CheckMissileSpawn (AActor* th, double maxdist)
 	// killough 3/15/98: no dropoff (really = don't care for missiles)
 	auto oldf2 = th->flags2;
 	th->flags2 &= ~(MF2_MCROSS|MF2_PCROSS);	// The following check is not supposed to activate missile triggers.
-	if (!(P_TryMove (th, newpos.XY(), false, NULL, tm, true)))
+	if (!(P_TryMove (th, newpos.XY(), false, nullptr, tm, true)))
 	{
 		// [RH] Don't explode ripping missiles that spawn inside something
 		auto blocking = th->BlockingMobj.ForceGet();
-		if (blocking == NULL || !(th->flags2 & MF2_RIP) || (blocking->flags5 & MF5_DONTRIP))
+		if (blocking == nullptr || !(th->flags2 & MF2_RIP) || (blocking->flags5 & MF5_DONTRIP))
 		{
 			// If this is a monster spawned by A_SpawnProjectile subtract it from the counter.
 			th->ClearCounters();
 			// [RH] Don't explode missiles that spawn on top of horizon lines
-			if (th->BlockingLine != NULL && th->BlockingLine->special == Line_Horizon)
+			if (th->BlockingLine != nullptr && th->BlockingLine->special == Line_Horizon)
 			{
 				th->Destroy ();
 			}
-			else if (MBFGrenade && th->BlockingLine != NULL)
+			else if (MBFGrenade && th->BlockingLine != nullptr)
 			{
 				P_BounceWall(th);
 			}
@@ -7677,7 +7677,7 @@ void P_PlaySpawnSound(AActor *missile, AActor *spawner)
 		{
 			S_Sound (missile, CHAN_VOICE, 0, missile->SeeSound, 1, ATTN_NORM);
 		}
-		else if (spawner != NULL)
+		else if (spawner != nullptr)
 		{
 			S_Sound (spawner, CHAN_WEAPON, 0, missile->SeeSound, 1, ATTN_NORM);
 		}
@@ -7694,14 +7694,14 @@ void P_PlaySpawnSound(AActor *missile, AActor *spawner)
 DEFINE_ACTION_FUNCTION(AActor, PlaySpawnSound)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(missile, AActor);
+	PARAM_OBJECT_NOT_nullptr(missile, AActor);
 	P_PlaySpawnSound(missile, self);
 	return 0;
 }
 
 double GetDefaultSpeed(PClassActor *type)
 {
-	if (type == NULL)
+	if (type == nullptr)
 		return 0;
 
 	auto def = GetDefaultByType(type);
@@ -7717,7 +7717,7 @@ double GetDefaultSpeed(PClassActor *type)
 //
 // FUNC P_SpawnMissile
 //
-// Returns NULL if the missile exploded immediately, otherwise returns
+// Returns nullptr if the missile exploded immediately, otherwise returns
 // a mobj_t pointer to the missile.
 //
 //---------------------------------------------------------------------------
@@ -7729,11 +7729,11 @@ AActor *P_SpawnMissileXYZ (DVector3 pos, AActor *source, AActor *dest, PClassAct
 		return nullptr;
 	}
 
-	if (dest == NULL)
+	if (dest == nullptr)
 	{
 		Printf ("P_SpawnMissileXYZ: Tried to shoot %s from %s with no destination\n",
 			type->TypeName.GetChars(), source->GetClass()->TypeName.GetChars());
-		return NULL;
+		return nullptr;
 	}
 
 	if (pos.Z != ONFLOORZ && pos.Z != ONCEILINGZ)
@@ -7744,7 +7744,7 @@ AActor *P_SpawnMissileXYZ (DVector3 pos, AActor *source, AActor *dest, PClassAct
 	AActor *th = Spawn (source->Level, type, pos, ALLOW_REPLACE);
 
 	// record missile's originator
-	if (owner == NULL) owner = source;
+	if (owner == nullptr) owner = source;
 	th->target = owner;
 
 	P_PlaySpawnSound(th, source);
@@ -7779,7 +7779,7 @@ AActor *P_SpawnMissileXYZ (DVector3 pos, AActor *source, AActor *dest, PClassAct
 		th->SetFriendPlayer(owner->player);
 	}
 
-	return (!checkspawn || P_CheckMissileSpawn (th, source->radius)) ? th : NULL;
+	return (!checkspawn || P_CheckMissileSpawn (th, source->radius)) ? th : nullptr;
 }
 
 DEFINE_ACTION_FUNCTION(AActor, SpawnMissileXYZ)
@@ -7788,7 +7788,7 @@ DEFINE_ACTION_FUNCTION(AActor, SpawnMissileXYZ)
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);
 	PARAM_FLOAT(z);
-	PARAM_OBJECT_NOT_NULL(dest, AActor);
+	PARAM_OBJECT_NOT_nullptr(dest, AActor);
 	PARAM_CLASS(type, AActor);
 	PARAM_BOOL(check);
 	PARAM_OBJECT(owner, AActor);
@@ -7807,7 +7807,7 @@ AActor *P_SpawnMissile(AActor *source, AActor *dest, PClassActor *type, AActor *
 DEFINE_ACTION_FUNCTION(AActor, SpawnMissile)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(dest, AActor);
+	PARAM_OBJECT_NOT_nullptr(dest, AActor);
 	PARAM_CLASS(type, AActor);
 	PARAM_OBJECT(owner, AActor);
 	ACTION_RETURN_OBJECT(P_SpawnMissile(self, dest, type, owner));
@@ -7826,7 +7826,7 @@ DEFINE_ACTION_FUNCTION(AActor, SpawnMissileZ)
 {
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_FLOAT(z);
-	PARAM_OBJECT_NOT_NULL(dest, AActor);
+	PARAM_OBJECT_NOT_nullptr(dest, AActor);
 	PARAM_CLASS(type, AActor);
 	ACTION_RETURN_OBJECT(P_SpawnMissileZ(self, z, dest, type));
 }
@@ -7861,7 +7861,7 @@ AActor *P_OldSpawnMissile(AActor *source, AActor *owner, AActor *dest, PClassAct
 DEFINE_ACTION_FUNCTION(AActor, OldSpawnMissile)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(dest, AActor);
+	PARAM_OBJECT_NOT_nullptr(dest, AActor);
 	PARAM_CLASS(type, AActor);
 	PARAM_OBJECT(owner, AActor);
 	ACTION_RETURN_OBJECT(P_OldSpawnMissile(self, owner, dest, type));
@@ -7871,7 +7871,7 @@ DEFINE_ACTION_FUNCTION(AActor, OldSpawnMissile)
 //
 // FUNC P_SpawnMissileAngle
 //
-// Returns NULL if the missile exploded immediately, otherwise returns
+// Returns nullptr if the missile exploded immediately, otherwise returns
 // a mobj_t pointer to the missile.
 //
 //---------------------------------------------------------------------------
@@ -7901,7 +7901,7 @@ DEFINE_ACTION_FUNCTION(AActor, SpawnMissileZAimed)
 {
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_FLOAT(z);
-	PARAM_OBJECT_NOT_NULL(dest, AActor);
+	PARAM_OBJECT_NOT_nullptr(dest, AActor);
 	PARAM_CLASS(type, AActor);
 	ACTION_RETURN_OBJECT(P_SpawnMissileZAimed(self, z, dest, type));
 }
@@ -7910,7 +7910,7 @@ DEFINE_ACTION_FUNCTION(AActor, SpawnMissileZAimed)
 //
 // FUNC P_SpawnMissileAngleZSpeed
 //
-// Returns NULL if the missile exploded immediately, otherwise returns
+// Returns nullptr if the missile exploded immediately, otherwise returns
 // a mobj_t pointer to the missile.
 //
 //---------------------------------------------------------------------------
@@ -7931,7 +7931,7 @@ AActor *P_SpawnMissileAngleZSpeed (AActor *source, double z,
 
 	mo = Spawn (source->Level, type, source->PosAtZ(z), ALLOW_REPLACE);
 
-	if (owner == NULL) owner = source;
+	if (owner == nullptr) owner = source;
 	mo->target = owner;
 
 	P_PlaySpawnSound(mo, source);
@@ -7945,7 +7945,7 @@ AActor *P_SpawnMissileAngleZSpeed (AActor *source, double z,
 		mo->SetFriendPlayer(owner->player);
 	}
 
-	return (!checkspawn || P_CheckMissileSpawn(mo, source->radius)) ? mo : NULL;
+	return (!checkspawn || P_CheckMissileSpawn(mo, source->radius)) ? mo : nullptr;
 }
 
 DEFINE_ACTION_FUNCTION(AActor, SpawnMissileAngleZSpeed)
@@ -7992,14 +7992,14 @@ AActor *P_SpawnSubMissile(AActor *source, PClassActor *type, AActor *target)
 		other->Vel.Z = -other->Speed * pitch.Sin();
 		return other;
 	}
-	return NULL;
+	return nullptr;
 }
 
 DEFINE_ACTION_FUNCTION(AActor, SpawnSubMissile)
 {
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_CLASS(cls, AActor);
-	PARAM_OBJECT_NOT_NULL(target, AActor);
+	PARAM_OBJECT_NOT_nullptr(target, AActor);
 	ACTION_RETURN_OBJECT(P_SpawnSubMissile(self, cls, target));
 }
 /*
@@ -8034,7 +8034,7 @@ AActor *P_SpawnPlayerMissile (AActor *source, double x, double y, double z,
 		// Keep exactly the same angle and pitch as the player's own aim
 		an = angle;
 		pitch = source->Angles.Pitch;
-		pLineTarget->linetarget = NULL;
+		pLineTarget->linetarget = nullptr;
 	}
 	else // see which target is to be aimed at
 	{
@@ -8049,16 +8049,16 @@ AActor *P_SpawnPlayerMissile (AActor *source, double x, double y, double z,
 			an = angle + DAngle::fromDeg(angdiff[i]);
 			pitch = P_AimLineAttack (source, an, linetargetrange, pLineTarget, vrange, aimflags);
 	
-			if (source->player != NULL &&
+			if (source->player != nullptr &&
 				!nofreeaim &&
 				source->Level->IsFreelookAllowed() &&
 				source->player->userinfo.GetAimDist() <= 0.5)
 			{
 				break;
 			}
-		} while (pLineTarget->linetarget == NULL && --i >= 0);
+		} while (pLineTarget->linetarget == nullptr && --i >= 0);
 
-		if (pLineTarget->linetarget == NULL)
+		if (pLineTarget->linetarget == nullptr)
 		{
 			an = angle;
 			if (nofreeaim || !source->Level->IsFreelookAllowed())
@@ -8101,7 +8101,7 @@ AActor *P_SpawnPlayerMissile (AActor *source, double x, double y, double z,
 	{
 		return MissileActor;
 	}
-	return NULL;
+	return nullptr;
 }
 
 DEFINE_ACTION_FUNCTION(AActor, SpawnPlayerMissile)
@@ -8288,7 +8288,7 @@ int AActor::DoSpecialDamage (AActor *target, int damage, FName damagetype)
 DEFINE_ACTION_FUNCTION(AActor, DoSpecialDamage)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(target, AActor);
+	PARAM_OBJECT_NOT_nullptr(target, AActor);
 	PARAM_INT(damage);
 	PARAM_NAME(damagetype);
 	ACTION_RETURN_INT(self->DoSpecialDamage(target, damage, damagetype));
@@ -8326,7 +8326,7 @@ int AActor::TakeSpecialDamage (AActor *inflictor, AActor *source, int damage, FN
 	// it needs to work.
 
 	// Always kill if there is a regular death state or no death states at all.
-	if (FindState (NAME_Death) != NULL || !HasSpecialDeathStates() || damagetype == NAME_Massacre)
+	if (FindState (NAME_Death) != nullptr || !HasSpecialDeathStates() || damagetype == NAME_Massacre)
 	{
 		return damage;
 	}
@@ -8337,7 +8337,7 @@ int AActor::TakeSpecialDamage (AActor *inflictor, AActor *source, int damage, FN
 	if (damagetype == NAME_Ice)
 	{
 		death = FindState (NAME_Death, NAME_Ice, true);
-		if (death == NULL && !deh.NoAutofreeze && !(flags4 & MF4_NOICEDEATH) &&
+		if (death == nullptr && !deh.NoAutofreeze && !(flags4 & MF4_NOICEDEATH) &&
 			(player || (flags3 & MF3_ISMONSTER)))
 		{
 			death = FindState(NAME_GenericFreezeDeath);
@@ -8347,7 +8347,7 @@ int AActor::TakeSpecialDamage (AActor *inflictor, AActor *source, int damage, FN
 	{
 		death = FindState (NAME_Death, damagetype);
 	}
-	return (death == NULL) ? -1 : damage;
+	return (death == nullptr) ? -1 : damage;
 }
 
 DEFINE_ACTION_FUNCTION(AActor, TakeSpecialDamage)
@@ -8384,7 +8384,7 @@ void AActor::Crash()
 		!(flags3 & MF3_CRASHED) &&
 		!(flags & MF_ICECORPSE))
 	{
-		FState *crashstate = NULL;
+		FState *crashstate = nullptr;
 		
 		int gibh = GetGibHealth();
 		if (DamageType != NAME_None)
@@ -8394,12 +8394,12 @@ void AActor::Crash()
 				FName labels[] = { NAME_Crash, NAME_Extreme, DamageType };
 				crashstate = FindState (3, labels, true);
 			}
-			if (crashstate == NULL)
+			if (crashstate == nullptr)
 			{ // Normal death
 				crashstate = FindState(NAME_Crash, DamageType, true);
 			}
 		}
-		if (crashstate == NULL)
+		if (crashstate == nullptr)
 		{
 			if (health < gibh)
 			{ // Extreme death
@@ -8410,7 +8410,7 @@ void AActor::Crash()
 				crashstate = FindState(NAME_Crash);
 			}
 		}
-		if (crashstate != NULL) SetState(crashstate);
+		if (crashstate != nullptr) SetState(crashstate);
 		// Set MF3_CRASHED regardless of the presence of a crash state
 		// so this code doesn't have to be executed repeatedly.
 		flags3 |= MF3_CRASHED;
@@ -8421,7 +8421,7 @@ void AActor::Crash()
 void AActor::SetIdle(bool nofunction)
 {
 	FState *idle = FindState (NAME_Idle);
-	if (idle == NULL) idle = SpawnState;
+	if (idle == nullptr) idle = SpawnState;
 	SetState(idle, nofunction);
 }
 
@@ -8460,18 +8460,18 @@ FState *AActor::GetRaiseState()
 {
 	if (!(flags & MF_CORPSE))
 	{
-		return NULL;	// not a monster
+		return nullptr;	// not a monster
 	}
 
 	if (tics != -1 && // not lying still yet
 		!state->GetCanRaise()) // or not ready to be raised yet
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if (IsKindOf(NAME_PlayerPawn))
 	{
-		return NULL;	// do not resurrect players
+		return nullptr;	// do not resurrect players
 	}
 
 	return FindState(NAME_Raise);
@@ -8545,14 +8545,14 @@ int AActor::GetGibHealth() const
 // (left precisely the same as MBF even though it doesn't make much sense.)
 bool AActor::IsSentient() const
 {
-	return health > 0 && SeeState != NULL;
+	return health > 0 && SeeState != nullptr;
 }
 
 FSharedStringArena AActor::mStringPropertyData;
 
 const char *AActor::GetTag(const char *def) const
 {
-	if (Tag != NULL)
+	if (Tag != nullptr)
 	{
 		const char *tag = Tag->c_str();
 		if (tag[0] == '$')
@@ -8576,7 +8576,7 @@ const char *AActor::GetTag(const char *def) const
 
 void AActor::SetTag(const char *def)
 {
-	if (def == NULL || *def == 0) Tag = nullptr;
+	if (def == nullptr || *def == 0) Tag = nullptr;
 	else Tag = mStringPropertyData.Alloc(def);
 }
 

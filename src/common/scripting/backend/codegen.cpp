@@ -10235,7 +10235,7 @@ ExpEmit FxVMFunctionCall::Emit(VMFunctionBuilder *build)
 		assert(Self != nullptr);
 		selfemit = Self->Emit(build);
 		assert(selfemit.RegType == REGT_POINTER);
-		build->Emit(OP_NULLCHECK, selfemit.RegNum, 0, 0);
+		build->Emit(OP_nullptrCHECK, selfemit.RegNum, 0, 0);
 		staticcall = false;
 	}
 	else staticcall = true;

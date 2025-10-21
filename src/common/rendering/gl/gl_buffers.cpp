@@ -181,7 +181,7 @@ void GLBuffer::Resize(size_t newsize)
 
 void GLBuffer::GPUDropSync()
 {
-	if (mGLSync != NULL)
+	if (mGLSync != nullptr)
 	{
 		glDeleteSync(mGLSync);
 	}
@@ -200,7 +200,7 @@ void GLBuffer::GPUWaitSync()
 
 	glDeleteSync(mGLSync);
 
-	mGLSync = NULL;
+	mGLSync = nullptr;
 }
 
 //===========================================================================

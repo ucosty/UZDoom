@@ -293,7 +293,7 @@ FStrifeDialogueNode *MapLoader::ReadRetailNode (const char *name, FileReader &lu
 
 	if ((signed)(speech.SpeakerType) >= 0 && prevSpeakerType != speech.SpeakerType)
 	{
-		if (type != NULL)
+		if (type != nullptr)
 		{
 			Level->ClassRoots[type->TypeName] = Level->StrifeDialogues.Size();
 		}
@@ -346,12 +346,12 @@ FStrifeDialogueNode *MapLoader::ReadRetailNode (const char *name, FileReader &lu
 	for (j = 0; j < 3; ++j)
 	{
 		auto inv = GetStrifeType(speech.ItemCheck[j]);
-		if (inv == NULL || !inv->IsDescendantOf(NAME_Inventory)) inv = nullptr;
+		if (inv == nullptr || !inv->IsDescendantOf(NAME_Inventory)) inv = nullptr;
 		node->ItemCheck[j].Item = inv;
 		node->ItemCheck[j].Amount = -1;
 	}
 	node->ItemCheckNode = speech.Link;
-	node->Children = NULL;
+	node->Children = nullptr;
 
 	ParseReplies (name, int(pos), &node->Children, &speech.Responses[0]);
 
@@ -390,7 +390,7 @@ FStrifeDialogueNode *MapLoader::ReadTeaserNode (const char *name, FileReader &lu
 
 	if ((signed)speech.SpeakerType >= 0 && prevSpeakerType != speech.SpeakerType)
 	{
-		if (type != NULL)
+		if (type != nullptr)
 		{
 			Level->ClassRoots[type->TypeName] = Level->StrifeDialogues.Size();
 		}
@@ -445,11 +445,11 @@ FStrifeDialogueNode *MapLoader::ReadTeaserNode (const char *name, FileReader &lu
 	node->ItemCheck.Resize(3);
 	for (j = 0; j < 3; ++j)
 	{
-		node->ItemCheck[j].Item = NULL;
+		node->ItemCheck[j].Item = nullptr;
 		node->ItemCheck[j].Amount = -1;
 	}
 	node->ItemCheckNode = 0;
-	node->Children = NULL;
+	node->Children = nullptr;
 
 	ParseReplies (name, int(pos), &node->Children, &speech.Responses[0]);
 
@@ -517,7 +517,7 @@ void MapLoader::ParseReplies (const char *name, int pos, FStrifeDialogueReply **
 		for (k = 0; k < 3; ++k)
 		{
 			auto inv = GetStrifeType(rsp->Item[k]);
-			if (inv == NULL || !inv->IsDescendantOf(NAME_Inventory)) inv = nullptr;
+			if (inv == nullptr || !inv->IsDescendantOf(NAME_Inventory)) inv = nullptr;
 			reply->ItemCheck[k].Item = inv;
 			reply->ItemCheck[k].Amount = rsp->Count[k];
 		}

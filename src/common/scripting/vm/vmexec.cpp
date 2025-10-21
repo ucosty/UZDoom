@@ -92,10 +92,10 @@ void ThrowVMException(VMException *x);
 #define ASSERTA(x)		assert((unsigned)(x) < f->NumRegA)
 #define ASSERTS(x)		assert((unsigned)(x) < f->NumRegS)
 
-#define ASSERTKD(x)		assert(sfunc != NULL && (unsigned)(x) < sfunc->NumKonstD)
-#define ASSERTKF(x)		assert(sfunc != NULL && (unsigned)(x) < sfunc->NumKonstF)
-#define ASSERTKA(x)		assert(sfunc != NULL && (unsigned)(x) < sfunc->NumKonstA)
-#define ASSERTKS(x)		assert(sfunc != NULL && (unsigned)(x) < sfunc->NumKonstS)
+#define ASSERTKD(x)		assert(sfunc != nullptr && (unsigned)(x) < sfunc->NumKonstD)
+#define ASSERTKF(x)		assert(sfunc != nullptr && (unsigned)(x) < sfunc->NumKonstF)
+#define ASSERTKA(x)		assert(sfunc != nullptr && (unsigned)(x) < sfunc->NumKonstA)
+#define ASSERTKS(x)		assert(sfunc != nullptr && (unsigned)(x) < sfunc->NumKonstS)
 
 #define CMPJMP(test) \
 	if ((test) == (a & CMP_CHECK)) { \
@@ -106,7 +106,7 @@ void ThrowVMException(VMException *x);
 	}
 
 #define GETADDR(a,o,x) \
-	if (a == NULL) { ThrowAbortException(x, nullptr); return 0; } \
+	if (a == nullptr) { ThrowAbortException(x, nullptr); return 0; } \
 	ptr = (VM_SBYTE *)a + o
 
 #ifdef NDEBUG
@@ -201,7 +201,7 @@ void VMFillParams(VMValue *params, VMFrame *callee, int numparam)
 	VMScriptFunction *calleefunc = static_cast<VMScriptFunction *>(callee->Func);
 	const VMRegisters calleereg(callee);
 
-	assert(calleefunc != NULL && !(calleefunc->VarFlags & VARF_Native));
+	assert(calleefunc != nullptr && !(calleefunc->VarFlags & VARF_Native));
 	assert(numparam == calleefunc->NumArgs);
 	assert(REGT_INT == 0 && REGT_FLOAT == 1 && REGT_STRING == 2 && REGT_POINTER == 3);
 

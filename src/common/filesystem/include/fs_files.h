@@ -390,7 +390,7 @@ public:
 
 	virtual void Close()
 	{
-		if (File != NULL) fclose(File);
+		if (File != nullptr) fclose(File);
 		File = nullptr;
 	}
 

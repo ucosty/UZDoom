@@ -176,7 +176,7 @@ void CheckBench()
 		compose << "\n\n\n";
 
 		FILE *f = fopen("benchmarks.txt", "at");
-		if (f != NULL)
+		if (f != nullptr)
 		{
 			fputs(compose.c_str(), f);
 			fclose(f);
@@ -209,6 +209,6 @@ bool glcycle_t::active = false;
 void  checkBenchActive()
 {
 	FStat *stat = FStat::FindStat("rendertimes");
-	glcycle_t::active = ((stat != NULL && stat->isActive()) || printstats);
+	glcycle_t::active = ((stat != nullptr && stat->isActive()) || printstats);
 }
 

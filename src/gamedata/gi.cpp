@@ -83,7 +83,7 @@ DEFINE_FIELD_X(GameInfoStruct, gameinfo_t, BloodSplatDecalDistance)
 
 const char *GameNames[17] =
 {
-	NULL, "Doom", "Heretic", NULL, "Hexen", NULL, NULL, NULL, "Strife", NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Chex"
+	nullptr, "Doom", "Heretic", nullptr, "Hexen", nullptr, nullptr, nullptr, "Strife", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, "Chex"
 };
 
 
@@ -118,7 +118,7 @@ const char* GameInfoBorders[] =
 	"DoomBorder",
 	"HereticBorder",
 	"StrifeBorder",
-	NULL
+	nullptr
 };
 
 

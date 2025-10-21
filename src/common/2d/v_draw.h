@@ -234,7 +234,7 @@ struct VMVa_List
 	const uint8_t *reginfo;
 };
 
-float ActiveRatio (int width, int height, float *trueratio = NULL);
+float ActiveRatio (int width, int height, float *trueratio = nullptr);
 inline double ActiveRatio (double width, double height) { return ActiveRatio(int(width), int(height)); }
 
 int AspectBaseWidth(float aspect);
@@ -300,7 +300,7 @@ void VirtualToRealCoordsInt(F2DDrawer* drawer, int& x, int& y, int& w, int& h, i
 extern int CleanWidth, CleanHeight, CleanXfac, CleanYfac;
 extern int CleanWidth_1, CleanHeight_1, CleanXfac_1, CleanYfac_1;
 
-void V_CalcCleanFacs(int designwidth, int designheight, int realwidth, int realheight, int* cleanx, int* cleany, int* cx1 = NULL, int* cx2 = NULL);
+void V_CalcCleanFacs(int designwidth, int designheight, int realwidth, int realheight, int* cleanx, int* cleany, int* cx1 = nullptr, int* cx2 = nullptr);
 
 class ScaleOverrider
 {

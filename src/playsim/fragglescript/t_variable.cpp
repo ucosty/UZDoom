@@ -131,9 +131,9 @@ AActor* actorvalue(FLevelLocals *Level, const svalue_t &svalue)
 	if(svalue.type == svt_mobj) 
 	{
 		// Inventory items in the player's inventory have to be considered non-present.
-		if (svalue.value.mobj == NULL || !svalue.value.mobj->IsMapActor())
+		if (svalue.value.mobj == nullptr || !svalue.value.mobj->IsMapActor())
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		return svalue.value.mobj;
@@ -147,12 +147,12 @@ AActor* actorvalue(FLevelLocals *Level, const svalue_t &svalue)
 		
 		if(intval < 0 || intval >= (int)SpawnedThings.Size())
 		{ 
-			return NULL;
+			return nullptr;
 		}
 		// Inventory items in the player's inventory have to be considered non-present.
 		if (SpawnedThings[intval] == nullptr || !SpawnedThings[intval]->IsMapActor())
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		return SpawnedThings[intval];
@@ -354,7 +354,7 @@ DFsVariable *DFsScript::VariableForName(const char *name)
 		current = current->next;        // check next in chain
     }
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -384,7 +384,7 @@ DFsVariable *DFsScript::FindVariable(const char *name, DFsScript *GlobalScript)
 			current = current->parent;    // try the parent of this one
     }
 	
-	return NULL;    // no variable
+	return nullptr;    // no variable
 }
 
 
@@ -416,7 +416,7 @@ void DFsScript::ClearVariables(bool complete)
 			current->Destroy();
 			current = next; // go to next in chain
 		}
-		// start of labels or NULL
+		// start of labels or nullptr
 		variables[i] = current;
     }
 }
@@ -430,7 +430,7 @@ void DFsScript::ClearVariables(bool complete)
 char *DFsScript::LabelValue(const svalue_t &v)
 {
 	if (v.type == svt_label) return Data.Data() + v.value.i;
-	else return NULL;
+	else return nullptr;
 }
 
 

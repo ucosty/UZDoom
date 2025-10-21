@@ -139,7 +139,7 @@ static void ParseVavoomSkybox()
 				maplump = fileSystem.CheckNumForFullName(sc.String, true);
 
 				auto tex = TexMan.FindGameTexture(sc.String, ETextureType::Wall, FTextureManager::TEXMAN_TryAny);
-				if (tex == NULL)
+				if (tex == nullptr)
 				{
 					sc.ScriptMessage("Texture '%s' not found in Vavoom skybox '%s'\n", sc.String, s.c_str());
 					error = true;
@@ -1194,7 +1194,7 @@ class GLDefsParser
 		bool disable_fullbright=false;
 		bool thiswad = false;
 		bool iwad = false;
-		FGameTexture *bmtex = NULL;
+		FGameTexture *bmtex = nullptr;
 
 		sc.MustGetString();
 		if (sc.Compare("texture")) type = ETextureType::Wall;
@@ -1231,14 +1231,14 @@ class GLDefsParser
 			{
 				sc.MustGetString();
 
-				if (bmtex != NULL)
+				if (bmtex != nullptr)
 				{
 					Printf("Multiple brightmap definitions in texture %s\n", tex? tex->GetName().c_str() : "(null)");
 				}
 
 				bmtex = TexMan.FindGameTexture(sc.String, ETextureType::Any, FTextureManager::TEXMAN_TryAny);
 
-				if (bmtex == NULL)
+				if (bmtex == nullptr)
 					Printf("Brightmap '%s' not found in texture '%s'\n", sc.String, tex? tex->GetName().c_str() : "(null)");
 			}
 		}
@@ -1259,7 +1259,7 @@ class GLDefsParser
 			if (!useme) return;
 		}
 
-		if (bmtex != NULL)
+		if (bmtex != nullptr)
 		{
 			tex->SetBrightmap(bmtex);
 		}
@@ -1668,7 +1668,7 @@ class GLDefsParser
 						{
 							sc.MustGetString();
 							cvarname = sc.String;
-							cvar = FindCVar(cvarname.c_str(), NULL);
+							cvar = FindCVar(cvarname.c_str(), nullptr);
 
 							if (!cvar)
 							{
@@ -2134,7 +2134,7 @@ void LoadGLDefs(const char *defsLump)
 
 void ParseGLDefs()
 {
-	const char *defsLump = NULL;
+	const char *defsLump = nullptr;
 
 	LightDefaults.DeleteAndClear();
 	AttenuationIsSet = -1;

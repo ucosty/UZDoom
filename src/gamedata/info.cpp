@@ -349,12 +349,12 @@ static void LoadAltHudStuff()
 				else if (!ti->IsDescendantOf(NAME_Inventory))
 				{
 					Printf("Invalid item class '%s' in ALTHUDCF\n", sc.String);
-					ti = NULL;
+					ti = nullptr;
 				}
 				sc.MustGetString();
 				FTextureID tex;
 
-				if (!sc.Compare("0") && !sc.Compare("NULL") && !sc.Compare(""))
+				if (!sc.Compare("0") && !sc.Compare("nullptr") && !sc.Compare(""))
 				{
 					tex = TexMan.CheckForTexture(sc.String, ETextureType::MiscPatch);
 				}
@@ -629,7 +629,7 @@ PClassActor *PClassActor::GetReplacement(FLevelLocals *Level, bool lookskill)
 	{
 		return this;
 	}
-	// The Replacement field is temporarily NULLed to prevent
+	// The Replacement field is temporarily nullptred to prevent
 	// potential infinite recursion.
 	PClassActor *oldrep = ActorInfo()->Replacement;
 	ActorInfo()->Replacement = nullptr;
@@ -644,7 +644,7 @@ PClassActor *PClassActor::GetReplacement(FLevelLocals *Level, bool lookskill)
 	// Now handle DECORATE replacement chain
 	// Skill replacements are not recursive, contrarily to DECORATE replacements
 	rep = rep->GetReplacement(Level, false);
-	// Reset the temporarily NULLed field
+	// Reset the temporarily nullptred field
 	ActorInfo()->Replacement = oldrep;
 	return rep;
 }
@@ -689,7 +689,7 @@ PClassActor *PClassActor::GetReplacee(FLevelLocals *Level, bool lookskill)
 	{
 		return this;
 	}
-	// The Replacee field is temporarily NULLed to prevent
+	// The Replacee field is temporarily nullptred to prevent
 	// potential infinite recursion.
 	ActorInfo()->Replacee = nullptr;
 	PClassActor *rep = savedrep;

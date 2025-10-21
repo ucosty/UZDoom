@@ -404,7 +404,7 @@ void R_InitSpriteDefs ()
 		for (j = 0; j < MAX_SPRITE_FRAMES; ++j)
 		{
 			sprtemp[j].Flip = 0;
-			sprtemp[j].Voxel = NULL;
+			sprtemp[j].Voxel = nullptr;
 		}
 				
 		int maxframe = -1;
@@ -433,13 +433,13 @@ void R_InitSpriteDefs ()
 			if (vh->Name == (int)intname)
 			{
 				FVoxelDef *voxdef = R_LoadVoxelDef(hash, vh->Spin);
-				if (voxdef != NULL)
+				if (voxdef != nullptr)
 				{
 					if (vh->Frame == ' ' || vh->Frame == '\0')
 					{ // voxel applies to every sprite frame
 						for (j = 0; j < MAX_SPRITE_FRAMES; ++j)
 						{
-							if (sprtemp[j].Voxel == NULL)
+							if (sprtemp[j].Voxel == nullptr)
 							{
 								sprtemp[j].Voxel = voxdef;
 							}
@@ -601,8 +601,8 @@ void R_InitSkins (void)
 		crouchname = 0;
 
 		remove = false;
-		basetype = NULL;
-		transtype = NULL;
+		basetype = nullptr;
+		transtype = nullptr;
 
 		// Data is stored as "key = data".
 		while (sc.GetString ())
@@ -758,7 +758,7 @@ void R_InitSkins (void)
 		}
 
 		// [GRB] Assume Doom skin by default
-		if (!remove && basetype == NULL)
+		if (!remove && basetype == nullptr)
 		{
 			if (gameinfo.gametype & GAME_DoomChex)
 			{
@@ -822,7 +822,7 @@ void R_InitSkins (void)
 				for (k = 0; k < MAX_SPRITE_FRAMES; ++k)
 				{
 					sprtemp[k].Flip = 0;
-					sprtemp[k].Voxel = NULL;
+					sprtemp[k].Voxel = nullptr;
 				}
 				int maxframe = -1;
 

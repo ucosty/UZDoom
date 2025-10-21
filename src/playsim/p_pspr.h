@@ -158,13 +158,13 @@ void P_BringUpWeapon (player_t *player);
 void P_FireWeapon (player_t *player);
 void P_BobWeapon (player_t *player, float *x, float *y, double ticfrac);
 void P_BobWeapon3D (player_t *player, FVector3 *translation, FVector3 *rotation, double ticfrac);
-DAngle P_BulletSlope (AActor *mo, FTranslatedLineTarget *pLineTarget = NULL, int aimflags = 0);
+DAngle P_BulletSlope (AActor *mo, FTranslatedLineTarget *pLineTarget = nullptr, int aimflags = 0);
 AActor *P_AimTarget(AActor *mo);
 
 void DoReadyWeaponToBob(AActor *self);
 void DoReadyWeaponToFire(AActor *self, bool primary = true, bool secondary = true);
 void DoReadyWeaponToSwitch(AActor *self, bool switchable = true);
 
-void A_ReFire(AActor *self, FState *state = NULL);
+void A_ReFire(AActor *self, FState *state = nullptr);
 
 #endif	// __P_PSPR_H__

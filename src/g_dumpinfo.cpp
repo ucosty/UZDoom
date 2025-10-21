@@ -104,7 +104,7 @@ CCMD (countdecals)
 
 CCMD (spray)
 {
-	if (players[consoleplayer].mo == NULL || argv.argc() < 2)
+	if (players[consoleplayer].mo == nullptr || argv.argc() < 2)
 	{
 		Printf ("Usage: spray <decal>\n");
 		return;
@@ -158,7 +158,7 @@ CCMD (mapchecksum)
 			else
 			{
 				map = P_OpenMapData(argv[i], true);
-				if (map == NULL)
+				if (map == nullptr)
 				{
 					Printf("Cannot load %s as a map\n", argv[i]);
 				}
@@ -270,7 +270,7 @@ CCMD(dump3df)
 	{
 		// Print 3D floor info for a single sector.
 		// This only checks the primary level.
-		int sec = (int)strtoll(argv[1], NULL, 10);
+		int sec = (int)strtoll(argv[1], nullptr, 10);
 		if ((unsigned)sec >= primaryLevel->sectors.Size())
 		{
 			Printf("Sector %d does not exist.\n", sec);
@@ -348,7 +348,7 @@ CCMD(targetinv)
 {
 	FTranslatedLineTarget t;
 
-	if (CheckCheatmode() || players[consoleplayer].mo == NULL)
+	if (CheckCheatmode() || players[consoleplayer].mo == nullptr)
 		return;
 
 	C_AimLine(&t, true);
@@ -377,7 +377,7 @@ CCMD(listmaps)
 		level_info_t *info = &wadlevelinfos[i];
 		MapData *map = P_OpenMapData(info->MapName.c_str(), true);
 
-		if (map != NULL)
+		if (map != nullptr)
 		{
 			int mapWadNum = fileSystem.GetFileContainer(map->lumpnum);
 
@@ -409,7 +409,7 @@ CCMD(skyfog)
 	if (argv.argc() > 1)
 	{
 		// Do this only on the primary level.
-		primaryLevel->skyfog = max(0, (int)strtoull(argv[1], NULL, 0));
+		primaryLevel->skyfog = max(0, (int)strtoull(argv[1], nullptr, 0));
 	}
 	Printf("%d\n", primaryLevel->skyfog);
 }

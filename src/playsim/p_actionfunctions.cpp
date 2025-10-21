@@ -114,7 +114,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 
 	FState *savedstate = self->state;
 
-	while (state != NULL)
+	while (state != nullptr)
 	{
 		if (!(state->UseFlags & SUF_ITEM))
 		{
@@ -123,9 +123,9 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 		}
 
 		self->state = state;
-		nextstate = NULL;	// assume no jump
+		nextstate = nullptr;	// assume no jump
 
-		if (state->ActionFunc != NULL)
+		if (state->ActionFunc != nullptr)
 		{
 			if (state->ActionFunc->Unsafe)
 			{
@@ -140,7 +140,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 			FStateParamInfo stp = { state, STATE_StateChain, PSP_WEAPON };
 
 			retval = true;		// assume success
-			wantret = NULL;		// assume no return value wanted
+			wantret = nullptr;		// assume no return value wanted
 			numret = 0;
 
 			// For functions that return nothing (or return some type
@@ -209,7 +209,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 
 			// As long as even one state succeeds, the whole chain succeeds unless aborted below.
 			// A state that wants to jump does not count as "succeeded".
-			if (nextstate == NULL)
+			if (nextstate == nullptr)
 			{
 				result |= retval;
 			}
@@ -219,7 +219,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 		counter++;
 		if (counter >= 10000)	break;
 
-		if (nextstate == NULL) 
+		if (nextstate == nullptr)
 		{
 			nextstate = state->GetNextState();
 
@@ -264,7 +264,7 @@ DEFINE_ACTION_FUNCTION(AActor, GetZAt)
 {
 	if (numret > 0)
 	{
-		assert(ret != NULL);
+		assert(ret != nullptr);
 		PARAM_SELF_PROLOGUE(AActor);
 		PARAM_FLOAT(px);
 		PARAM_FLOAT(py);
@@ -352,7 +352,7 @@ DEFINE_ACTION_FUNCTION(AActor, GetCrouchFactor)
 {
 	if (numret > 0)
 	{
-		assert(ret != NULL);
+		assert(ret != nullptr);
 		PARAM_SELF_PROLOGUE(AActor);
 		PARAM_INT(ptr);
 		AActor *mobj = COPY_AAPTR(self, ptr);
@@ -569,7 +569,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RearrangePointers)
 		self->target = gettracer;
 		if (!(PTROP_UNSAFETARGET & flags)) VerifyTargetChain(self);
 		break;
-	case AAPTR_NULL:
+	case AAPTR_nullptr:
 		self->target = nullptr;
 		// THIS IS NOT "A_ClearTarget", so no other targeting info is removed
 		break;
@@ -586,7 +586,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RearrangePointers)
 		self->master = gettracer;
 		if (!(PTROP_UNSAFEMASTER & flags)) VerifyMasterChain(self);
 		break;
-	case AAPTR_NULL:
+	case AAPTR_nullptr:
 		self->master = nullptr;
 		break;
 	}
@@ -599,7 +599,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RearrangePointers)
 	case AAPTR_MASTER:
 		self->tracer = getmaster;
 		break; // no verification deemed necessary; the engine never follows a tracer chain(?)
-	case AAPTR_NULL:
+	case AAPTR_nullptr:
 		self->tracer = nullptr;
 		break;
 	}
@@ -637,7 +637,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_TransferPointer)
 	// Exchange pointers with actors to whom you have pointers (or with yourself, if you must)
 	source = COPY_AAPTR(self, ptr_source);
 	recipient = COPY_AAPTR(self, ptr_recipient);	// pick an actor to store the provided pointer value
-	if (recipient == NULL)
+	if (recipient == nullptr)
 	{
 		return 0;
 	}
@@ -645,8 +645,8 @@ DEFINE_ACTION_FUNCTION(AActor, A_TransferPointer)
 	// convert source from dataprovider to data
 	source = COPY_AAPTR(source, ptr_sourcefield);
 	if (source == recipient)
-	{ // The recepient should not acquire a pointer to itself; will write NULL}
-		source = NULL;
+	{ // The recepient should not acquire a pointer to itself; will write nullptr}
+		source = nullptr;
 	}
 	if (ptr_recipientfield == AAPTR_DEFAULT)
 	{ // If default: Write to same field as data was read from
@@ -671,13 +671,13 @@ DEFINE_ACTION_FUNCTION(AActor, A_CopyFriendliness)
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_INT	(ptr_source);
 	
-	if (self->player != NULL)
+	if (self->player != nullptr)
 	{
 		return 0;
 	}
 
 	AActor *source = COPY_AAPTR(self, ptr_source);
-	if (source != NULL)
+	if (source != nullptr)
 	{ // No change in current target or health
 		self->CopyFriendliness(source, false, false);
 	}
@@ -821,7 +821,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Jump)
 	{
 		ACTION_RETURN_STATE(jumpto);
 	}
-	ACTION_RETURN_STATE(NULL);
+	ACTION_RETURN_STATE(nullptr);
 }
 
 
@@ -870,14 +870,14 @@ DEFINE_ACTION_FUNCTION(AActor, A_RadiusDamageSelf)
 
 		// optional "flash" effect -- spawn an actor on
 		// the player to indicate bad things happened.
-		AActor *flash = NULL;
-		if(flashtype != NULL)
+		AActor *flash = nullptr;
+		if(flashtype != nullptr)
 			flash = Spawn(self->Level, flashtype, self->target->PosPlusZ(self->target->Height / 4), ALLOW_REPLACE);
 
 		int dmgFlags = 0;
 		FName dmgType = NAME_BFGSplash;
 
-		if (flash != NULL)
+		if (flash != nullptr)
 		{
 			if (flash->flags5 & MF5_PUFFGETSOWNER) flash->target = self->target;
 			if (flash->flags3 & MF3_FOILINVUL) dmgFlags |= DMG_FOILINVUL;
@@ -929,7 +929,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SpawnProjectile)
 	AActor * targ;
 	AActor * missile = nullptr;
 
-	if (ref != NULL || aimmode == 2)
+	if (ref != nullptr || aimmode == 2)
 	{
 		if (ti) 
 		{
@@ -963,7 +963,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SpawnProjectile)
 				break;
 			}
 
-			if (missile != NULL)
+			if (missile != nullptr)
 			{
 				// Use the actual velocity instead of the missile's Speed property
 				// so that this can handle missiles with a high vertical velocity 
@@ -1033,7 +1033,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SpawnProjectile)
 				// we must redo the spectral check here because the owner is set after spawning so the FriendPlayer value may be wrong
 				if (missile->flags4 & MF4_SPECTRAL)
 				{
-					if (missile->target != NULL)
+					if (missile->target != nullptr)
 					{
 						missile->SetFriendPlayer(missile->target->player);
 					}
@@ -1049,7 +1049,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SpawnProjectile)
 	else if (flags & CMF_CHECKTARGETDEAD)
 	{
 		// Target is dead and the attack shall be aborted.
-		if (self->SeeState != NULL && (self->health > 0 || !(self->flags3 & MF3_ISMONSTER)))
+		if (self->SeeState != nullptr && (self->health > 0 || !(self->flags3 & MF3_ISMONSTER)))
 			self->SetState(self->SeeState);
 	}
 	ACTION_RETURN_OBJECT(missile);
@@ -1187,7 +1187,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_CustomRailgun)
 	DAngle saved_angle = self->Angles.Yaw;
 	DAngle saved_pitch = self->Angles.Pitch;
 
-	if (aim && self->target == NULL)
+	if (aim && self->target == nullptr)
 	{
 		return 0;
 	}
@@ -1205,7 +1205,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_CustomRailgun)
 		self->Angles.Yaw = self->AngleTo(self->target);
 	}
 	self->Angles.Pitch = P_AimLineAttack (self, self->Angles.Yaw, MISSILERANGE, &t, DAngle::fromDeg(60.), 0, aim ? self->target.Get() : nullptr);
-	if (t.linetarget == NULL && aim)
+	if (t.linetarget == nullptr && aim)
 	{
 		// We probably won't hit the target, but aim at it anyway so we don't look stupid.
 		DVector2 xydiff = self->Vec2To(self->target);
@@ -1295,10 +1295,10 @@ DEFINE_ACTION_FUNCTION(AActor, A_Print)
 
 	if (text[0] == '$') text = GStrings.GetString(&text[1]);
 	if (self->CheckLocalView() ||
-		(self->target != NULL && self->target->CheckLocalView()))
+		(self->target != nullptr && self->target->CheckLocalView()))
 	{
 		float saved = con_midtime;
-		FFont *font = NULL;
+		FFont *font = nullptr;
 		
 		if (fontname != NAME_None)
 		{
@@ -1329,7 +1329,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_PrintBold)
 	PARAM_NAME	(fontname);
 
 	float saved = con_midtime;
-	FFont *font = NULL;
+	FFont *font = nullptr;
 	
 	if (text[0] == '$') text = GStrings.GetString(&text[1]);
 	if (fontname != NAME_None)
@@ -1573,7 +1573,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SpawnDebris)
 	int i;
 	AActor *mo;
 
-	if (debris == NULL)
+	if (debris == nullptr)
 		return 0;
 
 	// only positive values make sense here
@@ -1758,7 +1758,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckIfSeen)
 				ACTION_RETURN_BOOL(false);
 			}
 			// If a player is viewing from a non-player, then check that too.
-			if (p->camera != nullptr && p->camera->player == NULL &&
+			if (p->camera != nullptr && p->camera->player == nullptr &&
 				P_CheckSight(p->camera, self, SF_IGNOREVISIBILITY))
 			{
 				ACTION_RETURN_BOOL(false);
@@ -1777,7 +1777,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckIfSeen)
 //===========================================================================
 static bool DoCheckSightOrRange(AActor *self, AActor *camera, double range, bool twodi, bool checksight)
 {
-	if (camera == NULL)
+	if (camera == nullptr)
 	{
 		return false;
 	}
@@ -1940,11 +1940,11 @@ DEFINE_ACTION_FUNCTION(AActor, A_CountdownArg)
 	{
 		if (self->flags&MF_MISSILE)
 		{
-			P_ExplodeMissile(self, NULL, NULL);
+			P_ExplodeMissile(self, nullptr, nullptr);
 		}
 		else if (self->flags&MF_SHOOTABLE)
 		{
-			P_DamageMobj(self, NULL, NULL, self->health, NAME_None, DMG_FORCED);
+			P_DamageMobj(self, nullptr, nullptr, self->health, NAME_None, DMG_FORCED);
 		}
 		else
 		{
@@ -1969,7 +1969,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Burst)
 	int i, numChunks;
 	AActor * mo;
 
-	if (chunk == NULL)
+	if (chunk == nullptr)
 	{
 		return 0;
 	}
@@ -2112,7 +2112,7 @@ DEFINE_ACTION_FUNCTION(AActor, PlayerSkinCheck)
 {
 	PARAM_SELF_PROLOGUE(AActor);
 
-	ACTION_RETURN_BOOL(self->player != NULL &&
+	ACTION_RETURN_BOOL(self->player != nullptr &&
 		Skins[self->player->userinfo.GetSkin()].othergame);
 }
 
@@ -2145,7 +2145,7 @@ enum CLOF_flags
 	CLOFF_MUSTBESHOOTABLE =		0x00000400,
 
 	CLOFF_SKIPTARGET =			0x00000800,
-	CLOFF_ALLOWNULL =			0x00001000,
+	CLOFF_ALLOWnullptr =			0x00001000,
 	CLOFF_CHECKPARTIAL =		0x00002000,
 
 	CLOFF_MUSTBEGHOST =			0x00004000,
@@ -2271,11 +2271,11 @@ DEFINE_ACTION_FUNCTION(AActor, CheckLOF)
 
 	DAngle ang;
 
-	target = COPY_AAPTR(self, ptr_target == AAPTR_DEFAULT ? AAPTR_TARGET|AAPTR_PLAYER_GETTARGET|AAPTR_NULL : ptr_target); // no player-support by default
+	target = COPY_AAPTR(self, ptr_target == AAPTR_DEFAULT ? AAPTR_TARGET|AAPTR_PLAYER_GETTARGET|AAPTR_nullptr : ptr_target); // no player-support by default
 
 	if (flags & CLOFF_MUL_HEIGHT)
 	{
-		if (self->player != NULL)
+		if (self->player != nullptr)
 		{
 			// Synced with hitscan: self->player->mo->height is strangely conscientious about getting the right actor for player
 			offsetheight *= self->player->mo->Height * self->player->crouchfactor;
@@ -2341,7 +2341,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckLOF)
 				pitch -= VecToAngle(xydist, target->Center() - pos.Z);
 			}
 		}
-		else if (flags & CLOFF_ALLOWNULL)
+		else if (flags & CLOFF_ALLOWnullptr)
 		{
 			angle += self->Angles.Yaw;
 			pitch += self->Angles.Pitch;
@@ -2375,7 +2375,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckLOF)
 
 	if (range == 0)
 	{
-		range = (self->player != NULL) ? PLAYERMISSILERANGE : MISSILERANGE;
+		range = (self->player != nullptr) ? PLAYERMISSILERANGE : MISSILERANGE;
 	}
 
 	FTraceResults trace;
@@ -2396,7 +2396,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckLOF)
 		{
 			ACTION_RETURN_BOOL(false);
 		}
-		if ((trace.HitType == TRACE_HitActor) && (trace.Actor != NULL) && !(lof_data.BadActor))
+		if ((trace.HitType == TRACE_HitActor) && (trace.Actor != nullptr) && !(lof_data.BadActor))
 		{
 			if (flags & (CLOFF_SETTARGET))	self->target = trace.Actor;
 			if (flags & (CLOFF_SETMASTER))	self->master = trace.Actor;
@@ -2463,14 +2463,14 @@ DEFINE_ACTION_FUNCTION(AActor, CheckIfTargetInLOS)
 			if ((self->flags2 & MF2_SEEKERMISSILE) || (flags & JLOSF_CHECKTRACER))
 				target = self->tracer;
 			else
-				target = NULL;
+				target = nullptr;
 		}
 		else
 		{
 			target = self->target;
 		}
 
-		if (target == NULL)
+		if (target == nullptr)
 		{ // [KS] Let's not call P_CheckSight unnecessarily in this case.
 			ACTION_RETURN_BOOL(false);
 		}
@@ -2595,14 +2595,14 @@ DEFINE_ACTION_FUNCTION(AActor, CheckIfInTargetLOS)
 		if (self->flags2 & MF2_SEEKERMISSILE)
 			target = self->tracer;
 		else
-			target = NULL;
+			target = nullptr;
 	}
 	else
 	{
 		target = self->target;
 	}
 
-	if (target == NULL)
+	if (target == nullptr)
 	{ // [KS] Let's not call P_CheckSight unnecessarily in this case.
 		ACTION_RETURN_BOOL(false);
 	}
@@ -2726,7 +2726,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RaiseMaster)
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_INT(flags);
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
 		P_Thing_Raise(self->master, self, flags);
 	}
@@ -2746,7 +2746,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RaiseChildren)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	while ((mo = it.Next()) != NULL)
+	while ((mo = it.Next()) != nullptr)
 	{
 		if (mo->master == self)
 		{
@@ -2769,9 +2769,9 @@ DEFINE_ACTION_FUNCTION(AActor, A_RaiseSiblings)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
-		while ((mo = it.Next()) != NULL)
+		while ((mo = it.Next()) != nullptr)
 		{
 			if (mo->master == self->master && mo != self)
 			{
@@ -2836,16 +2836,16 @@ DEFINE_ACTION_FUNCTION(AActor, A_MonsterRefire)
 
 	if (pr_monsterrefire() < prob)
 	{
-		ACTION_RETURN_STATE(NULL);
+		ACTION_RETURN_STATE(nullptr);
 	}
-	if (self->target == NULL
+	if (self->target == nullptr
 		|| P_HitFriend (self)
 		|| self->target->health <= 0
 		|| !P_CheckSight (self, self->target, SF_SEEPASTBLOCKEVERYTHING|SF_SEEPASTSHOOTABLELINES) )
 	{
 		ACTION_RETURN_STATE(jump);
 	}
-	ACTION_RETURN_STATE(NULL);
+	ACTION_RETURN_STATE(nullptr);
 }
 
 //===========================================================================
@@ -2864,7 +2864,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SetAngle)
 	PARAM_INT(ptr);
 
 	AActor *ref = COPY_AAPTR(self, ptr);
-	if (ref != NULL)
+	if (ref != nullptr)
 	{
 		ref->SetAngle(angle, flags);
 	}
@@ -2888,7 +2888,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SetPitch)
 
 	AActor *ref = COPY_AAPTR(self, ptr);
 
-	if (ref != NULL)
+	if (ref != nullptr)
 	{
 		ref->SetPitch(pitch, flags);
 	}
@@ -2911,7 +2911,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SetRoll)
 	PARAM_INT	(ptr)	;
 	AActor *ref = COPY_AAPTR(self, ptr);
 
-	if (ref != NULL)
+	if (ref != nullptr)
 	{
 		ref->SetRoll(roll, flags);
 	}
@@ -3015,7 +3015,7 @@ static PField *GetVar(DObject *self, FName varname)
 {
 	PField *var = dyn_cast<PField>(self->GetClass()->FindSymbol(varname, true));
 
-	if (var == NULL || (var->Flags & (VARF_Native | VARF_Private | VARF_Protected | VARF_Static)) || !var->Type->isScalar())
+	if (var == nullptr || (var->Flags & (VARF_Native | VARF_Private | VARF_Protected | VARF_Static)) || !var->Type->isScalar())
 	{
 		Printf("%s is not a user variable in class %s\n", varname.GetChars(),
 			self->GetClass()->TypeName.GetChars());
@@ -3064,7 +3064,7 @@ static PField *GetArrayVar(DObject *self, FName varname, int pos)
 {
 	PField *var = dyn_cast<PField>(self->GetClass()->FindSymbol(varname, true));
 
-	if (var == NULL || (var->Flags & (VARF_Native | VARF_Private | VARF_Protected | VARF_Static)) ||
+	if (var == nullptr || (var->Flags & (VARF_Native | VARF_Private | VARF_Protected | VARF_Static)) ||
 		!var->Type->isArray() || !static_cast<PArray *>(var->Type)->ElementType->isScalar())
 	{
 		Printf("%s is not a user array in class %s\n", varname.GetChars(),
@@ -3165,7 +3165,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 	}
 	if (numret > 0)
 	{
-		ret[0].SetPointer(NULL);
+		ret[0].SetPointer(nullptr);
 	}
 
 	if (!ref)
@@ -3200,18 +3200,18 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 	}
 
 	DSpotState *state = GetSpotState(self->Level, false);
-	if (state == NULL)
+	if (state == nullptr)
 	{
 		return numret;
 	}
 
-	if (target_type == NULL)
+	if (target_type == nullptr)
 	{
 		target_type = PClass::FindActor("BossSpot");
 	}
 
 	AActor *spot = state->GetSpotWithMinMaxDistance(target_type, ref->X(), ref->Y(), mindist, maxdist);
-	if (spot == NULL)
+	if (spot == nullptr)
 	{
 		return numret;
 	}
@@ -3249,7 +3249,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 		tele_result = true;
 	}
 
-	AActor *fog1 = NULL, *fog2 = NULL;
+	AActor *fog1 = nullptr, *fog2 = nullptr;
 	if (tele_result)
 	{
 		//If a fog type is defined in the parameter, or the user wants to use the actor's predefined fogs,
@@ -3263,7 +3263,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 				else
 				{
 					fog1 = Spawn(self->Level, fog_type, prev, ALLOW_REPLACE);
-					if (fog1 != NULL)
+					if (fog1 != nullptr)
 						fog1->target = ref;
 				}
 			}
@@ -3274,7 +3274,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 				else
 				{
 					fog2 = Spawn(self->Level, fog_type, ref->Pos(), ALLOW_REPLACE);
-					if (fog2 != NULL)
+					if (fog2 != nullptr)
 						fog2->target = ref;
 				}
 			}
@@ -3289,12 +3289,12 @@ DEFINE_ACTION_FUNCTION(AActor, A_Teleport)
 
 		if (!(flags & TF_NOJUMP)) //The state jump should only happen with the calling actor.
 		{
-			if (teleport_state == NULL)
+			if (teleport_state == nullptr)
 			{
 				// Default to Teleport.
 				teleport_state = self->FindState("Teleport");
 				// If still nothing, then return.
-				if (teleport_state == NULL)
+				if (teleport_state == nullptr)
 				{
 					return numret;
 				}
@@ -3452,7 +3452,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_LineEffect)
 		{
 			oldjunk.tag = tag;								// Sector tag for linedef
 			self->Level->TranslateLineDef(&junk, &oldjunk);			// Turn into native type
-			res = !!P_ExecuteSpecial(self->Level, junk.special, NULL, self, false, junk.args[0], 
+			res = !!P_ExecuteSpecial(self->Level, junk.special, nullptr, self, false, junk.args[0],
 				junk.args[1], junk.args[2], junk.args[3], junk.args[4]); 
 			if (res && !(junk.flags & ML_REPEAT_SPECIAL))	// If only once,
 				self->flags6 |= MF6_LINEDONE;				// no more for this thing
@@ -3602,7 +3602,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Warp)
 	}
 	if (numret > 0)
 	{
-		ret[0].SetPointer(NULL);
+		ret[0].SetPointer(nullptr);
 	}
 
 	if ((flags & WARPF_USETID))
@@ -3649,7 +3649,7 @@ static bool DoCheckSpecies(AActor *mo, FName filterSpecies, bool exclude)
 static bool DoCheckClass(AActor *mo, PClassActor *filterClass, bool exclude)
 {
 	const PClass *actorClass = mo->GetClass();
-	if (filterClass == NULL) return true;
+	if (filterClass == nullptr) return true;
 	return exclude ? (actorClass != filterClass) : (actorClass == filterClass);
 }
 
@@ -4012,7 +4012,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_DamageTarget)
 	AActor *source = COPY_AAPTR(self, src);
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->target != NULL)
+	if (self->target != nullptr)
 		DoDamage(self->target, inflictor, source, amount, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4036,7 +4036,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_DamageTracer)
 	AActor *source = COPY_AAPTR(self, src);
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->tracer != NULL)
+	if (self->tracer != nullptr)
 		DoDamage(self->tracer, inflictor, source, amount, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4060,7 +4060,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_DamageMaster)
 	AActor *source = COPY_AAPTR(self, src);
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 		DoDamage(self->master, inflictor, source, amount, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4117,7 +4117,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_DamageSiblings)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
 		while ((mo = it.Next()))
 		{
@@ -4167,7 +4167,7 @@ static void DoKill(AActor *killtarget, AActor *inflictor, AActor *source, FName 
 				(!(killtarget->flags7 & MF7_BUDDHA) || (flags & KILS_FOILBUDDHA)) && 
 				!(killtarget->flags5 & MF5_NODAMAGE))
 			{
-				P_ExplodeMissile(killtarget, NULL, NULL);
+				P_ExplodeMissile(killtarget, nullptr, nullptr);
 			}
 		}
 		if (!(flags & KILS_NOMONSTERS))
@@ -4196,7 +4196,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_KillTarget)
 	AActor *source = COPY_AAPTR(self, src);
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->target != NULL)
+	if (self->target != nullptr)
 		DoKill(self->target, inflictor, source, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4219,7 +4219,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_KillTracer)
 	AActor *source = COPY_AAPTR(self, src);
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->tracer != NULL)
+	if (self->tracer != nullptr)
 		DoKill(self->tracer, inflictor, source, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4242,7 +4242,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_KillMaster)
 	AActor *source = COPY_AAPTR(self, src); 
 	AActor *inflictor = COPY_AAPTR(self, inflict);
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 		DoKill(self->master, inflictor, source, damagetype, flags, filter, species);
 	return 0;
 }
@@ -4299,7 +4299,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_KillSiblings)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
 		while ( (mo = it.Next()) )
 		{
@@ -4366,7 +4366,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RemoveTarget)
 	PARAM_CLASS(filter, AActor);
 	PARAM_NAME(species);
 
-	if (self->target != NULL)
+	if (self->target != nullptr)
 	{
 		DoRemove(self->target, flags, filter, species);
 	}
@@ -4385,7 +4385,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RemoveTracer)
 	PARAM_CLASS(filter, AActor);
 	PARAM_NAME(species);
 
-	if (self->tracer != NULL)
+	if (self->tracer != nullptr)
 	{
 		DoRemove(self->tracer, flags, filter, species);
 	}
@@ -4404,7 +4404,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RemoveMaster)
 	PARAM_CLASS(filter, AActor);
 	PARAM_NAME(species);
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
 		DoRemove(self->master, flags, filter, species);
 	}
@@ -4427,7 +4427,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_RemoveChildren)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	while ((mo = it.Next()) != NULL)
+	while ((mo = it.Next()) != nullptr)
 	{
 		if (mo->master == self && (mo->health <= 0 || removeall))
 		{
@@ -4453,9 +4453,9 @@ DEFINE_ACTION_FUNCTION(AActor, A_RemoveSiblings)
 	auto it = self->Level->GetThinkerIterator<AActor>();
 	AActor *mo;
 
-	if (self->master != NULL)
+	if (self->master != nullptr)
 	{
-		while ((mo = it.Next()) != NULL)
+		while ((mo = it.Next()) != nullptr)
 		{
 			if (mo->master == self->master && mo != self && (mo->health <= 0 || removeall))
 			{
@@ -4480,7 +4480,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_Remove)
 	PARAM_NAME(species);
 
 	AActor *reference = COPY_AAPTR(self, removee);
-	if (reference != NULL)
+	if (reference != nullptr)
 	{
 		DoRemove(reference, flags, filter, species);
 	}
@@ -4775,7 +4775,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckBlock)
 	//If an actor is loaded with pointers, they don't really have any options to spare.
 	//Also, fail if a dropoff or a step is too great to pass over when checking for dropoffs.
 	
-	ACTION_RETURN_BOOL((!(flags & CBF_NOACTORS) && blocking != nullptr) || (!(flags & CBF_NOLINES) && mobj->BlockingLine != NULL) ||
+	ACTION_RETURN_BOOL((!(flags & CBF_NOACTORS) && blocking != nullptr) || (!(flags & CBF_NOLINES) && mobj->BlockingLine != nullptr) ||
 		((flags & CBF_DROPOFF) && !checker));
 }
 
@@ -4988,7 +4988,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_CheckTerrain)
 	{
 		if (sec->damageamount >= TELEFRAG_DAMAGE)
 		{
-			P_DamageMobj(self, NULL, NULL, 999, NAME_InstantDeath);
+			P_DamageMobj(self, nullptr, nullptr, 999, NAME_InstantDeath);
 		}
 		else if (sec->special == Scroll_StrifeCurrent)
 		{
@@ -7340,8 +7340,8 @@ TRS InterpolateBone(const TRS &from, const TRS &to, float t, float invt);
 DEFINE_ACTION_FUNCTION(AActor, BlendAnimationFrames)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(a, DPrecalculatedAnimationFrame);
-	PARAM_OBJECT_NOT_NULL(b, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(a, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(b, DPrecalculatedAnimationFrame);
 	PARAM_FLOAT(t);
 
 	if(a->frameData.Size() == b->frameData.Size())
@@ -7369,8 +7369,8 @@ DEFINE_ACTION_FUNCTION(AActor, BlendAnimationFrames)
 DEFINE_ACTION_FUNCTION(AActor, OffsetAnimationFrame)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(frame, DPrecalculatedAnimationFrame);
-	PARAM_OBJECT_NOT_NULL(offsets, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(frame, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(offsets, DPrecalculatedAnimationFrame);
 
 	if(frame->frameData.Size() == offsets->frameData.Size())
 	{
@@ -7400,7 +7400,7 @@ DEFINE_ACTION_FUNCTION(AActor, OffsetAnimationFrame)
 DEFINE_ACTION_FUNCTION(AActor, SetBones)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(mode);
 	PARAM_FLOAT(interplen);
 
@@ -7424,7 +7424,7 @@ DEFINE_ACTION_FUNCTION(AActor, SetBones)
 DEFINE_ACTION_FUNCTION(AActor, SetBonesUI)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(mode);
 	PARAM_FLOAT(interplen);
 
@@ -7448,7 +7448,7 @@ DEFINE_ACTION_FUNCTION(AActor, SetBonesUI)
 DEFINE_ACTION_FUNCTION(AActor, OverwriteBones)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(mode);
 
 	FModel * mdl = SetGetBoneShared<true, true>(self, 0);
@@ -7468,7 +7468,7 @@ DEFINE_ACTION_FUNCTION(AActor, OverwriteBones)
 DEFINE_ACTION_FUNCTION(AActor, SetBonesRange)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(start);
 	PARAM_INT(length);
 	PARAM_INT(mode);
@@ -7494,7 +7494,7 @@ DEFINE_ACTION_FUNCTION(AActor, SetBonesRange)
 DEFINE_ACTION_FUNCTION(AActor, SetBonesRangeUI)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(start);
 	PARAM_INT(length);
 	PARAM_INT(mode);
@@ -7520,7 +7520,7 @@ DEFINE_ACTION_FUNCTION(AActor, SetBonesRangeUI)
 DEFINE_ACTION_FUNCTION(AActor, OverwriteBonesRange)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
 	PARAM_INT(start);
 	PARAM_INT(length);
 	PARAM_INT(mode);
@@ -7542,8 +7542,8 @@ DEFINE_ACTION_FUNCTION(AActor, OverwriteBonesRange)
 DEFINE_ACTION_FUNCTION(AActor, SetBonesMask)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
-	PARAM_POINTER_NOT_NULL(mask, TArray<bool>);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
+	PARAM_POINTER_NOT_nullptr(mask, TArray<bool>);
 	PARAM_INT(mode);
 	PARAM_FLOAT(interplen);
 
@@ -7567,8 +7567,8 @@ DEFINE_ACTION_FUNCTION(AActor, SetBonesMask)
 DEFINE_ACTION_FUNCTION(AActor, SetBonesMaskUI)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
-	PARAM_POINTER_NOT_NULL(mask, TArray<bool>);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
+	PARAM_POINTER_NOT_nullptr(mask, TArray<bool>);
 	PARAM_INT(mode);
 	PARAM_FLOAT(interplen);
 
@@ -7592,8 +7592,8 @@ DEFINE_ACTION_FUNCTION(AActor, SetBonesMaskUI)
 DEFINE_ACTION_FUNCTION(AActor, OverwriteBonesMask)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(bones, DPrecalculatedAnimationFrame);
-	PARAM_POINTER_NOT_NULL(mask, TArray<bool>);
+	PARAM_OBJECT_NOT_nullptr(bones, DPrecalculatedAnimationFrame);
+	PARAM_POINTER_NOT_nullptr(mask, TArray<bool>);
 	PARAM_INT(mode);
 
 	FModel * mdl = SetGetBoneShared<true, true>(self, 0);

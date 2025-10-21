@@ -307,13 +307,13 @@ bool FGameTexture::ShouldExpandSprite()
 		expandSprite = false;
 		return false;
 	}
-	if (Brightmap != NULL && (Base->GetWidth() != Brightmap->GetWidth() || Base->GetHeight() != Brightmap->GetHeight()))
+	if (Brightmap != nullptr && (Base->GetWidth() != Brightmap->GetWidth() || Base->GetHeight() != Brightmap->GetHeight()))
 	{
 		// do not expand if the brightmap's physical size differs from the base.
 		expandSprite = false;
 		return false;
 	}
-	if (Layers && Layers->Glowmap != NULL && (Base->GetWidth() != Layers->Glowmap->GetWidth() || Base->GetHeight() != Layers->Glowmap->GetHeight()))
+	if (Layers && Layers->Glowmap != nullptr && (Base->GetWidth() != Layers->Glowmap->GetWidth() || Base->GetHeight() != Layers->Glowmap->GetHeight()))
 	{
 		// same restriction for the glow map
 		expandSprite = false;

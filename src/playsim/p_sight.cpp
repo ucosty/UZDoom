@@ -161,7 +161,7 @@ void SightCheck::P_SightOpening(SightOpening &open, const line_t *linedef, doubl
 	sector_t *front = linedef->frontsector;
 	sector_t *back = linedef->backsector;
 
-	if (back == NULL)
+	if (back == nullptr)
 	{
 		// single sided line
 		if (linedef->flags & ML_PORTALCONNECT)
@@ -376,7 +376,7 @@ bool SightCheck::PTR_SightTraverse (intercept_t *in)
 		}
 		lastsector = frontflag==0 ? li->backsector : li->frontsector;
 	}
-	else lastsector=NULL;	// don't need it if there are no 3D-floors
+	else lastsector=nullptr;	// don't need it if there are no 3D-floors
 
 	Lastztop = (topslope * in->frac) + sightstart.Z;
 	Lastzbottom = (bottomslope * in->frac) + sightstart.Z;
@@ -560,7 +560,7 @@ bool SightCheck::P_SightTraverseIntercepts ()
 // go through in order
 // proper order is needed to handle 3D floors and portals.
 //
-	in = NULL;
+	in = nullptr;
 
 	while (count--)
 	{
@@ -575,7 +575,7 @@ bool SightCheck::P_SightTraverseIntercepts ()
 			}
 		}
 
-		if (in != NULL)
+		if (in != nullptr)
 		{
 			if (!PTR_SightTraverse (in))
 				return false;					// don't bother going farther
@@ -633,7 +633,7 @@ bool SightCheck::P_SightPathTraverse ()
 	y1 = sightstart.Y + Startfrac * Trace.dy;
 	x2 = sightend.X;
 	y2 = sightend.Y;
-	if (lastsector == NULL) lastsector = Level->PointInSector(x1, y1);
+	if (lastsector == nullptr) lastsector = Level->PointInSector(x1, y1);
 
 	// for FF_SEETHROUGH the following rule applies:
 	// If the viewer is in an area without FF_SEETHROUGH he can only see into areas without this flag
@@ -928,7 +928,7 @@ sightcounts[0]++;
 			for (unsigned i = 0; i < portals.Size(); i++)
 			{
 				portals[i].Frac += 1 / dist;
-				s.init(t1, t2, NULL, &portals[i], flags);
+				s.init(t1, t2, nullptr, &portals[i], flags);
 				if (s.P_SightPathTraverse())
 				{
 					res = true;

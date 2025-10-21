@@ -103,7 +103,7 @@ level_info_t *FindLevelInfo (const char *mapname, bool allowdefault)
 		}
 		return &TheDefaultLevelInfo;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -117,7 +117,7 @@ level_info_t *FindLevelByNum (int num)
 		if (wadlevelinfos[i].levelnum == num)
 			return &wadlevelinfos[i];
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -132,7 +132,7 @@ static level_info_t *FindLevelByWarpTrans (int num)
 		if (wadlevelinfos[i].WarpTrans == num)
 			return &wadlevelinfos[i];
 
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -146,7 +146,7 @@ bool CheckWarpTransMap (FString &mapname, bool substitute)
 		(mapname[2] & 0xDF) == 'T' && mapname[3] == '@')
 	{
 		level_info_t *lev = FindLevelByWarpTrans (atoi (&mapname[4]));
-		if (lev != NULL)
+		if (lev != nullptr)
 		{
 			mapname = lev->MapName;
 			return true;
@@ -346,7 +346,7 @@ FString level_info_t::LookupLevelName(uint32_t *langtable)
 	{
 		const char *thename;
 		const char *lookedup = GStrings.CheckString(LevelName.c_str(), langtable);
-		if (lookedup == NULL)
+		if (lookedup == nullptr)
 		{
 			thename = LevelName.c_str();
 		}
@@ -373,7 +373,7 @@ FString level_info_t::LookupLevelName(uint32_t *langtable)
 				checkstring[0] = '\0';
 			}
 			thename = strstr (lookedup, checkstring);
-			if (thename == NULL)
+			if (thename == nullptr)
 			{
 				thename = lookedup;
 			}
@@ -398,7 +398,7 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 	if (RedirectType != NAME_None)
 	{
 		PClassActor *type = PClass::FindActor(RedirectType);
-		if (type != NULL)
+		if (type != nullptr)
 		{
 			for (unsigned int i = 0; i < MAXPLAYERS; ++i)
 			{
@@ -416,7 +416,7 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 	}
 	if (RedirectCVAR != NAME_None)
 	{
-		auto var = FindCVar(RedirectCVAR.GetChars(), NULL);
+		auto var = FindCVar(RedirectCVAR.GetChars(), nullptr);
 		if (var && (var->GetRealType() == CVAR_Bool) && !(var->GetFlags() & CVAR_IGNORE))	// only check Bool cvars that are currently defined
 		{
 			if (var->GetFlags() & CVAR_USERINFO)
@@ -437,7 +437,7 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 					return FindLevelInfo(RedirectCVARMapName.c_str());
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -545,7 +545,7 @@ void FMapInfoParser::ParseAssign()
 void FMapInfoParser::MustParseAssign()
 {
 	if (format_type == FMT_New) sc.MustGetStringName("=");
-	else sc.ScriptError(NULL);
+	else sc.ScriptError(nullptr);
 }
 
 //==========================================================================
@@ -910,7 +910,7 @@ void FMapInfoParser::ParseCluster()
 		{
 			ParseAssign();
 			sc.MustGetString();
-			clusterinfo->cdid = strtoul (sc.String, NULL, 16);
+			clusterinfo->cdid = strtoul (sc.String, nullptr, 16);
 		}
 		else if (sc.Compare("entertextislump"))
 		{
@@ -1228,7 +1228,7 @@ DEFINE_MAP_OPTION(cdid, true)
 {
 	parse.ParseAssign();
 	parse.sc.MustGetString();
-	info->cdid = strtoul (parse.sc.String, NULL, 16);
+	info->cdid = strtoul (parse.sc.String, nullptr, 16);
 }
 
 DEFINE_MAP_OPTION(warptrans, true)
@@ -1530,7 +1530,7 @@ DEFINE_MAP_OPTION(defaultenvironment, false)
 	{ // Named environment
 		parse.sc.MustGetString();
 		ReverbContainer *reverb = S_FindEnvironment(parse.sc.String);
-		if (reverb == NULL)
+		if (reverb == nullptr)
 		{
 			parse.sc.ScriptMessage("Unknown sound environment '%s'\n", parse.sc.String);
 			id = 0;
@@ -1951,7 +1951,7 @@ MapFlagHandlers[] =
 	{ "cd_end3_track",					MITYPE_EATNEXT,	0, 0 },
 	{ "cd_intermission_track",			MITYPE_EATNEXT,	0, 0 },
 	{ "cd_title_track",					MITYPE_EATNEXT,	0, 0 },
-	{ NULL, MITYPE_IGNORE, 0, 0}
+	{ nullptr, MITYPE_IGNORE, 0, 0}
 };
 
 //==========================================================================
@@ -2283,7 +2283,7 @@ level_info_t *FMapInfoParser::ParseMapHeader(level_info_t &defaultinfo)
 	// Does this map have a song defined via SNDINFO's $map command?
 	// Set that as this map's default music if it does.
 	FString *song;
-	if ((song = HexenMusic.CheckKey(levelinfo->levelnum)) != NULL)
+	if ((song = HexenMusic.CheckKey(levelinfo->levelnum)) != nullptr)
 	{
 		levelinfo->Music = *song;
 	}
@@ -2756,7 +2756,7 @@ void G_ParseMapInfo(FString basemapinfo)
 	gamedefaults.compatflags2 |= flags2;
 	gamedefaults.compatmask2 |= flags2;
 
-	static const char* mapinfonames[] = { "MAPINFO", "ZMAPINFO", "UMAPINFO", NULL };
+	static const char* mapinfonames[] = { "MAPINFO", "ZMAPINFO", "UMAPINFO", nullptr };
 	int nindex;
 
 	// Parse any extra MAPINFOs.

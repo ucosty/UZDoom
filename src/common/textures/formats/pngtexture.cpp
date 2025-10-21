@@ -98,14 +98,14 @@ FImageSource *PNGImage_TryCreate(FileReader & data, int lumpnum)
 	// a corrupt PNG.)
 
 	data.Seek(0, FileReader::SeekSet);
-	if (data.Read (first4bytes.b, 4) != 4) return NULL;
-	if (first4bytes.dw != MAKE_ID(137,'P','N','G'))	return NULL;
-	if (data.Read (first4bytes.b, 4) != 4) return NULL;
-	if (first4bytes.dw != MAKE_ID(13,10,26,10))		return NULL;
-	if (data.Read (first4bytes.b, 4) != 4) return NULL;
-	if (first4bytes.dw != MAKE_ID(0,0,0,13))		return NULL;
-	if (data.Read (first4bytes.b, 4) != 4) return NULL;
-	if (first4bytes.dw != MAKE_ID('I','H','D','R'))	return NULL;
+	if (data.Read (first4bytes.b, 4) != 4) return nullptr;
+	if (first4bytes.dw != MAKE_ID(137,'P','N','G'))	return nullptr;
+	if (data.Read (first4bytes.b, 4) != 4) return nullptr;
+	if (first4bytes.dw != MAKE_ID(13,10,26,10))		return nullptr;
+	if (data.Read (first4bytes.b, 4) != 4) return nullptr;
+	if (first4bytes.dw != MAKE_ID(0,0,0,13))		return nullptr;
+	if (data.Read (first4bytes.b, 4) != 4) return nullptr;
+	if (first4bytes.dw != MAKE_ID('I','H','D','R'))	return nullptr;
 
 	// The PNG looks valid so far. Check the IHDR to make sure it's a
 	// type of PNG we support.
@@ -120,12 +120,12 @@ FImageSource *PNGImage_TryCreate(FileReader & data, int lumpnum)
 	if (compression != 0 || filter != 0 || interlace > 1)
 	{
 		Printf(TEXTCOLOR_YELLOW"WARNING: failed to load PNG %s: the compression, filter, or interlace is not supported!\n", fileSystem.GetFileFullName(lumpnum));
-		return NULL;
+		return nullptr;
 	}
 	if (!((1 << colortype) & 0x5D))
 	{
 		Printf(TEXTCOLOR_YELLOW"WARNING: failed to load PNG %s: the colortype (%u) is not supported!\n", fileSystem.GetFileFullName(lumpnum), colortype);
-		return NULL;
+		return nullptr;
 	}
 	if (!((1 << bitdepth) & 0x116))
 	{
@@ -170,7 +170,7 @@ FImageSource *PNGImage_TryCreate(FileReader & data, int lumpnum)
 		}
 
 		Printf(TEXTCOLOR_YELLOW"WARNING: failed to load PNG %s: the bit-depth (%u) is not supported!\n", fileSystem.GetFileFullName(lumpnum), bitdepth);
-		return NULL;
+		return nullptr;
 	}
 
 	// Just for completeness, make sure the PNG has something more than an IHDR.
@@ -181,7 +181,7 @@ FImageSource *PNGImage_TryCreate(FileReader & data, int lumpnum)
 		if (data.Read(first4bytes.b, 4) != 4 || first4bytes.dw == MAKE_ID('I','E','N','D'))
 		{
 			Printf(TEXTCOLOR_YELLOW"WARNING: failed to load PNG %s: the file ends immediately after the IHDR.\n", fileSystem.GetFileFullName(lumpnum));
-			return NULL;
+			return nullptr;
 		}
 	}
 

@@ -200,7 +200,7 @@ static void S_ParsePlayerSoundCommon (FScanner &sc, FString &pclass, int &gender
 static void S_AddSNDINFO (int lumpnum);
 static void S_AddBloodSFX (int lumpnum);
 static void S_AddStrifeVoice (int lumpnum);
-static FSoundID S_AddSound (const char *logicalname, int lumpnum, FScanner *sc=NULL);
+static FSoundID S_AddSound (const char *logicalname, int lumpnum, FScanner *sc=nullptr);
 
 // EXTERNAL DATA DECLARATIONS ----------------------------------------------
 
@@ -375,7 +375,7 @@ unsigned int S_GetMSLength(FSoundID sound)
 	{
 		if (sfx->UserData[0] & SND_PlayerReserve)
 		{
-			sfx = soundEngine->GetWritableSfx(S_FindSkinnedSound(NULL, sound));
+			sfx = soundEngine->GetWritableSfx(S_FindSkinnedSound(nullptr, sound));
 		}
 		else if (sfx->bRandomHeader)
 		{
@@ -401,7 +401,7 @@ unsigned int S_GetMSLength(FSoundID sound)
 	}
 
 	sfx = soundEngine->LoadSound(sfx);
-	if (sfx != NULL) return GSnd->GetMSLength(sfx->data);
+	if (sfx != nullptr) return GSnd->GetMSLength(sfx->data);
 	else return 0;
 }
 
@@ -436,7 +436,7 @@ static FSoundID S_AddSound (const char *logicalname, int lumpnum, FScanner *sc)
 
 		if (sfx->UserData[0] & SND_PlayerReserve)
 		{
-			if (sc != NULL)
+			if (sc != nullptr)
 			{
 				sc->ScriptError ("Sounds that are reserved for players cannot be reassigned");
 			}
@@ -1733,7 +1733,7 @@ DEFINE_ACTION_FUNCTION(AAmbientSound, MarkAmbientSounds)
 	PARAM_SELF_PROLOGUE(AActor);
 
 	FAmbientSound *ambient = Ambients.CheckKey(self->args[0]);
-	if (ambient != NULL)
+	if (ambient != nullptr)
 	{
 		soundEngine->MarkUsed(ambient->sound);
 	}
@@ -1788,7 +1788,7 @@ DEFINE_ACTION_FUNCTION(AAmbientSound, Tick)
 	EChanFlags loop = 0;
 
 	ambient = Ambients.CheckKey(self->args[0]);
-	if (ambient == NULL)
+	if (ambient == nullptr)
 	{
 		return 0;
 	}
@@ -1857,7 +1857,7 @@ DEFINE_ACTION_FUNCTION(AAmbientSound, Activate)
 	self->Activate(activator);
 	FAmbientSound *amb = Ambients.CheckKey(self->args[0]);
 
-	if (amb == NULL)
+	if (amb == nullptr)
 	{
 		self->Destroy ();
 		return 0;
@@ -1903,7 +1903,7 @@ DEFINE_ACTION_FUNCTION(AAmbientSound, Deactivate)
 	{
 		self->special2 = false;
 		FAmbientSound *ambient = Ambients.CheckKey(self->args[0]);
-		if (ambient != NULL && (ambient->type & CONTINUOUS) == CONTINUOUS)
+		if (ambient != nullptr && (ambient->type & CONTINUOUS) == CONTINUOUS)
 		{
 			S_StopSound (self, CHAN_BODY);
 		}
@@ -1930,7 +1930,7 @@ void S_ParseMusInfo()
 		{
 			level_info_t *map = FindLevelInfo(sc.String);
 
-			if (map == NULL)
+			if (map == nullptr)
 			{
 				// Don't abort for invalid maps
 				sc.ScriptMessage("Unknown map '%s'", sc.String);
@@ -1942,7 +1942,7 @@ void S_ParseMusInfo()
 				if (index > 0)
 				{
 					FName music = sc.String;
-					if (map != NULL)
+					if (map != nullptr)
 					{
 						map->MusicMap[index] = music;
 					}

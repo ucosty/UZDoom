@@ -226,7 +226,7 @@ FImageSource *DDSImage_TryCreate (FileReader &data, int lumpnum)
 		uint32_t			byteswapping[sizeof(DDSURFACEDESC2) / 4];
 	};
 
-	if (!CheckDDS(data)) return NULL;
+	if (!CheckDDS(data)) return nullptr;
 
 	data.Seek(4, FileReader::SeekSet);
 	data.Read (&surfdesc, sizeof(surfdesc));
@@ -250,11 +250,11 @@ FImageSource *DDSImage_TryCreate (FileReader &data, int lumpnum)
 			surfdesc.PixelFormat.FourCC != ID_DXT4 &&
 			surfdesc.PixelFormat.FourCC != ID_DXT5)
 		{
-			return NULL;
+			return nullptr;
 		}
 		if (!(surfdesc.Flags & DDSD_LINEARSIZE))
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	else if (surfdesc.PixelFormat.Flags & DDPF_RGB)
@@ -262,16 +262,16 @@ FImageSource *DDSImage_TryCreate (FileReader &data, int lumpnum)
 		if ((surfdesc.PixelFormat.RGBBitCount >> 3) < 1 ||
 			(surfdesc.PixelFormat.RGBBitCount >> 3) > 4)
 		{
-			return NULL;
+			return nullptr;
 		}
 		if ((surfdesc.Flags & DDSD_PITCH) && (surfdesc.Pitch <= 0))
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 	return new FDDSTexture (data, lumpnum, &surfdesc);
 }

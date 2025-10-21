@@ -177,7 +177,7 @@ void DListMenuDescriptor::Reset()
 	mYpos = 0;
 	mLinespacing = 0;
 	mNetgameMessage = "";
-	mFont = NULL;
+	mFont = nullptr;
 	mFontColor = CR_UNTRANSLATED;
 	mFontColor2 = CR_UNTRANSLATED;
 	mTooltipFont = NewConsoleFont;
@@ -1022,7 +1022,7 @@ CCMD(menuconsole)
 // This really should be in the script but we can't do scripted CCMDs yet.
 CCMD(undocolorpic)
 {
-	if (CurrentMenu != NULL)
+	if (CurrentMenu != nullptr)
 	{
 		IFVIRTUALPTR(CurrentMenu, DMenu, ResetColor)
 		{

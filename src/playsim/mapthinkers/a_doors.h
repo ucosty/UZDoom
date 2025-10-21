@@ -40,7 +40,7 @@ public:
 	void Serialize(FSerializer &arc);
 	void Tick ();
 protected:
-	void DoorSound (bool raise, class DSeqNode *curseq=NULL) const;
+	void DoorSound (bool raise, class DSeqNode *curseq=nullptr) const;
 
 private:
 	friend struct FLevelLocals;

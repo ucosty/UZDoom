@@ -243,7 +243,7 @@ FVoxel *R_LoadKVX(int lumpnum)
 					if (unsigned(xoff + yoff) > unsigned(voxdatasize))
 					{
 						delete voxel;
-						return NULL;
+						return nullptr;
 					}
 				}
 			}
@@ -261,13 +261,13 @@ FVoxel *R_LoadKVX(int lumpnum)
 	if (mip == 0 || rawmip != rawvoxel + voxelsize - 768)
 	{
 		delete voxel;
-		return NULL;
+		return nullptr;
 	}
 
 	// Do not count empty mips at the end.
 	for (; mip > 0; --mip)
 	{
-		if (voxel->Mips[mip - 1].SlabData != NULL)
+		if (voxel->Mips[mip - 1].SlabData != nullptr)
 			break;
 	}
 	voxel->NumMips = mip;
@@ -283,7 +283,7 @@ FVoxel *R_LoadKVX(int lumpnum)
 		if (!CopyVoxelSlabs((kvxslab_t *)voxel->Mips[i].SlabData, slabs[i], voxel->Mips[i].OffsetX[voxel->Mips[i].SizeX]))
 		{ // Invalid slabs encountered. Reject this voxel.
 			delete voxel;
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -307,10 +307,10 @@ FVoxel *R_LoadKVX(int lumpnum)
 FVoxelDef *R_LoadVoxelDef(int lumpnum, int spin)
 {
 	FVoxel *vox = R_LoadKVX(lumpnum);
-	if (vox == NULL)
+	if (vox == nullptr)
 	{
 		Printf("%s is not a valid voxel file\n", fileSystem.GetFileFullName(lumpnum));
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -337,9 +337,9 @@ FVoxelMipLevel::FVoxelMipLevel()
 {
 	SizeZ = SizeY = SizeX = 0;
 	Pivot.Zero();
-	OffsetX = NULL;
-	OffsetXY = NULL;
-	SlabData = NULL;
+	OffsetX = nullptr;
+	OffsetXY = nullptr;
+	SlabData = nullptr;
 }
 
 //==========================================================================
@@ -350,7 +350,7 @@ FVoxelMipLevel::FVoxelMipLevel()
 
 FVoxelMipLevel::~FVoxelMipLevel()
 {
-	if (OffsetX != NULL)
+	if (OffsetX != nullptr)
 	{
 		delete[] OffsetX;
 	}
@@ -465,7 +465,7 @@ void FVoxel::RemovePalette()
 //
 // VOX_GetVoxel
 //
-// Returns a voxel object for the given lump or NULL if it is not a valid
+// Returns a voxel object for the given lump or nullptr if it is not a valid
 // voxel. If the voxel has already been loaded, it will be reused.
 //
 //==========================================================================
@@ -481,7 +481,7 @@ FVoxel* VOX_GetVoxel(int lumpnum)
 		}
 	}
 	FVoxel* vox = R_LoadKVX(lumpnum);
-	if (vox != NULL)
+	if (vox != nullptr)
 	{
 		Voxels.Push(vox);
 	}

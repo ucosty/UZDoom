@@ -237,7 +237,7 @@ static void CenterMouse(int curx, int cury, LONG *centxp, LONG *centyp)
 	// by only calling SetCursorPos when we really need to.
 	if (centx != curx || centy != cury)
 	{
-		if (centxp != NULL)
+		if (centxp != nullptr)
 		{
 			*centxp = centx;
 			*centyp = centy;
@@ -257,7 +257,7 @@ static void CenterMouse(int curx, int cury, LONG *centxp, LONG *centyp)
 
 void I_CheckNativeMouse(bool preferNative, bool eventhandlerresult)
 {
-	bool windowed = (screen == NULL) || !screen->IsFullscreen();
+	bool windowed = (screen == nullptr) || !screen->IsFullscreen();
 	bool want_native;
 
 	if (!windowed)
@@ -294,7 +294,7 @@ void I_CheckNativeMouse(bool preferNative, bool eventhandlerresult)
 
 	if (want_native != NativeMouse)
 	{
-		if (Mouse != NULL)
+		if (Mouse != nullptr)
 		{
 			NativeMouse = want_native;
 			if (want_native)
@@ -514,7 +514,7 @@ bool FRawMouse::GetDevice()
 		return false;
 	}
 	rid.dwFlags = RIDEV_REMOVE;
-	rid.hwndTarget = NULL;	// Must be NULL for RIDEV_REMOVE.
+	rid.hwndTarget = nullptr;	// Must be nullptr for RIDEV_REMOVE.
 	RegisterRawInputDevices(&rid, 1, sizeof(rid));
 	return true;
 }
@@ -543,7 +543,7 @@ void FRawMouse::Grab()
 			// By setting the cursor position, we force the pointer image
 			// to change right away instead of having it delayed until
 			// some time in the future.
-			CenterMouse(-1, -1, NULL, NULL);
+			CenterMouse(-1, -1, nullptr, nullptr);
 		}
 	}
 }
@@ -563,7 +563,7 @@ void FRawMouse::Ungrab()
 		rid.usUsagePage = HID_GENERIC_DESKTOP_PAGE;
 		rid.usUsage = HID_GDP_MOUSE;
 		rid.dwFlags = RIDEV_REMOVE;
-		rid.hwndTarget = NULL;
+		rid.hwndTarget = nullptr;
 		if (RegisterRawInputDevices(&rid, 1, sizeof(rid)))
 		{
 			Grabbed = false;
@@ -617,7 +617,7 @@ bool FRawMouse::ProcessRawInput(RAWINPUT *raw, int code)
 	PostMouseMove(x, y);
 	if (x | y)
 	{
-		CenterMouse(-1, -1, NULL, NULL);
+		CenterMouse(-1, -1, nullptr, nullptr);
 	}
 	return true;
 }
@@ -667,7 +667,7 @@ static FMouse *CreateDInputMouse()
 
 FDInputMouse::FDInputMouse()
 {
-	Device = NULL;
+	Device = nullptr;
 	Grabbed = false;
 	SetCursorState(true);
 }
@@ -680,10 +680,10 @@ FDInputMouse::FDInputMouse()
 
 FDInputMouse::~FDInputMouse()
 {
-	if (Device != NULL)
+	if (Device != nullptr)
 	{
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 	}
 }
 
@@ -699,9 +699,9 @@ bool FDInputMouse::GetDevice()
 {
 	HRESULT hr;
 
-	if (g_pdi != NULL)
+	if (g_pdi != nullptr)
 	{ // DirectInput8 interface
-		hr = g_pdi->CreateDevice(GUID_SysMouse, &Device, NULL);
+		hr = g_pdi->CreateDevice(GUID_SysMouse, &Device, nullptr);
 	}
 	else
 	{
@@ -728,7 +728,7 @@ bool FDInputMouse::GetDevice()
 	{
 ufailit:
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 		return false;
 	}
 
@@ -1079,7 +1079,7 @@ void FWin32Mouse::Grab()
 	}
 
 	GetCursorPos(&UngrabbedPointerPos);
-	ClipCursor(NULL);		// helps with Win95?
+	ClipCursor(nullptr);		// helps with Win95?
 	GetClientRect(mainwindow.GetHandle(), &rect);
 
 	// Reposition the rect so that it only covers the client area.
@@ -1107,7 +1107,7 @@ void FWin32Mouse::Ungrab()
 		return;
 	}
 
-	ClipCursor(NULL);
+	ClipCursor(nullptr);
 	SetCursorPos(UngrabbedPointerPos.x, UngrabbedPointerPos.y);
 	SetCursorState(true);
 	Grabbed = false;
@@ -1146,21 +1146,21 @@ void I_StartupMouse ()
 	}
 	if (new_mousemode != MouseMode)
 	{
-		if (Mouse != NULL)
+		if (Mouse != nullptr)
 		{
 			delete Mouse;
 		}
 		do
 		{
 			Mouse = MouseFactory[new_mousemode - MM_Win32]();
-			if (Mouse != NULL)
+			if (Mouse != nullptr)
 			{
 				if (Mouse->GetDevice())
 				{
 					break;
 				}
 				delete Mouse;
-				Mouse = NULL;
+				Mouse = nullptr;
 			}
 			new_mousemode = (EMouseMode)(new_mousemode - 1);
 		}

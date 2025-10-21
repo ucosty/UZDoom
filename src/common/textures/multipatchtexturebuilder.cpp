@@ -462,10 +462,10 @@ void FMultipatchTextureBuilder::ParsePatch(FScanner &sc, BuildInfo &info, TexPar
 				int match;
 
 				info.bComplex = true;
-				if (part.Translation != NULL) delete part.Translation;
-				part.Translation = NULL;
+				if (part.Translation != nullptr) delete part.Translation;
+				part.Translation = nullptr;
 				part.Blend = 0;
-				static const char *maps[] = { "gold", "red", "green", "blue", "inverse", NULL };
+				static const char *maps[] = { "gold", "red", "green", "blue", "inverse", nullptr };
 				sc.MustGetString();
 
 				match = sc.MatchString(maps);
@@ -537,8 +537,8 @@ void FMultipatchTextureBuilder::ParsePatch(FScanner &sc, BuildInfo &info, TexPar
 			else if (sc.Compare("Blend"))
 			{
 				info.bComplex = true;
-				if (part.Translation != NULL) delete part.Translation;
-				part.Translation = NULL;
+				if (part.Translation != nullptr) delete part.Translation;
+				part.Translation = nullptr;
 				part.Blend = 0;
 
 				if (!sc.CheckNumber())
@@ -579,7 +579,7 @@ void FMultipatchTextureBuilder::ParsePatch(FScanner &sc, BuildInfo &info, TexPar
 			}
 			else if (sc.Compare("style"))
 			{
-				static const char *styles[] = { "copy", "translucent", "add", "subtract", "reversesubtract", "modulate", "copyalpha", "copynewalpha", "overlay", NULL };
+				static const char *styles[] = { "copy", "translucent", "add", "subtract", "reversesubtract", "modulate", "copyalpha", "copynewalpha", "overlay", nullptr };
 				sc.MustGetString();
 				part.op = sc.MustMatchString(styles);
 				info.bComplex |= (part.op != OP_COPY);

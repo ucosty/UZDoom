@@ -225,7 +225,7 @@ void VMFunctionBuilder::AddBlock(const TArray<VMLocalVariable> &block, size_t st
 unsigned VMFunctionBuilder::GetConstantInt(int val)
 {
 	unsigned int *locp = IntConstantMap.CheckKey(val);
-	if (locp != NULL)
+	if (locp != nullptr)
 	{
 		return *locp;
 	}
@@ -248,7 +248,7 @@ unsigned VMFunctionBuilder::GetConstantInt(int val)
 unsigned VMFunctionBuilder::GetConstantFloat(double val)
 {
 	unsigned *locp = FloatConstantMap.CheckKey(val);
-	if (locp != NULL)
+	if (locp != nullptr)
 	{
 		return *locp;
 	}
@@ -271,7 +271,7 @@ unsigned VMFunctionBuilder::GetConstantFloat(double val)
 unsigned VMFunctionBuilder::GetConstantString(FString val)
 {
 	unsigned *locp = StringConstantMap.CheckKey(val);
-	if (locp != NULL)
+	if (locp != nullptr)
 	{
 		return *locp;
 	}
@@ -295,7 +295,7 @@ unsigned VMFunctionBuilder::GetConstantString(FString val)
 unsigned VMFunctionBuilder::GetConstantAddress(void *ptr)
 {
 	unsigned *locp = AddressConstantMap.CheckKey(ptr);
-	if (locp != NULL)
+	if (locp != nullptr)
 	{
 		return *locp;
 	}
@@ -859,7 +859,7 @@ void FFunctionBuildList::Build()
 		bool isAbstract = item.Func->Variants[0].Implementation->VarFlags & VARF_Abstract;
 		if (isAbstract) continue;
 
-		assert(item.Code != NULL);
+		assert(item.Code != nullptr);
 
 		// We don't know the return type in advance for anonymous functions.
 		FCompileContext ctx(item.CurGlobals, item.Func, item.Func->SymbolName == NAME_None ? nullptr : item.Func->Variants[0].Proto, item.FromDecorate, item.StateIndex, item.StateCount, item.Lump, item.Version);

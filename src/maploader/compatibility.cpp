@@ -176,22 +176,22 @@ static FCompatOption Options[] =
 	{ "fdteleport",				COMPATF2_FDTELEPORT, SLOT_COMPAT2 },
 	{ "noacsargcheck",			COMPATF2_NOACSARGCHECK, SLOT_COMPAT2 },
 	{ "novdolllockmsg",			COMPATF2_NOVDOLLLOCKMSG, SLOT_COMPAT2 },
-	{ NULL, 0, 0 }
+	{ nullptr, 0, 0 }
 };
 
 static const char *const LineSides[] =
 {
-	"Front", "Back", NULL
+	"Front", "Back", nullptr
 };
 
 static const char *const WallTiers[] =
 {
-	"Top", "Mid", "Bot", NULL
+	"Top", "Mid", "Bot", nullptr
 };
 
 static const char *const SectorPlanes[] =
 {
-	"floor", "ceil", NULL
+	"floor", "ceil", nullptr
 };
 
 // CODE --------------------------------------------------------------------
@@ -325,7 +325,7 @@ FName MapLoader::CheckCompatibility(MapData *map)
 	if (developer >= DMSG_NOTIFY)
 	{
 		Printf("MD5 = %s", hash.c_str());
-		if (flags != NULL)
+		if (flags != nullptr)
 		{
 			Printf(", cflags = %08x, cflags2 = %08x, bflags = %08x\n",
 				flags->CompatFlags[SLOT_COMPAT], flags->CompatFlags[SLOT_COMPAT2], flags->CompatFlags[SLOT_BCOMPAT]);
@@ -336,7 +336,7 @@ FName MapLoader::CheckCompatibility(MapData *map)
 		}
 	}
 
-	if (flags != NULL)
+	if (flags != nullptr)
 	{
 		Level->ii_compatflags |= flags->CompatFlags[SLOT_COMPAT];
 		Level->ii_compatflags2 |= flags->CompatFlags[SLOT_COMPAT2];

@@ -26,7 +26,7 @@ uint32_t SuperFastHash (const char *data, size_t len)
 	uint32_t hash = 0, tmp;
 	size_t rem;
 
-	if (len == 0 || data == NULL) return 0;
+	if (len == 0 || data == nullptr) return 0;
 
 	rem = len & 3;
 	len >>= 2;
@@ -80,7 +80,7 @@ uint32_t SuperFastHashI (const char *data, size_t len)
 	uint32_t hash = 0, tmp;
 	size_t rem;
 
-	if (len <= 0 || data == NULL) return 0;
+	if (len <= 0 || data == nullptr) return 0;
 
 	rem = len & 3;
 	len >>= 2;

@@ -428,7 +428,7 @@ void ParseScripts()
 		auto newns = ParseOneScript(lump, state);
 		PSymbolTable symtable;
 
-		ZCCDoomCompiler cc(state, NULL, symtable, newns, lump, state.ParseVersion);
+		ZCCDoomCompiler cc(state, nullptr, symtable, newns, lump, state.ParseVersion);
 		cc.Compile();
 
 		if (FScriptPosition::ErrorCounter > 0)

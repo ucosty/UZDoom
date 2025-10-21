@@ -218,13 +218,13 @@ void HWDrawInfo::GetDynSpriteLight(AActor *self, float x, float y, float z, FSec
 
 void HWDrawInfo::GetDynSpriteLight(AActor *thing, particle_t *particle, float *out)
 {
-	if (thing != NULL)
+	if (thing != nullptr)
 	{
 		GetDynSpriteLight(thing, (float)thing->X(), (float)thing->Y(), (float)thing->Center(), thing->section, thing->Sector->PortalGroup, out);
 	}
-	else if (particle != NULL)
+	else if (particle != nullptr)
 	{
-		GetDynSpriteLight(NULL, (float)particle->Pos.X, (float)particle->Pos.Y, (float)particle->Pos.Z, particle->subsector->section, particle->subsector->sector->PortalGroup, out);
+		GetDynSpriteLight(nullptr, (float)particle->Pos.X, (float)particle->Pos.Y, (float)particle->Pos.Z, particle->subsector->section, particle->subsector->sector->PortalGroup, out);
 	}
 }
 

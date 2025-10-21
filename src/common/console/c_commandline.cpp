@@ -45,8 +45,8 @@
 
 // ParseCommandLine
 //
-// Parse a command line (passed in args). If argc is non-NULL, it will
-// be set to the number of arguments. If argv is non-NULL, it will be
+// Parse a command line (passed in args). If argc is non-nullptr, it will
+// be set to the number of arguments. If argv is non-nullptr, it will be
 // filled with pointers to each argument; argv[0] should be initialized
 // to point to a buffer large enough to hold all the arguments. The
 // return value is the necessary size of this buffer.
@@ -64,8 +64,8 @@ static size_t ParseCommandLine(const char* args, int* argc, char** argv, bool no
 	char* buffplace;
 
 	count = 0;
-	buffstart = NULL;
-	if (argv != NULL)
+	buffstart = nullptr;
+	if (argv != nullptr)
 	{
 		buffstart = argv[0];
 	}
@@ -84,7 +84,7 @@ static size_t ParseCommandLine(const char* args, int* argc, char** argv, bool no
 		else if (*args == '\"')
 		{ // read quoted string
 			char stuff;
-			if (argv != NULL)
+			if (argv != nullptr)
 			{
 				argv[count] = buffplace;
 			}
@@ -113,7 +113,7 @@ static size_t ParseCommandLine(const char* args, int* argc, char** argv, bool no
 				{
 					args--;
 				}
-				if (argv != NULL)
+				if (argv != nullptr)
 				{
 					*buffplace = stuff;
 				}
@@ -138,7 +138,7 @@ static size_t ParseCommandLine(const char* args, int* argc, char** argv, bool no
 			{
 				end = args;
 			}
-			if (argv != NULL)
+			if (argv != nullptr)
 			{
 				argv[count] = buffplace;
 				while (start < end)
@@ -152,7 +152,7 @@ static size_t ParseCommandLine(const char* args, int* argc, char** argv, bool no
 			count++;
 		}
 	}
-	if (argc != NULL)
+	if (argc != nullptr)
 	{
 		*argc = count;
 	}
@@ -163,13 +163,13 @@ FCommandLine::FCommandLine (const char *commandline, bool no_escapes)
 {
 	cmd = commandline;
 	_argc = -1;
-	_argv = NULL;
+	_argv = nullptr;
 	noescapes = no_escapes;
 }
 
 FCommandLine::~FCommandLine ()
 {
-	if (_argv != NULL)
+	if (_argv != nullptr)
 	{
 		delete[] _argv;
 	}
@@ -188,19 +188,19 @@ int FCommandLine::argc ()
 {
 	if (_argc == -1)
 	{
-		argsize = ParseCommandLine (cmd, &_argc, NULL, noescapes);
+		argsize = ParseCommandLine (cmd, &_argc, nullptr, noescapes);
 	}
 	return _argc;
 }
 
 const char *FCommandLine::operator[] (int i)
 {
-	if (_argv == NULL)
+	if (_argv == nullptr)
 	{
 		int count = argc();
 		_argv = new char *[count + (argsize+sizeof(char*)-1)/sizeof(char*)];
 		_argv[0] = (char *)_argv + count*sizeof(char *);
-		ParseCommandLine (cmd, NULL, _argv, noescapes);
+		ParseCommandLine (cmd, nullptr, _argv, noescapes);
 	}
 	return _argv[i];
 }

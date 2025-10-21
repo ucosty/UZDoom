@@ -226,7 +226,7 @@ bool AnnounceKill (AActor *killer, AActor *killee)
 	{
 		bool playSound = killee->CheckLocalView();
 
-		if (killer == NULL)
+		if (killer == nullptr)
 		{ // The world killed the player
 			if (killee->player->userinfo.GetGender() == GENDER_MALE)
 			{ // Only males have scrotums to separate
@@ -236,7 +236,7 @@ bool AnnounceKill (AActor *killer, AActor *killee)
 			{
 				choice = &WorldKillSounds[rannum & 1];
 			}
-			killerName = NULL;
+			killerName = nullptr;
 		}
 		else if (killer == killee)
 		{ // The player killed self
@@ -262,7 +262,7 @@ bool AnnounceKill (AActor *killer, AActor *killee)
 		}
 
 		message = GStrings.GetString(choice->Message);
-		if (message != NULL)
+		if (message != nullptr)
 		{
 			char assembled[1024];
 
@@ -274,7 +274,7 @@ bool AnnounceKill (AActor *killer, AActor *killee)
 		{
 			DoVoiceAnnounce (choice->Sound);
 		}
-		return message != NULL;
+		return message != nullptr;
 	}
 	return false;
 }
@@ -294,7 +294,7 @@ bool AnnounceTelefrag (AActor *killer, AActor *killee)
 	if (cl_bbannounce && multiplayer)
 	{
 		const char *message = GStrings.GetString("OB_MPTELEFRAG");
-		if (message != NULL)
+		if (message != nullptr)
 		{
 			char assembled[1024];
 
@@ -307,7 +307,7 @@ bool AnnounceTelefrag (AActor *killer, AActor *killee)
 		{
 			DoVoiceAnnounce (TelefragSounds[rannum % 7]);
 		}
-		return message != NULL;
+		return message != nullptr;
 	}
 	return false;
 }

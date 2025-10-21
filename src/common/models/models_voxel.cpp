@@ -90,7 +90,7 @@ PalettedPixels FVoxelTexture::CreatePalettedPixels(int conversion, int frame)
 	PalettedPixels Pixels(256);
 	uint8_t *pp = SourceVox->Palette.Data();
 
-	if(pp != NULL)
+	if(pp != nullptr)
 	{
 		for(int i=0;i<256;i++, pp+=3)
 		{

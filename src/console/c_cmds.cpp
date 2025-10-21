@@ -742,7 +742,7 @@ CCMD(linetarget)
 {
 	FTranslatedLineTarget t;
 
-	if (CheckCheatmode () || players[consoleplayer].mo == NULL) return;
+	if (CheckCheatmode () || players[consoleplayer].mo == nullptr) return;
 	C_AimLine(&t, false);
 	if (t.linetarget)
 		C_PrintInfo(t.linetarget, argv.argc() > 1 && atoi(argv[1]) != 0);
@@ -755,7 +755,7 @@ CCMD(info)
 {
 	FTranslatedLineTarget t;
 
-	if (CheckCheatmode () || players[consoleplayer].mo == NULL) return;
+	if (CheckCheatmode () || players[consoleplayer].mo == nullptr) return;
 	C_AimLine(&t, true);
 	if (t.linetarget)
 		C_PrintInfo(t.linetarget, !(argv.argc() > 1 && atoi(argv[1]) == 0));
@@ -766,7 +766,7 @@ CCMD(info)
 
 CCMD(myinfo)
 {
-	if (CheckCheatmode () || players[consoleplayer].mo == NULL) return;
+	if (CheckCheatmode () || players[consoleplayer].mo == nullptr) return;
 	C_PrintInfo(players[consoleplayer].mo, true);
 }
 
@@ -797,14 +797,14 @@ static bool IsActor(AActor *mo)
 static void PrintFilteredActorList(const ActorTypeChecker IsActorType, const char *FilterName, bool countOnly)
 {
 	AActor *mo;
-	const PClass *FilterClass = NULL;
+	const PClass *FilterClass = nullptr;
 	int counter = 0;
 	int tid = 0;
 
-	if (FilterName != NULL)
+	if (FilterName != nullptr)
 	{
 		FilterClass = PClass::FindActor(FilterName);
-		if (FilterClass == NULL)
+		if (FilterClass == nullptr)
 		{
 			char *endp;
 			tid = (int)strtol(FilterName, &endp, 10);
@@ -820,7 +820,7 @@ static void PrintFilteredActorList(const ActorTypeChecker IsActorType, const cha
 
 	while ( (mo = it.Next()) )
 	{
-		if ((FilterClass == NULL || mo->IsA(FilterClass)) && IsActorType(mo))
+		if ((FilterClass == nullptr || mo->IsA(FilterClass)) && IsActorType(mo))
 		{
 			if (tid == 0 || tid == mo->tid)
 			{
@@ -848,14 +848,14 @@ CCMD(actorlist) // [SP] print all actors (this can get quite big?)
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActor, argv.argc() > 1 ? argv[1] : NULL, false);
+	PrintFilteredActorList(IsActor, argv.argc() > 1 ? argv[1] : nullptr, false);
 }
 
 CCMD(actornum) // [SP] count all actors
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActor, argv.argc() > 1 ? argv[1] : NULL, true);
+	PrintFilteredActorList(IsActor, argv.argc() > 1 ? argv[1] : nullptr, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -867,14 +867,14 @@ CCMD(monster)
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorAMonster, argv.argc() > 1 ? argv[1] : NULL, false);
+	PrintFilteredActorList(IsActorAMonster, argv.argc() > 1 ? argv[1] : nullptr, false);
 }
 
 CCMD(monsternum) // [SP] count monsters
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorAMonster, argv.argc() > 1 ? argv[1] : NULL, true);
+	PrintFilteredActorList(IsActorAMonster, argv.argc() > 1 ? argv[1] : nullptr, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -886,14 +886,14 @@ CCMD(items)
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorAnItem, argv.argc() > 1 ? argv[1] : NULL, false);
+	PrintFilteredActorList(IsActorAnItem, argv.argc() > 1 ? argv[1] : nullptr, false);
 }
 
 CCMD(itemsnum) // [SP] # of any items
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorAnItem, argv.argc() > 1 ? argv[1] : NULL, true);
+	PrintFilteredActorList(IsActorAnItem, argv.argc() > 1 ? argv[1] : nullptr, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -905,14 +905,14 @@ CCMD(countitems)
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorACountItem, argv.argc() > 1 ? argv[1] : NULL, false);
+	PrintFilteredActorList(IsActorACountItem, argv.argc() > 1 ? argv[1] : nullptr, false);
 }
 
 CCMD(countitemsnum) // [SP] # of counted items
 {
 	if (CheckCheatmode ()) return;
 
-	PrintFilteredActorList(IsActorACountItem, argv.argc() > 1 ? argv[1] : NULL, true);
+	PrintFilteredActorList(IsActorACountItem, argv.argc() > 1 ? argv[1] : nullptr, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -963,7 +963,7 @@ CCMD(thickfogdistance)
 	if (argv.argc() > 1)
 	{
 		// Do this only on the primary level.
-		primaryLevel->thickfogdistance = (float)strtod(argv[1], NULL);
+		primaryLevel->thickfogdistance = (float)strtod(argv[1], nullptr);
 	}
 	Printf("%f (positive means enabled)\n", primaryLevel->thickfogdistance);
 }
@@ -978,7 +978,7 @@ CCMD(thickfogmultiplier)
 	if (argv.argc() > 1)
 	{
 		// Do this only on the primary level.
-		primaryLevel->thickfogmultiplier = max(0.f, (float)strtod(argv[1], NULL));
+		primaryLevel->thickfogmultiplier = max(0.f, (float)strtod(argv[1], nullptr));
 	}
 	Printf("%f\n", primaryLevel->thickfogmultiplier);
 }
@@ -1074,7 +1074,7 @@ CCMD(currentpos)
 static void PrintSecretString(const char *string, bool thislevel)
 {
 	const char *colstr = thislevel? TEXTCOLOR_YELLOW : TEXTCOLOR_CYAN;
-	if (string != NULL)
+	if (string != nullptr)
 	{
 		if (*string == '$')
 		{
@@ -1294,7 +1294,7 @@ CCMD(dumpactors)
 	{
 		PClass* cls = PClass::AllClasses[i];
 		PClassActor* acls = ValidateActor(cls);
-		if (acls != NULL)
+		if (acls != nullptr)
 		{
 			auto ainfo = acls->ActorInfo();
 			Printf("%s\t%i\t%i\t%s\t%s\n",
@@ -1302,7 +1302,7 @@ CCMD(dumpactors)
 				ainfo->SpawnID, filters[ainfo->GameFilter & 31],
 				acls->SourceLumpName.GetChars());
 		}
-		else if (cls != NULL)
+		else if (cls != nullptr)
 		{
 			Printf("%s\tn/a\tn/a\tn/a\tEngine (not an actor type)\tSource: %s\n", cls->TypeName.GetChars(), cls->SourceLumpName.GetChars());
 		}

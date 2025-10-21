@@ -30,7 +30,7 @@ namespace HQnX_asm
 DLL CImage::CImage() 
 { 
   m_Xres = m_Yres = m_NumPixel = 0; 
-  m_pBitmap = NULL; 
+  m_pBitmap = nullptr;
 }
 
 DLL CImage::~CImage()
@@ -40,7 +40,7 @@ DLL CImage::~CImage()
 
 int DLL CImage::Init( int X, int Y, unsigned short BitPerPixel )
 {
-  if (m_pBitmap != NULL)
+  if (m_pBitmap != nullptr)
     free(m_pBitmap);
 
   m_Xres = X;
@@ -50,7 +50,7 @@ int DLL CImage::Init( int X, int Y, unsigned short BitPerPixel )
   m_NumPixel = m_Xres*m_Yres;
   int size = m_NumPixel*((m_BitPerPixel+7)/8);
   m_pBitmap=(unsigned char *)malloc(size);
-  return (m_pBitmap != NULL) ? 0 : 1;
+  return (m_pBitmap != nullptr) ? 0 : 1;
 }
 
 int DLL CImage::SetImage(unsigned char *img, int width, int height, int bpp)
@@ -67,7 +67,7 @@ int DLL CImage::Destroy()
    if (m_pBitmap)
    {
       free(m_pBitmap);
-      m_pBitmap = NULL;
+      m_pBitmap = nullptr;
    }
    m_Xres = 0;
    m_Yres = 0;
@@ -82,7 +82,7 @@ int DLL CImage::Convert32To17( void )
 
   if ( m_BitPerPixel == 32 )
   {
-    if ( m_pBitmap != NULL )
+    if ( m_pBitmap != nullptr )
     {
       unsigned char * pTemp8 = m_pBitmap;
       unsigned int * pTemp32 = (unsigned int *)m_pBitmap;

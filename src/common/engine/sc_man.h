@@ -107,7 +107,7 @@ public:
 	int StartBraces(FScanner::SavedPos* braceend);
 	bool FoundEndBrace(FScanner::SavedPos& braceend);
 
-	static FString TokenName(int token, const char *string=NULL);
+	static FString TokenName(int token, const char *string=nullptr);
 
 	bool GetString();
 	void MustGetString();

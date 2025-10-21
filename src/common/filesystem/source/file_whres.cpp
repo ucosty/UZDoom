@@ -123,7 +123,7 @@ FResourceFile *CheckWHRes(const char *filename, FileReader &file, LumpFilterInfo
 		if (OpenWHRes(rf, filter)) return rf;
 		file = rf->Destroy();
 	}
-	return NULL;
+	return nullptr;
 }
  
 }

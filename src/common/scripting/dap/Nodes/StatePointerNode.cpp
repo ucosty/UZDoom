@@ -16,10 +16,10 @@ void DumpStateHelper(FStateLabels *StateList, const FString &prefix)
 	for (int i = 0; i < StateList->NumLabels; i++)
 	{
 		auto state = StateList->Labels[i].State;
-		if (state != NULL)
+		if (state != nullptr)
 		{
 			const PClassActor *owner = FState::StaticFindStateOwner(state);
-			if (owner == NULL)
+			if (owner == nullptr)
 			{
 				if (state->DehIndex >= 0) Printf(PRINT_NONOTIFY, "%s%s: DehExtra %d\n", prefix.c_str(), StateList->Labels[i].Label.GetChars(), state->DehIndex);
 				else
@@ -30,7 +30,7 @@ void DumpStateHelper(FStateLabels *StateList, const FString &prefix)
 				Printf(PRINT_NONOTIFY, "%s%s: %s\n", prefix.c_str(), StateList->Labels[i].Label.GetChars(), FState::StaticGetStateName(state).c_str());
 			}
 		}
-		if (StateList->Labels[i].Children != NULL)
+		if (StateList->Labels[i].Children != nullptr)
 		{
 			DumpStateHelper(StateList->Labels[i].Children, prefix + '.' + StateList->Labels[i].Label.GetChars());
 		}
@@ -48,7 +48,7 @@ bool StatePointerNode::SerializeToProtocol(dap::Variable &variable)
 	variable.type = "StatePointer";
 	if (!IsVMValueValid(&m_value))
 	{
-		variable.value = "<NULL>";
+		variable.value = "<nullptr>";
 	}
 	else
 	{

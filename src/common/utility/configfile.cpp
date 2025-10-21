@@ -50,9 +50,9 @@
 
 FConfigFile::FConfigFile ()
 {
-	Sections = CurrentSection = NULL;
+	Sections = CurrentSection = nullptr;
 	LastSectionPtr = &Sections;
-	CurrentEntry = NULL;
+	CurrentEntry = nullptr;
 	PathName = "";
 	OkayToWrite = true;
 	FileExisted = true;
@@ -66,9 +66,9 @@ FConfigFile::FConfigFile ()
 
 FConfigFile::FConfigFile (const char *pathname)
 {
-	Sections = CurrentSection = NULL;
+	Sections = CurrentSection = nullptr;
 	LastSectionPtr = &Sections;
-	CurrentEntry = NULL;
+	CurrentEntry = nullptr;
 	ChangePathName (pathname);
 	LoadConfigFile ();
 	OkayToWrite = true;
@@ -83,9 +83,9 @@ FConfigFile::FConfigFile (const char *pathname)
 
 FConfigFile::FConfigFile (const FConfigFile &other)
 {
-	Sections = CurrentSection = NULL;
+	Sections = CurrentSection = nullptr;
 	LastSectionPtr = &Sections;
-	CurrentEntry = NULL;
+	CurrentEntry = nullptr;
 	ChangePathName (other.PathName.c_str());
 	*this = other;
 	OkayToWrite = other.OkayToWrite;
@@ -102,12 +102,12 @@ FConfigFile::~FConfigFile ()
 {
 	FConfigSection *section = Sections;
 
-	while (section != NULL)
+	while (section != nullptr)
 	{
 		FConfigSection *nextsection = section->Next;
 		FConfigEntry *entry = section->RootEntry;
 
-		while (entry != NULL)
+		while (entry != nullptr)
 		{
 			FConfigEntry *nextentry = entry->Next;
 			delete[] entry->Value;
@@ -132,11 +132,11 @@ FConfigFile &FConfigFile::operator = (const FConfigFile &other)
 
 	ClearConfig ();
 	fromsection = other.Sections;
-	while (fromsection != NULL)
+	while (fromsection != nullptr)
 	{
 		fromentry = fromsection->RootEntry;
 		tosection = NewConfigSection (fromsection->SectionName.c_str());
-		while (fromentry != NULL)
+		while (fromentry != nullptr)
 		{
 			NewConfigEntry (tosection, fromentry->Key, fromentry->Value);
 			fromentry = fromentry->Next;
@@ -157,14 +157,14 @@ FConfigFile &FConfigFile::operator = (const FConfigFile &other)
 void FConfigFile::ClearConfig ()
 {
 	CurrentSection = Sections;
-	while (CurrentSection != NULL)
+	while (CurrentSection != nullptr)
 	{
 		FConfigSection *next = CurrentSection->Next;
 		ClearCurrentSection ();
 		delete CurrentSection;
 		CurrentSection = next;
 	}
-	Sections = NULL;
+	Sections = nullptr;
 	LastSectionPtr = &Sections;
 }
 
@@ -207,10 +207,10 @@ void FConfigFile::MoveSectionToStart (const char *name)
 {
 	FConfigSection *section = FindSection (name);
 
-	if (section != NULL)
+	if (section != nullptr)
 	{
 		FConfigSection **prevsec = &Sections;
-		while (*prevsec != NULL && *prevsec != section)
+		while (*prevsec != nullptr && *prevsec != section)
 		{
 			prevsec = &((*prevsec)->Next);
 		}
@@ -238,11 +238,11 @@ void FConfigFile::MoveSectionToStart (const char *name)
 bool FConfigFile::SetSection (const char *name, bool allowCreate)
 {
 	FConfigSection *section = FindSection (name);
-	if (section == NULL && allowCreate)
+	if (section == nullptr && allowCreate)
 	{
 		section = NewConfigSection (name);
 	}
-	if (section != NULL)
+	if (section != nullptr)
 	{
 		CurrentSection = section;
 		CurrentEntry = section->RootEntry;
@@ -263,7 +263,7 @@ bool FConfigFile::SetSection (const char *name, bool allowCreate)
 bool FConfigFile::SetFirstSection ()
 {
 	CurrentSection = Sections;
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		CurrentEntry = CurrentSection->RootEntry;
 		return true;
@@ -282,10 +282,10 @@ bool FConfigFile::SetFirstSection ()
 
 bool FConfigFile::SetNextSection ()
 {
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		CurrentSection = CurrentSection->Next;
-		if (CurrentSection != NULL)
+		if (CurrentSection != nullptr)
 		{
 			CurrentEntry = CurrentSection->RootEntry;
 			return true;
@@ -304,11 +304,11 @@ bool FConfigFile::SetNextSection ()
 
 const char *FConfigFile::GetCurrentSection () const
 {
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		return CurrentSection->SectionName.c_str();
 	}
-	return NULL;
+	return nullptr;
 }
 
 //====================================================================
@@ -321,19 +321,19 @@ const char *FConfigFile::GetCurrentSection () const
 
 void FConfigFile::ClearCurrentSection ()
 {
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		FConfigEntry *entry, *next;
 
 		entry = CurrentSection->RootEntry;
-		while (entry != NULL)
+		while (entry != nullptr)
 		{
 			next = entry->Next;
 			delete[] entry->Value;
 			delete[] (char *)entry;
 			entry = next;
 		}
-		CurrentSection->RootEntry = NULL;
+		CurrentSection->RootEntry = nullptr;
 		CurrentSection->LastEntryPtr = &CurrentSection->RootEntry;
 	}
 }
@@ -350,14 +350,14 @@ void FConfigFile::ClearCurrentSection ()
 
 bool FConfigFile::DeleteCurrentSection()
 {
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		FConfigSection *sec;
 
 		ClearCurrentSection();
 
 		// Find the preceding section.
-		for (sec = Sections; sec != NULL && sec->Next != CurrentSection; sec = sec->Next)
+		for (sec = Sections; sec != nullptr && sec->Next != CurrentSection; sec = sec->Next)
 		{ }
 
 		sec->Next = CurrentSection->Next;
@@ -369,7 +369,7 @@ bool FConfigFile::DeleteCurrentSection()
 		delete CurrentSection;
 
 		CurrentSection = sec->Next;
-		return CurrentSection != NULL;
+		return CurrentSection != nullptr;
 	}
 	return false;
 }
@@ -385,18 +385,18 @@ bool FConfigFile::DeleteCurrentSection()
 
 void FConfigFile::ClearKey(const char *key)
 {
-	if (CurrentSection->RootEntry == NULL)
+	if (CurrentSection->RootEntry == nullptr)
 	{
 		return;
 	}
 	FConfigEntry **prober = &CurrentSection->RootEntry, *probe = *prober;
 
-	while (probe != NULL && stricmp(probe->Key, key) != 0)
+	while (probe != nullptr && stricmp(probe->Key, key) != 0)
 	{
 		prober = &probe->Next;
 		probe = *prober;
 	}
-	if (probe != NULL)
+	if (probe != nullptr)
 	{
 		*prober = probe->Next;
 		if (CurrentSection->LastEntryPtr == &probe->Next)
@@ -419,7 +419,7 @@ void FConfigFile::ClearKey(const char *key)
 
 bool FConfigFile::SectionIsEmpty()
 {
-	return (CurrentSection == NULL) || (CurrentSection->RootEntry == NULL);
+	return (CurrentSection == nullptr) || (CurrentSection->RootEntry == nullptr);
 }
 
 
@@ -436,7 +436,7 @@ bool FConfigFile::NextInSection (const char *&key, const char *&value)
 {
 	FConfigEntry *entry = CurrentEntry;
 
-	if (entry == NULL)
+	if (entry == nullptr)
 		return false;
 
 	CurrentEntry = entry->Next;
@@ -450,7 +450,7 @@ bool FConfigFile::NextInSection (const char *&key, const char *&value)
 // FConfigFile :: GetValueForKey
 //
 // Returns the value for the specified key in the current section,
-// returning NULL if the key does not exist.
+// returning nullptr if the key does not exist.
 //
 //====================================================================
 
@@ -458,11 +458,11 @@ const char *FConfigFile::GetValueForKey (const char *key) const
 {
 	FConfigEntry *entry = FindEntry (CurrentSection, key);
 
-	if (entry != NULL)
+	if (entry != nullptr)
 	{
 		return entry->Value;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //====================================================================
@@ -477,11 +477,11 @@ const char *FConfigFile::GetValueForKey (const char *key) const
 
 void FConfigFile::SetValueForKey (const char *key, const char *value, bool duplicates)
 {
-	if (CurrentSection != NULL)
+	if (CurrentSection != nullptr)
 	{
 		FConfigEntry *entry;
 
-		if (duplicates || (entry = FindEntry (CurrentSection, key)) == NULL)
+		if (duplicates || (entry = FindEntry (CurrentSection, key)) == nullptr)
 		{
 			NewConfigEntry (CurrentSection, key, value);
 		}
@@ -502,7 +502,7 @@ FConfigFile::FConfigSection *FConfigFile::FindSection (const char *name) const
 {
 	FConfigSection *section = Sections;
 
-	while (section != NULL && section->SectionName.CompareNoCase(name) != 0)
+	while (section != nullptr && section->SectionName.CompareNoCase(name) != 0)
 	{
 		section = section->Next;
 	}
@@ -519,7 +519,7 @@ void FConfigFile::RenameSection (const char *oldname, const char *newname) const
 {
 	FConfigSection *section = FindSection(oldname);
 
-	if (section != NULL)
+	if (section != nullptr)
 	{
 		section->SectionName = newname;
 	}
@@ -536,7 +536,7 @@ FConfigFile::FConfigEntry *FConfigFile::FindEntry (
 {
 	FConfigEntry *probe = section->RootEntry;
 
-	while (probe != NULL && stricmp (probe->Key, key) != 0)
+	while (probe != nullptr && stricmp (probe->Key, key) != 0)
 	{
 		probe = probe->Next;
 	}
@@ -554,12 +554,12 @@ FConfigFile::FConfigSection *FConfigFile::NewConfigSection (const char *name)
 	FConfigSection *section;
 
 	section = FindSection (name);
-	if (section == NULL)
+	if (section == nullptr)
 	{
 		section = new FConfigSection;
-		section->RootEntry = NULL;
+		section->RootEntry = nullptr;
 		section->LastEntryPtr = &section->RootEntry;
-		section->Next = NULL;
+		section->Next = nullptr;
 		section->SectionName = name;
 		*LastSectionPtr = section;
 		LastSectionPtr = &section->Next;
@@ -581,8 +581,8 @@ FConfigFile::FConfigEntry *FConfigFile::NewConfigEntry (
 
 	keylen = strlen (key);
 	entry = (FConfigEntry *)new char[sizeof(*section)+keylen];
-	entry->Value = NULL;
-	entry->Next = NULL;
+	entry->Value = nullptr;
+	entry->Next = nullptr;
 	memcpy (entry->Key, key, keylen);
 	entry->Key[keylen] = 0;
 	*(section->LastEntryPtr) = entry;
@@ -621,10 +621,10 @@ void FConfigFile::LoadConfigFile ()
 bool FConfigFile::ReadConfig (FileReader *file)
 {
 	TArray<uint8_t> readbuf;
-	FConfigSection *section = NULL;
+	FConfigSection *section = nullptr;
 	ClearConfig ();
 
-	while (ReadLine (readbuf, file) != NULL)
+	while (ReadLine (readbuf, file) != nullptr)
 	{
 		uint8_t *start = readbuf.Data();
 		uint8_t *equalpt;
@@ -658,14 +658,14 @@ bool FConfigFile::ReadConfig (FileReader *file)
 				*endpt = 0;
 			section = NewConfigSection ((char*)start+1);
 		}
-		else if (section == NULL)
+		else if (section == nullptr)
 		{
 			return false;
 		}
 		else
 		{ // Should be key=value
 			equalpt = (uint8_t*)strchr ((char*)start, '=');
-			if (equalpt != NULL && equalpt > start)
+			if (equalpt != nullptr && equalpt > start)
 			{
 				// Remove white space in front of =
 				uint8_t *whiteprobe = equalpt - 1;
@@ -717,7 +717,7 @@ FConfigFile::FConfigEntry *FConfigFile::ReadMultiLineValue(FileReader *file, FCo
 	size_t endlen = strlen(endtag);
 
 	// Keep on reading lines until we reach a line that matches >>>endtag
-	while (ReadLine(readbuf, file) != NULL)
+	while (ReadLine(readbuf, file) != nullptr)
 	{
 		// Does the start of this line match the endtag?
 		if (readbuf[0] == '>' && readbuf[1] == '>' && readbuf[2] == '>' &&
@@ -792,13 +792,13 @@ bool FConfigFile::WriteConfigFile () const
 	FConfigSection *section;
 	FConfigEntry *entry;
 
-	if (file == NULL)
+	if (file == nullptr)
 		return false;
 
 	WriteCommentHeader (file);
 
 	section = Sections;
-	while (section != NULL)
+	while (section != nullptr)
 	{
 		entry = section->RootEntry;
 		if (!section->Note.empty())
@@ -806,9 +806,9 @@ bool FConfigFile::WriteConfigFile () const
 			file->Write (section->Note.c_str(), section->Note.length());
 		}
 		file->Printf ("[%s]\n", section->SectionName.c_str());
-		while (entry != NULL)
+		while (entry != nullptr)
 		{
-			if (strpbrk(entry->Value, "\r\n") == NULL)
+			if (strpbrk(entry->Value, "\r\n") == nullptr)
 			{ // Single-line value
 				file->Printf ("%s=%s\n", entry->Key, entry->Value);
 			}
@@ -860,7 +860,7 @@ const char *FConfigFile::GenerateEndTag(const char *value)
 			EndTag[4+i*4+3] = Base64Table[rand_bytes[i*3+2] & 63];
 		}
 	}
-	while (strstr(value, EndTag) != NULL);
+	while (strstr(value, EndTag) != nullptr);
 	return EndTag;
 }
 
@@ -884,7 +884,7 @@ void FConfigFile::WriteCommentHeader (FileWriter *file) const
 
 void FConfigFile::FConfigEntry::SetValue (const char *value)
 {
-	if (Value != NULL)
+	if (Value != nullptr)
 	{
 		delete[] Value;
 	}
@@ -942,9 +942,9 @@ void FConfigFile::SetSectionNote(const char *note)
 
 void FConfigFile::SetSectionNote(FConfigSection *section, const char *note)
 {
-	if (section != NULL)
+	if (section != nullptr)
 	{
-		if (note == NULL)
+		if (note == nullptr)
 		{
 			note = "";
 		}

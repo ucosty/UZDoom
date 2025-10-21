@@ -204,7 +204,7 @@ int FPlayList::Backup ()
 const char *FPlayList::GetSong (int position) const
 {
 	if ((unsigned)position >= Songs.Size())
-		return NULL;
+		return nullptr;
 
 	return Songs[position].c_str();
 }

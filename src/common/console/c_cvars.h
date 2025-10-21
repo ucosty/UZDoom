@@ -333,7 +333,7 @@ void C_UninitCVars();
 	using ValueType = Dtype;                                                  \
 	Ctype (                                                                   \
 		const char *name, ValueType def, uint32_t flags,                      \
-		void (*callback)(Ctype&, ValueType)=NULL,                             \
+		void (*callback)(Ctype&, ValueType)=nullptr,                             \
 		const char* descr = nullptr                                           \
 	);                                                                        \
 	inline void Callback(ValueType prev)                                      \

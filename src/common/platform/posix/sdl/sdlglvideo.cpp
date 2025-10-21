@@ -545,9 +545,9 @@ SystemGLFrameBuffer::SystemGLFrameBuffer(void *hMonitor, bool fullscreen)
 	int i;
 
 	const char *version = Args->CheckValue("-glversion");
-	if (version != NULL)
+	if (version != nullptr)
 	{
-		double gl_version = strtod(version, NULL) + 0.01;
+		double gl_version = strtod(version, nullptr) + 0.01;
 		int vermaj = (int)gl_version;
 		int vermin = (int)(gl_version*10.0) % 10;
 

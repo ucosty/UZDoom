@@ -307,7 +307,7 @@ void C_DoCommand (const char *cmd, int keynum)
 	{ // Check for any console vars that match the command
 		FBaseCVar *var = FindCVarSub (beg, int(len));
 
-		if (var != NULL)
+		if (var != nullptr)
 		{
 			FCommandLine args (beg);
 
@@ -376,7 +376,7 @@ void AddCommandString (const char *text, int keynum)
 
 					if (cmd[4] == ' ')
 					{
-						tics = (int)strtoll (cmd + 5, NULL, 0);
+						tics = (int)strtoll (cmd + 5, nullptr, 0);
 					}
 					else
 					{
@@ -413,19 +413,19 @@ static FConsoleCommand *ScanChainForName (FConsoleCommand *start, const char *na
 {
 	int comp;
 
-	*prev = NULL;
+	*prev = nullptr;
 	while (start)
 	{
 		comp = start->m_Name.CompareNoCase(name, namelen);
 		if (comp > 0)
-			return NULL;
+			return nullptr;
 		else if (comp == 0 && start->m_Name[namelen] == 0)
 			return start;
 
 		*prev = start;
 		start = start->m_Next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static FConsoleCommand *FindNameInHashTable (FConsoleCommand **table, const char *name, size_t namelen)
@@ -513,14 +513,14 @@ void FUnsafeConsoleCommand::Run(FCommandLine &args, int key)
 }
 
 FConsoleAlias::FConsoleAlias (const char *name, const char *command, bool noSave)
-	: FConsoleCommand (name, NULL),
+	: FConsoleCommand (name, nullptr),
 	  bRunning(false), bKill(false)
 {
 	m_Command[noSave] = command;
 	m_Command[!noSave] = FString();
 	// If the command contains % characters, assume they are parameter markers
 	// for substitution when the command is executed.
-	bDoSubstitution = (strchr (command, '%') != NULL);
+	bDoSubstitution = (strchr (command, '%') != nullptr);
 }
 
 FConsoleAlias::~FConsoleAlias ()
@@ -680,7 +680,7 @@ FString SubstituteAliasParams (FString &command, FCommandLine &args)
 	return buf;
 }
 
-static int DumpHash (FConsoleCommand **table, bool aliases, const char *pattern=NULL)
+static int DumpHash (FConsoleCommand **table, bool aliases, const char *pattern=nullptr)
 {
 	int bucket, count;
 	FConsoleCommand *cmd;
@@ -726,7 +726,7 @@ void FConsoleAlias::PrintAlias ()
 
 void FConsoleAlias::Archive (FConfigFile *f)
 {
-	if (f != NULL && !m_Command[0].empty())
+	if (f != nullptr && !m_Command[0].empty())
 	{
 		f->SetValueForKey ("Name", m_Name.c_str(), true);
 		f->SetValueForKey ("Command", m_Command[0].c_str(), true);
@@ -781,7 +781,7 @@ void C_SetAlias (const char *name, const char *cmd)
 
 	chain = &Commands[MakeKey (name) % FConsoleCommand::HASH_SIZE];
 	alias = ScanChainForName (*chain, name, strlen (name), &prev);
-	if (alias != NULL)
+	if (alias != nullptr)
 	{
 		if (!alias->IsAlias ())
 		{
@@ -825,7 +825,7 @@ CCMD (alias)
 		{ // Add/change the alias
 
 			alias = ScanChainForName (*chain, argv[1], strlen (argv[1]), &prev);
-			if (alias != NULL)
+			if (alias != nullptr)
 			{
 				if (alias->IsAlias ())
 				{
@@ -834,7 +834,7 @@ CCMD (alias)
 				else
 				{
 					Printf ("%s is a normal command\n", alias->m_Name.c_str());
-					alias = NULL;
+					alias = nullptr;
 				}
 			}
 			else if (ParsingKeyConf)
@@ -852,7 +852,7 @@ CCMD (alias)
 CCMD (cmdlist)
 {
 	int count;
-	const char *filter = (argv.argc() == 1 ? NULL : argv[1]);
+	const char *filter = (argv.argc() == 1 ? nullptr : argv[1]);
 
 	count = buttonMap.ListActionCommands (filter);
 	count += DumpHash (Commands, false, filter);
@@ -896,7 +896,7 @@ FExecList *C_ParseCmdLineParams(FExecList *exec)
 			cmdString = BuildString (cmdlen, Args->GetArgList (argstart));
 			if (!cmdString.empty())
 			{
-				if (exec == NULL)
+				if (exec == nullptr)
 				{
 					exec = new FExecList;
 				}
@@ -964,7 +964,7 @@ void FConsoleAlias::Realias (const char *command, bool noSave)
 
 	// If the command contains % characters, assume they are parameter markers
 	// for substitution when the command is executed.
-	bDoSubstitution = (strchr (command, '%') != NULL);
+	bDoSubstitution = (strchr (command, '%') != nullptr);
 	bKill = false;
 }
 
@@ -991,7 +991,7 @@ void FExecList::AddCommand(const char *cmd, const char *file)
 	// Pullins are special and need to be separated from general commands.
 	// They also turned out to be a really bad idea, since they make things
 	// more complicated. :(
-	if (file != NULL && strnicmp(cmd, "pullin", 6) == 0 && isspace(cmd[6]))
+	if (file != nullptr && strnicmp(cmd, "pullin", 6) == 0 && isspace(cmd[6]))
 	{
 		FCommandLine line(cmd);
 		C_SearchForPullins(this, file, line);
@@ -1065,7 +1065,7 @@ FExecList *C_ParseExecFile(const char *file, FExecList *exec)
 			{ // Comment in middle of line
 				*comment = 0;
 			}
-			if (exec == NULL)
+			if (exec == nullptr)
 			{
 				exec = new FExecList;
 			}
@@ -1081,8 +1081,8 @@ FExecList *C_ParseExecFile(const char *file, FExecList *exec)
 
 bool C_ExecFile (const char *file)
 {
-	FExecList *exec = C_ParseExecFile(file, NULL);
-	if (exec != NULL)
+	FExecList *exec = C_ParseExecFile(file, nullptr);
+	if (exec != nullptr)
 	{
 		exec->ExecCommands();
 		if (exec->Pullins.Size() > 0)
@@ -1091,15 +1091,15 @@ bool C_ExecFile (const char *file)
 		}
 		delete exec;
 	}
-	return exec != NULL;
+	return exec != nullptr;
 }
 
 void C_SearchForPullins(FExecList *exec, const char *file, FCommandLine &argv)
 {
 	const char *lastSlash;
 
-	assert(exec != NULL);
-	assert(file != NULL);
+	assert(exec != nullptr);
+	assert(file != nullptr);
 #ifdef __unix__
 	lastSlash = strrchr(file, '/');
 #else
@@ -1114,7 +1114,7 @@ void C_SearchForPullins(FExecList *exec, const char *file, FCommandLine &argv)
 	{
 		// Try looking for the wad in the same directory as the .cfg
 		// before looking for it in the current directory.
-		if (lastSlash != NULL)
+		if (lastSlash != nullptr)
 		{
 			FString path(file, (lastSlash - file) + 1);
 			path += argv[i];

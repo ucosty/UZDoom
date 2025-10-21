@@ -322,7 +322,7 @@ class DIntermissionController : public DObject
 public:
 	bool mEndGame;
 
-	DIntermissionController(FIntermissionDescriptor *mDesc = NULL, bool mDeleteDesc = false, bool ending = false);
+	DIntermissionController(FIntermissionDescriptor *mDesc = nullptr, bool mDeleteDesc = false, bool ending = false);
 	bool Responder (FInputEvent *ev);
 	bool Ticker ();
 	void Start();

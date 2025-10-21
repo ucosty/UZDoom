@@ -113,7 +113,7 @@ CUSTOM_CVAR (Float, snd_sfxvolume, 1.f, CVAR_ARCHIVE|CVAR_GLOBALCONFIG|CVAR_NOIN
 		self = 0.f;
 	else if (self > 1.f)
 		self = 1.f;
-	else if (GSnd != NULL)
+	else if (GSnd != nullptr)
 	{
 		GSnd->SetSfxVolume (self * snd_mastervolume);
 	}
@@ -133,12 +133,12 @@ public:
 	}
 	SoundHandle LoadSound(uint8_t *sfxdata, int length, int def_loop_start, int def_loop_end)
 	{
-		SoundHandle retval = { NULL };
+		SoundHandle retval = { nullptr };
 		return retval;
 	}
 	SoundHandle LoadSoundRaw(uint8_t *sfxdata, int length, int frequency, int channels, int bits, int loopstart, int loopend)
 	{
-		SoundHandle retval = { NULL };
+		SoundHandle retval = { nullptr };
         return retval;
 	}
 	void UnloadSound (SoundHandle sfx)
@@ -171,17 +171,17 @@ public:
 	// Streaming sounds.
 	SoundStream *CreateStream (SoundStreamCallback callback, int buffbytes, SampleType stype, ChannelConfig chans, int samplerate, void *userdata)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Starts a sound.
 	FISoundChannel *StartSound (SoundHandle sfx, float vol, float pitch, int chanflags, FISoundChannel *reuse_chan, float startTime)
 	{
-		return NULL;
+		return nullptr;
 	}
 	FISoundChannel *StartSound3D (SoundHandle sfx, SoundListener *listener, float vol, FRolloffInfo *rolloff, float distscale, float pitch, int priority, const FVector3 &pos, const FVector3 &vel, int channum, int chanflags, FISoundChannel *reuse_chan, float startTime)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Marks a channel's start time without actually playing it.
@@ -253,7 +253,7 @@ void I_InitSound ()
 	nosound = !!Args->CheckParm ("-nosound");
 	nosfx = !!Args->CheckParm ("-nosfx");
 
-	GSnd = NULL;
+	GSnd = nullptr;
 	if (nosound)
 	{
 		GSnd = new NullSoundRenderer;
@@ -290,7 +290,7 @@ void I_CloseSound ()
 	if (soundEngine) soundEngine->UnloadAllSounds();
 
 	delete GSnd;
-	GSnd = NULL;
+	GSnd = nullptr;
 }
 
 const char *GetSampleTypeName(SampleType type)
@@ -345,7 +345,7 @@ FString SoundStream::GetStats()
 
 SoundHandle SoundRenderer::LoadSoundVoc(uint8_t *sfxdata, int length)
 {
-	uint8_t * data = NULL;
+	uint8_t * data = nullptr;
 	int len, frequency, channels, bits, loopstart, loopend;
 	len = frequency = channels = bits = 0;
 	loopstart = loopend = -1;

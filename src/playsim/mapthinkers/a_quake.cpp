@@ -116,7 +116,7 @@ void DEarthquake::Tick ()
 {
 	unsigned int i;
 
-	if (m_Spot == NULL)
+	if (m_Spot == nullptr)
 	{
 		Destroy ();
 		return;
@@ -200,7 +200,7 @@ void DEarthquake::DoQuakeDamage(DEarthquake *quake, AActor *victim, bool falloff
 
 			damage = damage < 1 ? 1 : damage; //Do at least a tiny bit of damage when in radius.
 			
-			P_DamageMobj(victim, NULL, NULL, damage, NAME_Quake);
+			P_DamageMobj(victim, nullptr, nullptr, damage, NAME_Quake);
 		}
 		// Thrust pushable actor around
 		if (!(victim->flags7 & MF7_DONTTHRUST) && m_ThrustMultiplier > 0)
@@ -340,7 +340,7 @@ double DEarthquake::GetFalloff(double dist, double radius) const
 
 int DEarthquake::StaticGetQuakeIntensities(double ticFrac, AActor *victim, FQuakeJiggers &jiggers)
 {
-	if (victim->player != NULL && (victim->player->cheats & CF_NOCLIP))
+	if (victim->player != nullptr && (victim->player->cheats & CF_NOCLIP))
 	{
 		return 0;
 	}
@@ -442,7 +442,7 @@ bool P_StartQuakeXYZ(FLevelLocals *Level, AActor *activator, int tid, double int
 
 	if (tid == 0)
 	{
-		if (activator != NULL)
+		if (activator != nullptr)
 		{
 			Level->CreateThinker<DEarthquake>(activator, intensityX, intensityY, intensityZ, duration, damrad, tremrad,
 				quakesfx, flags, waveSpeedX, waveSpeedY, waveSpeedZ, falloff, highpoint, rollIntensity, rollWave, damageMultiplier, thrustMultiplier, damage);

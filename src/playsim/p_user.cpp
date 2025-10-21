@@ -167,7 +167,7 @@ TArray<FPlayerClass> PlayerClasses;
 
 FPlayerClass::FPlayerClass ()
 {
-	Type = NULL;
+	Type = nullptr;
 	Flags = 0;
 }
 
@@ -208,7 +208,7 @@ FString GetPrintableDisplayName(PClassActor *cls)
 
 bool ValidatePlayerClass(PClassActor *ti, const char *name)
 {
-	if (ti == NULL)
+	if (ti == nullptr)
 	{
 		Printf("Unknown player class '%s'\n", name);
 		return false;
@@ -684,7 +684,7 @@ bool player_t::HasWeaponsInSlot(int slot) const
 	for (int i = 0; i < weapons.SlotSize(slot); i++)
 	{
 		PClassActor *weap = weapons.GetWeapon(slot, i);
-		if (weap != NULL && mo->FindInventory(weap)) return true;
+		if (weap != nullptr && mo->FindInventory(weap)) return true;
 	}
 	return false;
 }
@@ -964,7 +964,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_PlayerScream)
 	FSoundID sound = NO_SOUND;
 	int chan = CHAN_VOICE;
 
-	if (self->player == NULL || self->DeathSound != NO_SOUND)
+	if (self->player == nullptr || self->DeathSound != NO_SOUND)
 	{
 		if (self->DeathSound != NO_SOUND)
 		{
@@ -1177,7 +1177,7 @@ void P_FallingDamage (AActor *actor)
 			damage = TELEFRAG_DAMAGE - 1;
 		}
 	}
-	P_DamageMobj (actor, NULL, NULL, damage, NAME_Falling);
+	P_DamageMobj (actor, nullptr, nullptr, damage, NAME_Falling);
 }
 
 //----------------------------------------------------------------------------
@@ -1189,7 +1189,7 @@ void P_FallingDamage (AActor *actor)
 void P_CheckMusicChange(player_t *player)
 {
 	// MUSINFO stuff
-	if (player->MUSINFOtics >= 0 && player->MUSINFOactor != NULL)
+	if (player->MUSINFOtics >= 0 && player->MUSINFOactor != nullptr)
 	{
 		if (--player->MUSINFOtics < 0)
 		{
@@ -1199,7 +1199,7 @@ void P_CheckMusicChange(player_t *player)
 				{
 					FName *music = player->MUSINFOactor->Level->info->MusicMap.CheckKey(player->MUSINFOactor->args[0]);
 
-					if (music != NULL)
+					if (music != nullptr)
 					{
 						S_ChangeMusic(music->GetChars(), player->MUSINFOactor->args[1]);
 					}
@@ -1291,7 +1291,7 @@ void P_PlayerThink (player_t *player)
 {
 	usercmd_t *cmd = &player->cmd;
 
-	if (player->mo == NULL)
+	if (player->mo == nullptr)
 	{
 		I_Error ("No player %td start\n", player - players + 1);
 	}
@@ -1403,19 +1403,19 @@ void BackupNodeList(AActor *act, nodetype *head, nodetype *linktype::*otherlist,
 template<class nodetype, class linktype>
 nodetype *RestoreNodeList(AActor *act, nodetype *linktype::*otherlist, TArray<nodetype*, nodetype*> &prevbackup, TArray<linktype *, linktype *> &otherbackup)
 {
-	nodetype* head = NULL;
+	nodetype* head = nullptr;
 	for (auto i = otherbackup.Size(); i-- > 0;)
 	{
 		head = P_AddSecnode(otherbackup[i], act, head, otherbackup[i]->*otherlist);
 	}
 	//act->touching_sectorlist = ctx.sector_list;	// Attach to thing
-	//ctx.sector_list = NULL;		// clear for next time
+	//ctx.sector_list = nullptr;		// clear for next time
 
-	// In the old code this block never executed because of the commented-out NULL assignment above. Needs to be checked
+	// In the old code this block never executed because of the commented-out nullptr assignment above. Needs to be checked
 	nodetype* node = head;
 	while (node)
 	{
-		if (node->m_thing == NULL)
+		if (node->m_thing == nullptr)
 		{
 			if (node == head)
 				head = node->m_tnext;
@@ -1433,7 +1433,7 @@ nodetype *RestoreNodeList(AActor *act, nodetype *linktype::*otherlist, TArray<no
 	for (auto i = otherbackup.Size(); i-- > 0;)
 	{
 		// If we were already the head node, then nothing needs to change
-		if (prevbackup[i] == NULL)
+		if (prevbackup[i] == nullptr)
 			continue;
 
 		for (snode = otherbackup[i]->*otherlist; snode; snode = snode->m_snext)
@@ -1464,7 +1464,7 @@ nodetype *RestoreNodeList(AActor *act, nodetype *linktype::*otherlist, TArray<no
 void P_PredictPlayer (player_t *player)
 {
 	if (demoplayback || gamestate != GS_LEVEL ||
-		player->mo == NULL ||
+		player->mo == nullptr ||
 		player != player->mo->Level->GetConsolePlayer() ||
 		(player->cheats & CF_PREDICTING))
 	{
@@ -1505,7 +1505,7 @@ void P_PredictPlayer (player_t *player)
 	{
 		AActor *link = act->Sector->thinglist;
 		
-		while (link != NULL)
+		while (link != nullptr)
 		{
 			PredictionSectorListBackup.Push(link);
 			link = link->snext;
@@ -1516,16 +1516,16 @@ void P_PredictPlayer (player_t *player)
 	// without releasing them. (They will be used again in P_UnpredictPlayer).
 	FBlockNode *block = act->BlockNode;
 
-	while (block != NULL)
+	while (block != nullptr)
 	{
-		if (block->NextActor != NULL)
+		if (block->NextActor != nullptr)
 		{
 			block->NextActor->PrevActor = block->PrevActor;
 		}
 		*(block->PrevActor) = block->NextActor;
 		block = block->NextBlock;
 	}
-	act->BlockNode = NULL;
+	act->BlockNode = nullptr;
 
 	int maxtic = ClientTic;
 	if (gametic == maxtic || player->playerstate != PST_LIVE)
@@ -1668,8 +1668,8 @@ void P_UnPredictPlayer ()
 			AActor *me, *next;
 			AActor **link;// , **prev;
 
-			// The thinglist is just a pointer chain. We are restoring the exact same things, so we can NULL the head safely
-			sec->thinglist = NULL;
+			// The thinglist is just a pointer chain. We are restoring the exact same things, so we can nullptr the head safely
+			sec->thinglist = nullptr;
 
 			for (i = PredictionSectorListBackup.Size(); i-- > 0;)
 			{
@@ -1691,10 +1691,10 @@ void P_UnPredictPlayer ()
 
 		// Now fix the pointers in the blocknode chain
 		FBlockNode *block = act->BlockNode;
-		while (block != NULL)
+		while (block != nullptr)
 		{
 			*(block->PrevActor) = block;
-			if (block->NextActor != NULL)
+			if (block->NextActor != nullptr)
 			{
 				block->NextActor->PrevActor = &block->NextActor;
 			}

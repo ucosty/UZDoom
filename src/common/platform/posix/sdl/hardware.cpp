@@ -53,11 +53,11 @@ void I_ShutdownGraphics ()
 	if (screen)
 	{
 		DFrameBuffer *s = screen;
-		screen = NULL;
+		screen = nullptr;
 		delete s;
 	}
 	if (Video)
-		delete Video, Video = NULL;
+		delete Video, Video = nullptr;
 
 	SDL_QuitSubSystem (SDL_INIT_VIDEO);
 }
@@ -80,6 +80,6 @@ void I_InitGraphics ()
 	extern IVideo *gl_CreateVideo();
 	Video = gl_CreateVideo();
 
-	if (Video == NULL)
+	if (Video == nullptr)
 		I_FatalError ("Failed to initialize display");
 }

@@ -223,7 +223,7 @@ void UpdateJoystickMenu(IJoystickConfig *selected)
 	DMenuDescriptor **desc = MenuDescriptors.CheckKey(NAME_JoystickOptions);
 	DMenuDescriptor **ddesc = MenuDescriptors.CheckKey("JoystickOptionsDefaults");
 	if (ddesc == nullptr) return;	// without any data the menu cannot be set up and must remain empty.
-	if (desc != NULL && (*desc)->IsKindOf(RUNTIME_CLASS(DOptionMenuDescriptor)))
+	if (desc != nullptr && (*desc)->IsKindOf(RUNTIME_CLASS(DOptionMenuDescriptor)))
 	{
 		DOptionMenuDescriptor *opt = (DOptionMenuDescriptor *)*desc;
 		DOptionMenuDescriptor *dopt = (DOptionMenuDescriptor *)*ddesc;
@@ -238,7 +238,7 @@ void UpdateJoystickMenu(IJoystickConfig *selected)
 		{
 			itemnum = Joysticks.Size() - 1;
 		}
-		if (selected != NULL)
+		if (selected != nullptr)
 		{
 			for (i = 0; (unsigned)i < Joysticks.Size(); ++i)
 			{

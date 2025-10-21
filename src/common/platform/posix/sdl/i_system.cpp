@@ -137,7 +137,7 @@ void Unix_I_FatalError(const char* errortext)
 		FString title;
 		title << GAMENAME " " << GetVersionString();
 
-		if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.c_str(), errortext, NULL) < 0)
+		if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.c_str(), errortext, nullptr) < 0)
 		{
 			printf("\n%s\n", errortext);
 		}
@@ -379,7 +379,7 @@ FString I_GetFromClipboard (bool use_primary_selection)
 
 FString I_GetCWD()
 {
-	char* curdir = getcwd(NULL,0);
+	char* curdir = getcwd(nullptr,0);
 	if (!curdir) 
 	{
 		return "";
@@ -402,7 +402,7 @@ unsigned int I_MakeRNGSeed()
 
 	// Try reading from /dev/urandom first, then /dev/random, then
 	// if all else fails, use a crappy seed from time().
-	seed = time(NULL);
+	seed = time(nullptr);
 	file = open("/dev/urandom", O_RDONLY);
 	if (file < 0)
 	{
@@ -418,7 +418,7 @@ unsigned int I_MakeRNGSeed()
 
 void I_OpenShellFolder(const char* infolder)
 {
-	char* curdir = getcwd(NULL,0);
+	char* curdir = getcwd(nullptr,0);
 
 	if (!chdir(infolder))
 	{

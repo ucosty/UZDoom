@@ -189,7 +189,7 @@ CVAR (Bool, ticker, false, 0)
 
 CUSTOM_CVAR (Bool, vid_vsync, false, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 {
-	if (screen != NULL)
+	if (screen != nullptr)
 	{
 		screen->SetVSync (*self);
 	}
@@ -337,7 +337,7 @@ bool IVideo::SetResolution ()
 {
 	DFrameBuffer *buff = CreateFrameBuffer();
 
-	if (buff == NULL)	// this cannot really happen
+	if (buff == nullptr)	// this cannot really happen
 	{
 		return false;
 	}
@@ -397,7 +397,7 @@ void V_Init2()
 {
 	{
 		DFrameBuffer *s = screen;
-		screen = NULL;
+		screen = nullptr;
 		delete s;
 	}
 
@@ -465,7 +465,7 @@ CUSTOM_CVAR(Bool, vid_hdr, false, CVAR_ARCHIVE | CVAR_GLOBALCONFIG | CVAR_NOINIT
 
 CCMD(vid_listadapters)
 {
-	if (Video != NULL)
+	if (Video != nullptr)
 		Video->DumpAdapters();
 }
 

@@ -92,7 +92,7 @@ dap::Variable ValueStateNode::ToVariable(const VMValue &m_variable, PType *m_typ
 			}
 			else
 			{
-				variable.value = "<NULL>";
+				variable.value = "<nullptr>";
 			}
 		}
 		else
@@ -101,7 +101,7 @@ dap::Variable ValueStateNode::ToVariable(const VMValue &m_variable, PType *m_typ
 			variable.type = std::string("Pointer<") + pointedType->DescriptiveName() + ">";
 			if (!IsVMValueValid(&m_variable))
 			{
-				variable.value = "<NULL>";
+				variable.value = "<nullptr>";
 			}
 			else if (pointedType->isScalar() && !pointedType->isPointer())
 			{

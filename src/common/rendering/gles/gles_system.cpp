@@ -14,12 +14,12 @@ void setGlVersion(double glv);
 
 #if USE_GLAD_LOADER
 
-PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRange = NULL;
-PFNGLUNMAPBUFFEROESPROC glUnmapBuffer = NULL;
-PFNGLVERTEXATTRIBIPOINTERPROC glVertexAttribIPointer = NULL;
-PFNGLFENCESYNCPROC glFenceSync = NULL;
-PFNGLCLIENTWAITSYNCPROC glClientWaitSync = NULL;
-PFNGLDELETESYNCPROC glDeleteSync = NULL;
+PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRange = nullptr;
+PFNGLUNMAPBUFFEROESPROC glUnmapBuffer = nullptr;
+PFNGLVERTEXATTRIBIPOINTERPROC glVertexAttribIPointer = nullptr;
+PFNGLFENCESYNCPROC glFenceSync = nullptr;
+PFNGLCLIENTWAITSYNCPROC glClientWaitSync = nullptr;
+PFNGLDELETESYNCPROC glDeleteSync = nullptr;
 
 #if defined _WIN32
 
@@ -52,7 +52,7 @@ static void* LoadGLES2Proc(const char* name)
 
 static void* LoadGLES2Proc(const char* name)
 {
-	static void* glesLib = NULL;
+	static void* glesLib = nullptr;
 
 	if (!glesLib)
 	{
@@ -69,7 +69,7 @@ static void* LoadGLES2Proc(const char* name)
 		}
 	}
 
-	void* ret = NULL;
+	void* ret = nullptr;
 	ret = dlsym(glesLib, name);
 
 	return ret;
@@ -161,7 +161,7 @@ namespace OpenGLESRenderer
 			Printf(PRINT_LOG, " %s\n", m_Extensions[i].c_str());
 		}
 		const char* glVersionStr = (const char*)glGetString(GL_VERSION);
-		double glVersion = strtod(glVersionStr, NULL);
+		double glVersion = strtod(glVersionStr, nullptr);
 
 		Printf("GL Version parsed = %f\n", glVersion);
 

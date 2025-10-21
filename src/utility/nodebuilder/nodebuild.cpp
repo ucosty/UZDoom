@@ -57,8 +57,8 @@ const int AAPreference = 16;
 FNodeBuilder::FNodeBuilder(FLevel &lev)
 : Level(lev), GLNodes(false), SegsStuffed(0)
 {
-	VertexMap = NULL;
-	OldVertexTable = NULL;
+	VertexMap = nullptr;
+	OldVertexTable = nullptr;
 }
 
 FNodeBuilder::FNodeBuilder (FLevel &lev,
@@ -76,11 +76,11 @@ FNodeBuilder::FNodeBuilder (FLevel &lev,
 
 FNodeBuilder::~FNodeBuilder()
 {
-	if (VertexMap != NULL)
+	if (VertexMap != nullptr)
 	{
 		delete VertexMap;
 	}
-	if (OldVertexTable != NULL)
+	if (OldVertexTable != nullptr)
 	{
 		delete[] OldVertexTable;
 	}
@@ -107,7 +107,7 @@ void FNodeBuilder::Clear()
 	Touched.Clear();
 	Colinear.Clear();
 	SplitSharers.Clear();
-	if (VertexMap == NULL)
+	if (VertexMap == nullptr)
 	{
 		VertexMap = new FVertexMapSimple(*this);
 	}
@@ -200,11 +200,11 @@ void FNodeBuilder::CreateSubsectorsForReal ()
 	subsector_t sub;
 	unsigned int i;
 
-	sub.sector = NULL;
-	sub.polys = NULL;
-	sub.BSP = NULL;
+	sub.sector = nullptr;
+	sub.polys = nullptr;
+	sub.BSP = nullptr;
 	sub.flags = 0;
-	sub.render_sector = NULL;
+	sub.render_sector = nullptr;
 
 	for (i = 0; i < SubsectorSets.Size(); ++i)
 	{
@@ -315,7 +315,7 @@ bool FNodeBuilder::CheckSubsector (uint32_t set, node_t &node, uint32_t &splitse
 	sector_t *sec;
 	uint32_t seg;
 
-	sec = NULL;
+	sec = nullptr;
 	seg = set;
 
 	do
@@ -325,8 +325,8 @@ bool FNodeBuilder::CheckSubsector (uint32_t set, node_t &node, uint32_t &splitse
 			Vertices[Segs[seg].v1].x>>16, Vertices[Segs[seg].v1].y>>16,
 			Vertices[Segs[seg].v2].x>>16, Vertices[Segs[seg].v2].y>>16,
 			Segs[seg].linedef,
-			Segs[seg].frontsector == NULL ? -1 : Segs[seg].frontsector - sectors,
-			Segs[seg].backsector == NULL ? -1 : Segs[seg].backsector - sectors));
+			Segs[seg].frontsector == nullptr ? -1 : Segs[seg].frontsector - sectors,
+			Segs[seg].backsector == nullptr ? -1 : Segs[seg].backsector - sectors));
 		if (Segs[seg].linedef != -1 &&
 			Segs[seg].frontsector != sec
 			// Segs with the same front and back sectors are allowed to reside
@@ -339,7 +339,7 @@ bool FNodeBuilder::CheckSubsector (uint32_t set, node_t &node, uint32_t &splitse
 			// the display if their subsector does not match their front sector.
 			/*&& Segs[seg].frontsector != Segs[seg].backsector*/)
 		{
-			if (sec == NULL)
+			if (sec == nullptr)
 			{
 				sec = Segs[seg].frontsector;
 			}

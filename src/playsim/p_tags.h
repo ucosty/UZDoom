@@ -109,7 +109,7 @@ protected:
 		if (tag == 0)
 		{
 			searchtag = INT_MIN;
-			start = (line == NULL || line->backsector == NULL) ? -1 : line->backsector->Index();
+			start = (line == nullptr || line->backsector == nullptr) ? -1 : line->backsector->Index();
 		}
 		else
 		{

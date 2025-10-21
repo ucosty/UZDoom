@@ -114,7 +114,7 @@ void HWWall::SplitLowerEdge(FFlatVertex *&ptr)
 
 void HWWall::SplitLeftEdge(FFlatVertex *&ptr)
 {
-	if (vertexes[0] == NULL) return;
+	if (vertexes[0] == nullptr) return;
 
 	vertex_t * vi = vertexes[0];
 
@@ -153,7 +153,7 @@ void HWWall::SplitLeftEdge(FFlatVertex *&ptr)
 
 void HWWall::SplitRightEdge(FFlatVertex *&ptr)
 {
-	if (vertexes[1] == NULL) return;
+	if (vertexes[1] == nullptr) return;
 
 	vertex_t * vi = vertexes[1];
 
@@ -217,7 +217,7 @@ int HWWall::CreateVertices(FFlatVertex *&ptr, bool split)
 
 void HWWall::CountLeftEdge(unsigned &ptr)
 {
-	if (vertexes[0] == NULL) return;
+	if (vertexes[0] == nullptr) return;
 
 	vertex_t * vi = vertexes[0];
 
@@ -242,7 +242,7 @@ void HWWall::CountLeftEdge(unsigned &ptr)
 
 void HWWall::CountRightEdge(unsigned &ptr)
 {
-	if (vertexes[1] == NULL) return;
+	if (vertexes[1] == nullptr) return;
 
 	vertex_t * vi = vertexes[1];
 

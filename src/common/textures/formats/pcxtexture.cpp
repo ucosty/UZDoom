@@ -110,22 +110,22 @@ FImageSource * PCXImage_TryCreate(FileReader & file, int lumpnum)
 	file.Seek(0, FileReader::SeekSet);
 	if (file.Read(&hdr, sizeof(hdr)) != sizeof(hdr))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	hdr.xmin = LittleShort(hdr.xmin);
 	hdr.xmax = LittleShort(hdr.xmax);
 	hdr.bytesPerScanLine = LittleShort(hdr.bytesPerScanLine);
 
-	if (hdr.manufacturer != 10 || hdr.encoding != 1) return NULL;
-	if (hdr.version != 0 && hdr.version != 2 && hdr.version != 3 && hdr.version != 4 && hdr.version != 5) return NULL;
-	if (hdr.bitsPerPixel != 1 && hdr.bitsPerPixel != 8 && hdr.bitsPerPixel != 4) return NULL; 
-	if (hdr.bitsPerPixel == 1 && hdr.numColorPlanes !=1 && hdr.numColorPlanes != 4) return NULL;
-	if (hdr.bitsPerPixel == 8 && hdr.bytesPerScanLine != ((hdr.xmax - hdr.xmin + 2)&~1)) return NULL;
+	if (hdr.manufacturer != 10 || hdr.encoding != 1) return nullptr;
+	if (hdr.version != 0 && hdr.version != 2 && hdr.version != 3 && hdr.version != 4 && hdr.version != 5) return nullptr;
+	if (hdr.bitsPerPixel != 1 && hdr.bitsPerPixel != 8 && hdr.bitsPerPixel != 4) return nullptr;
+	if (hdr.bitsPerPixel == 1 && hdr.numColorPlanes !=1 && hdr.numColorPlanes != 4) return nullptr;
+	if (hdr.bitsPerPixel == 8 && hdr.bytesPerScanLine != ((hdr.xmax - hdr.xmin + 2)&~1)) return nullptr;
 
 	for (int i = 0; i < 54; i++) 
 	{
-		if (hdr.padding[i] != 0) return NULL;
+		if (hdr.padding[i] != 0) return nullptr;
 	}
 
 	file.Seek(0, FileReader::SeekSet);

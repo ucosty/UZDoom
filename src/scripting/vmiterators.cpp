@@ -124,13 +124,13 @@ IMPLEMENT_CLASS(DBlockLinesIterator, true, false);
 
 static DBlockLinesIterator *CreateBLI(AActor *origin, double radius)
 {
-	return Create<DBlockLinesIterator>(PARAM_NULLCHECK(origin, origin), radius);
+	return Create<DBlockLinesIterator>(PARAM_nullptrCHECK(origin, origin), radius);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(DBlockLinesIterator, Create, CreateBLI)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(origin, AActor);
+	PARAM_OBJECT_NOT_nullptr(origin, AActor);
 	PARAM_FLOAT(radius);
 	ACTION_RETURN_OBJECT(Create<DBlockLinesIterator>(origin, radius));
 }
@@ -199,14 +199,14 @@ IMPLEMENT_CLASS(DBlockThingsIterator, true, false);
 
 static DBlockThingsIterator *CreateBTI(AActor *origin, double radius, bool ignore)
 {
-	return Create<DBlockThingsIterator>(PARAM_NULLCHECK(origin, origin), radius, ignore);
+	return Create<DBlockThingsIterator>(PARAM_nullptrCHECK(origin, origin), radius, ignore);
 }
 
 
 DEFINE_ACTION_FUNCTION_NATIVE(DBlockThingsIterator, Create, CreateBTI)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(origin, AActor);
+	PARAM_OBJECT_NOT_nullptr(origin, AActor);
 	PARAM_FLOAT(radius);
 	PARAM_BOOL(ignore);
 	ACTION_RETURN_OBJECT(Create<DBlockThingsIterator>(origin, radius, ignore));
@@ -468,7 +468,7 @@ static DBehaviorIterator* CreateBehaviorItFromActor(AActor* mobj, PClass* type)
 DEFINE_ACTION_FUNCTION_NATIVE(DBehaviorIterator, CreateFrom, CreateBehaviorItFromActor)
 {
 	PARAM_PROLOGUE;
-	PARAM_OBJECT_NOT_NULL(mobj, AActor);
+	PARAM_OBJECT_NOT_nullptr(mobj, AActor);
 	PARAM_CLASS(type, DBehavior);
 	ACTION_RETURN_OBJECT(CreateBehaviorItFromActor(mobj, type));
 }

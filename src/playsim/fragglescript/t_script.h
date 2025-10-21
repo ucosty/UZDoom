@@ -408,12 +408,12 @@ struct FParser
 	FParser(FLevelLocals *l, DFsScript *scr)
 	{
 		Level = l;
-		LineStart = NULL;
-		Rover = NULL;
+		LineStart = nullptr;
+		Rover = nullptr;
 		Tokens[0] = new char[scr->len+32];	// 32 for safety. FS seems to need a few bytes more than the script's actual length.
 		NumTokens = 0;
 		Script = scr;
-		Section = PrevSection = NULL;
+		Section = PrevSection = nullptr;
 		BraceType = 0;
 	}
 
@@ -655,7 +655,7 @@ class DRunningScript : public DObject
 	HAS_OBJECT_POINTERS
 
 public:
-	DRunningScript(AActor *trigger=NULL, DFsScript *owner = NULL, int index = 0) ;
+	DRunningScript(AActor *trigger=nullptr, DFsScript *owner = nullptr, int index = 0) ;
 	void OnDestroy() override;
 	void Serialize(FSerializer &arc);
 

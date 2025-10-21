@@ -136,7 +136,7 @@ void ibm437_to_utf8(const char* in, std::vector<char>& buffer)
 char *tolower_normalize(const char *str) 
 {
 	utf8proc_uint8_t *retval;
-	utf8proc_map((const uint8_t*)str, 0, &retval, (utf8proc_option_t)(UTF8PROC_NULLTERM | UTF8PROC_STABLE | UTF8PROC_COMPOSE | UTF8PROC_CASEFOLD));
+	utf8proc_map((const uint8_t*)str, 0, &retval, (utf8proc_option_t)(UTF8PROC_nullptrTERM | UTF8PROC_STABLE | UTF8PROC_COMPOSE | UTF8PROC_CASEFOLD));
 	return (char*)retval;
 }
 

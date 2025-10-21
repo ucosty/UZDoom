@@ -73,7 +73,7 @@ void MapLoader::InitSideLists ()
 	auto &sides = Level->sides;
 	for (unsigned i = 0; i < sides.Size(); ++i)
 	{
-		if (sides[i].linedef != NULL &&
+		if (sides[i].linedef != nullptr &&
 			(sides[i].linedef->special == Polyobj_StartLine ||
 				sides[i].linedef->special == Polyobj_ExplicitLine))
 		{
@@ -420,7 +420,7 @@ void MapLoader::PO_Init (void)
 	{
 		for(uint32_t j=0;j<ss.numlines; j++)
 		{
-			if (ss.firstline[j].sidedef != NULL &&
+			if (ss.firstline[j].sidedef != nullptr &&
 				ss.firstline[j].sidedef->Flags & WALLF_POLYOBJ)
 			{
 				ss.flags |= SSECF_POLYORG;

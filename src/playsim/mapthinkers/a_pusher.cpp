@@ -254,7 +254,7 @@ void DPusher::Tick ()
 		DVector2 pushvel;
 		if (m_Type == p_wind)
 		{
-			if (hsec == NULL)
+			if (hsec == nullptr)
 			{ // NOT special water sector
 				if (thing->Z() > thing->floorz) // above ground
 				{
@@ -286,7 +286,7 @@ void DPusher::Tick ()
 		{
 			const secplane_t *floor;
 
-			if (hsec == NULL)
+			if (hsec == nullptr)
 			{ // NOT special water sector
 				floor = &sec->floorplane;
 			}

@@ -181,7 +181,7 @@ FBaseCVar::FBaseCVar (const char *var_name, uint32_t flags, void *callback, cons
 	FBaseCVar* var = nullptr;
 	if (var_name)
 	{
-		var = FindCVar(var_name, NULL);
+		var = FindCVar(var_name, nullptr);
 		C_AddTabCommand (var_name);
 		VarName = var_name;
 		cvarMap.Insert(var_name, this);
@@ -324,7 +324,7 @@ bool FBaseCVar::ToBool (UCVarValue value, ECVarType type)
 		else if (stricmp (value.String, "false") == 0)
 			return false;
 		else
-			return !!strtoll (value.String, NULL, 0);
+			return !!strtoll (value.String, nullptr, 0);
 
 	default:
 		return false;
@@ -355,7 +355,7 @@ int FBaseCVar::ToInt (UCVarValue value, ECVarType type)
 			else if (stricmp (value.String, "false") == 0)
 				res = 0;
 			else
-				res = (int)strtoll (value.String, NULL, 0);
+				res = (int)strtoll (value.String, nullptr, 0);
 			break;
 		}
 	default:				res = 0; break;
@@ -378,7 +378,7 @@ float FBaseCVar::ToFloat (UCVarValue value, ECVarType type)
 		return value.Float;
 
 	case CVAR_String:
-		return (float)strtod (value.String, NULL);
+		return (float)strtod (value.String, nullptr);
 
 	default:
 		return 0.f;
@@ -546,7 +546,7 @@ UCVarValue FBaseCVar::FromString (const char *value, ECVarType type)
 		else if (stricmp (value, "false") == 0)
 			ret.Bool = false;
 		else
-			ret.Bool = strtoll (value, NULL, 0) != 0;
+			ret.Bool = strtoll (value, nullptr, 0) != 0;
 		break;
 
 	case CVAR_Int:
@@ -555,11 +555,11 @@ UCVarValue FBaseCVar::FromString (const char *value, ECVarType type)
 		else if (stricmp (value, "false") == 0)
 			ret.Int = 0;
 		else
-			ret.Int = (int)strtoll (value, NULL, 0);
+			ret.Int = (int)strtoll (value, nullptr, 0);
 		break;
 
 	case CVAR_Float:
-		ret.Float = (float)strtod (value, NULL);
+		ret.Float = (float)strtod (value, nullptr);
 		break;
 
 	case CVAR_String:
@@ -578,7 +578,7 @@ FBaseCVar *cvar_set (const char *var_name, const char *val)
 {
 	FBaseCVar *var;
 
-	if ( (var = FindCVar (var_name, NULL)) )
+	if ( (var = FindCVar (var_name, nullptr)) )
 	{
 		UCVarValue value;
 		value.String = const_cast<char *>(val);
@@ -593,7 +593,7 @@ FBaseCVar *cvar_forceset (const char *var_name, const char *val)
 	FBaseCVar *var;
 	UCVarValue vval;
 
-	if ( (var = FindCVar (var_name, NULL)) )
+	if ( (var = FindCVar (var_name, nullptr)) )
 	{
 		vval.String = const_cast<char *>(val);
 		var->ForceSet (vval, CVAR_String);
@@ -1053,7 +1053,7 @@ void FBaseCVar::MarkUnsafe()
 //
 
 FFlagCVar::FFlagCVar (const char *name, FIntCVar &realvar, uint32_t bitval, const char* descr)
-: FBaseCVar (name, 0, NULL, descr),
+: FBaseCVar (name, 0, nullptr, descr),
 ValueVar (realvar),
 BitVal (bitval)
 {
@@ -1151,7 +1151,7 @@ UCVarValue FFlagCVar::DoSet (UCVarValue value, ECVarType type)
 //
 
 FMaskCVar::FMaskCVar (const char *name, FIntCVar &realvar, uint32_t bitval, const char* descr)
-: FBaseCVar (name, 0, NULL, descr),
+: FBaseCVar (name, 0, nullptr, descr),
 ValueVar (realvar),
 BitVal (bitval)
 {
@@ -1333,7 +1333,7 @@ void C_ReadCVars (TArrayView<uint8_t>& demo_p)
 		ptr++;
 		breakpt = strchr (ptr, '\\');
 		*breakpt = 0;
-		filter = strtoul (ptr, NULL, 16);
+		filter = strtoul (ptr, nullptr, 16);
 		*breakpt = '\\';
 		ptr = breakpt + 1;
 
@@ -1438,8 +1438,8 @@ FBaseCVar *FindCVar (const char *var_name, FBaseCVar **prev)
 
 FBaseCVar *FindCVarSub (const char *var_name, int namelen)
 {
-	if (var_name == NULL)
-		return NULL;
+	if (var_name == nullptr)
+		return nullptr;
 
 	FName vname(var_name, namelen, true);
 	if (vname == NAME_None) return nullptr;
@@ -1477,31 +1477,31 @@ FBaseCVar *GetCVar(int playernum, const char *cvarname)
 
 FBaseCVar *C_CreateCVar(const char *var_name, ECVarType var_type, uint32_t flags)
 {
-	assert(FindCVar(var_name, NULL) == NULL);
+	assert(FindCVar(var_name, nullptr) == nullptr);
 	flags |= CVAR_AUTO;
 	switch (var_type)
 	{
 	case CVAR_Bool:		return new FBoolCVar(var_name, 0, flags);
 	case CVAR_Int:		return new FIntCVar(var_name, 0, flags);
 	case CVAR_Float:	return new FFloatCVar(var_name, 0, flags);
-	case CVAR_String:	return new FStringCVar(var_name, NULL, flags);
+	case CVAR_String:	return new FStringCVar(var_name, nullptr, flags);
 	case CVAR_Color:	return new FColorCVar(var_name, 0, flags);
-	default:			return NULL;
+	default:			return nullptr;
 	}
 }
 
 FBaseCVar * C_CreateZSCustomCVar(const char *var_name, ECVarType var_type, uint32_t flags, FName className)
 {
-	assert(FindCVar(var_name, NULL) == NULL);
+	assert(FindCVar(var_name, nullptr) == nullptr);
 	flags |= CVAR_AUTO | CVAR_ZS_CUSTOM;
 	switch (var_type)
 	{
 	case CVAR_Bool:		return new FZSBoolCVar(var_name, 0, flags, className);
 	case CVAR_Int:		return new FZSIntCVar(var_name, 0, flags, className);
 	case CVAR_Float:	return new FZSFloatCVar(var_name, 0, flags, className);
-	case CVAR_String:	return new FZSStringCVar(var_name, NULL, flags, className);
+	case CVAR_String:	return new FZSStringCVar(var_name, nullptr, flags, className);
 	case CVAR_Color:	return new FZSColorCVar(var_name, 0, flags, className);
-	default:			return NULL;
+	default:			return nullptr;
 	}
 }
 
@@ -1617,9 +1617,9 @@ CCMD (set)
 	{
 		FBaseCVar *var;
 
-		var = FindCVar (argv[1], NULL);
-		if (var == NULL)
-			var = new FStringCVar (argv[1], NULL, CVAR_AUTO | CVAR_UNSETTABLE | cvar_defflags);
+		var = FindCVar (argv[1], nullptr);
+		if (var == nullptr)
+			var = new FStringCVar (argv[1], nullptr, CVAR_AUTO | CVAR_UNSETTABLE | cvar_defflags);
 
 		var->CmdSet (argv[2]);
 	}
@@ -1633,8 +1633,8 @@ CCMD (unset)
 	}
 	else
 	{
-		FBaseCVar *var = FindCVar (argv[1], NULL);
-		if (var != NULL)
+		FBaseCVar *var = FindCVar (argv[1], nullptr);
+		if (var != nullptr)
 		{
 			if (var->GetFlags() & CVAR_UNSETTABLE)
 			{
@@ -1656,8 +1656,8 @@ CCMD (resetcvar)
 	}
 	else
 	{
-		FBaseCVar *var = FindCVar (argv[1], NULL);
-		if (var != NULL)
+		FBaseCVar *var = FindCVar (argv[1], nullptr);
+		if (var != nullptr)
 		{
 			var->ResetToDefault();
 		}
@@ -1793,7 +1793,7 @@ CCMD (cvarlist)
 {
 	if (argv.argc() == 1)
 	{
-		FBaseCVar::ListVars (NULL, LCT_Default);
+		FBaseCVar::ListVars (nullptr, LCT_Default);
 	}
 	else
 	{
@@ -1803,14 +1803,14 @@ CCMD (cvarlist)
 
 CCMD (cvarlistplain)
 {
-	FBaseCVar::ListVars (NULL, LCT_Plain);
+	FBaseCVar::ListVars (nullptr, LCT_Plain);
 }
 
 CCMD (cvarsearch)
 {
 	if (argv.argc() == 1)
 	{
-		FBaseCVar::ListVars (NULL, LCT_FullSearch);
+		FBaseCVar::ListVars (nullptr, LCT_FullSearch);
 	}
 	else
 	{
@@ -1827,9 +1827,9 @@ CCMD (archivecvar)
 	}
 	else
 	{
-		FBaseCVar *var = FindCVar (argv[1], NULL);
+		FBaseCVar *var = FindCVar (argv[1], nullptr);
 
-		if (var != NULL && (var->GetFlags() & CVAR_AUTO))
+		if (var != nullptr && (var->GetFlags() & CVAR_AUTO))
 		{
 			var->SetArchiveBit ();
 		}

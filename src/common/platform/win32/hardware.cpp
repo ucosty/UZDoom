@@ -65,18 +65,18 @@ void I_ShutdownGraphics ()
 	if (screen)
 	{
 		DFrameBuffer *s = screen;
-		screen = NULL;
+		screen = nullptr;
 		delete s;
 	}
 	if (Video)
-		delete Video, Video = NULL;
+		delete Video, Video = nullptr;
 }
 
 void I_InitGraphics ()
 {
 	// If the focus window is destroyed, it doesn't go back to the active window.
 	// (e.g. because the net pane was up, and a button on it had focus)
-	if (GetFocus() == NULL && GetActiveWindow() == mainwindow.GetHandle())
+	if (GetFocus() == nullptr && GetActiveWindow() == mainwindow.GetHandle())
 	{
 		// Make sure it's in the foreground and focused. (It probably is
 		// already foregrounded but may not be focused.)
@@ -111,7 +111,7 @@ void I_InitGraphics ()
 	}
 
 	// we somehow STILL don't have a display!!
-	if (Video == NULL)
+	if (Video == nullptr)
 		I_FatalError ("Failed to initialize display");
 
 }

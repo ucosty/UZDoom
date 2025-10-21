@@ -45,7 +45,7 @@ public:
 	bool InitMultipleFiles (std::vector<std::string>& filenames, LumpFilterInfo* filter = nullptr, FileSystemMessageFunc Printf = nullptr, bool allowduplicates = false);
 	void AddFile (const char *filename, FileReader *wadinfo, LumpFilterInfo* filter, FileSystemMessageFunc Printf);
 	int CheckIfResourceFileLoaded (const char *name) noexcept;
-	void AddAdditionalFile(const char* filename, FileReader* wadinfo = NULL) {}
+	void AddAdditionalFile(const char* filename, FileReader* wadinfo = nullptr) {}
 
 	const char *GetResourceFileName (int filenum) const noexcept;
 	const char *GetResourceFileFullName (int wadnum) const noexcept;
@@ -108,7 +108,7 @@ public:
 
 
 	int FindLump (const char *name, int *lastlump, bool anyns=false);		// [RH] Find lumps with duplication
-	int FindLumpMulti (const char **names, int *lastlump, bool anyns = false, int *nameindex = NULL); // same with multiple possible names
+	int FindLumpMulti (const char **names, int *lastlump, bool anyns = false, int *nameindex = nullptr); // same with multiple possible names
 	int FindLumpFullName(const char* name, int* lastlump, bool noext = false);
 	bool CheckFileName (int lump, const char *name);	// [RH] True if lump's name == name
 

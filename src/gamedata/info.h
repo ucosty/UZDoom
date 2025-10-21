@@ -175,7 +175,7 @@ public:
 		Frame = frame - 'A';
 	}
 	void SetAction(VMFunction *func) { ActionFunc = func; }
-	void ClearAction() { ActionFunc = NULL; }
+	void ClearAction() { ActionFunc = nullptr; }
 	void SetAction(const char *name);
 	bool CallAction(AActor *self, AActor *stateowner, FStateParamInfo *stateinfo, FState **stateret);
     void CheckCallerType(AActor *self, AActor *stateowner);
@@ -291,7 +291,7 @@ struct FActorInfo
 
 	~FActorInfo()
 	{
-		if (StateList != NULL)
+		if (StateList != nullptr)
 		{
 			StateList->Destroy();
 			M_Free(StateList);

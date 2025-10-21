@@ -115,7 +115,7 @@ FResourceFile *CheckPak(const char *filename, FileReader &file, LumpFilterInfo* 
 			file = rf->Destroy();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 }

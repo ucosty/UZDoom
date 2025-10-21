@@ -87,7 +87,7 @@ protected:
 public:
 	FBitmap()
 	{
-		data = NULL;
+		data = nullptr;
 		Width = Height = 0;
 		Pitch = 0;
 		FreeBuffer = false;
@@ -164,8 +164,8 @@ public:
 
 	void Destroy()
 	{
-		if (data != NULL && FreeBuffer) delete [] data;
-		data = NULL;
+		if (data != nullptr && FreeBuffer) delete [] data;
+		data = nullptr;
 		FreeBuffer = false;
 	}
 
@@ -180,7 +180,7 @@ public:
 		ClipRect.x = ClipRect.y = 0;
 		ClipRect.width = w;
 		ClipRect.height = h;
-		return data != NULL;
+		return data != nullptr;
 	}
 
 	int GetHeight() const
@@ -237,18 +237,18 @@ public:
 
 
 	void CopyPixelDataRGB(int originx, int originy, const uint8_t *patch, int srcwidth,
-								int srcheight, int step_x, int step_y, int rotate, int ct, FCopyInfo *inf = NULL,
+								int srcheight, int step_x, int step_y, int rotate, int ct, FCopyInfo *inf = nullptr,
 		/* for PNG tRNS */		int r=0, int g=0, int b=0);
 	void CopyPixelData(int originx, int originy, const uint8_t * patch, int srcwidth, int srcheight,
-								int step_x, int step_y, int rotate, const PalEntry * palette, FCopyInfo *inf = NULL);
+								int step_x, int step_y, int rotate, const PalEntry * palette, FCopyInfo *inf = nullptr);
 
 
-	void Blit(int originx, int originy, const FBitmap &src, int width, int height, int rotate = 0, FCopyInfo *inf = NULL)
+	void Blit(int originx, int originy, const FBitmap &src, int width, int height, int rotate = 0, FCopyInfo *inf = nullptr)
 	{
 		CopyPixelDataRGB(originx, originy, src.GetPixels(),  width, height, 4, src.GetWidth()*4, rotate, CF_BGRA, inf);
 	}
 
-	void Blit(int originx, int originy, const FBitmap &src, FCopyInfo *inf = NULL)
+	void Blit(int originx, int originy, const FBitmap &src, FCopyInfo *inf = nullptr)
 	{
 		CopyPixelDataRGB(originx, originy, src.GetPixels(), src.GetWidth(), src.GetHeight(), 4, src.GetWidth()*4, 0, CF_BGRA, inf);
 	}

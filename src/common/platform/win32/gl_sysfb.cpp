@@ -117,7 +117,7 @@ CUSTOM_CVAR(Bool, gl_control_tear, false, CVAR_ARCHIVE | CVAR_GLOBALCONFIG)
 
 void SystemGLFrameBuffer::SetVSync (bool vsync)
 {
-	if (myWglSwapIntervalExtProc != NULL) myWglSwapIntervalExtProc(vsync ? (gl_control_tear? SwapInterval : 1) : 0);
+	if (myWglSwapIntervalExtProc != nullptr) myWglSwapIntervalExtProc(vsync ? (gl_control_tear? SwapInterval : 1) : 0);
 }
 
 void SystemGLFrameBuffer::SwapBuffers()

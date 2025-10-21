@@ -85,7 +85,7 @@ static int GetMapIndex(const char *mapname, int lastindex, const char *lumpname,
 		//{"SCRIPTS",	 false},
 	};
 
-	if (lumpname==NULL) lumpname="";
+	if (lumpname==nullptr) lumpname="";
 
 	for(size_t i=lastindex+1;i<countof(check);i++)
 	{
@@ -123,7 +123,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 		if (!FileExists(mapname))
 		{
 			delete map;
-			return NULL;
+			return nullptr;
 		}
 		map->resource = FResourceFile::OpenResourceFile(mapname);
 		wadReader = map->resource->GetContainerReader();
@@ -159,7 +159,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 				if (!P_IsBuildMap(map))
 				{
 					delete map;
-					return NULL;
+					return nullptr;
 				}
 				return map;
 			}
@@ -191,7 +191,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 					if (index == -2)
 					{
 						delete map;
-						return NULL;
+						return nullptr;
 					}
 					if (index == ML_BEHAVIOR) map->HasBehavior = true;
 
@@ -210,7 +210,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 				{
 					const char * lumpname = fileSystem.GetFileFullName(lump_name + i);
 
-					if (lumpname == NULL)
+					if (lumpname == nullptr)
 					{
 						I_Error("Invalid map definition for %s", mapname);
 					}
@@ -260,7 +260,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 			if (lump_wad == -1)
 			{
 				delete map;
-				return NULL;
+				return nullptr;
 			}
 			map->lumpnum = lump_wad;
 			auto reader = fileSystem.ReopenFileReader(lump_wad);
@@ -345,7 +345,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 				if (index == -2)
 				{
 					delete map;
-					return NULL;
+					return nullptr;
 				}
 				if (index == ML_BEHAVIOR) map->HasBehavior = true;
 
@@ -369,7 +369,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 		if (!P_IsBuildMap(map))
 		{
 			delete map;
-			return NULL;
+			return nullptr;
 		}
 	}
 	return map;		
@@ -378,7 +378,7 @@ MapData *P_OpenMapData(const char * mapname, bool justcheck)
 bool P_CheckMapData(const char *mapname)
 {
 	MapData *mapd = P_OpenMapData(mapname, true);
-	if (mapd == NULL) return false;
+	if (mapd == nullptr) return false;
 	delete mapd;
 	return true;
 }

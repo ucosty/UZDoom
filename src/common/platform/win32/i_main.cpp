@@ -161,7 +161,7 @@ bool isConsoleApp()
 		DWORD num_pids = GetConsoleProcessList(pids, 2);
 		bool win32con_is_exclusive = (num_pids <= 1);
 
-		returnvalue = ((GetConsoleWindow() != NULL && !win32con_is_exclusive) || (GetStdHandle(STD_OUTPUT_HANDLE) != NULL));
+		returnvalue = ((GetConsoleWindow() != nullptr && !win32con_is_exclusive) || (GetStdHandle(STD_OUTPUT_HANDLE) != nullptr));
 		alreadychecked = true;
 	}
 
@@ -223,7 +223,7 @@ int DoMain (HINSTANCE hInstance)
 		// handle instead of creating a console window.
 
 		StdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-		if (StdOut != NULL)
+		if (StdOut != nullptr)
 		{
 			// It seems that running from a shell always creates a std output
 			// for us, even if it doesn't go anywhere. (Running from Explorer
@@ -233,7 +233,7 @@ int DoMain (HINSTANCE hInstance)
 			BY_HANDLE_FILE_INFORMATION info;
 			if (!GetFileInformationByHandle(StdOut, &info))
 			{
-				StdOut = NULL;
+				StdOut = nullptr;
 			}
 		}
 		if (StdOut == nullptr)
@@ -241,7 +241,7 @@ int DoMain (HINSTANCE hInstance)
 			if (AttachConsole(ATTACH_PARENT_PROCESS))
 			{
 				StdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-				DWORD foo; WriteFile(StdOut, "\n", 1, &foo, NULL);
+				DWORD foo; WriteFile(StdOut, "\n", 1, &foo, nullptr);
 				AttachedStdOut = true;
 			}
 			if (StdOut == nullptr && AllocConsole())
@@ -298,7 +298,7 @@ int DoMain (HINSTANCE hInstance)
 	// element. DEVMODE is not one of those structures.
 	memset (&displaysettings, 0, sizeof(displaysettings));
 	displaysettings.dmSize = sizeof(displaysettings);
-	EnumDisplaySettings (NULL, ENUM_CURRENT_SETTINGS, &displaysettings);
+	EnumDisplaySettings (nullptr, ENUM_CURRENT_SETTINGS, &displaysettings);
 	x = (displaysettings.dmPelsWidth - width) / 2;
 	y = (displaysettings.dmPelsHeight - height) / 2;
 
@@ -316,17 +316,17 @@ int DoMain (HINSTANCE hInstance)
 	WinWidth = cRect.right;
 	WinHeight = cRect.bottom;
 
-	CoInitialize (NULL);
+	CoInitialize (nullptr);
 	atexit ([](){ CoUninitialize(); }); // beware of calling convention.
 
 	int ret = GameMain ();
 
 	if (mainwindow.CheckForRestart())
 	{
-		HMODULE hModule = GetModuleHandleW(NULL);
+		HMODULE hModule = GetModuleHandleW(nullptr);
 		WCHAR path[MAX_PATH];
 		GetModuleFileNameW(hModule, path, MAX_PATH);
-		ShellExecuteW(NULL, L"open", path, GetCommandLineW(), NULL, SW_SHOWNORMAL);
+		ShellExecuteW(nullptr, L"open", path, GetCommandLineW(), nullptr, SW_SHOWNORMAL);
 	}
 
 	DestroyCustomCursor();
@@ -343,7 +343,7 @@ int DoMain (HINSTANCE hInstance)
 				if (StdOut != nullptr) WriteFile(StdOut, "Press any key to exit...", 24, &bytes, nullptr);
 				FlushConsoleInputBuffer(stdinput);
 				SetConsoleMode(stdinput, 0);
-				ReadConsole(stdinput, &bytes, 1, &bytes, NULL);
+				ReadConsole(stdinput, &bytes, 1, &bytes, nullptr);
 			}
 			else if (StdOut == nullptr)
 			{
@@ -543,12 +543,12 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE nothing, LPWSTR cmdline, int
 	InitCommonControls ();			// Load some needed controls and be pretty under XP
 
 	// We need to load riched20.dll so that we can create the control.
-	if (NULL == LoadLibraryA ("riched20.dll"))
+	if (nullptr == LoadLibraryA ("riched20.dll"))
 	{
 		// This should only happen on basic Windows 95 installations, but since we
 		// don't support Windows 95, we have no obligation to provide assistance in
 		// getting it installed.
-		MessageBoxA(NULL, "Could not load riched20.dll", GAMENAME " Error", MB_OK | MB_ICONSTOP);
+		MessageBoxA(nullptr, "Could not load riched20.dll", GAMENAME " Error", MB_OK | MB_ICONSTOP);
 		return 0;
 	}
 

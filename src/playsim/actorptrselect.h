@@ -5,7 +5,7 @@
 // Standard pointer acquisition functions
 //
 // Possible effective results at run-time
-//   assigntovariable = NULL (or a RETURN statement is issued)
+//   assigntovariable = nullptr (or a RETURN statement is issued)
 //   P_BulletSlope(pointer_owner, &temporary), assigntovariable = temporary
 //   assigntovariable = pointer_owner->target or ...->master or ...->tracer
 //
@@ -18,7 +18,7 @@ class AActor;
 enum AAPTR
 {
 	AAPTR_DEFAULT = 0,
-	AAPTR_NULL = 0x1,
+	AAPTR_nullptr = 0x1,
 	AAPTR_TARGET = 0x2,
 	AAPTR_MASTER = 0x4,
 	AAPTR_TRACER = 0x8,
@@ -47,7 +47,7 @@ enum AAPTR
 	AAPTR_STATIC_SELECTORS =
 		AAPTR_PLAYER1|AAPTR_PLAYER2|AAPTR_PLAYER3|AAPTR_PLAYER4|
 		AAPTR_PLAYER5|AAPTR_PLAYER6|AAPTR_PLAYER7|AAPTR_PLAYER8|
-		AAPTR_NULL
+		AAPTR_nullptr
 
 };
 

@@ -530,7 +530,7 @@ void FDynamicLight::CollectWithinRadius(const DVector3 &opos, FSection *section,
 		auto pos = collected_ss[i].pos;
 		section = collected_ss[i].sect;
 
-		AddLightNode(section, NULL);
+		AddLightNode(section, nullptr);
 
 
 		auto processSide = [&](side_t *sidedef, const vertex_t *v1, const vertex_t *v2)
@@ -543,7 +543,7 @@ void FDynamicLight::CollectWithinRadius(const DVector3 &opos, FSection *section,
 				{
 					linedef->validcount = ::validcount;
 
-					AddLightNode(NULL, sidedef);
+					AddLightNode(nullptr, sidedef);
 				}
 				else if (linedef->sidedef[0] == sidedef && linedef->sidedef[1] == nullptr)
 				{

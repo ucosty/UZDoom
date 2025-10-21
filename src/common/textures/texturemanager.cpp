@@ -161,7 +161,7 @@ FTextureID FTextureManager::CheckForTexture (const char *name, ETextureType uset
 	int firstfound = -1;
 	auto firsttype = ETextureType::Null;
 
-	if (name == NULL || name[0] == '\0')
+	if (name == nullptr || name[0] == '\0')
 	{
 		return FTextureID(-1);
 	}
@@ -190,7 +190,7 @@ FTextureID FTextureManager::CheckForTexture (const char *name, ETextureType uset
 			if (usetype == ETextureType::Any)
 			{
 				if (flags & TEXMAN_ReturnAll) return FTextureID(i);	// user asked to skip all checks, including null textures.
-				// All NULL textures should actually return 0
+				// All nullptr textures should actually return 0
 				if (texUseType == ETextureType::FirstDefined && !(flags & TEXMAN_ReturnFirst)) return 0;
 				if (texUseType == ETextureType::SkinGraphic && !(flags & TEXMAN_AllowSkins)) return 0;
 				return FTextureID(texUseType==ETextureType::Null ? 0 : i);
@@ -210,7 +210,7 @@ FTextureID FTextureManager::CheckForTexture (const char *name, ETextureType uset
 			}
 			else if (texUseType == ETextureType::Null && usetype == ETextureType::Wall)
 			{
-				// We found a NULL texture on a wall -> return 0
+				// We found a nullptr texture on a wall -> return 0
 				return FTextureID(0);
 			}
 			else
@@ -230,7 +230,7 @@ FTextureID FTextureManager::CheckForTexture (const char *name, ETextureType uset
 
 	if ((flags & TEXMAN_TryAny) && usetype != ETextureType::Any)
 	{
-		// Never return the index of NULL textures.
+		// Never return the index of nullptr textures.
 		if (firstfound != -1)
 		{
 			if (flags & TEXMAN_ReturnAll) return FTextureID(i);	// user asked to skip all checks, including null textures.
@@ -253,10 +253,10 @@ FTextureID FTextureManager::CheckForTexture (const char *name, ETextureType uset
 			{
 				FGameTexture *tex = GetLinkedTexture(lump);
 				if (tex == NO_TEXTURE) return FTextureID(-1);
-				if (tex != NULL) return tex->GetID();
+				if (tex != nullptr) return tex->GetID();
 				if (flags & TEXMAN_DontCreate) return FTextureID(-1);	// we only want to check, there's no need to create a texture if we don't have one yet.
 				tex = MakeGameTexture(CreateTextureFromLump(lump), nullptr, ETextureType::Override);
-				if (tex != NULL)
+				if (tex != nullptr)
 				{
 					tex->AddAutoMaterials();
 					SetLinkedTexture(lump, tex);
@@ -289,7 +289,7 @@ int FTextureManager::ListTextures (const char *name, TArray<FTextureID> &list, b
 {
 	int i;
 
-	if (name == NULL || name[0] == '\0')
+	if (name == nullptr || name[0] == '\0')
 	{
 		return 0;
 	}
@@ -309,7 +309,7 @@ int FTextureManager::ListTextures (const char *name, TArray<FTextureID> &list, b
 		if (tex->GetName().CompareNoCase(name) == 0)
 		{
 			auto texUseType = tex->GetUseType();
-			// NULL textures must be ignored.
+			// nullptr textures must be ignored.
 			if (texUseType!=ETextureType::Null) 
 			{
 				unsigned int j = list.Size();
@@ -339,7 +339,7 @@ FTextureID FTextureManager::GetTextureID (const char *name, ETextureType usetype
 {
 	FTextureID i;
 
-	if (name == NULL || name[0] == 0)
+	if (name == nullptr || name[0] == 0)
 	{
 		return FTextureID(0);
 	}
@@ -411,7 +411,7 @@ FTextureID FTextureManager::AddGameTexture (FGameTexture *texture, bool addtohas
 	int bucket;
 	int hash;
 
-	if (texture == NULL) return FTextureID(-1);
+	if (texture == nullptr) return FTextureID(-1);
 
 	if (texture->GetTexture())
 	{
@@ -462,7 +462,7 @@ FTextureID FTextureManager::CreateTexture (int lumpnum, ETextureType usetype)
 		}
 		auto out = MakeGameTexture(CreateTextureFromLump(lumpnum, usetype == ETextureType::Flat), str.c_str(), usetype);
 
-		if (out != NULL)
+		if (out != nullptr)
 		{
 			if (usetype == ETextureType::Flat)
 			{
@@ -541,7 +541,7 @@ bool FTextureManager::AreTexturesCompatible (FTextureID picnum1, FTextureID picn
 	auto texture2 = Textures[index2].Texture;
 
 	// both textures must be the same type.
-	if (texture1 == NULL || texture2 == NULL || texture1->GetUseType() != texture2->GetUseType())
+	if (texture1 == nullptr || texture2 == nullptr || texture1->GetUseType() != texture2->GetUseType())
 		return false;
 
 	// both textures must be from the same file
@@ -640,7 +640,7 @@ void FTextureManager::AddHiresTextures (int wadnum)
 				{
 					// A texture with this name does not yet exist
 					auto newtex = MakeGameTexture(CreateTextureFromLump(firsttx), Name, ETextureType::Override);
-					if (newtex != NULL)
+					if (newtex != nullptr)
 					{
 						AddGameTexture(newtex);
 					}
@@ -650,7 +650,7 @@ void FTextureManager::AddHiresTextures (int wadnum)
 					for(unsigned int i = 0; i < tlist.Size(); i++)
 					{
 						FTexture * newtex = CreateTextureFromLump(firsttx);
-						if (newtex != NULL)
+						if (newtex != nullptr)
 						{
 							auto oldtex = Textures[tlist[i].GetIndex()].Texture;
 
@@ -752,7 +752,7 @@ void FTextureManager::ParseTextureDef(int lump, FMultipatchTextureBuilder &build
 						)
 					{
 						FTexture * newtex = CreateTextureFromLump(lumpnum);
-						if (newtex != NULL)
+						if (newtex != nullptr)
 						{
 							// Replace the entire texture and adjust the scaling and offset factors.
 							auto gtex = MakeGameTexture(newtex, nullptr, ETextureType::Override);
@@ -795,7 +795,7 @@ void FTextureManager::ParseTextureDef(int lump, FMultipatchTextureBuilder &build
 				{
 					auto newtex = MakeGameTexture(CreateTextureFromLump(lumpnum), src.c_str(), ETextureType::Override);
 
-					if (newtex != NULL)
+					if (newtex != nullptr)
 					{
 						// Replace the entire texture and adjust the scaling and offset factors.
 						newtex->SetWorldPanning(true);
@@ -1029,7 +1029,7 @@ void FTextureManager::AddTexturesForWad(int wadnum, FMultipatchTextureBuilder &b
 		// Unfortunately we have to look at everything that comes through here...
 		auto out = MakeGameTexture(CreateTextureFromLump(i), Name, skin ? ETextureType::SkinGraphic : ETextureType::MiscPatch);
 
-		if (out != NULL) 
+		if (out != nullptr)
 		{
 			AddGameTexture (out);
 		}
@@ -1083,17 +1083,17 @@ void FTextureManager::SortTexturesByType(int start, int end)
 	{
 		for(unsigned j = 0; j<newtextures.Size(); j++)
 		{
-			if (newtextures[j] != NULL && newtextures[j]->GetUseType() == texturetypes[i])
+			if (newtextures[j] != nullptr && newtextures[j]->GetUseType() == texturetypes[i])
 			{
 				AddGameTexture(newtextures[j]);
-				newtextures[j] = NULL;
+				newtextures[j] = nullptr;
 			}
 		}
 	}
 	// This should never happen. All other UseTypes are only used outside
 	for(unsigned j = 0; j<newtextures.Size(); j++)
 	{
-		if (newtextures[j] != NULL)
+		if (newtextures[j] != nullptr)
 		{
 			Printf("Texture %s has unknown type!\n", newtextures[j]->GetName().c_str());
 			AddGameTexture(newtextures[j]);

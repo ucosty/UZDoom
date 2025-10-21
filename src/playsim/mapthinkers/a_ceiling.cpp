@@ -444,7 +444,7 @@ bool FLevelLocals::CreateCeiling(sector_t *sec, DCeiling::ECeiling type, line_t 
 				   type == DCeiling::ceilLowerToFloor) ?
 				FindModelFloorSector(sec, targheight) :
 				FindModelCeilingSector(sec, targheight);
-			if (modelsec != NULL)
+			if (modelsec != nullptr)
 			{
 				ceiling->m_Texture = modelsec->GetTexture(sector_t::ceiling);
 				switch (change & 3)
@@ -484,13 +484,13 @@ bool FLevelLocals::CreateCeiling(sector_t *sec, DCeiling::ECeiling type, line_t 
 	}
 
 	ceiling->PlayCeilingSound ();
-	return ceiling != NULL;
+	return ceiling != nullptr;
 }
 
 DEFINE_ACTION_FUNCTION(FLevelLocals, CreateCeiling)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FLevelLocals);
-	PARAM_POINTER_NOT_NULL(sec, sector_t);
+	PARAM_POINTER_NOT_nullptr(sec, sector_t);
 	PARAM_INT(type);
 	PARAM_POINTER(ln, line_t);
 	PARAM_FLOAT(speed);

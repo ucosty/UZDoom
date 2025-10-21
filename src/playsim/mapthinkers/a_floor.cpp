@@ -435,7 +435,7 @@ bool FLevelLocals::CreateFloor(sector_t *sec, DFloor::EFloor floortype, line_t *
 		floor->m_Direction = 1;
 		newheight = sec->CenterFloor() + height;
 		floor->m_FloorDestDist = sec->floorplane.PointToDist(sec->centerspot, newheight);
-		if (line != NULL)
+		if (line != nullptr)
 		{
 			FTextureID oldpic = sec->GetTexture(sector_t::floor);
 			sec->SetTexture(sector_t::floor, line->frontsector->GetTexture(sector_t::floor));
@@ -459,7 +459,7 @@ bool FLevelLocals::CreateFloor(sector_t *sec, DFloor::EFloor floortype, line_t *
 		//jff 5/23/98 use model subroutine to unify fixes and handling
 		sector_t *modelsec;
 		modelsec = FindModelFloorSector(sec, newheight);
-		if (modelsec != NULL)
+		if (modelsec != nullptr)
 		{
 			floor->m_Texture = modelsec->GetTexture(sector_t::floor);
 			modelsec->GetSpecial(&floor->m_NewSpecial);
@@ -506,7 +506,7 @@ bool FLevelLocals::CreateFloor(sector_t *sec, DFloor::EFloor floortype, line_t *
 				FindModelCeilingSector(sec, -floor->m_FloorDestDist) :
 				FindModelFloorSector(sec, -floor->m_FloorDestDist);
 
-			if (modelsec != NULL)
+			if (modelsec != nullptr)
 			{
 				floor->SetFloorChangeType(modelsec, change);
 			}
@@ -523,7 +523,7 @@ bool FLevelLocals::CreateFloor(sector_t *sec, DFloor::EFloor floortype, line_t *
 DEFINE_ACTION_FUNCTION(FLevelLocals, CreateFloor)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FLevelLocals);
-	PARAM_POINTER_NOT_NULL(sec, sector_t);
+	PARAM_POINTER_NOT_nullptr(sec, sector_t);
 	PARAM_INT(floortype);
 	PARAM_POINTER(ln, line_t);
 	PARAM_FLOAT(speed);
@@ -624,8 +624,8 @@ bool FLevelLocals::EV_BuildStairs (int tag, DFloor::EStair type, line_t *line, d
 	bool 				rtn = false;
 	
 	sector_t*			sec;
-	sector_t*			tsec = NULL;
-	sector_t*			prev = NULL;
+	sector_t*			tsec = nullptr;
+	sector_t*			prev = nullptr;
 
 	DFloor*				floor;
 
@@ -917,12 +917,12 @@ DEFINE_FIELD(DElevator, m_Speed)
 
 void DElevator::OnDestroy()
 {
-	if (m_Interp_Ceiling != NULL)
+	if (m_Interp_Ceiling != nullptr)
 	{
 		m_Interp_Ceiling->DelRef();
 		m_Interp_Ceiling = nullptr;
 	}
-	if (m_Interp_Floor != NULL)
+	if (m_Interp_Floor != nullptr)
 	{
 		m_Interp_Floor->DelRef();
 		m_Interp_Floor = nullptr;

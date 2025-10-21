@@ -177,15 +177,15 @@ int D_PlayerClassToInt (const char *classname)
 void D_GetPlayerColor (int player, float *h, float *s, float *v, FPlayerColorSet **set)
 {
 	userinfo_t *info = &players[player].userinfo;
-	FPlayerColorSet *colorset = NULL;
+	FPlayerColorSet *colorset = nullptr;
 	uint32_t color;
 	int team;
 
-	if (players[player].mo != NULL)
+	if (players[player].mo != nullptr)
 	{
 		colorset = GetColorSet(players[player].mo->GetClass(), info->GetColorSet());
 	}
-	if (colorset != NULL)
+	if (colorset != nullptr)
 	{
 		color = GPalette.BaseColors[GPalette.Remap[colorset->RepresentativeColor]];
 	}
@@ -212,9 +212,9 @@ void D_GetPlayerColor (int player, float *h, float *s, float *v, FPlayerColorSet
 		*v = clamp(tv + *v * 0.5f - 0.25f, 0.f, 1.f);
 
 		// Make sure not to pass back any colorset in teamplay.
-		colorset = NULL;
+		colorset = nullptr;
 	}
-	if (set != NULL)
+	if (set != nullptr)
 	{
 		*set = colorset;
 	}
@@ -224,7 +224,7 @@ DEFINE_ACTION_FUNCTION(_PlayerInfo, GetDisplayColor)
 {
 	float h, s, v, r, g, b;
 	PARAM_SELF_STRUCT_PROLOGUE(player_t);
-	D_GetPlayerColor(int(self-players), &h, &s, &v, NULL);
+	D_GetPlayerColor(int(self-players), &h, &s, &v, nullptr);
 	HSVtoRGB(&r, &g, &b, h, s, v);
 	int c = MAKERGB(clamp(int(r*255.f), 0, 255),
 		clamp(int(g*255.f), 0, 255),
@@ -357,7 +357,7 @@ static void UpdateTeam (int pnum, int team, bool update)
 	}
 	// Let the player take on the team's color
 	R_BuildPlayerTranslation (pnum);
-	if (StatusBar != NULL && StatusBar->GetPlayer() == pnum)
+	if (StatusBar != nullptr && StatusBar->GetPlayer() == pnum)
 	{
 		StatusBar->AttachToPlayer (&players[pnum]);
 	}
@@ -467,7 +467,7 @@ void userinfo_t::Reset(int pnum)
 			
 			int flags = cvar->GetFlags();
 			
-			newcvar = C_CreateCVar(NULL, type, (flags & CVAR_MOD) | ((flags & CVAR_ZS_CUSTOM) << 1) );
+			newcvar = C_CreateCVar(nullptr, type, (flags & CVAR_MOD) | ((flags & CVAR_ZS_CUSTOM) << 1) );
 			newcvar->SetGenericRepDefault(cvar->GetGenericRepDefault(CVAR_String), CVAR_String);
 
 			if(flags & CVAR_ZS_CUSTOM)
@@ -529,7 +529,7 @@ int userinfo_t::ColorSetChanged(int setnum)
 uint32_t userinfo_t::ColorChanged(const char *colorname)
 {
 	FColorCVar *color = static_cast<FColorCVar *>((*this)[NAME_Color]);
-	assert(color != NULL);
+	assert(color != nullptr);
 	UCVarValue val;
 	val.String = const_cast<char *>(colorname);
 	color->SetGenericRep(val, CVAR_String);
@@ -540,7 +540,7 @@ uint32_t userinfo_t::ColorChanged(const char *colorname)
 uint32_t userinfo_t::ColorChanged(uint32_t colorval)
 {
 	FColorCVar *color = static_cast<FColorCVar *>((*this)[NAME_Color]);
-	assert(color != NULL);
+	assert(color != nullptr);
 	UCVarValue val;
 	val.Int = colorval;
 	color->SetGenericRep(val, CVAR_Int);
@@ -583,12 +583,12 @@ void D_UserInfoChanged (FBaseCVar *cvar)
 
 static const char *SetServerVar (char *name, ECVarType type, TArrayView<uint8_t>& stream, bool singlebit)
 {
-	FBaseCVar *var = FindCVar (name, NULL);
+	FBaseCVar *var = FindCVar (name, nullptr);
 	UCVarValue value;
 
 	if (singlebit)
 	{
-		if (var != NULL)
+		if (var != nullptr)
 		{
 			int bitdata;
 			int mask;
@@ -596,7 +596,7 @@ static const char *SetServerVar (char *name, ECVarType type, TArrayView<uint8_t>
 			value = var->GetFavoriteRep (&type);
 			if (type != CVAR_Int)
 			{
-				return NULL;
+				return nullptr;
 			}
 			bitdata = ReadInt8 (stream);
 			mask = 1 << (bitdata & 31);
@@ -652,7 +652,7 @@ static const char *SetServerVar (char *name, ECVarType type, TArrayView<uint8_t>
 		return value.String;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 EXTERN_CVAR (Float, sv_gravity)
@@ -840,7 +840,7 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 
 	if (pnum < MAXPLAYERS)
 	{
-		for (breakpt = ptr; breakpt != NULL; ptr = breakpt + 1)
+		for (breakpt = ptr; breakpt != nullptr; ptr = breakpt + 1)
 		{
 			breakpt = strchr(ptr, '\\');
 
@@ -852,19 +852,19 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 					break;
 				}
 				keyname = compact_names[infotype++];
-				value = D_UnescapeUserInfo(ptr, breakpt != NULL ? breakpt - ptr : strlen(ptr));
+				value = D_UnescapeUserInfo(ptr, breakpt != nullptr ? breakpt - ptr : strlen(ptr));
 			}
 			else
 			{
 				// Verbose has both the key name and its value.
-				assert(breakpt != NULL);
+				assert(breakpt != nullptr);
 				// A malicious remote machine could invalidate the above assert.
-				if (breakpt == NULL)
+				if (breakpt == nullptr)
 				{
 					break;
 				}
 				const char *valstart = breakpt + 1;
-				if ( (breakpt = strchr (valstart, '\\')) != NULL )
+				if ( (breakpt = strchr (valstart, '\\')) != nullptr )
 				{
 					value = D_UnescapeUserInfo(valstart, breakpt - valstart);
 				}
@@ -888,9 +888,9 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 
 			case NAME_Skin:
 				info->SkinChanged(value.c_str(), players[pnum].CurrentPlayerClass);
-				if (players[pnum].mo != NULL)
+				if (players[pnum].mo != nullptr)
 				{
-					if (players[pnum].cls != NULL &&
+					if (players[pnum].cls != nullptr &&
 						!(players[pnum].mo->flags4 & MF4_NOSKIN) &&
 						players[pnum].mo->state->sprite ==
 						GetDefaultByType (players[pnum].cls)->SpawnState->sprite)
@@ -913,9 +913,9 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 
 			default:
 				cvar_ptr = info->CheckKey(keyname);
-				if (cvar_ptr != NULL)
+				if (cvar_ptr != nullptr)
 				{
-					assert(*cvar_ptr != NULL);
+					assert(*cvar_ptr != nullptr);
 					UCVarValue val;
 					FString oldname;
 
@@ -937,7 +937,7 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 			if (keyname == NAME_Color || keyname == NAME_ColorSet)
 			{
 				R_BuildPlayerTranslation(pnum);
-				if (StatusBar != NULL && pnum == StatusBar->GetPlayer())
+				if (StatusBar != nullptr && pnum == StatusBar->GetPlayer())
 				{
 					StatusBar->AttachToPlayer(&players[pnum]);
 				}
@@ -998,7 +998,7 @@ void ReadUserInfo(FSerializer &arc, userinfo_t &info, FString &skin)
 			arc.StringPtr(nullptr, str);
 			FName name = key;
 			FBaseCVar **cvar = info.CheckKey(name);
-			if (cvar != NULL && *cvar != NULL)
+			if (cvar != nullptr && *cvar != nullptr)
 			{
 				switch (name.GetIndex())
 				{

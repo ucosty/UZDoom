@@ -126,7 +126,7 @@ DFrameBuffer *Win32GLVideo::CreateFrameBuffer()
 
 HWND Win32GLVideo::InitDummy()
 {
-	HMODULE g_hInst = GetModuleHandle(NULL);
+	HMODULE g_hInst = GetModuleHandle(nullptr);
 	HWND dummy;
 	//Create a rect structure for the size/position of the window
 	RECT windowRect;
@@ -144,10 +144,10 @@ HWND Win32GLVideo::InitDummy()
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = g_hInst;
-	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = NULL;
-	wc.lpszMenuName = NULL;
+	wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wc.hbrBackground = nullptr;
+	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = L"GZDoomOpenGLDummyWindow";
 
 	//Register window class
@@ -172,9 +172,9 @@ HWND Win32GLVideo::InitDummy()
 		0, 0,
 		windowRect.right - windowRect.left,
 		windowRect.bottom - windowRect.top,
-		NULL, NULL,
+		nullptr, nullptr,
 		g_hInst,
-		NULL)))
+		nullptr)))
 	{
 		UnregisterClassW(L"GZDoomOpenGLDummyWindow", g_hInst);
 		return 0;
@@ -193,7 +193,7 @@ HWND Win32GLVideo::InitDummy()
 void Win32GLVideo::ShutdownDummy(HWND dummy)
 {
 	DestroyWindow(dummy);
-	UnregisterClassW(L"GZDoomOpenGLDummyWindow", GetModuleHandle(NULL));
+	UnregisterClassW(L"GZDoomOpenGLDummyWindow", GetModuleHandle(nullptr));
 }
 
 
@@ -246,7 +246,7 @@ bool Win32GLVideo::SetPixelFormat()
 	myWglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)zd_wglGetProcAddress("wglCreateContextAttribsARB");
 	// any extra stuff here?
 
-	zd_wglMakeCurrent(NULL, NULL);
+	zd_wglMakeCurrent(nullptr, nullptr);
 	zd_wglDeleteContext(hRC);
 	ReleaseDC(dummy, hDC);
 	ShutdownDummy(dummy);
@@ -366,7 +366,7 @@ bool Win32GLVideo::SetupPixelFormat(int multisample)
 		I_FatalError("R_OPENGL: Unable to create an OpenGL render context. Insufficient driver support for context creation\n");
 	}
 
-	if (!::SetPixelFormat(m_hDC, pixelFormat, NULL))
+	if (!::SetPixelFormat(m_hDC, pixelFormat, nullptr))
 	{
 		I_Error("R_OPENGL: Couldn't set pixel format.\n");
 		return false;
@@ -394,8 +394,8 @@ bool Win32GLVideo::InitHardware(HWND Window, int multisample)
 
 	for (; prof <= WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB; prof++)
 	{
-		m_hRC = NULL;
-		if (myWglCreateContextAttribsARB != NULL)
+		m_hRC = nullptr;
+		if (myWglCreateContextAttribsARB != nullptr)
 		{
 			// let's try to get the best version possible. Some drivers only give us the version we request
 			// which breaks all version checks for feature support. The highest used features we use are from version 4.4, and 3.3 is a requirement.
@@ -412,20 +412,20 @@ bool Win32GLVideo::InitHardware(HWND Window, int multisample)
 				};
 
 				m_hRC = myWglCreateContextAttribsARB(m_hDC, 0, ctxAttribs);
-				if (m_hRC != NULL) break;
+				if (m_hRC != nullptr) break;
 			}
 		}
 
-		if (m_hRC == NULL && prof == WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
+		if (m_hRC == nullptr && prof == WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
 		{
 			m_hRC = zd_wglCreateContext(m_hDC);
-			if (m_hRC == NULL)
+			if (m_hRC == nullptr)
 			{
 				I_FatalError("R_OPENGL: Unable to create an OpenGL render context.\n");
 			}
 		}
 
-		if (m_hRC != NULL)
+		if (m_hRC != nullptr)
 		{
 			zd_wglMakeCurrent(m_hDC, m_hRC);
 			return true;

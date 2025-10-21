@@ -219,7 +219,7 @@ public:
 	{
 		Most = 0;
 		Count = 0;
-		Array = NULL;
+		Array = nullptr;
 	}
 	explicit TArray (size_t max, bool reserve = false)
 	{
@@ -260,7 +260,7 @@ public:
 	}
 	TArray (TArray<T,TT> &&other) noexcept
 	{
-		Array = other.Array; other.Array = NULL;
+		Array = other.Array; other.Array = nullptr;
 		Most = other.Most; other.Most = 0;
 		Count = other.Count; other.Count = 0;
 	}
@@ -268,7 +268,7 @@ public:
 	{
 		if (&other != this)
 		{
-			if (Array != NULL)
+			if (Array != nullptr)
 			{
 				if (Count > 0)
 				{
@@ -290,7 +290,7 @@ public:
 			}
 			M_Free (Array);
 		}
-		Array = other.Array; other.Array = NULL;
+		Array = other.Array; other.Array = nullptr;
 		Most = other.Most; other.Most = 0;
 		Count = other.Count; other.Count = 0;
 		return *this;
@@ -304,7 +304,7 @@ public:
 				DoDelete (0, Count-1);
 			}
 			M_Free (Array);
-			Array = NULL;
+			Array = nullptr;
 			Count = 0;
 			Most = 0;
 		}
@@ -694,10 +694,10 @@ public:
 			Most = Count;
 			if (Most == 0)
 			{
-				if (Array != NULL)
+				if (Array != nullptr)
 				{
 					M_Free (Array);
-					Array = NULL;
+					Array = nullptr;
 				}
 			}
 			else
@@ -858,7 +858,7 @@ private:
 		}
 		else
 		{
-			Array = NULL;
+			Array = nullptr;
 		}
 	}
 
@@ -906,7 +906,7 @@ public:
 	{
 		for (unsigned int i = 0; i < TArray<T,TT>::Size(); ++i)
 		{
-			if ((*this)[i] != NULL) 
+			if ((*this)[i] != nullptr)
 				delete (*this)[i];
 		}
 	}
@@ -914,7 +914,7 @@ public:
 	{
 		for (unsigned int i = 0; i < TArray<T,TT>::Size(); ++i)
 		{
-			if ((*this)[i] != NULL) 
+			if ((*this)[i] != nullptr)
 				delete (*this)[i];
 		}
 		this->Clear();
@@ -1281,9 +1281,9 @@ public:
 		NumUsed = o.NumUsed;
 
 		// Tell o it doesn't have any nodes.
-		o.Nodes = NULL;
+		o.Nodes = nullptr;
 		o.Size = 0;
-		o.LastFree = NULL;
+		o.LastFree = nullptr;
 		o.NumUsed = 0;
 
 		// Leave o functional with one empty node.
@@ -1353,20 +1353,20 @@ public:
 	// CheckKey
 	//
 	// Returns a pointer to the value associated with a particular key, or
-	// NULL if the key isn't in the table.
+	// nullptr if the key isn't in the table.
 	//
 	//=======================================================================
 
 	VT *CheckKey (const KT key)
 	{
 		Node *n = FindKey(key);
-		return n != NULL ? &n->Pair.Value : NULL;
+		return n != nullptr ? &n->Pair.Value : nullptr;
 	}
 
 	const VT *CheckKey (const KT key) const
 	{
 		const Node *n = FindKey(key);
-		return n != NULL ? &n->Pair.Value : NULL;
+		return n != nullptr ? &n->Pair.Value : nullptr;
 	}
 
 	//=======================================================================
@@ -1385,7 +1385,7 @@ public:
 	VT &Insert(const KT key, const VT &value)
 	{
 		Node *n = FindKey(key);
-		if (n != NULL)
+		if (n != nullptr)
 		{
 			n->Pair.Value = value;
 		}
@@ -1400,7 +1400,7 @@ public:
 	VT &Insert(const KT key, VT &&value)
 	{
 		Node *n = FindKey(key);
-		if (n != NULL)
+		if (n != nullptr)
 		{
 			n->Pair.Value = value;
 		}
@@ -1415,7 +1415,7 @@ public:
 	VT &InsertNew(const KT key)
 	{
 		Node *n = FindKey(key);
-		if (n != NULL)
+		if (n != nullptr)
 		{
 			n->Pair.Value.~VT();
 		}
@@ -1431,7 +1431,7 @@ public:
 	VT &TryEmplace(const KT key, Args&&... args)
 	{
 		Node *n = FindKey(key);
-		if (n == NULL)
+		if (n == nullptr)
 		{
 			n = NewKey(key);
 			::new(&n->Pair.Value) VT(std::forward<Args>(args)...);
@@ -1525,9 +1525,9 @@ protected:
 			}
 		}
 		M_Free(Nodes);
-		Nodes = NULL;
+		Nodes = nullptr;
 		Size = 0;
-		LastFree = NULL;
+		LastFree = nullptr;
 		NumUsed = 0;
 	}
 
@@ -1565,7 +1565,7 @@ protected:
 				return LastFree;
 			}
 		}
-		return NULL;	/* could not find a free place */
+		return nullptr;	/* could not find a free place */
 	}
 
 	/*
@@ -1584,7 +1584,7 @@ protected:
 		{
 			Node *othern;
 			Node *n = GetFreePos();		/* get a free place */
-			if (n == NULL)				/* cannot find a free place? */
+			if (n == nullptr)				/* cannot find a free place? */
 			{
 				Rehash();				/* grow table */
 				return NewKey(key);		/* re-insert key into grown table */
@@ -1598,7 +1598,7 @@ protected:
 				}
 				othern->Next = n;		/* redo the chain with 'n' in place of 'mp' */
 				CopyNode(n, mp); /* copy colliding node into free pos. (mp->Next also goes) */
-				mp->Next = NULL;		/* now 'mp' is free */
+				mp->Next = nullptr;		/* now 'mp' is free */
 			}
 			else						/* colliding node is in its own main position */
 			{							/* new node will go into free position */
@@ -1609,7 +1609,7 @@ protected:
 		}
 		else
 		{
-			mp->Next = NULL;
+			mp->Next = nullptr;
 		}
 		++NumUsed;
 		::new(&mp->Pair.Key) KT(key);
@@ -1627,7 +1627,7 @@ protected:
 		}
 		else if (!Traits.Compare(mp->Pair.Key, key)) /* the key is in its main position */
 		{
-			if (mp->Next != NULL)		/* move next node to its main position */
+			if (mp->Next != nullptr)		/* move next node to its main position */
 			{
 				Node *n = mp->Next;
 				mp->~Node();			/* deconstruct old node */
@@ -1643,9 +1643,9 @@ protected:
 		}
 		else	/* the key is either not present or not in its main position */
 		{
-			for (mpp = &mp->Next, mp = *mpp; mp != NULL && Traits.Compare(mp->Pair.Key, key); mpp = &mp->Next, mp = *mpp)
+			for (mpp = &mp->Next, mp = *mpp; mp != nullptr && Traits.Compare(mp->Pair.Key, key); mpp = &mp->Next, mp = *mpp)
 			{ }							/* look for the key */
-			if (mp != NULL)				/* found it */
+			if (mp != nullptr)				/* found it */
 			{
 				*mpp = mp->Next;		/* rechain so this node is skipped */
 				mp->~Node();
@@ -1659,28 +1659,28 @@ protected:
 	{
 		HashTraits Traits;
 		Node *n = MainPosition(key);
-		while (n != NULL && !n->IsNil() && Traits.Compare(n->Pair.Key, key))
+		while (n != nullptr && !n->IsNil() && Traits.Compare(n->Pair.Key, key))
 		{
 			n = n->Next;
 		}
-		return n == NULL || n->IsNil() ? NULL : n;
+		return n == nullptr || n->IsNil() ? nullptr : n;
 	}
 
 	const Node *FindKey(const KT key) const
 	{
 		HashTraits Traits;
 		const Node *n = MainPosition(key);
-		while (n != NULL && !n->IsNil() && Traits.Compare(n->Pair.Key, key))
+		while (n != nullptr && !n->IsNil() && Traits.Compare(n->Pair.Key, key))
 		{
 			n = n->Next;
 		}
-		return n == NULL || n->IsNil() ? NULL : n;
+		return n == nullptr || n->IsNil() ? nullptr : n;
 	}
 
 	Node *GetNode(const KT key)
 	{
 		Node *n = FindKey(key);
-		if (n != NULL)
+		if (n != nullptr)
 		{
 			return n;
 		}

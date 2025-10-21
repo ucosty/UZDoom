@@ -65,7 +65,7 @@ double FNodeBuilder::AddIntersection (const node_t &node, int vertex)
 	double dist = (double(v->x) - node.x)*(node.dx) + (double(v->y) - node.y)*(node.dy);
 
 	FEvent *event = Events.FindEvent (dist);
-	if (event == NULL)
+	if (event == nullptr)
 	{
 		event = Events.GetNewNode ();
 		event->Distance = dist;
@@ -92,7 +92,7 @@ void FNodeBuilder::FixSplitSharers (const node_t &node)
 		FEvent *event = Events.FindEvent (SplitSharers[i].Distance);
 		FEvent *next;
 
-		if (event == NULL)
+		if (event == nullptr)
 		{ // Should not happen
 			continue;
 		}
@@ -112,7 +112,7 @@ void FNodeBuilder::FixSplitSharers (const node_t &node)
 		if (SplitSharers[i].Forward)
 		{
 			event = Events.GetSuccessor (event);
-			if (event == NULL)
+			if (event == nullptr)
 			{
 				continue;
 			}
@@ -121,14 +121,14 @@ void FNodeBuilder::FixSplitSharers (const node_t &node)
 		else
 		{
 			event = Events.GetPredecessor (event);
-			if (event == NULL)
+			if (event == nullptr)
 			{
 				continue;
 			}
 			next = Events.GetPredecessor (event);
 		}
 
-		while (event != NULL && next != NULL && event->Info.Vertex != v2)
+		while (event != nullptr && next != nullptr && event->Info.Vertex != v2)
 		{
 			D(Printf(PRINT_LOG, "Forced split of seg %d(%d->%d) at %d(%d,%d)\n", seg,
 				Segs[seg].v1, Segs[seg].v2,
@@ -170,11 +170,11 @@ void FNodeBuilder::FixSplitSharers (const node_t &node)
 
 void FNodeBuilder::AddMinisegs (const node_t &node, uint32_t splitseg, uint32_t &fset, uint32_t &bset)
 {
-	FEvent *event = Events.GetMinimum (), *prev = NULL;
+	FEvent *event = Events.GetMinimum (), *prev = nullptr;
 
-	while (event != NULL)
+	while (event != nullptr)
 	{
-		if (prev != NULL)
+		if (prev != nullptr)
 		{
 			uint32_t fseg1, bseg1, fseg2, bseg2;
 			uint32_t fnseg, bnseg;
@@ -245,10 +245,10 @@ uint32_t FNodeBuilder::AddMiniseg (int v1, int v2, uint32_t partner, uint32_t se
 	newseg.loopnum = 0;
 	newseg.next = UINT_MAX;
 	newseg.planefront = true;
-	newseg.hashnext = NULL;
+	newseg.hashnext = nullptr;
 	newseg.storedseg = UINT_MAX;
-	newseg.frontsector = NULL;
-	newseg.backsector = NULL;
+	newseg.frontsector = nullptr;
+	newseg.backsector = nullptr;
 
 	if (splitseg != UINT_MAX)
 	{

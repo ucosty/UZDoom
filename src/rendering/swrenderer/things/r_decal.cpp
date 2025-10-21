@@ -58,7 +58,7 @@ namespace swrenderer
 {
 	void RenderDecal::RenderDecals(RenderThread *thread, DrawSegment *draw_segment, seg_t *curline, const sector_t* lightsector, const short *walltop, const short *wallbottom, bool drawsegPass)
 	{
-		for (DBaseDecal *decal = curline->sidedef->AttachedDecals; decal != NULL; decal = decal->WallNext)
+		for (DBaseDecal *decal = curline->sidedef->AttachedDecals; decal != nullptr; decal = decal->WallNext)
 		{
 			Render(thread, decal, draw_segment, curline, lightsector, walltop, wallbottom, drawsegPass);
 		}
@@ -80,7 +80,7 @@ namespace swrenderer
 
 		// Determine actor z
 		zpos = decal->Z;
-		back = (curline->backsector != NULL) ? curline->backsector : curline->frontsector;
+		back = (curline->backsector != nullptr) ? curline->backsector : curline->frontsector;
 
 		// for 3d-floor segments use the model sector as reference
 		sector_t *front;
@@ -124,7 +124,7 @@ namespace swrenderer
 		}
 
 		FSoftwareTexture *WallSpriteTile = GetPalettedSWTexture(decal->PicNum, true);
-		if (WallSpriteTile == NULL)
+		if (WallSpriteTile == nullptr)
 		{
 			return;
 		}
@@ -191,7 +191,7 @@ namespace swrenderer
 				return;
 
 			case RF_CLIPFULL:
-				if (curline->backsector == NULL)
+				if (curline->backsector == nullptr)
 				{
 					mceilingclip = walltop;
 					mfloorclip = wallbottom;

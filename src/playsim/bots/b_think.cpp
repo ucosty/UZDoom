@@ -202,7 +202,7 @@ void DBot::ThinkForMove (usercmd_t *cmd)
 
 		Angle = player->mo->AngleTo(enemy);
 
-		if (player->ReadyWeapon == NULL ||
+		if (player->ReadyWeapon == nullptr ||
 			player->mo->Distance2D(enemy) >
 			GetBotInfo(player->ReadyWeapon).MoveCombatDist)
 		{
@@ -266,13 +266,13 @@ void DBot::ThinkForMove (usercmd_t *cmd)
 			dest = nullptr;
 		}
 
-		if (dest == NULL)
+		if (dest == nullptr)
 		{
 			if (t_fight && enemy) //Enemy/bot has jumped around corner. So what to do?
 			{
 				if (enemy->player)
 				{
-					if (((enemy->player->ReadyWeapon != NULL && GetBotInfo(enemy->player->ReadyWeapon).flags & BIF_BOT_EXPLOSIVE) ||
+					if (((enemy->player->ReadyWeapon != nullptr && GetBotInfo(enemy->player->ReadyWeapon).flags & BIF_BOT_EXPLOSIVE) ||
 						(pr_botmove()%100)>skill.isp) && (GetBotInfo(player->ReadyWeapon).MoveCombatDist != 0))
 						dest = enemy;//Dont let enemy kill the bot by supressive fire. So charge enemy.
 					else //hide while t_fight, but keep view at enemy.
@@ -291,7 +291,7 @@ void DBot::ThinkForMove (usercmd_t *cmd)
 					auto it = player->mo->Level->GetThinkerIterator<AActor>(NAME_Inventory, MAX_STATNUM+1, Level->BotInfo.firstthing);
 					auto item = it.Next();
 
-					if (item != NULL || (item = it.Next()) != NULL)
+					if (item != nullptr || (item = it.Next()) != nullptr)
 					{
 						r &= 63;	// Only scan up to 64 entries at a time
 						while (r)
@@ -299,7 +299,7 @@ void DBot::ThinkForMove (usercmd_t *cmd)
 							--r;
 							item = it.Next();
 						}
-						if (item == NULL)
+						if (item == nullptr)
 						{
 							item = it.Next();
 						}
@@ -359,14 +359,14 @@ void DBot::WhatToGet (AActor *item)
 	{
 		// FIXME
 		auto heldWeapon = player->mo->FindInventory(item->GetClass());
-		if (heldWeapon != NULL)
+		if (heldWeapon != nullptr)
 		{
 			if (!weapgiveammo)
 				return;
 			auto ammo1 = heldWeapon->PointerVar<AActor>(NAME_Ammo1);
 			auto ammo2 = heldWeapon->PointerVar<AActor>(NAME_Ammo2);
-			if ((ammo1 == NULL || ammo1->IntVar(NAME_Amount) >= ammo1->IntVar(NAME_MaxAmount)) &&
-				(ammo2 == NULL || ammo2->IntVar(NAME_Amount) >= ammo2->IntVar(NAME_MaxAmount)))
+			if ((ammo1 == nullptr || ammo1->IntVar(NAME_Amount) >= ammo1->IntVar(NAME_MaxAmount)) &&
+				(ammo2 == nullptr || ammo2->IntVar(NAME_Amount) >= ammo2->IntVar(NAME_MaxAmount)))
 			{
 				return;
 			}
@@ -378,7 +378,7 @@ void DBot::WhatToGet (AActor *item)
 		auto parent = item->GetClass();
 		while (parent->ParentClass != ac) parent = static_cast<PClassActor*>(parent->ParentClass);
 		AActor *holdingammo = player->mo->FindInventory(parent);
-		if (holdingammo != NULL && holdingammo->IntVar(NAME_Amount) >= holdingammo->IntVar(NAME_MaxAmount))
+		if (holdingammo != nullptr && holdingammo->IntVar(NAME_Amount) >= holdingammo->IntVar(NAME_MaxAmount))
 		{
 			return;
 		}
@@ -397,7 +397,7 @@ void DBot::WhatToGet (AActor *item)
 		}
 	}
 
-	if ((dest == NULL ||
+	if ((dest == nullptr ||
 		!(dest->flags & MF_SPECIAL)/* ||
 		!Reachable (dest)*/)/* &&
 		Reachable (item)*/)	// Calling Reachable slows this down tremendously
@@ -420,7 +420,7 @@ void DBot::Set_enemy ()
 	}
 	else
 	{
-		oldenemy = NULL;
+		oldenemy = nullptr;
 	}
 
 	// [RH] Don't even bother looking for a different enemy if this is not deathmatch
@@ -430,7 +430,7 @@ void DBot::Set_enemy ()
 		allround = !!enemy;
 		enemy = Find_enemy();
 		if (!enemy)
-			enemy = oldenemy; //Try go for last (it will be NULL if there wasn't anyone)
+			enemy = oldenemy; //Try go for last (it will be nullptr if there wasn't anyone)
 	}
 	//Verify that that enemy is really something alive that bot can kill.
 	if (enemy && ((enemy->health < 0 || !(enemy->flags&MF_SHOOTABLE)) || player->mo->IsFriend(enemy)))

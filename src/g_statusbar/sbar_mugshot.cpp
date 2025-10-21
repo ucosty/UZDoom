@@ -83,7 +83,7 @@ FGameTexture *FMugShotFrame::GetTexture(const char *default_face, const char *sk
 	{
 		index = Graphic.Size() - 1;
 	}
-	FString sprite(skin_face != NULL && skin_face[0] != 0 ? skin_face : default_face, 3);
+	FString sprite(skin_face != nullptr && skin_face[0] != 0 ? skin_face : default_face, 3);
 	sprite += Graphic[index];
 	if (uses_levels) //change the last character to the level
 	{
@@ -182,7 +182,7 @@ FMugShotState *FindMugShotState(FName state)
 		if (MugShotStates[i].State == state)
 			return &MugShotStates[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //===========================================================================
@@ -227,7 +227,7 @@ void FMugShot::Reset()
 	bNormal = true;
 	bDamageFaceActive = false;
 	bOuchActive = false;
-	CurrentState = NULL;
+	CurrentState = nullptr;
 	RampageTimer = 0;
 	LastDamageAngle = 1;
 }
@@ -242,14 +242,14 @@ void FMugShot::Reset()
 
 void FMugShot::Tick(player_t *player)
 {
-	if (CurrentState != NULL)
+	if (CurrentState != nullptr)
 	{
 		CurrentState->Tick();
 		if (CurrentState->bFinished)
 		{
 			bNormal = true;
 			bOuchActive = false;
-			CurrentState = NULL;
+			CurrentState = nullptr;
 		}
 	}
 	if (player->attackdown && !(player->cheats & (CF_FROZEN | CF_TOTALLYFROZEN)) && player->ReadyWeapon)
@@ -285,15 +285,15 @@ bool FMugShot::SetState(const char *state_name, bool wait_till_done, bool reset)
 {
 	// Search for full name.
 	FMugShotState *state = FindMugShotState(FName(state_name, true));
-	if (state == NULL)
+	if (state == nullptr)
 	{
 		// Search for initial name, if the full one contains a dot.
 		const char *dot = strchr(state_name, '.');
-		if (dot != NULL)
+		if (dot != nullptr)
 		{
 			state = FindMugShotState(FName(state_name, dot - state_name, true));
 		}
-		if (state == NULL)
+		if (state == nullptr)
 		{
 			// Requested state does not exist, so do nothing.
 			return false;
@@ -303,7 +303,7 @@ bool FMugShot::SetState(const char *state_name, bool wait_till_done, bool reset)
 	bOuchActive = false;
 	if (state != CurrentState)
 	{
-		if (!wait_till_done || CurrentState == NULL || CurrentState->bFinished)
+		if (!wait_till_done || CurrentState == nullptr || CurrentState->bFinished)
 		{
 			CurrentState = state;
 			state->Reset();
@@ -350,7 +350,7 @@ int FMugShot::UpdateState(player_t *player, StateFlags stateflags)
 			int damage_angle = 1;
 			if (player->attacker && player->attacker != player->mo)
 			{
-				if (player->mo != NULL)
+				if (player->mo != nullptr)
 				{
 					// The next 12 lines are from the Doom statusbar code.
 					DAngle badguyangle = player->mo->AngleTo(player->attacker);
@@ -378,7 +378,7 @@ int FMugShot::UpdateState(player_t *player, StateFlags stateflags)
 			full_state_name += player->LastDamageType.GetChars();
 			if (SetState(full_state_name.c_str(), false, true))
 			{
-				bDamageFaceActive = (CurrentState != NULL);
+				bDamageFaceActive = (CurrentState != nullptr);
 				LastDamageAngle = damage_angle;
 				bOuchActive = use_ouch;
 			}
@@ -386,7 +386,7 @@ int FMugShot::UpdateState(player_t *player, StateFlags stateflags)
 		}
 		if (bDamageFaceActive)
 		{
-			if (CurrentState == NULL)
+			if (CurrentState == nullptr)
 			{
 				bDamageFaceActive = false;
 			}
@@ -420,7 +420,7 @@ int FMugShot::UpdateState(player_t *player, StateFlags stateflags)
 		if (bNormal)
 		{
 			bool good;
-			if ((player->cheats & CF_GODMODE) || (player->cheats & CF_GODMODE2) || (player->mo != NULL && player->mo->flags2 & MF2_INVULNERABLE))
+			if ((player->cheats & CF_GODMODE) || (player->cheats & CF_GODMODE2) || (player->mo != nullptr && player->mo->flags2 & MF2_INVULNERABLE))
 			{
 				good = SetState((stateflags & ANIMATEDGODMODE) ? "godanimated" : "god");
 			}
@@ -476,11 +476,11 @@ FGameTexture *FMugShot::GetFace(player_t *player, const char *default_face, int 
 	{
 		level++;
 	}
-	if (CurrentState != NULL)
+	if (CurrentState != nullptr)
 	{
 		int skin = player->userinfo.GetSkin();
 		const char *skin_face = (stateflags & FMugShot::CUSTOM) ? nullptr : (player->mo->alternative != nullptr ? (GetDefaultByType(player->MorphedPlayerClass))->NameVar(NAME_Face).GetChars() : Skins[skin].Face.c_str());
 		return CurrentState->GetCurrentFrameTexture(default_face, skin_face, level, angle);
 	}
-	return NULL;
+	return nullptr;
 }

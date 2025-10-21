@@ -276,7 +276,7 @@ void R_InitVoxels()
 
 		while (VOX_ReadSpriteNames(sc, vsprites))
 		{
-			FVoxel *voxeldata = NULL;
+			FVoxel *voxeldata = nullptr;
 			int voxelfile;
 			VoxelOptions opts;
 
@@ -290,7 +290,7 @@ void R_InitVoxels()
 			else
 			{
 				voxeldata = VOX_GetVoxel(voxelfile);
-				if (voxeldata == NULL)
+				if (voxeldata == nullptr)
 				{
 					sc.ScriptMessage("\"%s\" is not a valid voxel file.\n", sc.String);
 				}
@@ -300,7 +300,7 @@ void R_InitVoxels()
 				VOX_ReadOptions(sc, opts);
 			}
 			sc.SetCMode(false);
-			if (voxeldata != NULL && vsprites.Size() != 0)
+			if (voxeldata != nullptr && vsprites.Size() != 0)
 			{
 				if (opts.OverridePalette)
 				{

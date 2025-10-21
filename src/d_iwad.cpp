@@ -144,7 +144,7 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 					else if (sc.Compare("Hexen")) iwad->gametype = GAME_Hexen;
 					else if (sc.Compare("Strife")) iwad->gametype = GAME_Strife;
 					else if (sc.Compare("Chex")) iwad->gametype = GAME_Chex;
-					else sc.ScriptError(NULL);
+					else sc.ScriptError(nullptr);
 				}
 				else if (sc.Compare("Mapinfo"))
 				{
@@ -174,7 +174,7 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 						else if(sc.Compare("Shorttex")) iwad->flags |= GI_COMPATSHORTTEX;
 						else if(sc.Compare("Stairs")) iwad->flags |= GI_COMPATSTAIRS;
 						else if (sc.Compare("nosectionmerge")) iwad->flags |=  GI_NOSECTIONMERGE;
-						else sc.ScriptError(NULL);
+						else sc.ScriptError(nullptr);
 					}
 					while (sc.CheckString(","));
 				}
@@ -927,7 +927,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		}
 		else
 		{
-			auto wad = BaseFileSearch(info.Load[i].c_str() + 1, NULL, true, GameConfig);
+			auto wad = BaseFileSearch(info.Load[i].c_str() + 1, nullptr, true, GameConfig);
 			if (wad) D_AddFile(wadfiles, wad, true, -1, GameConfig);
 		}
 

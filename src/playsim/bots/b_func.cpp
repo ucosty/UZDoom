@@ -177,7 +177,7 @@ void DBot::Dofire (usercmd_t *cmd)
 	if (!enemy || !(enemy->flags & MF_SHOOTABLE) || enemy->health <= 0)
 		return;
 
-	if (player->ReadyWeapon == NULL)
+	if (player->ReadyWeapon == nullptr)
 		return;
 
 	if (player->damagecount > (unsigned)skill.isp)
@@ -215,7 +215,7 @@ void DBot::Dofire (usercmd_t *cmd)
 			if(Check_LOS(enemy, DAngle::fromDeg(SHOOTFOV)))
 				no_fire = false;
 	}
-	else if (GetBotInfo(player->ReadyWeapon).projectileType != NULL)
+	else if (GetBotInfo(player->ReadyWeapon).projectileType != nullptr)
 	{
 		if (GetBotInfo(player->ReadyWeapon).flags & BIF_BOT_EXPLOSIVE)
 		{
@@ -285,7 +285,7 @@ bool FCajunMaster::IsLeader (player_t *player)
 {
 	for (unsigned int count = 0; count < MAXPLAYERS; count++)
 	{
-		if (players[count].Bot != NULL
+		if (players[count].Bot != nullptr
 			&& players[count].Bot->mate == player->mo)
 		{
 			return true;
@@ -303,7 +303,7 @@ void FCajunMaster::BotTick(AActor *mo)
 	m_Thinking = true;
 	for (unsigned int i = 0; i < MAXPLAYERS; i++)
 	{
-		if (!playeringame[i] || players[i].Bot == NULL)
+		if (!playeringame[i] || players[i].Bot == nullptr)
 			continue;
 
 		if (mo->flags3 & MF3_ISMONSTER)
@@ -362,7 +362,7 @@ AActor *DBot::Choose_Mate ()
 		if (last_mate->health <= 0)
 			last_mate = nullptr;
 
-	target = NULL;
+	target = nullptr;
 	closest_dist = FLT_MAX;
 
 	//Check for player friends
@@ -430,7 +430,7 @@ AActor *DBot::Find_enemy ()
 		vangle = DAngle::fromDeg(ENEMY_SCAN_FOV);
 	allround = false;
 
-	target = NULL;
+	target = nullptr;
 	closest_dist = FLT_MAX;
 
 	for (count = 0; count < MAXPLAYERS; count++)
@@ -496,7 +496,7 @@ void FCajunMaster::SetBodyAt (FLevelLocals *Level, const DVector3 &pos, int host
 //------------------------------------------
 //    FireRox()
 //
-//Returns NULL if shouldn't fire
+//Returns nullptr if shouldn't fire
 //else an angle (in degrees) are given
 //This function assumes actor->player->angle
 //has been set an is the main aiming angle.
@@ -582,7 +582,7 @@ void FCajunMaster::StartTravel ()
 {
 	for (unsigned int i = 0; i < MAXPLAYERS; ++i)
 	{
-		if (players[i].Bot != NULL)
+		if (players[i].Bot != nullptr)
 		{
 			players[i].Bot->ChangeStatNum (STAT_TRAVELLING);
 		}
@@ -593,7 +593,7 @@ void FCajunMaster::FinishTravel ()
 {
 	for (unsigned int i = 0; i < MAXPLAYERS; ++i)
 	{
-		if (players[i].Bot != NULL)
+		if (players[i].Bot != nullptr)
 		{
 			players[i].Bot->ChangeStatNum (STAT_BOT);
 		}

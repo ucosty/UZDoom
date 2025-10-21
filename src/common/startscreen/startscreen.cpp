@@ -79,7 +79,7 @@ const RgbQuad TextModePalette[16] =
 };
 
 static const uint16_t IBM437ToUnicode[] = {
-	0x0000, //#NULL
+	0x0000, //#nullptr
 	0x263a, //#START OF HEADING
 	0x263B, //#START OF TEXT
 	0x2665, //#END OF TEXT

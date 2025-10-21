@@ -68,7 +68,7 @@ void MapLoader::SlopeLineToPoint (int lineid, const DVector3 &pos, bool slopeCei
 		{
 			sec = line->backsector;
 		}
-		if (sec == NULL)
+		if (sec == nullptr)
 		{
 			continue;
 		}
@@ -257,7 +257,7 @@ void MapLoader::SetSlopesFromVertexHeights(FMapThing *firstmt, FMapThing *lastmt
 
 	for (mt = firstmt; mt < lastmt; ++mt)
 	{
-		if (mt->info != NULL && mt->info->Type == NULL)
+		if (mt->info != nullptr && mt->info->Type == nullptr)
 		{
 			if (mt->info->Special == SMT_VertexFloorZ || mt->info->Special == SMT_VertexCeilingZ)
 			{
@@ -283,7 +283,7 @@ void MapLoader::SetSlopesFromVertexHeights(FMapThing *firstmt, FMapThing *lastmt
 
 	for(unsigned i = 0; i < vertexdatas.Size(); i++)
 	{
-		int ii = oldvertextable == NULL ? i : oldvertextable[i];
+		int ii = oldvertextable == nullptr ? i : oldvertextable[i];
 
 		if (vertexdatas[i].flags & VERTEXFLAG_ZCeilingEnabled)
 		{
@@ -326,7 +326,7 @@ void MapLoader::SetSlopesFromVertexHeights(FMapThing *firstmt, FMapThing *lastmt
 				double *h1 = vt_heights[j].CheckKey(vi1);
 				double *h2 = vt_heights[j].CheckKey(vi2);
 				double *h3 = vt_heights[j].CheckKey(vi3);
-				if (h1 == NULL && h2 == NULL && h3 == NULL) continue;
+				if (h1 == nullptr && h2 == nullptr && h3 == nullptr) continue;
 
 				vt1.Z = h1? *h1 : j==0? sec.GetPlaneTexZ(sector_t::floor) : sec.GetPlaneTexZ(sector_t::ceiling);
 				vt2.Z = h2? *h2 : j==0? sec.GetPlaneTexZ(sector_t::floor) : sec.GetPlaneTexZ(sector_t::ceiling);
@@ -381,7 +381,7 @@ void MapLoader::SpawnSlopeMakers (FMapThing *firstmt, FMapThing *lastmt, const i
 
 	for (mt = firstmt; mt < lastmt; ++mt)
 	{
-		if (mt->info != NULL && mt->info->Type == NULL &&
+		if (mt->info != nullptr && mt->info->Type == nullptr &&
 		   (mt->info->Special >= SMT_SlopeFloorPointLine && mt->info->Special <= SMT_VavoomCeiling))
 		{
 			DVector3 pos = mt->pos;
@@ -421,7 +421,7 @@ void MapLoader::SpawnSlopeMakers (FMapThing *firstmt, FMapThing *lastmt, const i
 
 	for (mt = firstmt; mt < lastmt; ++mt)
 	{
-		if (mt->info != NULL && mt->info->Type == NULL &&
+		if (mt->info != nullptr && mt->info->Type == nullptr &&
 			(mt->info->Special == SMT_CopyFloorPlane || mt->info->Special == SMT_CopyCeilingPlane))
 		{
 			CopyPlane (mt->args[0], mt->pos.XY(), mt->info->Special == SMT_CopyCeilingPlane);
@@ -453,7 +453,7 @@ void MapLoader::AlignPlane(sector_t *sec, line_t *line, int which)
 	double bestdist;
 	vertex_t *refvert = sec->Lines[0]->v1;	// Shut up, GCC
 
-	if (line->backsector == NULL)
+	if (line->backsector == nullptr)
 		return;
 
 	// Find furthest vertex from the reference line. It, along with the two ends
@@ -575,7 +575,7 @@ void MapLoader::CopySlopes()
 					(s & 2 ? line.backsector : line.frontsector), s & 1);
 			}
 
-			if (line.backsector != NULL)
+			if (line.backsector != nullptr)
 			{
 				if ((line.args[4] & 3) == 1)
 				{

@@ -245,7 +245,7 @@ bool ClipCopyPixelRect(const FClipRect *cr, int &originx, int &originy,
 	int step_x;
 	int step_y;
 
-	assert(cr != NULL);
+	assert(cr != nullptr);
 	// First adjust the settings for the intended rotation
 	switch (rotate)
 	{
@@ -395,7 +395,7 @@ void FBitmap::CopyPixelDataRGB(int originx, int originy, const uint8_t *patch, i
 	if (ClipCopyPixelRect(&ClipRect, originx, originy, patch, srcwidth, srcheight, step_x, step_y, rotate))
 	{
 		uint8_t *buffer = data + 4 * originx + Pitch * originy;
-		int op = inf==NULL? OP_COPY : inf->op;
+		int op = inf==nullptr? OP_COPY : inf->op;
 		for (int y=0;y<srcheight;y++)
 		{
 			copyfuncs[op][ct](&buffer[y*Pitch], &patch[y*step_y], srcwidth, step_x, inf, r, g, b);
@@ -473,7 +473,7 @@ void FBitmap::CopyPixelData(int originx, int originy, const uint8_t * patch, int
 			}
 		}
 
-		copypalettedfuncs[inf==NULL? OP_COPY : inf->op](buffer, patch, srcwidth, srcheight, Pitch, 
+		copypalettedfuncs[inf==nullptr? OP_COPY : inf->op](buffer, patch, srcwidth, srcheight, Pitch,
 														step_x, step_y, rotate, palette, inf);
 	}
 }

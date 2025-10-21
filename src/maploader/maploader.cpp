@@ -3520,7 +3520,7 @@ void MapLoader::LoadLightmap(MapData *map)
 			surface.Subsector->firstline->sidedef->sector->HasLightmaps = true;
 			SetSubsectorLightmap(surface);
 		}
-		else if (type != ST_NULL)
+		else if (type != ST_nullptr)
 		{
 			surface.Side = &Level->sides[typeIndex];
 			SetSideLightmap(surface);

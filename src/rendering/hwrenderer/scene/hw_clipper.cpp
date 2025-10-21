@@ -84,7 +84,7 @@ void Clipper::Clear()
 	ClipNode *temp;
 	
 	blocked = false;
-	while (node != NULL)
+	while (node != nullptr)
 	{
 		temp = node;
 		node = node->next;
@@ -92,15 +92,15 @@ void Clipper::Clear()
 	}
 	node = silhouette;
 
-	while (node != NULL)
+	while (node != nullptr)
 	{
 		temp = node;
 		node = node->next;
 		Free(temp);
 	}
 	
-	cliphead = NULL;
-	silhouette = NULL;
+	cliphead = nullptr;
+	silhouette = nullptr;
 	starttime++;
 }
 
@@ -113,14 +113,14 @@ void Clipper::Clear()
 void Clipper::SetSilhouette()
 {
 	ClipNode *node = cliphead;
-	ClipNode *last = NULL;
+	ClipNode *last = nullptr;
 
-	while (node != NULL)
+	while (node != nullptr)
 	{
 		ClipNode *snode = NewRange(node->start, node->end);
-		if (silhouette == NULL) silhouette = snode;
+		if (silhouette == nullptr) silhouette = snode;
 		snode->prev = last;
-		if (last != NULL) last->next = snode;
+		if (last != nullptr) last->next = snode;
 		last = snode;
 		node = node->next;
 	}
@@ -139,7 +139,7 @@ bool Clipper::IsRangeVisible(angle_t startAngle, angle_t endAngle)
 	
 	if (endAngle==0 && ci && ci->start==0) return false;
 	
-	while (ci != NULL && ci->start < endAngle)
+	while (ci != nullptr && ci->start < endAngle)
 	{
 		if (startAngle >= ci->start && endAngle <= ci->end)
 		{
@@ -165,7 +165,7 @@ void Clipper::AddClipRange(angle_t start, angle_t end)
 	{
 		//check to see if range contains any old ranges
 		node = cliphead;
-		while (node != NULL && node->start < end)
+		while (node != nullptr && node->start < end)
 		{
 			if (node->start >= start && node->end <= end)
 			{
@@ -185,7 +185,7 @@ void Clipper::AddClipRange(angle_t start, angle_t end)
 		
 		//check to see if range overlaps a range (or possibly 2)
 		node = cliphead;
-		while (node != NULL && node->start <= end)
+		while (node != nullptr && node->start <= end)
 		{
 			if (node->end >= start)
 			{
@@ -216,17 +216,17 @@ void Clipper::AddClipRange(angle_t start, angle_t end)
 		
 		//just add range
 		node = cliphead;
-		prevNode = NULL;
+		prevNode = nullptr;
 		temp = NewRange(start, end);
 		
-		while (node != NULL && node->start < end)
+		while (node != nullptr && node->start < end)
 		{
 			prevNode = node;
 			node = node->next;
 		}
 		
 		temp->next = node;
-		if (node == NULL)
+		if (node == nullptr)
 		{
 			temp->prev = prevNode;
 			if (prevNode) prevNode->next = temp;
@@ -269,17 +269,17 @@ void Clipper::RemoveClipRange(angle_t start, angle_t end)
 	if (silhouette)
 	{
 		node = silhouette;
-		while (node != NULL && node->end <= start)
+		while (node != nullptr && node->end <= start)
 		{
 			node = node->next;
 		}
-		if (node != NULL && node->start <= start)
+		if (node != nullptr && node->start <= start)
 		{
 			if (node->end >= end) return;
 			start = node->end;
 			node = node->next;
 		}
-		while (node != NULL && node->start < end)
+		while (node != nullptr && node->start < end)
 		{
 			DoRemoveClipRange(start, node->start);
 			start = node->end;
@@ -304,7 +304,7 @@ void Clipper::DoRemoveClipRange(angle_t start, angle_t end)
 	{
 		//check to see if range contains any old ranges
 		node = cliphead;
-		while (node != NULL && node->start < end)
+		while (node != nullptr && node->start < end)
 		{
 			if (node->start >= start && node->end <= end)
 			{
@@ -320,7 +320,7 @@ void Clipper::DoRemoveClipRange(angle_t start, angle_t end)
 		
 		//check to see if range overlaps a range (or possibly 2)
 		node = cliphead;
-		while (node != NULL)
+		while (node != nullptr)
 		{
 			if (node->start >= start && node->start <= end)
 			{

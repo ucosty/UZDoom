@@ -62,7 +62,7 @@
 #include "m_joy.h"
 #include "i_mainwindow.h"
 
-#define SAFE_RELEASE(x)		{ if (x != NULL) { x->Release(); x = NULL; } }
+#define SAFE_RELEASE(x)		{ if (x != nullptr) { x->Release(); x = nullptr; } }
 
 // WBEMIDL BITS -- because w32api doesn't have this, either -----------------
 
@@ -318,8 +318,8 @@ static const uint8_t POVButtons[9] = { 0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08,
 
 FDInputJoystick::FDInputJoystick(const GUID *instance, FString &name)
 {
-	Device = NULL;
-	DataFormat.rgodf = NULL;
+	Device = nullptr;
+	DataFormat.rgodf = nullptr;
 	Instance = *instance;
 	Name = name;
 	Marked = false;
@@ -336,13 +336,13 @@ FDInputJoystick::~FDInputJoystick()
 {
 	unsigned int i;
 
-	if (Device != NULL)
+	if (Device != nullptr)
 	{
 		M_SaveJoystickConfig(this);
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 	}
-	if (DataFormat.rgodf != NULL)
+	if (DataFormat.rgodf != nullptr)
 	{
 		delete[] DataFormat.rgodf;
 	}
@@ -383,12 +383,12 @@ bool FDInputJoystick::GetDevice()
 {
 	HRESULT hr;
 
-	if (g_pdi == NULL)
+	if (g_pdi == nullptr)
 	{
 		return false;
 	}
-	hr = g_pdi->CreateDevice(Instance, &Device, NULL);
-	if (FAILED(hr) || Device == NULL)
+	hr = g_pdi->CreateDevice(Instance, &Device, nullptr);
+	if (FAILED(hr) || Device == nullptr)
 	{
 		return false;
 	}
@@ -427,7 +427,7 @@ void FDInputJoystick::ProcessInput()
 	unsigned i;
 	event_t ev;
 
-	if (Device == NULL)
+	if (Device == nullptr)
 	{
 		return;
 	}
@@ -565,7 +565,7 @@ void FDInputJoystick::AddAxes(float axes[NUM_AXIS_CODES])
 	{
 		// Add to the game axis.
 		float axis_value = float(Axes[i].Value * Multiplier * Axes[i].Multiplier);
-		int code = AXIS_CODE_NULL;
+		int code = AXIS_CODE_nullptr;
 
 		if (i < NUM_JOYAXISBUTTONS)
 		{
@@ -579,7 +579,7 @@ void FDInputJoystick::AddAxes(float axes[NUM_AXIS_CODES])
 			}
 		}
 
-		if (code != AXIS_CODE_NULL)
+		if (code != AXIS_CODE_nullptr)
 		{
 			axes[code] += fabs(axis_value);
 		}
@@ -1255,7 +1255,7 @@ FDInputJoystickManager::~FDInputJoystickManager()
 
 bool FDInputJoystickManager::GetDevice()
 {
-	if (g_pdi == NULL)
+	if (g_pdi == nullptr)
 	{
 		return false;
 	}
@@ -1275,7 +1275,7 @@ void FDInputJoystickManager::ProcessInput()
 {
 	for (unsigned i = 0; i < Devices.Size(); ++i)
 	{
-		if (Devices[i] != NULL)
+		if (Devices[i] != nullptr)
 		{
 			Devices[i]->ProcessInput();
 		}
@@ -1337,8 +1337,8 @@ BOOL CALLBACK FDInputJoystickManager::EnumCallback(LPCDIDEVICEINSTANCE lpddi, LP
 
 	// Do not add PS2 adapters if Raw PS2 Input was initialized.
 	// Do not add XInput devices if XInput was initialized.
-	if ((JoyDevices[INPUT_RawPS2] == NULL || !I_IsPS2Adapter(lpddi->guidProduct.Data1)) &&
-		(JoyDevices[INPUT_XInput] == NULL || !IsXInputDevice(&lpddi->guidProduct)))
+	if ((JoyDevices[INPUT_RawPS2] == nullptr || !I_IsPS2Adapter(lpddi->guidProduct.Data1)) &&
+		(JoyDevices[INPUT_XInput] == nullptr || !IsXInputDevice(&lpddi->guidProduct)))
 	{
 		Enumerator thisone;
 
@@ -1368,11 +1368,11 @@ bool FDInputJoystickManager::IsXInputDevice(const GUID *guid)
 	UINT i;
 	bool isxinput = false;
 
-	if (GetRawInputDeviceList(NULL, &nDevices, sizeof(RAWINPUTDEVICELIST)) != 0)
+	if (GetRawInputDeviceList(nullptr, &nDevices, sizeof(RAWINPUTDEVICELIST)) != 0)
 	{
 		return false;
 	}
-	if ((devices = (RAWINPUTDEVICELIST *)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices)) == NULL)
+	if ((devices = (RAWINPUTDEVICELIST *)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices)) == nullptr)
 	{
 		return false;
 	}
@@ -1403,7 +1403,7 @@ bool FDInputJoystickManager::IsXInputDevice(const GUID *guid)
 					reslen = GetRawInputDeviceInfoA(devices[i].hDevice, RIDI_DEVICENAME, name, &namelen);
 					if (reslen != (UINT)-1)
 					{
-						isxinput = (strstr(name, "IG_") != NULL);
+						isxinput = (strstr(name, "IG_") != nullptr);
 						break;
 					}
 				}
@@ -1444,7 +1444,7 @@ int FDInputJoystickManager::NameSort(const void *a, const void *b)
 
 FDInputJoystick *FDInputJoystickManager::EnumDevices()
 {
-	FDInputJoystick *newone = NULL;
+	FDInputJoystick *newone = nullptr;
 	TArray<Enumerator> controllers;
 	EnumData data;
 	unsigned i, j, k;
@@ -1512,7 +1512,7 @@ FDInputJoystick *FDInputJoystickManager::EnumDevices()
 			{
 				device->Marked = true;
 				Devices.Push(device);
-				if (newone == NULL)
+				if (newone == nullptr)
 				{
 					newone = device;
 				}
@@ -1564,16 +1564,16 @@ void I_StartupDirectInputJoystick()
 {
 	if (!joy_dinput || !use_joystick || Args->CheckParm("-nojoy"))
 	{
-		if (JoyDevices[INPUT_DIJoy] != NULL)
+		if (JoyDevices[INPUT_DIJoy] != nullptr)
 		{
 			delete JoyDevices[INPUT_DIJoy];
-			JoyDevices[INPUT_DIJoy] = NULL;
-			UpdateJoystickMenu(NULL);
+			JoyDevices[INPUT_DIJoy] = nullptr;
+			UpdateJoystickMenu(nullptr);
 		}
 	}
 	else
 	{
-		if (JoyDevices[INPUT_DIJoy] == NULL)
+		if (JoyDevices[INPUT_DIJoy] == nullptr)
 		{
 			FJoystickCollection *joys = new FDInputJoystickManager;
 			if (joys->GetDevice())

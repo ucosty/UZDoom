@@ -2666,10 +2666,10 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 			}
 
 			AActor* source = players[player].mo;
-			if (source != NULL)
+			if (source != nullptr)
 			{
 				PClassActor* typeinfo = PClass::FindActor(s);
-				if (typeinfo != NULL)
+				if (typeinfo != nullptr)
 				{
 					if (GetDefaultByType(typeinfo)->flags & MF_MISSILE)
 					{
@@ -2681,7 +2681,7 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 						DVector3 spawnpos = source->Vec3Angle(def->radius * 2 + source->radius, source->Angles.Yaw, 8.);
 
 						AActor* spawned = Spawn(primaryLevel, typeinfo, spawnpos, ALLOW_REPLACE);
-						if (spawned != NULL)
+						if (spawned != nullptr)
 						{
 							spawned->SpawnFlags |= MTF_CONSOLETHING;
 							if (cmd == DEM_SUMMONFRIEND || cmd == DEM_SUMMONFRIEND2 || cmd == DEM_SUMMONMBF)
@@ -2930,7 +2930,7 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 
 	case DEM_CONVREPLY:
 	case DEM_CONVCLOSE:
-	case DEM_CONVNULL:
+	case DEM_CONVnullptr:
 		P_ConversationCommand(cmd, player, stream);
 		break;
 

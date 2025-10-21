@@ -98,7 +98,7 @@ static const char *WI_Cmd[] = {
 	"Screensize",
 	"TileBackground",
 
-	NULL
+	nullptr
 };
 
 class DInterBackground : public DObject
@@ -320,7 +320,7 @@ private:
 				case ECondition::COND_VISITED:
 				{
 					auto* li = FindLevelByNum(condition.param);
-					if (li == NULL || !(li->flags & LEVEL_VISITED))
+					if (li == nullptr || !(li->flags & LEVEL_VISITED))
 						return false;
 					break;
 				}
@@ -410,7 +410,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 	if (isenterpic)
 	{
 		level_info_t* li = FindLevelInfo(wbs->next.c_str());
-		if (li != NULL)
+		if (li != nullptr)
 		{
 			if (!li->EnterAnim.empty())
 			{
@@ -427,9 +427,9 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 	}
 
 	// Try to get a default if nothing specified
-	if (lumpname == NULL || lumpname[0] == 0)
+	if (lumpname == nullptr || lumpname[0] == 0)
 	{
-		lumpname = NULL;
+		lumpname = nullptr;
 		switch (gameinfo.gametype)
 		{
 		case GAME_Chex:
@@ -501,7 +501,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 			break;
 		}
 	}
-	if (lumpname == NULL)
+	if (lumpname == nullptr)
 	{
 		// shouldn't happen!
 		background.SetInvalid();
@@ -1073,12 +1073,12 @@ void DInterBackground::drawBackground(int state, bool drawsplat, bool snl_pointe
 			{
 			case ANIM_IFVISITED:
 				li = FindLevelInfo(a->LevelName.c_str());
-				if (li == NULL || !(li->flags & LEVEL_VISITED)) continue;
+				if (li == nullptr || !(li->flags & LEVEL_VISITED)) continue;
 				break;
 
 			case ANIM_IFNOTVISITED:
 				li = FindLevelInfo(a->LevelName.c_str());
-				if (li == NULL || (li->flags & LEVEL_VISITED)) continue;
+				if (li == nullptr || (li->flags & LEVEL_VISITED)) continue;
 				break;
 
 				// StatCount means 'leaving' - everything else means 'entering'!

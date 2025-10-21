@@ -76,7 +76,7 @@ FGameTexture *FImageCollection::operator[] (int index) const
 {
 	if ((unsigned int)index >= ImageMap.Size())
 	{
-		return NULL;
+		return nullptr;
 	}
-	return ImageMap[index].Exists()? TexMan.GetGameTexture(ImageMap[index], true) : NULL;
+	return ImageMap[index].Exists()? TexMan.GetGameTexture(ImageMap[index], true) : nullptr;
 }

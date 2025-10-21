@@ -87,7 +87,7 @@ static const char* const tableHeaders[NUM_COLUMNS] = { "IWAD", "Game" };
 	{
 		NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithCapacity:NUM_COLUMNS];
 		const char* filename = strrchr(wads[i].Path.GetChars(), '/');
-		if(filename == NULL)
+		if(filename == nullptr)
 			filename = wads[i].Path.GetChars();
 		else
 			filename++;

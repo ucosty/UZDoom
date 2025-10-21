@@ -122,7 +122,7 @@ static GameAtExit *ExitCmdList;
 #define SCROLLNO 0
 
 // Buffer for AddToConsole()
-static char *work = NULL;
+static char *work = nullptr;
 static int worklen = 0;
 
 CUSTOM_CVAR(Int, con_scale, 0, CVAR_ARCHIVE)
@@ -158,7 +158,7 @@ struct History
 };
 
 #define MAXHISTSIZE 50
-static struct History *HistHead = NULL, *HistTail = NULL, *HistPos = NULL;
+static struct History *HistHead = nullptr, *HistTail = nullptr, *HistPos = nullptr;
 static int HistSize;
 
 static FNotifyBufferBase *NotifyStrings;
@@ -174,7 +174,7 @@ int PrintColors[PRINTLEVELS+2] = { CR_UNTRANSLATED, CR_GOLD, CR_GRAY, CR_GREEN, 
 
 static void setmsgcolor (int index, int color);
 
-FILE *Logfile = NULL;
+FILE *Logfile = nullptr;
 
 
 CVARD_NAMED(Int, msglevel, msg, 0, CVAR_ARCHIVE, "Filters HUD message by importance");
@@ -237,7 +237,7 @@ void C_InitConsole (int width, int height, bool ingame)
 	int cwidth, cheight;
 
 	vidactive = ingame;
-	if (CurrentConsoleFont != NULL)
+	if (CurrentConsoleFont != nullptr)
 	{
 		cwidth = CurrentConsoleFont->GetCharWidth ('M');
 		cheight = CurrentConsoleFont->GetHeight();
@@ -249,7 +249,7 @@ void C_InitConsole (int width, int height, bool ingame)
 	ConWidth = (width - LEFTMARGIN - RIGHTMARGIN);
 	CmdLine.ConCols = ConWidth / cwidth;
 
-	if (conbuffer == NULL) conbuffer = new FConsoleBuffer;
+	if (conbuffer == nullptr) conbuffer = new FConsoleBuffer;
 }
 
 //==========================================================================
@@ -264,7 +264,7 @@ UNSAFE_CCMD (atexit)
 	{
 		Printf ("Registered atexit commands:\n");
 		GameAtExit *record = ExitCmdList;
-		while (record != NULL)
+		while (record != nullptr)
 		{
 			Printf ("%s\n", record->Command.c_str());
 			record = record->Next;
@@ -292,7 +292,7 @@ void C_DeinitConsole ()
 {
 	GameAtExit *cmd = ExitCmdList;
 
-	while (cmd != NULL)
+	while (cmd != nullptr)
 	{
 		GameAtExit *next = cmd->Next;
 		AddCommandString (cmd->Command.c_str());
@@ -303,13 +303,13 @@ void C_DeinitConsole ()
 	// Free command history
 	History *hist = HistTail;
 
-	while (hist != NULL)
+	while (hist != nullptr)
 	{
 		History *next = hist->Newer;
 		delete hist;
 		hist = next;
 	}
-	HistTail = HistHead = HistPos = NULL;
+	HistTail = HistHead = HistPos = nullptr;
 
 	// Free alias commands. (i.e. The "commands" that can be allocated
 	// at runtime.)
@@ -317,7 +317,7 @@ void C_DeinitConsole ()
 	{
 		FConsoleCommand *command = Commands[i];
 
-		while (command != NULL)
+		while (command != nullptr)
 		{
 			FConsoleCommand *nextcmd = command->m_Next;
 			if (command->IsAlias())
@@ -334,23 +334,23 @@ void C_DeinitConsole ()
 	C_ClearDynCCmds();
 
 	// Free AddToConsole()'s work buffer
-	if (work != NULL)
+	if (work != nullptr)
 	{
 		free (work);
-		work = NULL;
+		work = nullptr;
 		worklen = 0;
 	}
 
-	if (conbuffer != NULL)
+	if (conbuffer != nullptr)
 	{
 		delete conbuffer;
-		conbuffer = NULL;
+		conbuffer = nullptr;
 	}
 }
 
 static void ClearConsole ()
 {
-	if (conbuffer != NULL)
+	if (conbuffer != nullptr)
 	{
 		conbuffer->Clear();
 	}
@@ -708,7 +708,7 @@ void C_DrawConsole ()
 void C_FullConsole ()
 {
 	ConsoleState = c_down;
-	HistPos = NULL;
+	HistPos = nullptr;
 	TabbedLast = false;
 	TabbedList = false;
 	gamestate = GS_FULLCONSOLE;
@@ -730,7 +730,7 @@ void C_ToggleConsole ()
 	else if (!chatmodeon && (ConsoleState == c_up || ConsoleState == c_rising) && menuactive == MENU_Off)
 	{
 		ConsoleState = c_falling;
-		HistPos = NULL;
+		HistPos = nullptr;
 		TabbedLast = false;
 		TabbedList = false;
 		togglestate = c_falling;
@@ -752,7 +752,7 @@ void C_HideConsole ()
 	{
 		ConsoleState = c_up;
 		ConBottom = 0;
-		HistPos = NULL;
+		HistPos = nullptr;
 	}
 }
 
@@ -788,7 +788,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 		}
 		// Add keypress to command line
 		buffer.AddChar(data1);
-		HistPos = NULL;
+		HistPos = nullptr;
 		TabbedLast = false;
 		TabbedList = false;
 		break;
@@ -891,7 +891,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			else
 			{
 				// Move to previous entry in the command history
-				if (HistPos == NULL)
+				if (HistPos == nullptr)
 				{
 					HistPos = HistHead;
 				}
@@ -925,7 +925,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				}
 				else
 				{
-					HistPos = NULL;
+					HistPos = nullptr;
 					buffer.SetString("");
 				}
 				TabbedLast = false;
@@ -987,7 +987,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				{
 					HistHead->Newer = temp;
 				}
-				temp->Newer = NULL;
+				temp->Newer = nullptr;
 				HistHead = temp;
 
 				if (!HistTail)
@@ -999,14 +999,14 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				{
 					HistTail = HistTail->Newer;
 					delete HistTail->Older;
-					HistTail->Older = NULL;
+					HistTail->Older = nullptr;
 				}
 				else
 				{
 					HistSize++;
 				}
 			}
-			HistPos = NULL;
+			HistPos = nullptr;
 			buffer.SetString("");
 			AddCommandString(bufferText.c_str());
 			TabbedLast = false;
@@ -1037,7 +1037,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			else
 			{
 				buffer.SetString("");
-				HistPos = NULL;
+				HistPos = nullptr;
 				C_ToggleConsole ();
 			}
 			break;
@@ -1062,7 +1062,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				else
 				{ // paste from clipboard
 					buffer.AddString(I_GetFromClipboard(false));
-					HistPos = NULL;
+					HistPos = nullptr;
 				}
 				break;
 			}
@@ -1114,7 +1114,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				buffer.AddYankBuffer();
 				TabbedLast = false;
 				TabbedList = false;
-				HistPos = NULL;
+				HistPos = nullptr;
 			}
 			break;
 		}
@@ -1123,7 +1123,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 #ifdef __unix__
 	case EV_GUI_MButtonDown:
 		buffer.AddString(I_GetFromClipboard(true));
-		HistPos = NULL;
+		HistPos = nullptr;
 		break;
 #endif
 	}

@@ -84,7 +84,7 @@ CCMD (print)
 		return;
 	}
 	const char *str = GStrings.CheckString(argv[1]);
-	if (str == NULL)
+	if (str == nullptr)
 	{
 		Printf ("%s unknown\n", argv[1]);
 	}
@@ -130,7 +130,7 @@ UNSAFE_CCMD (logfile)
 		const char *timestr = myasctime();
 		Printf("Log stopped: %s\n", timestr);
 		fclose (Logfile);
-		Logfile = NULL;
+		Logfile = nullptr;
 	}
 
 	if (argv.argc() >= 2)

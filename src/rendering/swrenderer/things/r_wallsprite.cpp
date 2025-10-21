@@ -118,7 +118,7 @@ namespace swrenderer
 		vis->idepth = float(1 / tz);
 		vis->depth = (float)tz;
 		vis->sector = thing->Sector;
-		vis->heightsec = NULL;
+		vis->heightsec = nullptr;
 		vis->gpos = { (float)pos.X, (float)pos.Y, (float)pos.Z };
 		vis->gzb = (float)gzb;
 		vis->gzt = (float)gzt;
@@ -131,8 +131,8 @@ namespace swrenderer
 		vis->Translation = thing->Translation;
 		vis->FakeFlatStat = WaterFakeSide::Center;
 		vis->Alpha = float(thing->Alpha);
-		vis->fakefloor = NULL;
-		vis->fakeceiling = NULL;
+		vis->fakefloor = nullptr;
+		vis->fakeceiling = nullptr;
 		//vis->bInMirror = renderportal->MirrorFlags & RF_XFLIP;
 		vis->pic = pic;
 		vis->wallc = wallc;

@@ -100,7 +100,7 @@ void FUE1Model::LoadGeometry()
 		for ( int j=0; j<numVerts; j++ )
 		{
 			UE1Vertex Vert;
-			if ( dxverts != NULL )
+			if ( dxverts != nullptr )
 			{
 				// convert padded XYZ16
 				Vert.Pos = FVector3(dxverts[j+i*numVerts].x,

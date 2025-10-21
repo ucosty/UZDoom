@@ -165,7 +165,7 @@ FGameTexture * BuildTextTexture(FFont *font, const char *string, int textcolor)
 
 void DrawChar(F2DDrawer *drawer, FFont* font, int normalcolor, double x, double y, int character, int tag_first, ...)
 {
-	if (font == NULL)
+	if (font == nullptr)
 		return;
 
 	if (normalcolor >= NumTextColors)
@@ -174,7 +174,7 @@ void DrawChar(F2DDrawer *drawer, FFont* font, int normalcolor, double x, double 
 	FGameTexture* pic;
 	int dummy;
 
-	if (NULL != (pic = font->GetChar(character, normalcolor, &dummy)))
+	if (nullptr != (pic = font->GetChar(character, normalcolor, &dummy)))
 	{
 		DrawParms parms;
 		Va_List tags;
@@ -195,7 +195,7 @@ void DrawChar(F2DDrawer *drawer, FFont* font, int normalcolor, double x, double 
 
 void DrawChar(F2DDrawer *drawer,  FFont *font, int normalcolor, double x, double y, int character, VMVa_List &args)
 {
-	if (font == NULL)
+	if (font == nullptr)
 		return;
 
 	if (normalcolor >= NumTextColors)
@@ -204,7 +204,7 @@ void DrawChar(F2DDrawer *drawer,  FFont *font, int normalcolor, double x, double
 	FGameTexture *pic;
 	int dummy;
 
-	if (NULL != (pic = font->GetChar(character, normalcolor, &dummy)))
+	if (nullptr != (pic = font->GetChar(character, normalcolor, &dummy)))
 	{
 		DrawParms parms;
 		uint32_t tag = ListGetInt(args);
@@ -331,7 +331,7 @@ void DrawTextCommon(F2DDrawer *drawer, FFont *font, int normalcolor, double x, d
 			continue;
 		}
 
-		if (NULL != (pic = font->GetChar(c, currentcolor, &w)))
+		if (nullptr != (pic = font->GetChar(c, currentcolor, &w)))
 		{
 			// if palette translation is used, font colors will be ignored.
 			if (!palettetrans) parms.TranslationId = trans;
@@ -370,7 +370,7 @@ void DrawText(F2DDrawer *drawer, FFont* font, int normalcolor, double x, double 
 	Va_List tags;
 	DrawParms parms;
 
-	if (font == NULL || string == NULL)
+	if (font == nullptr || string == nullptr)
 		return;
 
 	va_start(tags.list, tag_first);
@@ -390,7 +390,7 @@ void DrawText(F2DDrawer *drawer, FFont* font, int normalcolor, double x, double 
 	Va_List tags;
 	DrawParms parms;
 
-	if (font == NULL || string == NULL)
+	if (font == nullptr || string == nullptr)
 		return;
 
 	va_start(tags.list, tag_first);
@@ -410,7 +410,7 @@ void DrawText(F2DDrawer *drawer, FFont *font, int normalcolor, double x, double 
 {
 	DrawParms parms;
 
-	if (font == NULL)
+	if (font == nullptr)
 		return;
 
 	uint32_t tag = ListGetInt(args);
@@ -426,7 +426,7 @@ void DrawText(F2DDrawer *drawer, FFont *font, int normalcolor, double x, double 
 DEFINE_ACTION_FUNCTION(_Screen, DrawText)
 {
 	PARAM_PROLOGUE;
-	PARAM_POINTER_NOT_NULL(font, FFont);
+	PARAM_POINTER_NOT_nullptr(font, FFont);
 	PARAM_INT(cr);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);
@@ -444,7 +444,7 @@ DEFINE_ACTION_FUNCTION(_Screen, DrawText)
 DEFINE_ACTION_FUNCTION(FCanvas, DrawText)
 {
 	PARAM_SELF_PROLOGUE(FCanvas);
-	PARAM_POINTER_NOT_NULL(font, FFont);
+	PARAM_POINTER_NOT_nullptr(font, FFont);
 	PARAM_INT(cr);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);

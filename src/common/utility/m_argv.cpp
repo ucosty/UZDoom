@@ -337,7 +337,7 @@ void FArgs::AppendArg(FString arg)
 
 void FArgs::AppendArgs(int argc, const FString *argv)
 {
-	if (argv != NULL && argc > 0)
+	if (argv != nullptr && argc > 0)
 	{
 		Argv.Grow(argc);
 		for (int i = 0; i < argc; ++i)

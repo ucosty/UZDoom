@@ -141,10 +141,10 @@ public:
 	// and destruction (e.g. strings) can add their offsets to it for special
 	// initialization when the object is created and destruction when the
 	// object is destroyed.
-	virtual void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *special=NULL);
-	virtual void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *ptrofs = NULL);
-	virtual void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = NULL);
-	virtual void SetPointerMap(void *base, unsigned offset, TArray<std::pair<size_t, PMap *>> *ptrofs = NULL);
+	virtual void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *special=nullptr);
+	virtual void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *ptrofs = nullptr);
+	virtual void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = nullptr);
+	virtual void SetPointerMap(void *base, unsigned offset, TArray<std::pair<size_t, PMap *>> *ptrofs = nullptr);
 
 	// Initialize the value, if needed (e.g. strings)
 	virtual void InitializeValue(void *addr, const void *def) const;
@@ -354,7 +354,7 @@ public:
 
 	void WriteValue(FSerializer &ar, const char *key,const void *addr) const override;
 	bool ReadValue(FSerializer &ar, const char *key,void *addr) const override;
-	void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *special=NULL) override;
+	void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *special=nullptr) override;
 	void InitializeValue(void *addr, const void *def) const override;
 	void DestroyValue(void *addr) const override;
 };
@@ -469,7 +469,7 @@ public:
 
 	void WriteValue(FSerializer &ar, const char *key, const void *addr) const override;
 	bool ReadValue(FSerializer &ar, const char *key, void *addr) const override;
-	void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *special = NULL) override;
+	void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *special = nullptr) override;
 	PClass *PointedClass() const;
 };
 
@@ -485,7 +485,7 @@ public:
 	void WriteValue(FSerializer &ar, const char *key, const void *addr) const override;
 	bool ReadValue(FSerializer &ar, const char *key, void *addr) const override;
 
-	void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *special = NULL) override;
+	void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *special = nullptr) override;
 	 bool IsMatch(intptr_t id1, intptr_t id2) const override;
 	 void GetTypeIDs(intptr_t &id1, intptr_t &id2) const override;
 };
@@ -518,8 +518,8 @@ public:
 
 	void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *special) override;
 	void SetPointer(void *base, unsigned offset, TArray<std::pair<size_t, PObjectPointer *>> *special) override;
-	void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = NULL) override;
-	void SetPointerMap(void *base, unsigned offset, TArray<std::pair<size_t, PMap *>> *ptrofs = NULL) override;
+	void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = nullptr) override;
+	void SetPointerMap(void *base, unsigned offset, TArray<std::pair<size_t, PMap *>> *ptrofs = nullptr) override;
 };
 
 class PStaticArray : public PArray
@@ -549,7 +549,7 @@ public:
 	void SetDefaultValue(void *base, unsigned offset, TArray<FTypeAndOffset> *specials) override;
 	void InitializeValue(void *addr, const void *def) const override;
 	void DestroyValue(void *addr) const override;
-	void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = NULL) override;
+	void SetPointerArray(void *base, unsigned offset, TArray<std::pair<size_t, PDynArray *>> *ptrofs = nullptr) override;
 };
 
 class PMap : public PCompoundType

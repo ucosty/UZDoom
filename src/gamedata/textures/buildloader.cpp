@@ -210,7 +210,7 @@ void AddTiles(const FString& pathprefix, const void* tiles, FRemapTable *remap)
 			rot.Texture[8].SetIndex(texnum.GetIndex());
 			rot.Texture[9].SetIndex(texnum.GetIndex());
 			rot.Flip = 0x00FC;
-			rot.Voxel = NULL;
+			rot.Voxel = nullptr;
 			tex->SetRotations(SpriteFrames.Push(rot));
 		}
 		else if (rotType == 2)
@@ -224,7 +224,7 @@ void AddTiles(const FString& pathprefix, const void* tiles, FRemapTable *remap)
 				rot.Texture[17 - j * 2].SetIndex(texnum.GetIndex() + j);
 			}
 			rot.Flip = 0;
-			rot.Voxel = NULL;
+			rot.Voxel = nullptr;
 			tex->SetRotations(SpriteFrames.Push(rot));
 		}
 	}

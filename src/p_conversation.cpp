@@ -90,7 +90,7 @@ void FLevelLocals::SetConversation(int convid, PClassActor *Class, int dlgindex)
 	{
 		DialogueRoots[convid] = dlgindex;
 	}
-	if (Class != NULL)
+	if (Class != nullptr)
 	{
 		ClassRoots[Class->TypeName] = dlgindex;
 	}
@@ -99,21 +99,21 @@ void FLevelLocals::SetConversation(int convid, PClassActor *Class, int dlgindex)
 PClassActor *GetStrifeType (int typenum)
 {
 	PClassActor **ptype = StrifeTypes.CheckKey(typenum);
-	if (ptype == NULL) return NULL;
+	if (ptype == nullptr) return nullptr;
 	else return *ptype;
 }
 
 int FLevelLocals::GetConversation(int conv_id)
 {
 	int *pindex = DialogueRoots.CheckKey(conv_id);
-	if (pindex == NULL) return -1;
+	if (pindex == nullptr) return -1;
 	else return *pindex;
 }
 
 int FLevelLocals::GetConversation(FName classname)
 {
 	int *pindex = ClassRoots.CheckKey(classname);
-	if (pindex == NULL) return -1;
+	if (pindex == nullptr) return -1;
 	else return *pindex;
 }
 
@@ -126,7 +126,7 @@ int FLevelLocals::GetConversation(FName classname)
 FStrifeDialogueNode::~FStrifeDialogueNode ()
 {
 	FStrifeDialogueReply *tokill = Children;
-	while (tokill != NULL)
+	while (tokill != nullptr)
 	{
 		FStrifeDialogueReply *next = tokill->Next;
 		delete tokill;
@@ -173,18 +173,18 @@ static void ClearConversationStuff(player_t* player)
 //
 // CheckStrifeItem
 //
-// Checks if you have an item. A NULL itemtype is always considered to be
+// Checks if you have an item. A nullptr itemtype is always considered to be
 // present.
 //
 //============================================================================
 
 static bool CheckStrifeItem (player_t *player, PClassActor *itemtype, int amount=-1)
 {
-	if (itemtype == NULL || amount == 0)
+	if (itemtype == nullptr || amount == 0)
 		return true;
 
 	auto item = player->ConversationPC->FindInventory (itemtype);
-	if (item == NULL)
+	if (item == nullptr)
 		return false;
 
 	return amount < 0 || item->IntVar(NAME_Amount) >= amount;
@@ -201,7 +201,7 @@ static bool CheckStrifeItem (player_t *player, PClassActor *itemtype, int amount
 
 static void TakeStrifeItem (player_t *player, PClassActor *itemtype, int amount)
 {
-	if (itemtype == NULL || amount == 0)
+	if (itemtype == nullptr || amount == 0)
 		return;
 
 	// Don't take quest items.
@@ -278,7 +278,7 @@ DEFINE_ACTION_FUNCTION(DConversationMenu, SendConversationReply)
 	switch (node)
 	{
 	case -1:
-		Net_WriteInt8(DEM_CONVNULL);
+		Net_WriteInt8(DEM_CONVnullptr);
 		break;
 
 	case -2:
@@ -304,8 +304,8 @@ DEFINE_ACTION_FUNCTION(DConversationMenu, SendConversationReply)
 
 void P_FreeStrifeConversations ()
 {
-	PrevNode = NULL;
-	if (CurrentMenu != NULL && CurrentMenu->IsKindOf("ConversationMenu"))
+	PrevNode = nullptr;
+	if (CurrentMenu != nullptr && CurrentMenu->IsKindOf("ConversationMenu"))
 	{
 		CurrentMenu->Close();
 	}
@@ -374,7 +374,7 @@ void P_StartConversation (AActor *npc, AActor *pc, bool facetalker, bool saveang
 	}
 
 	// Check if we should jump to another node
-	while (CurNode->ItemCheck.Size() > 0 && CurNode->ItemCheck[0].Item != NULL)
+	while (CurNode->ItemCheck.Size() > 0 && CurNode->ItemCheck[0].Item != nullptr)
 	{
 		bool jump = true;
 		for (i = 0; i < CurNode->ItemCheck.Size(); ++i)
@@ -453,7 +453,7 @@ void P_ResumeConversation ()
 
 		player_t *p = &players[i];
 
-		if (p->ConversationPC != NULL && p->ConversationNPC != NULL)
+		if (p->ConversationPC != nullptr && p->ConversationNPC != nullptr)
 		{
 			P_StartConversation (p->ConversationNPC, p->ConversationPC, p->ConversationFaceTalker, false);
 		}
@@ -470,7 +470,7 @@ void P_ResumeConversation ()
 
 static void HandleReply(player_t *player, bool isconsole, int nodenum, int replynum)
 {
-	const char *replyText = NULL;
+	const char *replyText = nullptr;
 	FStrifeDialogueReply *reply;
 	FStrifeDialogueNode *node;
 	AActor *npc;
@@ -484,10 +484,10 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 
 	// Find the reply.
 	node = Level->StrifeDialogues[nodenum];
-	for (i = 0, reply = node->Children; reply != NULL && i != replynum; ++i, reply = reply->Next)
+	for (i = 0, reply = node->Children; reply != nullptr && i != replynum; ++i, reply = reply->Next)
 	{ }
 	npc = player->ConversationNPC;
-	if (reply == NULL)
+	if (reply == nullptr)
 	{
 		// The default reply was selected
 		if (!(npc->flags8 & MF8_DONTFACETALKER))
@@ -521,13 +521,13 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 
 	// If this reply gives you something, then try to receive it.
 	takestuff = true;
-	if (reply->GiveType != NULL)
+	if (reply->GiveType != nullptr)
 	{
 		if (reply->GiveType->IsDescendantOf(NAME_Inventory))
 		{
 			if (reply->GiveType->IsDescendantOf(NAME_Weapon))
 			{
-				if (player->mo->FindInventory(reply->GiveType) != NULL)
+				if (player->mo->FindInventory(reply->GiveType) != nullptr)
 				{
 					takestuff = false;
 				}
@@ -567,7 +567,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 
 	if (reply->ActionSpecial != 0)
 	{
-		takestuff |= !!P_ExecuteSpecial(player->mo->Level, reply->ActionSpecial, NULL, player->mo, false,
+		takestuff |= !!P_ExecuteSpecial(player->mo->Level, reply->ActionSpecial, nullptr, player->mo, false,
 			reply->Args[0], reply->Args[1], reply->Args[2], reply->Args[3], reply->Args[4]);
 	}
 
@@ -644,9 +644,9 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 	if (!(npc->flags8 & MF8_DONTFACETALKER))
 		npc->Angles.Yaw = player->ConversationNPCAngle;
 
-	// [CW] Set these to NULL because we're not using to them
+	// [CW] Set these to nullptr because we're not using to them
 	// anymore. However, this can interfere with slideshows
-	// so we don't set them to NULL in that case.
+	// so we don't set them to nullptr in that case.
 	if (gameaction != ga_intermission)
 	{
 		npc->flags5 &= ~MF5_INCONVERSATION;
@@ -673,7 +673,7 @@ void P_ConversationCommand (int netcode, int pnum, TArrayView<uint8_t>& stream)
 
 	// The conversation menus are normally closed by the menu code, but that
 	// doesn't happen during demo playback, so we need to do it here.
-	if (demoplayback && CurrentMenu != NULL && CurrentMenu->IsKindOf("ConversationMenu"))
+	if (demoplayback && CurrentMenu != nullptr && CurrentMenu->IsKindOf("ConversationMenu"))
 	{
 		CurrentMenu->Close();
 	}
@@ -685,14 +685,14 @@ void P_ConversationCommand (int netcode, int pnum, TArrayView<uint8_t>& stream)
 	}
 	else
 	{
-		assert(netcode == DEM_CONVNULL || netcode == DEM_CONVCLOSE);
-		if (player->ConversationNPC != NULL)
+		assert(netcode == DEM_CONVnullptr || netcode == DEM_CONVCLOSE);
+		if (player->ConversationNPC != nullptr)
 		{
 			if (!(player->ConversationNPC->flags8 & MF8_DONTFACETALKER))
 				player->ConversationNPC->Angles.Yaw = player->ConversationNPCAngle;
 			player->ConversationNPC->flags5 &= ~MF5_INCONVERSATION;
 		}
-		if (netcode == DEM_CONVNULL)
+		if (netcode == DEM_CONVnullptr)
 		{
 			ClearConversationStuff(player);
 		}
@@ -710,7 +710,7 @@ void P_ConversationCommand (int netcode, int pnum, TArrayView<uint8_t>& stream)
 
 static void TerminalResponse (const char *str)
 {
-	if (str != NULL)
+	if (str != nullptr)
 	{
 		// handle string table replacement
 		if (str[0] == '$')
@@ -718,7 +718,7 @@ static void TerminalResponse (const char *str)
 			str = GStrings.GetString(str + 1);
 		}
 
-		if (StatusBar != NULL)
+		if (StatusBar != nullptr)
 		{
 			Printf(PRINT_HIGH | PRINT_NONOTIFY, "%s\n", str);
 			// The message is positioned a bit above the menu choices, because

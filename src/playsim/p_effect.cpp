@@ -104,7 +104,7 @@ static const struct ColorList {
 	{&dred,		80,  0,   0  },
 	{&maroon1,	154, 49,  49 },
 	{&maroon2,	125, 24,  24 },
-	{NULL, 0, 0, 0 }
+	{nullptr, 0, 0, 0 }
 };
 
 static void FreeParticle(FLevelLocals* Level, particle_t* particle)
@@ -252,7 +252,7 @@ static uint32_t ParticleColor(int rgb)
 	int stuff;
 
 	val = ColorSaver.CheckKey(rgb);
-	if (val != NULL)
+	if (val != nullptr)
 	{
 		return *val;
 	}
@@ -341,7 +341,7 @@ void P_ThinkParticles (FLevelLocals *Level)
 			if (particle->Pos.Z > s->GetPortalPlaneZ(sector_t::ceiling))
 			{
 				particle->Pos += s->GetPortalDisplacement(sector_t::ceiling);
-				particle->subsector = NULL;
+				particle->subsector = nullptr;
 			}
 		}
 		else if (!s->PortalBlocksMovement(sector_t::floor))
@@ -349,7 +349,7 @@ void P_ThinkParticles (FLevelLocals *Level)
 			if (particle->Pos.Z < s->GetPortalPlaneZ(sector_t::floor))
 			{
 				particle->Pos += s->GetPortalDisplacement(sector_t::floor);
-				particle->subsector = NULL;
+				particle->subsector = nullptr;
 			}
 		}
 		prev = particle;
@@ -552,7 +552,7 @@ void P_RunEffect (AActor *actor, int effects)
 		for (i = 3; i > 0; i--)
 		{
 			particle = JitterParticle (actor->Level, 16);
-			if (particle != NULL)
+			if (particle != nullptr)
 			{
 				DAngle ang = DAngle::fromDeg(M_Random() * (360 / 256.));
 				DVector3 pos = actor->Vec3Angle(actor->radius, ang, 0);
@@ -761,10 +761,10 @@ void P_DrawRailTrail(AActor *source, TArray<SPortalHit> &portalhits, int color1,
 				}
 				else
 				{
-					TrailSegment *shortest = NULL;
+					TrailSegment *shortest = nullptr;
 					for (auto &seg : trail)
 					{
-						if (shortest == NULL || shortest->sounddist > seg.sounddist) shortest = &seg;
+						if (shortest == nullptr || shortest->sounddist > seg.sounddist) shortest = &seg;
 					}
 					S_Sound (source->Level, DVector3(shortest->soundpos, r_viewpoint.Pos.Z), CHAN_WEAPON, 0, sound, 1, ATTN_NORM);
 				}
@@ -778,7 +778,7 @@ void P_DrawRailTrail(AActor *source, TArray<SPortalHit> &portalhits, int color1,
 	}
 
 	// Create the outer spiral.
-	if (color1 != -1 && (!r_rail_smartspiral || color2 == -1) && r_rail_spiralsparsity > 0 && (spawnclass == NULL))
+	if (color1 != -1 && (!r_rail_smartspiral || color2 == -1) && r_rail_spiralsparsity > 0 && (spawnclass == nullptr))
 	{
 		double stepsize = 3 * r_rail_spiralsparsity * sparsity;
 		int spiral_steps = (int)(steps * r_rail_spiralsparsity / sparsity);
@@ -849,7 +849,7 @@ void P_DrawRailTrail(AActor *source, TArray<SPortalHit> &portalhits, int color1,
 	}
 
 	// Create the inner trail.
-	if (color2 != -1 && r_rail_trailsparsity > 0 && spawnclass == NULL)
+	if (color2 != -1 && r_rail_trailsparsity > 0 && spawnclass == nullptr)
 	{
 		double stepsize = 3 * r_rail_trailsparsity * sparsity;
 		int trail_steps = xs_FloorToInt(steps * r_rail_trailsparsity / sparsity);
@@ -926,7 +926,7 @@ void P_DrawRailTrail(AActor *source, TArray<SPortalHit> &portalhits, int color1,
 		}
 	}
 	// create actors
-	if (spawnclass != NULL)
+	if (spawnclass != nullptr)
 	{
 		if (sparsity < 1)
 			sparsity = 32;
@@ -982,7 +982,7 @@ void P_DisconnectEffect (AActor *actor)
 {
 	int i;
 
-	if (actor == NULL)
+	if (actor == nullptr)
 		return;
 
 	for (i = 64; i; i--)
@@ -1125,7 +1125,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DVisualThinker, UpdateSector, UpdateSector)
 DEFINE_ACTION_FUNCTION_NATIVE(FLevelLocals, SpawnVisualThinker, SpawnVisualThinker)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FLevelLocals);
-	PARAM_CLASS_NOT_NULL(type, DVisualThinker);
+	PARAM_CLASS_NOT_nullptr(type, DVisualThinker);
 	PARAM_BOOL(clientSide);
 	DVisualThinker* zs = SpawnVisualThinker(self, type, clientSide);
 	ACTION_RETURN_OBJECT(zs);

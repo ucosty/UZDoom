@@ -79,7 +79,7 @@ static FDynamicColormap *CreateSpecialLights (PalEntry color, PalEntry fade, int
 
 	// If this colormap has already been created, just return it
 	// This may happen if another thread beat us to it
-	for (FDynamicColormap *colormap = &NormalLight; colormap != NULL; colormap = colormap->Next)
+	for (FDynamicColormap *colormap = &NormalLight; colormap != nullptr; colormap = colormap->Next)
 	{
 		if (color == colormap->Color &&
 			fade == colormap->Fade &&
@@ -108,7 +108,7 @@ static FDynamicColormap *CreateSpecialLights (PalEntry color, PalEntry fade, int
 FDynamicColormap *GetSpecialLights (PalEntry color, PalEntry fade, int desaturate)
 {
 	// If this colormap has already been created, just return it
-	for (FDynamicColormap *colormap = &NormalLight; colormap != NULL; colormap = colormap->Next)
+	for (FDynamicColormap *colormap = &NormalLight; colormap != nullptr; colormap = colormap->Next)
 	{
 		if (color == colormap->Color &&
 			fade == colormap->Fade &&
@@ -131,13 +131,13 @@ static void FreeSpecialLights()
 {
 	FDynamicColormap *colormap, *next;
 
-	for (colormap = NormalLight.Next; colormap != NULL; colormap = next)
+	for (colormap = NormalLight.Next; colormap != nullptr; colormap = next)
 	{
 		next = colormap->Next;
 		delete[] colormap->Maps;
 		delete colormap;
 	}
-	NormalLight.Next = NULL;
+	NormalLight.Next = nullptr;
 }
 
 //==========================================================================
@@ -153,7 +153,7 @@ void FDynamicColormap::BuildLights ()
 	PalEntry colors[256], basecolors[256];
 	uint8_t *shade;
 
-	if (Maps == NULL)
+	if (Maps == nullptr)
 		return;
 
 	// Scale light to the range 0-256, so we can avoid
@@ -273,9 +273,9 @@ void FDynamicColormap::RebuildAllLights()
 {
 	FDynamicColormap *cm;
 
-	for (cm = &NormalLight; cm != NULL; cm = cm->Next)
+	for (cm = &NormalLight; cm != nullptr; cm = cm->Next)
 	{
-		if (cm->Maps == NULL)
+		if (cm->Maps == nullptr)
 		{
 			cm->Maps = new uint8_t[NUMCOLORMAPS*256];
 			cm->BuildLights ();
@@ -360,7 +360,7 @@ void SetDefaultColormap (const char *name)
 			foo.Fade = 0;
 			foo.Maps = realcolormaps.Maps;
 			foo.Desaturate = 0;
-			foo.Next = NULL;
+			foo.Next = nullptr;
 			foo.BuildLights ();
 		}
 		else

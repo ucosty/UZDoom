@@ -281,14 +281,14 @@ void MapLoader::PrepareSectorData()
 			for(uint32_t j=0;j<sub.numlines;j++)
 			{
 				if (!(sub.hacked&1) && seg[j].linedef==0 && 
-						seg[j].PartnerSeg!=NULL && 
+						seg[j].PartnerSeg!=nullptr &&
 						sub.render_sector != seg[j].PartnerSeg->Subsector->render_sector)
 				{
 					DPrintf(DMSG_NOTIFY, "Found hack: (%f,%f) (%f,%f)\n", seg[j].v1->fX(), seg[j].v1->fY(), seg[j].v2->fX(), seg[j].v2->fY());
 					sub.hacked|=5;
 					SpreadHackedFlag(&sub);
 				}
-				if (seg[j].PartnerSeg==NULL) sub.hacked|=2;	// used for quick termination checks
+				if (seg[j].PartnerSeg==nullptr) sub.hacked|=2;	// used for quick termination checks
 			}
 		}
 	}
@@ -309,7 +309,7 @@ void MapLoader::PrepareTransparentDoors(sector_t * sector)
 	unsigned int notextures=0;
 	unsigned int nobtextures=0;
 	unsigned int selfref=0;
-	sector_t * nextsec=NULL;
+	sector_t * nextsec=nullptr;
 
 	if (sector->subsectorcount==0) return;
 
@@ -327,7 +327,7 @@ void MapLoader::PrepareTransparentDoors(sector_t * sector)
 			}
 
 			sector_t * sec=getNextSector(ln, sector);
-			if (sec==NULL) 
+			if (sec==nullptr)
 			{
 				solidwall=true;
 				continue;
@@ -526,7 +526,7 @@ void MapLoader::PrepareSegs()
 	// assign the segs
 	for (auto &seg : Level->segs)
 	{
-		if (seg.sidedef != NULL) seg.sidedef->segs[seg.sidedef->numsegs++] = &seg;
+		if (seg.sidedef != nullptr) seg.sidedef->segs[seg.sidedef->numsegs++] = &seg;
 	}
 
 	// sort the segs

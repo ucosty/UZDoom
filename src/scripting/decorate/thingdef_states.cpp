@@ -90,7 +90,7 @@ FxVMFunctionCall *DoActionSpecials(FScanner &sc, FState & state, Baggage &bag)
 		assert(f != nullptr);
 		return new FxVMFunctionCall(new FxSelf(sc), f, args, sc, false);
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -339,7 +339,7 @@ endofstate:
 			}
 		}
 	}
-	if (args != NULL)
+	if (args != nullptr)
 	{
 		delete args;
 	}
@@ -480,7 +480,7 @@ FxExpression *ParseActions(FScanner &sc, FState state, FString statestring, Bagg
 
 	const FScriptPosition pos(sc);
 
-	FxCompoundStatement *seq = NULL;
+	FxCompoundStatement *seq = nullptr;
 	bool lastwasret = false;
 
 	sc.MustGetString();
@@ -538,9 +538,9 @@ FxExpression *ParseActions(FScanner &sc, FState state, FString statestring, Bagg
 			sc.MustGetString();
 		}
 		// Only return a sequence if it has actual content.
-		if (add != NULL)
+		if (add != nullptr)
 		{
-			if (seq == NULL)
+			if (seq == nullptr)
 			{
 				seq = new FxCompoundStatement(pos);
 			}
@@ -568,7 +568,7 @@ FxExpression* ParseAction(FScanner &sc, FState state, FString statestring, Bagga
 	FName symname = FName(sc.String, true);
 	symname = CheckCastKludges(symname);
 	PFunction *afd = dyn_cast<PFunction>(bag.Info->FindSymbol(symname, true));
-	if (afd != NULL)
+	if (afd != nullptr)
 	{
 		FArgumentList args;
 		ParseFunctionParameters(sc, bag.Info, args, afd, statestring, &bag.statedef);
@@ -576,7 +576,7 @@ FxExpression* ParseAction(FScanner &sc, FState state, FString statestring, Bagga
 		return call;
 	}
 	sc.ScriptError("Invalid parameter '%s'\n", sc.String);
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -625,7 +625,7 @@ void ParseFunctionParameters(FScanner &sc, PClassActor *cls, TArray<FxExpression
 	while (numparams > 0)
 	{
 		FxExpression *x;
-		if (statedef != NULL && params[pnum] == TypeStateLabel && sc.CheckNumber())
+		if (statedef != nullptr && params[pnum] == TypeStateLabel && sc.CheckNumber())
 		{
 			// Special case: State label as an offset
 			if (sc.Number > 0 && statestring.length() > 1)
@@ -659,7 +659,7 @@ void ParseFunctionParameters(FScanner &sc, PClassActor *cls, TArray<FxExpression
 		numparams--;
 		if (numparams > 0)
 		{
-			if (params[pnum] == NULL)
+			if (params[pnum] == nullptr)
 			{ // varargs function
 				if (sc.CheckString(")"))
 				{

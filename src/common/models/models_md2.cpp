@@ -239,28 +239,28 @@ void FDMDModel::UnloadGeometry()
 {
 	int i;
 
-	if (framevtx != NULL)
+	if (framevtx != nullptr)
 	{
 		for (i=0;i<info.numFrames;i++)
 		{
-			if (framevtx[i].vertices != NULL) delete [] framevtx[i].vertices;
-			if (framevtx[i].normals != NULL) delete [] framevtx[i].normals;
+			if (framevtx[i].vertices != nullptr) delete [] framevtx[i].vertices;
+			if (framevtx[i].normals != nullptr) delete [] framevtx[i].normals;
 
-			framevtx[i].vertices = NULL;
-			framevtx[i].normals = NULL;
+			framevtx[i].vertices = nullptr;
+			framevtx[i].normals = nullptr;
 		}
 		delete[] framevtx;
-		framevtx = NULL;
+		framevtx = nullptr;
 	}
 
 	for(i = 0; i < info.numLODs; i++)
 	{
-		if (lods[i].triangles != NULL) delete[] lods[i].triangles;
-		lods[i].triangles = NULL;
+		if (lods[i].triangles != nullptr) delete[] lods[i].triangles;
+		lods[i].triangles = nullptr;
 	}
 
-	if (texCoords != NULL) delete[] texCoords;
-	texCoords = NULL;
+	if (texCoords != nullptr) delete[] texCoords;
+	texCoords = nullptr;
 }
 
 //===========================================================================
@@ -274,8 +274,8 @@ FDMDModel::~FDMDModel()
 	UnloadGeometry();
 
 	// skins are managed by the texture manager so they must not be deleted here.
-	if (skins != NULL) delete [] skins;
-	if (frames != NULL) delete [] frames;
+	if (skins != nullptr) delete [] skins;
+	if (frames != nullptr) delete [] frames;
 }
 
 //===========================================================================

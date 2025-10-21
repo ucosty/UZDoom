@@ -164,7 +164,7 @@ sector_t* RenderViewpoint(FRenderViewpoint& mainvp, AActor* camera, IntRect* bou
 
 		// Stereo mode specific perspective projection
 		float inv_iso_dist = 1.0f;
-		bool iso_ortho = (camera->ViewPos != NULL) && (camera->ViewPos->Flags & VPSF_ORTHOGRAPHIC);
+		bool iso_ortho = (camera->ViewPos != nullptr) && (camera->ViewPos->Flags & VPSF_ORTHOGRAPHIC);
 		if (iso_ortho && (camera->ViewPos->Offset.Length() > 0)) inv_iso_dist = 1.0/camera->ViewPos->Offset.Length();
 		di->VPUniforms.mProjectionMatrix = eye.GetProjection(fov, ratio, fovratio * inv_iso_dist, iso_ortho);
 		di->ProjectionMatrix2 = eye.GetProjection(fov, ratio, fovratio, false); // Regular ol' perspective projection matrix
@@ -405,7 +405,7 @@ sector_t* RenderView(player_t* player)
 
 		screen->ImageTransitionScene(true); // Only relevant for Vulkan.
 
-		retsec = RenderViewpoint(r_viewpoint, player->camera, NULL, r_viewpoint.FieldOfView.Degrees(), ratio, fovratio, true, true);
+		retsec = RenderViewpoint(r_viewpoint, player->camera, nullptr, r_viewpoint.FieldOfView.Degrees(), ratio, fovratio, true, true);
 	}
 	All.Unclock();
 	return retsec;

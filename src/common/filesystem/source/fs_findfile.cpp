@@ -410,7 +410,7 @@ bool ScanDirectory(std::vector<FileListEntry>& list, const char* dirpath, const 
 bool FS_DirEntryExists(const char* pathname, bool* isdir)
 {
 	if (isdir) *isdir = false;
-	if (pathname == NULL || *pathname == 0)
+	if (pathname == nullptr || *pathname == 0)
 		return false;
 
 #ifndef _WIN32

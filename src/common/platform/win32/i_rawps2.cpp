@@ -626,7 +626,7 @@ void FRawPS2Controller::Detached()
 {
 	Connected = false;
 	NeutralInput();
-	UpdateJoystickMenu(NULL);
+	UpdateJoystickMenu(nullptr);
 }
 
 //==========================================================================
@@ -662,7 +662,7 @@ void FRawPS2Controller::AddAxes(float axes[NUM_AXIS_CODES])
 	{
 		// Add to the game axis.
 		float axis_value = float(Axes[i].Value * Multiplier * Axes[i].Multiplier);
-		int code = AXIS_CODE_NULL;
+		int code = AXIS_CODE_nullptr;
 
 		if (axis_value > 0.0f)
 		{
@@ -673,7 +673,7 @@ void FRawPS2Controller::AddAxes(float axes[NUM_AXIS_CODES])
 			code = AxisCodes[i][1];
 		}
 
-		if (code != AXIS_CODE_NULL)
+		if (code != AXIS_CODE_nullptr)
 		{
 			axes[code] += fabs(axis_value);
 		}
@@ -1080,7 +1080,7 @@ FRawPS2Manager::~FRawPS2Manager()
 {
 	for (unsigned i = 0; i < Devices.Size(); ++i)
 	{
-		if (Devices[i] != NULL)
+		if (Devices[i] != nullptr)
 		{
 			delete Devices[i];
 		}
@@ -1106,7 +1106,7 @@ bool FRawPS2Manager::GetDevice()
 		return false;
 	}
 	rid.dwFlags = RIDEV_REMOVE;
-	rid.hwndTarget = NULL;	// Must be NULL for RIDEV_REMOVE.
+	rid.hwndTarget = nullptr;	// Must be nullptr for RIDEV_REMOVE.
 	RegisterRawInputDevices(&rid, 1, sizeof(rid));
 	EnumDevices();
 	return true;
@@ -1203,18 +1203,18 @@ FRawPS2Controller *FRawPS2Manager::EnumDevices()
 	RAWINPUTDEVICELIST *devices;
 	UINT i, j;
 
-	if (GetRawInputDeviceList(NULL, &nDevices, sizeof(RAWINPUTDEVICELIST)) != 0)
+	if (GetRawInputDeviceList(nullptr, &nDevices, sizeof(RAWINPUTDEVICELIST)) != 0)
 	{
-		return NULL;
+		return nullptr;
 	}
-	if ((devices = (RAWINPUTDEVICELIST *)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices)) == NULL)
+	if ((devices = (RAWINPUTDEVICELIST *)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices)) == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	if ((numDevices = GetRawInputDeviceList(devices, &nDevices, sizeof(RAWINPUTDEVICELIST))) == (UINT)-1)
 	{
 		free(devices);
-		return NULL;
+		return nullptr;
 	}
 
 	TArray<FAdapterHandle> adapters;
@@ -1280,12 +1280,12 @@ FRawPS2Controller *FRawPS2Manager::EnumDevices()
 						}
 
 						devid = wcschr(name, '#');
-						if (devid == NULL)
+						if (devid == nullptr)
 						{ // Should not happen
 							continue;
 						}
 						devidend = wcsrchr(++devid, '#');
-						if (devidend != NULL)
+						if (devidend != nullptr)
 						{
 							*devidend = '\0';
 						}
@@ -1298,13 +1298,13 @@ FRawPS2Controller *FRawPS2Manager::EnumDevices()
 						if (Descriptors[type].ControllerNumber >= 0)
 						{
 							wchar_t *col = wcsstr(devid, L"&Col");
-							if (col != NULL)
+							if (col != nullptr)
 							{
 								// I have no idea if this number is base 16 or base 10. Every
 								// other number in the name is base 16, so I assume this one is
 								// too, but since I don't have anything that goes higher than 02,
 								// I can't be sure.
-								handle.ControllerNumber = wcstoul(col + 4, NULL, 16);
+								handle.ControllerNumber = wcstoul(col + 4, nullptr, 16);
 							}
 						}
 						adapters.Push(handle);
@@ -1325,7 +1325,7 @@ FRawPS2Controller *FRawPS2Manager::EnumDevices()
 	// marked 0 are no longer present and should be destroyed. If a device is
 	// present in the new list that we have not yet instantiated, we 
 	// instantiate it now.
-	FRawPS2Controller *newone = NULL;
+	FRawPS2Controller *newone = nullptr;
 	EAdapterType lasttype = ADAPTER_Unknown;
 	int sequence = 0;	// Resets to 0 or 1 each time the adapter type changes
 
@@ -1367,7 +1367,7 @@ FRawPS2Controller *FRawPS2Manager::EnumDevices()
 				adapter->ControllerNumber, adapter->DeviceID);
 			device->Marked = true;
 			Devices.Push(device);
-			if (newone == NULL)
+			if (newone == nullptr)
 			{
 				newone = device;
 			}
@@ -1456,7 +1456,7 @@ void FRawPS2Manager::DoRegister()
 		if (Registered)
 		{
 			rid.dwFlags = RIDEV_REMOVE;
-			rid.hwndTarget = NULL;
+			rid.hwndTarget = nullptr;
 			if (RegisterRawInputDevices(&rid, 1, sizeof(rid)))
 			{
 				Registered = false;
@@ -1487,16 +1487,16 @@ void I_StartupRawPS2()
 {
 	if (!joy_ps2raw || !use_joystick || Args->CheckParm("-nojoy"))
 	{
-		if (JoyDevices[INPUT_RawPS2] != NULL)
+		if (JoyDevices[INPUT_RawPS2] != nullptr)
 		{
 			delete JoyDevices[INPUT_RawPS2];
-			JoyDevices[INPUT_RawPS2] = NULL;
-			UpdateJoystickMenu(NULL);
+			JoyDevices[INPUT_RawPS2] = nullptr;
+			UpdateJoystickMenu(nullptr);
 		}
 	}
 	else
 	{
-		if (JoyDevices[INPUT_RawPS2] == NULL)
+		if (JoyDevices[INPUT_RawPS2] == nullptr)
 		{
 			FJoystickCollection *joys = new FRawPS2Manager;
 			if (joys->GetDevice())

@@ -392,7 +392,7 @@ void FSoundFontManager::ProcessOneFile(const char* fn)
 void FSoundFontManager::CollectSoundfonts()
 {
 	FConfigFile* GameConfig = sysCallbacks.GetConfig ? sysCallbacks.GetConfig() : nullptr;
-	if (GameConfig != NULL && GameConfig->SetSection ("SoundfontSearch.Directories"))
+	if (GameConfig != nullptr && GameConfig->SetSection ("SoundfontSearch.Directories"))
 	{
 		const char *key;
 		const char *value;

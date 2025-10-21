@@ -172,7 +172,7 @@ DFsSection *DFsScript::FindSectionStart(const char *brace)
 		current = current->next;
     }
 	
-	return NULL;    // not found
+	return nullptr;    // not found
 }
 
 
@@ -202,7 +202,7 @@ DFsSection *DFsScript::FindSectionEnd(const char *brace)
 			current = current->next;
 		}
 	}
-	return NULL;    // not found
+	return nullptr;    // not found
 }
 
 //==========================================================================
@@ -234,7 +234,7 @@ char *DFsScript::ProcessFindChar(char *datap, char find)
 				datap++;
 			}
 			// error: end of script in a constant
-			if(!*datap) return NULL;
+			if(!*datap) return nullptr;
 		}
 		
 		// comments: blank out
@@ -308,7 +308,7 @@ char *DFsScript::ProcessFindChar(char *datap, char find)
 		}
 		datap++;
     }
-	return NULL;
+	return nullptr;
 }
 
 

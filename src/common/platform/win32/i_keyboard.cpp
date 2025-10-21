@@ -291,7 +291,7 @@ void FKeyboard::PostKeyEvent(int key, INTBOOL down, bool foreground)
 
 FDInputKeyboard::FDInputKeyboard()
 {
-	Device = NULL;
+	Device = nullptr;
 }
 
 //==========================================================================
@@ -302,10 +302,10 @@ FDInputKeyboard::FDInputKeyboard()
 
 FDInputKeyboard::~FDInputKeyboard()
 {
-	if (Device != NULL)
+	if (Device != nullptr)
 	{
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 	}
 }
 
@@ -321,9 +321,9 @@ bool FDInputKeyboard::GetDevice()
 {
 	HRESULT hr;
 
-	if (g_pdi != NULL)
+	if (g_pdi != nullptr)
 	{ // DirectInput8 interface
-		hr = g_pdi->CreateDevice(GUID_SysKeyboard, &Device, NULL);
+		hr = g_pdi->CreateDevice(GUID_SysKeyboard, &Device, nullptr);
 	}
 	else
 	{
@@ -340,7 +340,7 @@ bool FDInputKeyboard::GetDevice()
 	{
 ufailit:
 		Device->Release();
-		Device = NULL;
+		Device = nullptr;
 		return false;
 	}
 
@@ -426,7 +426,7 @@ FRawKeyboard::~FRawKeyboard()
 	rid.usUsagePage = HID_GENERIC_DESKTOP_PAGE;
 	rid.usUsage = HID_GDP_KEYBOARD;
 	rid.dwFlags = RIDEV_REMOVE;
-	rid.hwndTarget = NULL;
+	rid.hwndTarget = nullptr;
 	RegisterRawInputDevices(&rid, 1, sizeof(rid));
 }
 

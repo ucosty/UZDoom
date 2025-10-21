@@ -949,7 +949,7 @@ void V_ClearFonts()
 char* CleanseString(char* str)
 {
 	char* escape = strrchr(str, TEXTCOLOR_ESCAPE);
-	if (escape != NULL)
+	if (escape != nullptr)
 	{
 		if (escape[1] == '\0')
 		{
@@ -958,7 +958,7 @@ char* CleanseString(char* str)
 		else if (escape[1] == '[')
 		{
 			char* close = strchr(escape + 2, ']');
-			if (close == NULL)
+			if (close == nullptr)
 			{
 				*escape = '\0';
 			}

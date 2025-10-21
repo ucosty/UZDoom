@@ -112,7 +112,7 @@ bool P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *
 {
 	// Activated from an empty side -> always succeed
 	side_t *side = line->sidedef[sideno];
-	if (side == NULL)
+	if (side == nullptr)
 		return true;
 
 	double checktop;
@@ -162,7 +162,7 @@ bool P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *
 
 
 	// one sided line or polyobject
-	if (line->sidedef[1] == NULL || (line->sidedef[0]->Flags & WALLF_POLYOBJ))
+	if (line->sidedef[1] == nullptr || (line->sidedef[0]->Flags & WALLF_POLYOBJ))
 	{
 	onesided:
 		double sectorc = front->ceilingplane.ZatPoint(check);
@@ -171,11 +171,11 @@ bool P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *
 	}
 
 	// Now get the information from the line.
-	P_LineOpening(open, NULL, line, check, &pos);
+	P_LineOpening(open, nullptr, line, check, &pos);
 	if (open.range <= 0)
 		goto onesided;
 
-	if ((TexAnim.FindSwitch(side->GetTexture(side_t::top))) != NULL)
+	if ((TexAnim.FindSwitch(side->GetTexture(side_t::top))) != nullptr)
 	{
 
 		// Check 3D floors on back side
@@ -202,7 +202,7 @@ bool P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *
 			return true;
 		}
 	}
-	if ((TexAnim.FindSwitch(side->GetTexture(side_t::bottom))) != NULL)
+	if ((TexAnim.FindSwitch(side->GetTexture(side_t::bottom))) != nullptr)
 	{
 		// Check 3D floors on back side
 		{
@@ -229,7 +229,7 @@ bool P_CheckSwitchRange(AActor *user, line_t *line, int sideno, const DVector3 *
 			return true;
 		}
 	}
-	if ((flags & ML_3DMIDTEX) || (TexAnim.FindSwitch(side->GetTexture(side_t::mid))) != NULL)
+	if ((flags & ML_3DMIDTEX) || (TexAnim.FindSwitch(side->GetTexture(side_t::mid))) != nullptr)
 	{
 		// 3DMIDTEX lines will force a mid texture check if no switch is found on this line
 		// to keep compatibility with Eternity's implementation.
@@ -259,21 +259,21 @@ bool P_ChangeSwitchTexture (side_t *side, int useAgain, uint8_t special, bool *q
 	FSoundID sound;
 	FSwitchDef *Switch;
 
-	if ((Switch = TexAnim.FindSwitch (side->GetTexture(side_t::top))) != NULL)
+	if ((Switch = TexAnim.FindSwitch (side->GetTexture(side_t::top))) != nullptr)
 	{
 		texture = side_t::top;
 	}
-	else if ((Switch = TexAnim.FindSwitch(side->GetTexture(side_t::mid))) != NULL)
+	else if ((Switch = TexAnim.FindSwitch(side->GetTexture(side_t::mid))) != nullptr)
 	{
 		texture = side_t::mid;
 	}
-	else if ((Switch = TexAnim.FindSwitch (side->GetTexture(side_t::bottom))) != NULL)
+	else if ((Switch = TexAnim.FindSwitch (side->GetTexture(side_t::bottom))) != nullptr)
 	{
 		texture = side_t::bottom;
 	}
 	else
 	{
-		if (quest != NULL)
+		if (quest != nullptr)
 		{
 			*quest = false;
 		}
@@ -315,7 +315,7 @@ bool P_ChangeSwitchTexture (side_t *side, int useAgain, uint8_t special, bool *q
 	{
 		S_Sound (side->GetLevel(), DVector3(pt, 0), CHAN_VOICE, CHANF_LISTENERZ, sound, 1, ATTN_STATIC);
 	}
-	if (quest != NULL)
+	if (quest != nullptr)
 	{
 		*quest = Switch->QuestPanel;
 	}
@@ -392,7 +392,7 @@ void DActiveButton::Serialize(FSerializer &arc)
 
 void DActiveButton::Tick ()
 {
-	if (m_SwitchDef == NULL)
+	if (m_SwitchDef == nullptr)
 	{
 		// We lost our definition due to a bad savegame.
 		Destroy();
@@ -406,7 +406,7 @@ void DActiveButton::Tick ()
 		{
 			bReturning = true;
 			def = m_SwitchDef->PairDef;
-			if (def != NULL)
+			if (def != nullptr)
 			{
 				m_Frame = -1;
 				S_Sound (Level, DVector3(m_Pos, 0), CHAN_VOICE, CHANF_LISTENERZ,

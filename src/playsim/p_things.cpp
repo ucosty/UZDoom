@@ -58,7 +58,7 @@ bool FLevelLocals::EV_Thing_Spawn (int tid, AActor *source, int type, DAngle ang
 
 	kind = P_GetSpawnableType(type);
 
-	if (kind == NULL)
+	if (kind == nullptr)
 		return false;
 
 	// Handle decorate replacements.
@@ -76,11 +76,11 @@ bool FLevelLocals::EV_Thing_Spawn (int tid, AActor *source, int type, DAngle ang
 	{
 		spot = iterator.Next();
 	}
-	while (spot != NULL)
+	while (spot != nullptr)
 	{
 		mobj = Spawn (spot->Level, kind, spot->Pos(), ALLOW_REPLACE);
 
-		if (mobj != NULL)
+		if (mobj != nullptr)
 		{
 			ActorFlags2 oldFlags2 = mobj->flags2;
 			mobj->flags2 |= MF2_PASSMOBJ;
@@ -149,7 +149,7 @@ bool FLevelLocals::EV_Thing_Move (int tid, AActor *source, int mapspot, bool fog
 	auto iterator2 = GetActorIterator(mapspot);
 	target = iterator2.Next ();
 
-	if (source != NULL && target != NULL)
+	if (source != nullptr && target != nullptr)
 	{
 		return P_MoveThing(source, target->Pos(), fog);
 	}
@@ -248,7 +248,7 @@ static void VelIntercept(AActor *targ, AActor *mobj, double speed, bool aimpitch
 DEFINE_ACTION_FUNCTION(AActor, VelIntercept)
 {
 	PARAM_SELF_PROLOGUE(AActor);
-	PARAM_OBJECT_NOT_NULL(targ, AActor);
+	PARAM_OBJECT_NOT_nullptr(targ, AActor);
 	PARAM_FLOAT(speed);
 	PARAM_BOOL(aimpitch);
 	PARAM_BOOL(oldvel);
@@ -268,7 +268,7 @@ bool FLevelLocals::EV_Thing_Projectile (int tid, AActor *source, int type, const
 	auto iterator = GetActorIterator(tid);
 	int defflags3;
 
-	if (type_name == NULL)
+	if (type_name == nullptr)
 	{
 		kind = P_GetSpawnableType(type);
 	}
@@ -276,7 +276,7 @@ bool FLevelLocals::EV_Thing_Projectile (int tid, AActor *source, int type, const
 	{
 		kind = PClass::FindActor(type_name);
 	}
-	if (kind == NULL)
+	if (kind == nullptr)
 	{
 		return false;
 	}
@@ -297,7 +297,7 @@ bool FLevelLocals::EV_Thing_Projectile (int tid, AActor *source, int type, const
 	{
 		spot = iterator.Next();
 	}
-	while (spot != NULL)
+	while (spot != nullptr)
 	{
 		auto tit = GetActorIterator(dest);
 
@@ -404,12 +404,12 @@ int FLevelLocals::EV_Thing_Damage (int tid, AActor *whofor0, int amount, FName t
 	actor = (tid == 0 ? whofor0 : iterator.Next());
 	while (actor)
 	{
-		AActor *next = tid == 0 ? NULL : iterator.Next ();
+		AActor *next = tid == 0 ? nullptr : iterator.Next ();
 		if (actor->flags & MF_SHOOTABLE)
 		{
 			if (amount > 0)
 			{
-				P_DamageMobj (actor, NULL, whofor0, amount, type);
+				P_DamageMobj (actor, nullptr, whofor0, amount, type);
 			}
 			else if (actor->health < actor->SpawnHealth())
 			{
@@ -418,7 +418,7 @@ int FLevelLocals::EV_Thing_Damage (int tid, AActor *whofor0, int amount, FName t
 				{
 					actor->health = actor->SpawnHealth();
 				}
-				if (actor->player != NULL)
+				if (actor->player != nullptr)
 				{
 					actor->player->health = actor->health;
 				}
@@ -433,7 +433,7 @@ int FLevelLocals::EV_Thing_Damage (int tid, AActor *whofor0, int amount, FName t
 void P_RemoveThing(AActor * actor)
 {
 	// Don't remove live players.
-	if (actor->player == NULL || actor != actor->player->mo)
+	if (actor->player == nullptr || actor != actor->player->mo)
 	{
 		// Don't also remove owned inventory items
 		if (!actor->IsMapActor()) return;
@@ -451,7 +451,7 @@ bool P_Thing_Raise(AActor *thing, AActor *raiser, int flags)
 		return false;
 
 	FState * RaiseState = thing->GetRaiseState();
-	if (RaiseState == NULL)
+	if (RaiseState == nullptr)
 	{
 		return false;	// monster doesn't have a raise state
 	}
@@ -496,7 +496,7 @@ bool P_Thing_Raise(AActor *thing, AActor *raiser, int flags)
 bool P_Thing_CanRaise(AActor *thing)
 {
 	FState * RaiseState = thing->GetRaiseState();
-	if (RaiseState == NULL)
+	if (RaiseState == nullptr)
 	{
 		return false;
 	}
@@ -529,15 +529,15 @@ bool P_Thing_CanRaise(AActor *thing)
 
 void P_Thing_SetVelocity(AActor *actor, const DVector3 &vec, bool add, bool setbob)
 {
-	if (actor != NULL)
+	if (actor != nullptr)
 	{
 		if (!add)
 		{
 			actor->Vel.Zero();
-			if (actor->player != NULL) actor->player->Vel.Zero();
+			if (actor->player != nullptr) actor->player->Vel.Zero();
 		}
 		actor->Vel += vec;
-		if (setbob && actor->player != NULL)
+		if (setbob && actor->player != nullptr)
 		{
 			actor->player->Vel += vec.XY();
 		}

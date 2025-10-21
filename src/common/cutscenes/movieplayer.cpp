@@ -441,7 +441,7 @@ public:
 
 		readBuf.Resize(framesize);
 		if (fr.Read(readBuf.Data(), framesize) != framesize) return false;
-		if (vpx_codec_decode(&codec, readBuf.Data(), readBuf.Size(), NULL, 0) != VPX_CODEC_OK) return false;
+		if (vpx_codec_decode(&codec, readBuf.Data(), readBuf.Size(), nullptr, 0) != VPX_CODEC_OK) return false;
 		if (vpx_codec_control(&codec, VP8D_GET_FRAME_CORRUPTED, &corrupted) != VPX_CODEC_OK) return false;
 		return true;
 	}

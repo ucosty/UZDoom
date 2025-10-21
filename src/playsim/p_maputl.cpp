@@ -145,7 +145,7 @@ void P_LineOpening (FLineOpening &open, AActor *actor, const line_t *linedef, co
 		sector_t *front, *back;
 		double fc = 0, ff = 0, bc = 0, bf = 0;
 
-		if (linedef->backsector == NULL)
+		if (linedef->backsector == nullptr)
 		{
 			// single sided line
 			open.range = 0;
@@ -187,7 +187,7 @@ void P_LineOpening (FLineOpening &open, AActor *actor, const line_t *linedef, co
 		// that imprecisions in the plane equation mean there is a
 		// good chance that even if a slope and non-slope look like
 		// they line up, they won't be perfectly aligned.
-		if (ff == LINEOPEN_MIN || bf == LINEOPEN_MIN || ref == NULL || fabs (ff-bf) > 1./256)
+		if (ff == LINEOPEN_MIN || bf == LINEOPEN_MIN || ref == nullptr || fabs (ff-bf) > 1./256)
 		{
 			usefront = (ff > bf);
 		}
@@ -235,10 +235,10 @@ void P_LineOpening (FLineOpening &open, AActor *actor, const line_t *linedef, co
 	}
 	else
 	{ // Dummy stuff to have some sort of opening for the 3D checks to modify
-		open.topsec = NULL;
+		open.topsec = nullptr;
 		open.ceilingpic.SetInvalid();
 		open.top = LINEOPEN_MAX;
-		open.bottomsec = NULL;
+		open.bottomsec = nullptr;
 		open.floorpic.SetInvalid();
 		open.floorterrain = -1;
 		open.bottom = LINEOPEN_MIN;
@@ -249,12 +249,12 @@ void P_LineOpening (FLineOpening &open, AActor *actor, const line_t *linedef, co
 
 	open.topffloor = open.bottomffloor = nullptr;
 	// Check 3D floors
-	if (actor != NULL)
+	if (actor != nullptr)
 	{
 		P_LineOpening_XFloors(open, actor, linedef, pos.X, pos.Y, !!(flags & FFCF_3DRESTRICT));
 	}
 
-	if (actor != NULL && linedef->frontsector != NULL && linedef->backsector != NULL && 
+	if (actor != nullptr && linedef->frontsector != nullptr && linedef->backsector != nullptr &&
 		linedef->flags & ML_3DMIDTEX)
 	{
 		open.touchmidtex = P_LineOpening_3dMidtex(actor, linedef, open, !!(flags & FFCF_3DRESTRICT));
@@ -294,12 +294,12 @@ void AActor::UnlinkFromWorld (FLinkContext *ctx)
 		// killough 8/11/98: simpler scheme using pointers-to-pointers for prev
 		// pointers, allows head node pointers to be treated like everything else
 		AActor **prev = sprev;
-		if (prev != NULL)
+		if (prev != nullptr)
 		{
 			AActor* next = snext;
 			if ((*prev = next))  // unlink from sector list
 				next->sprev = prev;
-			snext = NULL;
+			snext = nullptr;
 			sprev = (AActor **)(size_t)0xBeefCafe;	// Woo! Bug-catching value!
 		}
 
@@ -331,9 +331,9 @@ void AActor::UnlinkFromWorld (FLinkContext *ctx)
 		// [RH] Unlink from all blocks this actor uses
 		FBlockNode *block = this->BlockNode;
 
-		while (block != NULL)
+		while (block != nullptr)
 		{
-			if (block->NextActor != NULL)
+			if (block->NextActor != nullptr)
 			{
 				block->NextActor->PrevActor = block->PrevActor;
 			}
@@ -342,7 +342,7 @@ void AActor::UnlinkFromWorld (FLinkContext *ctx)
 			block->Release ();
 			block = next;
 		}
-		BlockNode = NULL;
+		BlockNode = nullptr;
 	}
 	ClearRenderSectorList();
 	ClearRenderLineList();
@@ -375,7 +375,7 @@ bool AActor::FixMapthingPos()
 			{ // Skip two-sided lines inside a single sector
 				continue;
 			}
-			if (ldef->backsector != NULL)
+			if (ldef->backsector != nullptr)
 			{
 				if (ldef->frontsector->floorplane == ldef->backsector->floorplane &&
 					ldef->frontsector->ceilingplane == ldef->backsector->ceilingplane)
@@ -411,7 +411,7 @@ bool AActor::FixMapthingPos()
 					ldef->Delta().X == 0 ? "vertical" : ldef->Delta().Y == 0 ? "horizontal" : "diagonal",
 					ldef->Index(), distance);
 				DAngle ang = ldef->Delta().Angle();
-				if (ldef->backsector != NULL && ldef->backsector == secstart)
+				if (ldef->backsector != nullptr && ldef->backsector == secstart)
 				{
 					ang += DAngle::fromDeg(90.);
 				}
@@ -445,13 +445,13 @@ void AActor::LinkToWorld(FLinkContext *ctx, bool spawningmapthing, sector_t *sec
 
 	if (spawning)
 	{
-		if ((flags4 & MF4_FIXMAPTHINGPOS) && sector == NULL)
+		if ((flags4 & MF4_FIXMAPTHINGPOS) && sector == nullptr)
 		{
 			if (FixMapthingPos()) spawning = false;
 		}
 	}
 
-	if (sector == NULL)
+	if (sector == nullptr)
 	{
 		if (!spawning)
 		{
@@ -485,7 +485,7 @@ void AActor::LinkToWorld(FLinkContext *ctx, bool spawningmapthing, sector_t *sec
 
 			// phares 3/16/98
 			//
-			// If sector_list isn't NULL, it has a collection of sector
+			// If sector_list isn't nullptr, it has a collection of sector
 			// nodes that were just removed from this Thing.
 
 			// Collect the sectors the object will live in by looking at
@@ -514,7 +514,7 @@ void AActor::LinkToWorld(FLinkContext *ctx, bool spawningmapthing, sector_t *sec
 
 		Level->CollectConnectedGroups(Sector->PortalGroup, Pos(), Top(), radius, check);
 
-		BlockNode = NULL;
+		BlockNode = nullptr;
 		FBlockNode **alink = &this->BlockNode;
 		for (int i = -1; i < (int)check.Size(); i++)
 		{
@@ -542,7 +542,7 @@ void AActor::LinkToWorld(FLinkContext *ctx, bool spawningmapthing, sector_t *sec
 						FBlockNode *node = FBlockNode::Create(this, x, y, this->Sector->PortalGroup);
 
 						// Link in to block
-						if ((node->NextActor = *link) != NULL)
+						if ((node->NextActor = *link) != nullptr)
 						{
 							(*link)->PrevActor = &node->NextActor;
 						}
@@ -551,7 +551,7 @@ void AActor::LinkToWorld(FLinkContext *ctx, bool spawningmapthing, sector_t *sec
 
 						// Link in to actor
 						node->PrevBlock = alink;
-						node->NextBlock = NULL;
+						node->NextBlock = nullptr;
 						(*alink) = node;
 						alink = &node->NextBlock;
 					}
@@ -638,8 +638,8 @@ void FBlockLinesIterator::StartBlock(int x, int y)
 	else
 	{
 		// invalid block
-		list = NULL;
-		polyLink = NULL;
+		list = nullptr;
+		polyLink = nullptr;
 	}
 }
 
@@ -653,7 +653,7 @@ line_t *FBlockLinesIterator::Next()
 {
 	while (true)
 	{
-		while (polyLink != NULL)
+		while (polyLink != nullptr)
 		{
 			if (polyLink->polyobj)
 			{
@@ -688,7 +688,7 @@ line_t *FBlockLinesIterator::Next()
 			else polyLink = polyLink->next;
 		}
 
-		if (list != NULL)
+		if (list != nullptr)
 		{
 			while (*list != -1)
 			{
@@ -706,7 +706,7 @@ line_t *FBlockLinesIterator::Next()
 		if (++curx > maxx)
 		{
 			curx = minx;
-			if (++cury > maxy) return NULL;
+			if (++cury > maxy) return nullptr;
 		}
 		StartBlock(curx, cury);
 	}
@@ -735,7 +735,7 @@ FMultiBlockLinesIterator::FMultiBlockLinesIterator(FPortalGroupArray &check, FLe
 	: checklist(check), blockIterator(Level)
 {
 	checkpoint = { checkx, checky, checkz };
-	if (newsec == NULL)	newsec = Level->PointInSector(checkx, checky);
+	if (newsec == nullptr)	newsec = Level->PointInSector(checkx, checky);
 	startsector = newsec;
 	basegroup = newsec->PortalGroup;
 	if (!check.inited) Level->CollectConnectedGroups(basegroup, checkpoint, checkz + checkh, checkradius, checklist);
@@ -798,7 +798,7 @@ bool FMultiBlockLinesIterator::GoDown(double x, double y)
 bool FMultiBlockLinesIterator::Next(FMultiBlockLinesIterator::CheckResult *item)
 {
 	line_t *line = blockIterator.Next();
-	if (line != NULL)
+	if (line != nullptr)
 	{
 		item->line = line;
 		item->Position.X = offset.X;
@@ -898,7 +898,7 @@ FBlockThingsIterator::FBlockThingsIterator(FLevelLocals *l)
 	minx = maxx = 0;
 	miny = maxy = 0;
 	ClearHash();
-	block = NULL;
+	block = nullptr;
 }
 
 FBlockThingsIterator::FBlockThingsIterator(FLevelLocals *l, int _minx, int _miny, int _maxx, int _maxy)
@@ -953,7 +953,7 @@ void FBlockThingsIterator::StartBlock(int x, int y)
 	else
 	{
 		// invalid block
-		block = NULL;
+		block = nullptr;
 	}
 }
 
@@ -980,7 +980,7 @@ AActor *FBlockThingsIterator::Next(bool centeronly)
 {
 	for (;;)
 	{
-		while (block != NULL)
+		while (block != nullptr)
 		{
 			AActor *me = block->Me;
 			FBlockNode *mynode = block;
@@ -989,7 +989,7 @@ AActor *FBlockThingsIterator::Next(bool centeronly)
 
 			block = block->NextActor;
 			// Don't recheck things that were already checked
-			if (mynode->NextBlock == NULL && mynode->PrevBlock == &me->BlockNode)
+			if (mynode->NextBlock == nullptr && mynode->PrevBlock == &me->BlockNode)
 			{ // This actor doesn't span blocks, so we know it can only ever be checked once.
 				return me;
 			}
@@ -1048,7 +1048,7 @@ AActor *FBlockThingsIterator::Next(bool centeronly)
 		if (++curx > maxx)
 		{
 			curx = minx;
-			if (++cury > maxy) return NULL;
+			if (++cury > maxy) return nullptr;
 		}
 		StartBlock(curx, cury);
 	}
@@ -1080,7 +1080,7 @@ FMultiBlockThingsIterator::FMultiBlockThingsIterator(FPortalGroupArray &check, F
 	checkpoint.X = checkx;
 	checkpoint.Y = checky;
 	checkpoint.Z = checkz;
-	if (newsec == NULL) newsec = Level->PointInSector(checkx, checky);
+	if (newsec == nullptr) newsec = Level->PointInSector(checkx, checky);
 	basegroup = newsec->PortalGroup;
 	if (!check.inited) Level->CollectConnectedGroups(basegroup, checkpoint, checkz + checkh, checkradius, checklist);
 	checkpoint.Z = checkradius;
@@ -1096,7 +1096,7 @@ FMultiBlockThingsIterator::FMultiBlockThingsIterator(FPortalGroupArray &check, F
 bool FMultiBlockThingsIterator::Next(FMultiBlockThingsIterator::CheckResult *item)
 {
 	AActor *thing = blockIterator.Next();
-	if (thing != NULL)
+	if (thing != nullptr)
 	{
 		item->thing = thing;
 		item->Position = checkpoint + blockIterator.Level->Displacements.getOffset(basegroup, thing->Sector->PortalGroup);
@@ -1398,7 +1398,7 @@ void FPathTraverse::AddThingIntercepts (int bx, int by, FBlockThingsIterator &it
 
 intercept_t *FPathTraverse::Next()
 {
-	intercept_t *in = NULL;
+	intercept_t *in = nullptr;
 
 	double dist = FLT_MAX;
 	for (unsigned scanpos = intercept_index; scanpos < intercepts.Size (); scanpos++)
@@ -1411,7 +1411,7 @@ intercept_t *FPathTraverse::Next()
 		}
 	}
 	
-	if (dist > 1. || in == NULL) return NULL;	// checked everything in range			
+	if (dist > 1. || in == nullptr) return nullptr;	// checked everything in range
 	in->done = true;
 	return in;
 }
@@ -1650,7 +1650,7 @@ int FPathTraverse::PortalRelocate(intercept_t *in, int flags, DVector3 *optpos)
 	
 	P_TranslatePortalXY(in->d.line, hitx, hity);
 	P_TranslatePortalXY(in->d.line, endx, endy);
-	if (optpos != NULL)
+	if (optpos != nullptr)
 	{
 		P_TranslatePortalXY(in->d.line, optpos->X, optpos->Y);
 		P_TranslatePortalZ(in->d.line, optpos->Z);
@@ -1689,7 +1689,7 @@ FPathTraverse::~FPathTraverse()
 //
 int P_CheckFov(AActor* t1, AActor* t2, double fov)
 {
-	return absangle(t1->AngleTo(PARAM_NULLCHECK(t2,t2)), t1->Angles.Yaw) <= DAngle::fromDeg(fov);
+	return absangle(t1->AngleTo(PARAM_nullptrCHECK(t2,t2)), t1->Angles.Yaw) <= DAngle::fromDeg(fov);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(AActor, CheckFov, P_CheckFov)
@@ -1797,7 +1797,7 @@ AActor *P_BlockmapSearch (AActor *mo, int distance, AActor *(*check)(AActor*, in
 			}
 		}
 	}
-	return NULL;	
+	return nullptr;
 }
 
 struct BlockCheckInfo
@@ -1820,7 +1820,7 @@ static AActor *RoughBlockCheck (AActor *mo, int index, void *param)
 
 	FBlockNode *link;
 
-	for (link = mo->Level->blockmap.blocklinks[index]; link != NULL; link = link->NextActor)
+	for (link = mo->Level->blockmap.blocklinks[index]; link != nullptr; link = link->NextActor)
 	{
 		if (link->Me != mo)
 		{
@@ -1844,7 +1844,7 @@ static AActor *RoughBlockCheck (AActor *mo, int index, void *param)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 AActor *P_RoughMonsterSearch(AActor *mo, int distance, bool onlyseekable, bool frontonly, double fov)

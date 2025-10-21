@@ -190,7 +190,7 @@ namespace swrenderer
 	{
 		double dy;
 
-		if (viewpoint.camera != NULL)
+		if (viewpoint.camera != nullptr)
 		{
 			dy = FocalLengthY * (-viewpoint.Angles.Pitch).Tan();
 		}

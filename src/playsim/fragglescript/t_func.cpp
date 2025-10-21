@@ -229,7 +229,7 @@ static PClassActor * ActorTypes[countof(ActorNames_init)];
 //==========================================================================
 PClassActor * FParser::T_GetMobjType(svalue_t arg)
 {
-	PClassActor * pclass=NULL;
+	PClassActor * pclass=nullptr;
 	
 	if (arg.type==svt_string)
 	{
@@ -247,7 +247,7 @@ PClassActor * FParser::T_GetMobjType(svalue_t arg)
 	{
 		int objtype = intvalue(arg);
 		if (objtype>=0 && objtype<int(countof(ActorTypes))) pclass=ActorTypes[objtype];
-		else pclass=NULL;
+		else pclass=nullptr;
 
 		// invalid object to spawn
 		if(!pclass) script_error("unknown object type: %i\n", objtype); 
@@ -325,15 +325,15 @@ static PClassActor * T_GetAmmo(const svalue_t &t)
 		if(ammonum < 0 || ammonum >= 4)	
 		{
 			script_error("ammo number out of range: %i", ammonum);
-			return NULL;
+			return nullptr;
 		}
 		p=DefAmmo[ammonum];
 	}
 	auto am = PClass::FindActor(p);
-	if (am == NULL || !am->IsDescendantOf(PClass::FindClass(NAME_Ammo)))
+	if (am == nullptr || !am->IsDescendantOf(PClass::FindClass(NAME_Ammo)))
 	{
 		script_error("unknown ammo type : %s", p);
-		return NULL;
+		return nullptr;
 	}
 	return am;
 
@@ -442,7 +442,7 @@ void FParser::SF_Rnd(void)
 
 DFsSection *FParser::looping_section()
 {
-	DFsSection *best = NULL;         // highest level loop we're in
+	DFsSection *best = nullptr;         // highest level loop we're in
 	// that has been found so far
 	int n;
 	
@@ -736,7 +736,7 @@ void FParser::SF_PlayerName(void)
 	
 	if(!t_argc)
 	{
-		player_t *pl=NULL;
+		player_t *pl=nullptr;
 		if (Script->trigger) pl = Script->trigger->player;
 		if(pl) plnum = Level->PlayerNum(pl);
 		else plnum=-1;
@@ -767,7 +767,7 @@ void FParser::SF_PlayerObj(void)
 
 	if(!t_argc)
 	{
-		player_t *pl=NULL;
+		player_t *pl=nullptr;
 		if (Script->trigger) pl = Script->trigger->player;
 		if(pl) plnum = Level->PlayerNum(pl);
 		else plnum=-1;
@@ -872,7 +872,7 @@ void FParser::SF_Spawn(void)
 					if (t_return.value.mobj->flags&MF_COUNTKILL) Level->total_monsters--;
 					if (t_return.value.mobj->flags&MF_COUNTITEM) Level->total_items--;
 					t_return.value.mobj->Destroy();
-					t_return.value.mobj = NULL;
+					t_return.value.mobj = nullptr;
 				}
 			}
 		}
@@ -924,7 +924,7 @@ void FParser::SF_KillObj(void)
 		mo->flags2&=~(MF2_INVULNERABLE|MF2_DORMANT);
 		// [GrafZahl] This called P_KillMobj directly 
 		// which is a very bad thing to do!
-		P_DamageMobj(mo, NULL, NULL, mo->health, NAME_Massacre);
+		P_DamageMobj(mo, nullptr, nullptr, mo->health, NAME_Massacre);
 	}
 }
 
@@ -1045,7 +1045,7 @@ void FParser::SF_Teleport(void)
 		}
 		
 		if(mo)
-			Level->EV_Teleport(0, tag, NULL, 0, mo, TELF_DESTFOG | TELF_SOURCEFOG);
+			Level->EV_Teleport(0, tag, nullptr, 0, mo, TELF_DESTFOG | TELF_SOURCEFOG);
 	}
 }
 
@@ -1074,7 +1074,7 @@ void FParser::SF_SilentTeleport(void)
 		}
 		
 		if(mo)
-			Level->EV_Teleport(0, tag, NULL, 0, mo, TELF_KEEPORIENTATION);
+			Level->EV_Teleport(0, tag, nullptr, 0, mo, TELF_KEEPORIENTATION);
 	}
 }
 
@@ -1103,7 +1103,7 @@ void FParser::SF_DamageObj(void)
 		}
 		
 		if(mo)
-			P_DamageMobj(mo, NULL, Script->trigger, damageamount, NAME_None);
+			P_DamageMobj(mo, nullptr, Script->trigger, damageamount, NAME_None);
 	}
 }
 
@@ -1266,7 +1266,7 @@ void FParser::SF_MobjTarget(void)
 		if(t_argc > 1)
 		{
 			target = actorvalue(t_argv[1]);
-			if(mo && target && mo->SeeState) // haleyjd: added target check -- no NULL allowed
+			if(mo && target && mo->SeeState) // haleyjd: added target check -- no nullptr allowed
 			{
 				mo->target=target;
 				mo->SetState(mo->SeeState);
@@ -1591,7 +1591,7 @@ void FParser::SF_MoveFloor(void)
 		auto itr = Level->GetSectorTagIterator(tagnum);
 		while ((secnum = itr.Next()) >= 0)
 		{
-			Level->CreateFloor(&Level->sectors[secnum], DFloor::floorMoveToValue, NULL, platspeed, destheight, crush, 0, false, false);
+			Level->CreateFloor(&Level->sectors[secnum], DFloor::floorMoveToValue, nullptr, platspeed, destheight, crush, 0, false, false);
 		}
 	}
 }
@@ -1683,7 +1683,7 @@ void FParser::SF_MoveCeiling(void)
 		auto itr = Level->GetSectorTagIterator(tagnum);
 		while ((secnum = itr.Next()) >= 0)
 		{
-			Level->CreateCeiling(&Level->sectors[secnum], DCeiling::ceilMoveToValue, NULL, tagnum, platspeed, platspeed, destheight, crush, silent | 4, 0, DCeiling::ECrushMode::crushDoom);
+			Level->CreateCeiling(&Level->sectors[secnum], DCeiling::ceilMoveToValue, nullptr, tagnum, platspeed, platspeed, destheight, crush, silent | 4, 0, DCeiling::ECrushMode::crushDoom);
 		}
 	}
 }
@@ -2019,7 +2019,7 @@ void FParser::SF_OpenDoor(void)
 		if(t_argc > 2) speed = intvalue(t_argv[2]);
 		else speed = 1;    // 1= normal speed
 
-		Level->EV_DoDoor(wait_time ? DDoor::doorRaise : DDoor::doorOpen, NULL, NULL, sectag, 2. * clamp(speed, 1, 127), wait_time, 0, 0);
+		Level->EV_DoDoor(wait_time ? DDoor::doorRaise : DDoor::doorOpen, nullptr, nullptr, sectag, 2. * clamp(speed, 1, 127), wait_time, 0, 0);
 	}
 }
 
@@ -2044,7 +2044,7 @@ void FParser::SF_CloseDoor(void)
 		if(t_argc > 1) speed = intvalue(t_argv[1]);
 		else speed = 1;    // 1= normal speed
 		
-		Level->EV_DoDoor(DDoor::doorClose, NULL, NULL, sectag, 2.*clamp(speed, 1, 127), 0, 0, 0);
+		Level->EV_DoDoor(DDoor::doorClose, nullptr, nullptr, sectag, 2.*clamp(speed, 1, 127), 0, 0, 0);
 	}
 }
 
@@ -2075,7 +2075,7 @@ void FParser::SF_LineTrigger()
 		mld.special=intvalue(t_argv[0]);
 		mld.tag=t_argc > 1 ? intvalue(t_argv[1]) : 0;
 		Level->TranslateLineDef(&line, &mld);
-		P_ExecuteSpecial(Level, line.special, NULL, Script->trigger, false, 
+		P_ExecuteSpecial(Level, line.special, nullptr, Script->trigger, false,
 			line.args[0],line.args[1],line.args[2],line.args[3],line.args[4]); 
 	}
 }
@@ -2098,7 +2098,7 @@ bool FS_ChangeMusic(const char * string)
 			mysnprintf(buffer, countof(buffer), "D_%s", string);
 			if (fileSystem.CheckNumForName(buffer, ns_music)<0) 
 			{
-				S_ChangeMusic(NULL, 0);
+				S_ChangeMusic(nullptr, 0);
 				return false;
 			}
 			else S_ChangeMusic(buffer,true);
@@ -2218,7 +2218,7 @@ void FParser::SF_SetLineTexture(void)
 			while ((i = itr.Next()) >= 0)
 			{
 				// bad sidedef, Hexen just SEGV'd here!
-				if (Level->lines[i].sidedef[side] != NULL)
+				if (Level->lines[i].sidedef[side] != nullptr)
 				{
 					if (position >= 0 && position <= 2)
 					{
@@ -2238,7 +2238,7 @@ void FParser::SF_SetLineTexture(void)
 			while ((i = itr.Next()) >= 0)
 			{ 
 				side_t *sided = Level->lines[i].sidedef[side];
-				if(sided != NULL)
+				if(sided != nullptr)
 				{ 
 					if(sections & 1) sided->SetTexture(side_t::top, picnum);
 					if(sections & 2) sided->SetTexture(side_t::mid, picnum);
@@ -2511,7 +2511,7 @@ void FParser::SF_PlayerWeapon()
 		{
 			AActor * wp = Level->Players[playernum]->mo->FindInventory(ti);
 			t_return.type = svt_int;
-			t_return.value.i = wp!=NULL;
+			t_return.value.i = wp!=nullptr;
 			return;
 		}
 		else
@@ -3132,7 +3132,7 @@ void FParser::SF_MapThings()
 void FParser::SF_ObjState()
 {
 	int state;
-	AActor *mo = NULL;
+	AActor *mo = nullptr;
 
 	if (CheckArgs(1))
 	{
@@ -3338,7 +3338,7 @@ void FParser::SF_ObjType()
 		mo = Script->trigger;
 	}
 
-	if (mo != NULL)
+	if (mo != nullptr)
 	{
 		for (unsigned int i = 0; i < countof(ActorTypes); i++) if (mo->GetClass() == ActorTypes[i])
 		{
@@ -3717,7 +3717,7 @@ void FParser::SF_SetColor(void)
 
 void FParser::SF_SpawnShot2(void)
 {
-	AActor *source = NULL;
+	AActor *source = nullptr;
 	PClassActor * pclass;
 	double z = 0;
 
@@ -3747,7 +3747,7 @@ void FParser::SF_SpawnShot2(void)
 			mo->target = source;
 			mo->Angles.Yaw = source->Angles.Yaw;
 			mo->Thrust();
-			if (!P_CheckMissileSpawn(mo, source->radius)) mo = NULL;
+			if (!P_CheckMissileSpawn(mo, source->radius)) mo = nullptr;
 		}
 		t_return.value.mobj = mo;
 	}
@@ -3771,7 +3771,7 @@ void  FParser::SF_KillInSector()
 
 		while ((mo=it.Next()))
 		{
-			if (mo->flags3&MF3_ISMONSTER && Level->SectorHasTag(mo->Sector, tag)) P_DamageMobj(mo, NULL, NULL, 1000000, NAME_Massacre);
+			if (mo->flags3&MF3_ISMONSTER && Level->SectorHasTag(mo->Sector, tag)) P_DamageMobj(mo, nullptr, nullptr, 1000000, NAME_Massacre);
 		}
 	}
 }
@@ -3827,7 +3827,7 @@ void FParser::RunLineSpecial(const FLineSpecial *spec)
 			if (t_argc>i) args[i]=intvalue(t_argv[i]);
 			else args[i] = 0;
 		}
-		t_return.value.i = P_ExecuteSpecial(Level, spec->number, NULL,Script->trigger,false, args[0],args[1],args[2],args[3],args[4]);
+		t_return.value.i = P_ExecuteSpecial(Level, spec->number, nullptr,Script->trigger,false, args[0],args[1],args[2],args[3],args[4]);
 	}
 }
 
@@ -3849,7 +3849,7 @@ DRunningScript *FParser::SaveCurrentScript()
 		th->AddRunningScript(runscr);
 		return runscr;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -4047,7 +4047,7 @@ void DFraggleThinker::InitFunctions()
 	{
 		const FLineSpecial *ls = P_GetLineSpecialInfo(i);
 
-		if (ls != NULL && ls->max_args >= 0)	// specials with max args set to -1 can only be used in a map and are of no use hee.
+		if (ls != nullptr && ls->max_args >= 0)	// specials with max args set to -1 can only be used in a map and are of no use hee.
 		{
 			gscr->NewVariable(ls->name, svt_linespec)->value.ls = ls;
 		}

@@ -72,7 +72,7 @@ namespace swrenderer
 			return;
 
 		CameraLight *cameraLight = CameraLight::Instance();
-		if (cameraLight->FixedColormap() != NULL || cameraLight->FixedLightLevel() >= 0)
+		if (cameraLight->FixedColormap() != nullptr || cameraLight->FixedLightLevel() >= 0)
 			return; // [SP] no dynlights if invul or lightamp
 
 		auto Level = sec->sector->Level;

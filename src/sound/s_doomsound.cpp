@@ -502,9 +502,9 @@ static bool VerifyActorSound(AActor* ent, FSoundID& sound_id, int& channel, ECha
 
 void DoomSoundEngine::StopChannel(FSoundChan* chan)
 {
-	if (chan && chan->SysChannel != NULL && !(chan->ChanFlags & CHANF_EVICTED) && chan->SourceType == SOURCE_Actor)
+	if (chan && chan->SysChannel != nullptr && !(chan->ChanFlags & CHANF_EVICTED) && chan->SourceType == SOURCE_Actor)
 	{
-		chan->Source = NULL;
+		chan->Source = nullptr;
 	}
 	SoundEngine::StopChannel(chan);
 }

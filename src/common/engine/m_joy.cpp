@@ -258,7 +258,7 @@ void M_SaveJoystickConfig(IJoystickConfig *joy)
 	char key[32], value[32];
 	int axislen, numaxes;
 
-	if (GameConfig != NULL && M_SetJoystickConfigSection(joy, true, GameConfig))
+	if (GameConfig != nullptr && M_SetJoystickConfigSection(joy, true, GameConfig))
 	{
 		GameConfig->ClearCurrentSection();
 		if (!joy->GetEnabled())
@@ -579,7 +579,7 @@ double Joy_ManageSingleAxis(double axisval, double deadzone, double threshold, c
 		}
 	}
 
-	if (buttons != NULL)
+	if (buttons != nullptr)
 	{
 		*buttons = butt;
 	}
@@ -696,7 +696,7 @@ double Joy_ManageThumbstick(
 	*axis_x = ret_x;
 	*axis_y = ret_y;
 
-	if (buttons != NULL)
+	if (buttons != nullptr)
 	{
 		*buttons = ret_butt;
 	}

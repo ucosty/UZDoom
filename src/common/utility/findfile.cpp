@@ -76,7 +76,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 			d = opendir(basepath.c_str());
 			if (d)
 			{
-				while ((dir = readdir(d)) != NULL)
+				while ((dir = readdir(d)) != nullptr)
 				{
 					if (filename.CompareNoCase(dir->d_name) == 0)
 					{

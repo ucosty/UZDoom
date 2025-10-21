@@ -363,7 +363,7 @@ FUDMFKey *FUDMFKeys::Find(FName key)
 			max = mid - 1;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //===========================================================================
@@ -378,10 +378,10 @@ int GetUDMFInt(FLevelLocals *Level, int type, int index, FName key)
 
 	FUDMFKeys *pKeys = Level->UDMFKeys[type].CheckKey(index);
 
-	if (pKeys != NULL)
+	if (pKeys != nullptr)
 	{
 		FUDMFKey *pKey = pKeys->Find(key);
-		if (pKey != NULL)
+		if (pKey != nullptr)
 		{
 			return pKey->IntVal;
 		}
@@ -395,10 +395,10 @@ double GetUDMFFloat(FLevelLocals *Level, int type, int index, FName key)
 
 	FUDMFKeys *pKeys = Level->UDMFKeys[type].CheckKey(index);
 
-	if (pKeys != NULL)
+	if (pKeys != nullptr)
 	{
 		FUDMFKey *pKey = pKeys->Find(key);
-		if (pKey != NULL)
+		if (pKey != nullptr)
 		{
 			return pKey->FloatVal;
 		}
@@ -412,10 +412,10 @@ FString GetUDMFString(FLevelLocals *Level, int type, int index, FName key)
 
 	FUDMFKeys *pKeys = Level->UDMFKeys[type].CheckKey(index);
 
-	if (pKeys != NULL)
+	if (pKeys != nullptr)
 	{
 		FUDMFKey *pKey = pKeys->Find(key);
-		if (pKey != NULL)
+		if (pKey != nullptr)
 		{
 			return pKey->StringVal;
 		}
@@ -875,7 +875,7 @@ public:
 		ld->alpha = 1.;
 		ld->portalindex = UINT_MAX;
 		ld->portaltransferred = UINT_MAX;
-		ld->sidedef[0] = ld->sidedef[1] = NULL;
+		ld->sidedef[0] = ld->sidedef[1] = nullptr;
 		if (Level->flags2 & LEVEL2_CLIPMIDTEX) ld->flags |= ML_CLIP_MIDTEX;
 		if (Level->flags2 & LEVEL2_WRAPMIDTEX) ld->flags |= ML_WRAP_MIDTEX;
 		if (Level->flags2 & LEVEL2_CHECKSWITCHRANGE) ld->flags |= ML_CHECKSWITCHRANGE;
@@ -901,7 +901,7 @@ public:
 				if (namespc == NAME_Hexen)
 				{
 					if (ld->special < 0 || ld->special > 140 || !HexenLineSpecialOk[ld->special])
-						ld->special = 0;	// NULL all specials which don't exist in Hexen
+						ld->special = 0;	// nullptr all specials which don't exist in Hexen
 				}
 
 				continue;
@@ -1235,7 +1235,7 @@ public:
 		{
 			ld->alpha = 0.25;
 		}
-		if (ld->sidedef[0] == NULL)
+		if (ld->sidedef[0] == nullptr)
 		{
 			ld->sidedef[0] = (side_t*)(intptr_t)(1);
 			Printf("Line %d has no first side.\n", index);
@@ -1678,7 +1678,7 @@ public:
 		sec->seqType = (Level->flags & LEVEL_SNDSEQTOTALCTRL) ? 0 : -1;
 		sec->nextsec = -1;	//jff 2/26/98 add fields to support locking out
 		sec->prevsec = -1;	// stair retriggering until build completes
-		sec->heightsec = NULL;	// sector used to get floor and ceiling height
+		sec->heightsec = nullptr;	// sector used to get floor and ceiling height
 		sec->sectornum = index;
 		sec->damageinterval = 32;
 		sec->terrainnum[sector_t::ceiling] = sec->terrainnum[sector_t::floor] = -1;
@@ -1727,7 +1727,7 @@ public:
 				else if (namespc == NAME_Hexen)
 				{
 					if (sec->special < 0 || sec->special > 140 || !HexenSectorSpecialOk[sec->special])
-						sec->special = 0;	// NULL all unknown specials
+						sec->special = 0;	// nullptr all unknown specials
 				}
 				continue;
 
@@ -2403,9 +2403,9 @@ public:
 				ParsedLines[i].v1 = &Level->vertexes[v1i];
 				ParsedLines[i].v2 = &Level->vertexes[v2i];
 
-				if (ParsedLines[i].sidedef[0] != NULL)
+				if (ParsedLines[i].sidedef[0] != nullptr)
 					sidecount++;
-				if (ParsedLines[i].sidedef[1] != NULL)
+				if (ParsedLines[i].sidedef[1] != nullptr)
 					sidecount++;
 				loader->linemap.Push(i+skipped);
 				i++;
@@ -2427,7 +2427,7 @@ public:
 
 			for(int sd = 0; sd < 2; sd++)
 			{
-				if (lines[line].sidedef[sd] != NULL)
+				if (lines[line].sidedef[sd] != nullptr)
 				{
 					int mapside = int(intptr_t(lines[line].sidedef[sd]))-1;
 					if (mapside < sidecount)
@@ -2458,7 +2458,7 @@ public:
 					}
 					else
 					{
-						lines[line].sidedef[sd] = NULL;
+						lines[line].sidedef[sd] = nullptr;
 					}
 				}
 			}

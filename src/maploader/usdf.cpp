@@ -92,7 +92,7 @@ class USDFParser : public UDMFParserBase
 	bool ParseCostRequireExclude(FStrifeDialogueReply *response, FName type)
 	{
 		FStrifeDialogueItemCheck check;
-		check.Item = NULL;
+		check.Item = nullptr;
 		check.Amount = -1;
 
 		while (!sc.CheckToken('}'))
@@ -252,7 +252,7 @@ class USDFParser : public UDMFParserBase
 
 		reply->Reply = ReplyString;
 		reply->QuickYes = QuickYes;
-		if (reply->ItemCheck.Size() > 0 && reply->ItemCheck[0].Item != NULL)
+		if (reply->ItemCheck.Size() > 0 && reply->ItemCheck[0].Item != nullptr)
 		{
 			reply->QuickNo = QuickNo;
 		}
@@ -282,7 +282,7 @@ class USDFParser : public UDMFParserBase
 	bool ParseIfItem(FStrifeDialogueNode *node)
 	{
 		FStrifeDialogueItemCheck check;
-		check.Item = NULL;
+		check.Item = nullptr;
 		check.Amount = -1;
 
 		while (!sc.CheckToken('}'))
@@ -475,7 +475,7 @@ class USDFParser : public UDMFParserBase
 				}
 			}
 		}
-		if (type == NULL && dlgid == 0)
+		if (type == nullptr && dlgid == 0)
 		{
 			sc.ScriptMessage("No valid actor type defined in conversation.");
 			return false;

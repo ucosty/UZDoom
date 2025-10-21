@@ -84,7 +84,7 @@ CCMD (dumpclasses)
 
 		static DumpInfo *FindType (DumpInfo *root, const PClass *type)
 		{
-			if (root == NULL)
+			if (root == nullptr)
 			{
 				return root;
 			}
@@ -92,26 +92,26 @@ CCMD (dumpclasses)
 			{
 				return root;
 			}
-			if (root->Next != NULL)
+			if (root->Next != nullptr)
 			{
 				return FindType (root->Next, type);
 			}
-			if (root->Children != NULL)
+			if (root->Children != nullptr)
 			{
 				return FindType (root->Children, type);
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		static DumpInfo *AddType (DumpInfo **root, const PClass *type)
 		{
 			DumpInfo *info, *parentInfo;
 
-			if (*root == NULL)
+			if (*root == nullptr)
 			{
 				info = new DumpInfo;
 				info->Type = type;
-				info->Next = NULL;
+				info->Next = nullptr;
 				info->Children = *root;
 				*root = info;
 				return info;
@@ -127,13 +127,13 @@ CCMD (dumpclasses)
 			else
 			{
 				parentInfo = FindType (*root, type->ParentClass);
-				if (parentInfo == NULL)
+				if (parentInfo == nullptr)
 				{
 					parentInfo = AddType (root, type->ParentClass);
 				}
 			}
 			// Has this type already been added?
-			for (info = parentInfo->Children; info != NULL; info = info->Next)
+			for (info = parentInfo->Children; info != nullptr; info = info->Next)
 			{
 				if (info->Type == type)
 				{
@@ -143,7 +143,7 @@ CCMD (dumpclasses)
 			info = new DumpInfo;
 			info->Type = type;
 			info->Next = parentInfo->Children;
-			info->Children = NULL;
+			info->Children = nullptr;
 			parentInfo->Children = info;
 			return info;
 		}
@@ -151,11 +151,11 @@ CCMD (dumpclasses)
 		static void PrintTree (DumpInfo *root, int level)
 		{
 			Printf ("%*c%s\n", level, ' ', root->Type->TypeName.GetChars());
-			if (root->Children != NULL)
+			if (root->Children != nullptr)
 			{
 				PrintTree (root->Children, level + 2);
 			}
-			if (root->Next != NULL)
+			if (root->Next != nullptr)
 			{
 				PrintTree (root->Next, level);
 			}
@@ -163,11 +163,11 @@ CCMD (dumpclasses)
 
 		static void FreeTree (DumpInfo *root)
 		{
-			if (root->Children != NULL)
+			if (root->Children != nullptr)
 			{
 				FreeTree (root->Children);
 			}
-			if (root->Next != NULL)
+			if (root->Next != nullptr)
 			{
 				FreeTree (root->Next);
 			}
@@ -177,13 +177,13 @@ CCMD (dumpclasses)
 
 	unsigned int i;
 	int shown, omitted;
-	DumpInfo *tree = NULL;
-	const PClass *root = NULL;
+	DumpInfo *tree = nullptr;
+	const PClass *root = nullptr;
 
 	if (argv.argc() > 1)
 	{
 		root = PClass::FindClass (argv[1]);
-		if (root == NULL)
+		if (root == nullptr)
 		{
 			Printf ("Class '%s' not found\n", argv[1]);
 			return;
@@ -191,11 +191,11 @@ CCMD (dumpclasses)
 	}
 
 	shown = omitted = 0;
-	DumpInfo::AddType (&tree, root != NULL ? root : RUNTIME_CLASS(DObject));
+	DumpInfo::AddType (&tree, root != nullptr ? root : RUNTIME_CLASS(DObject));
 	for (i = 0; i < PClass::AllClasses.Size(); i++)
 	{
 		PClass *cls = PClass::AllClasses[i];
-		if (root == NULL || cls == root || cls->IsDescendantOf(root))
+		if (root == nullptr || cls == root || cls->IsDescendantOf(root))
 		{
 			DumpInfo::AddType (&tree, cls);
 //			Printf (" %s\n", PClass::m_Types[i]->Name + 1);
@@ -256,12 +256,12 @@ DObject::~DObject ()
 			if (!(ObjectFlags & (OF_YesReallyDelete|OF_Released)))
 			{
 				Printf("Warning: '%s' is freed outside the GC process.\n",
-					type != NULL ? type->TypeName.GetChars() : "==some object==");
+					type != nullptr ? type->TypeName.GetChars() : "==some object==");
 			}
 
 			if (!(ObjectFlags & OF_Released))
 			{
-				// Find all pointers that reference this object and NULL them.
+				// Find all pointers that reference this object and nullptr them.
 				Release();
 			}
 		}
@@ -278,7 +278,7 @@ void DObject::Release()
 	DObject **probe;
 
 	// Unlink this object from the GC list.
-	for (probe = &GC::Root; *probe != NULL; probe = &((*probe)->ObjNext))
+	for (probe = &GC::Root; *probe != nullptr; probe = &((*probe)->ObjNext))
 	{
 		if (*probe == this)
 		{
@@ -294,7 +294,7 @@ void DObject::Release()
 	// If it's gray, also unlink it from the gray list.
 	if (this->IsGray())
 	{
-		for (probe = &GC::Gray; *probe != NULL; probe = &((*probe)->GCNext))
+		for (probe = &GC::Gray; *probe != nullptr; probe = &((*probe)->GCNext))
 		{
 			if (*probe == this)
 			{

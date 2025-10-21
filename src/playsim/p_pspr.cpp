@@ -1252,7 +1252,7 @@ DAngle P_BulletSlope (AActor *mo, FTranslatedLineTarget *pLineTarget, int aimfla
 	FTranslatedLineTarget scratch;
 
 	aimflags &= ~ALF_IGNORENOAUTOAIM; // just to be safe.
-	if (pLineTarget == NULL) pLineTarget = &scratch;
+	if (pLineTarget == nullptr) pLineTarget = &scratch;
 	// see which target is to be aimed at
 	i = 2;
 	do
@@ -1266,7 +1266,7 @@ DAngle P_BulletSlope (AActor *mo, FTranslatedLineTarget *pLineTarget, int aimfla
 		{
 			break;
 		}
-	} while (pLineTarget->linetarget == NULL && --i >= 0);
+	} while (pLineTarget->linetarget == nullptr && --i >= 0);
 
 	return pitch;
 }
@@ -1413,7 +1413,7 @@ void P_SetSafeFlash(AActor *weapon, player_t *player, FState *flashstate, int in
 DEFINE_ACTION_FUNCTION(_PlayerInfo, SetSafeFlash)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(player_t);
-	PARAM_OBJECT_NOT_NULL(weapon, AActor);
+	PARAM_OBJECT_NOT_nullptr(weapon, AActor);
 	PARAM_POINTER(state, FState);
 	PARAM_INT(index);
 	P_SetSafeFlash(weapon, self, state, index);

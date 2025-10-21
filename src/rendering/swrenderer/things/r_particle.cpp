@@ -77,7 +77,7 @@ namespace swrenderer
 		double	 			tz, tiz;
 		double	 			xscale, yscale;
 		int 				x1, x2, y1, y2;
-		sector_t*			heightsec = NULL;
+		sector_t*			heightsec = nullptr;
 
 		double timefrac = Net_ModifyParticleFrac(particle, thread->Viewport->viewpoint.TicFrac);
 		if (paused || thread->Viewport->viewpoint.ViewLevel->isFrozen())
@@ -217,7 +217,7 @@ namespace swrenderer
 		vis->x2 = x2;
 		vis->Translation = 0;
 		vis->startfrac = 255 & (particle->color >> 24);
-		vis->pic = NULL;
+		vis->pic = nullptr;
 		vis->renderflags = (short)(particle->alpha * 255.0f + 0.5f);
 		vis->FakeFlatStat = fakeside;
 		vis->floorclip = 0;

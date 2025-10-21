@@ -147,7 +147,7 @@ FImageSource *PatchImage_TryCreate(FileReader & file, int lumpnum)
 	// quickly reject any lump which cannot be a texture without reading in all the data.
 	if (height > 0 && height <= 2048 && width > 0 && width <= 2048 && width < file.GetLength() / 4 && abs(leftoffset) < 4096 && abs(topoffset) < 4096)
 	{
-		if (!CheckIfPatch(file, isalpha)) return NULL;
+		if (!CheckIfPatch(file, isalpha)) return nullptr;
 		file.Seek(8, FileReader::SeekSet);
 		return new FPatchTexture(lumpnum, width, height, leftoffset, topoffset, isalpha);
 	}

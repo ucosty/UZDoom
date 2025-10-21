@@ -143,7 +143,7 @@ FRandom::FRandom (bool client)
 : NameCRC (0), bClient(client)
 {
 #ifndef NDEBUG
-	Name = NULL;
+	Name = nullptr;
 #endif
 	if (bClient)
 	{
@@ -180,14 +180,14 @@ FRandom::FRandom (const char *name, bool client) : bClient(client)
 	// Insert the RNG in the list, sorted by CRC
 	FRandom **prev = (bClient ? &CRNGList : &RNGList), * probe = (bClient ? CRNGList : RNGList);
 
-	while (probe != NULL && probe->NameCRC < NameCRC)
+	while (probe != nullptr && probe->NameCRC < NameCRC)
 	{
 		prev = &probe->Next;
 		probe = probe->Next;
 	}
 
 #ifndef NDEBUG
-	if (probe != NULL)
+	if (probe != nullptr)
 	{
 		// Because RNGs are identified by their CRCs in save games,
 		// no two RNGs can have names that hash to the same CRC.
@@ -211,18 +211,18 @@ FRandom::~FRandom ()
 {
 	FRandom *rng, **prev;
 
-	FRandom *last = NULL;
+	FRandom *last = nullptr;
 
 	prev = bClient ? &CRNGList : &RNGList;
 	rng = bClient ? CRNGList : RNGList;
 
-	while (rng != NULL && rng != this)
+	while (rng != nullptr && rng != this)
 	{
 		last = rng;
 		rng = rng->Next;
 	}
 
-	if (rng != NULL)
+	if (rng != nullptr)
 	{
 		*prev = rng->Next;
 	}
@@ -241,12 +241,12 @@ FRandom::~FRandom ()
 void FRandom::StaticClearRandom ()
 {
 	// go through each RNG and set each starting seed differently
-	for (FRandom *rng = FRandom::RNGList; rng != NULL; rng = rng->Next)
+	for (FRandom *rng = FRandom::RNGList; rng != nullptr; rng = rng->Next)
 	{
 		rng->Init(rngseed);
 	}
 
-	for (FRandom* rng = FRandom::CRNGList; rng != NULL; rng = rng->Next)
+	for (FRandom* rng = FRandom::CRNGList; rng != nullptr; rng = rng->Next)
 	{
 		rng->Init(rngseed);
 	}
@@ -284,7 +284,7 @@ void FRandom::StaticWriteRNGState (FSerializer &arc)
 
 	if (arc.BeginArray("rngs"))
 	{
-		for (rng = FRandom::RNGList; rng != NULL; rng = rng->Next)
+		for (rng = FRandom::RNGList; rng != nullptr; rng = rng->Next)
 		{
 			// Only write those RNGs that have names
 			if (rng->NameCRC != 0)
@@ -331,7 +331,7 @@ void FRandom::StaticReadRNGState(FSerializer &arc)
 				uint32_t crc;
 				arc("crc", crc);
 
-				for (rng = FRandom::RNGList; rng != NULL; rng = rng->Next)
+				for (rng = FRandom::RNGList; rng != nullptr; rng = rng->Next)
 				{
 					if (rng->NameCRC == crc)
 					{
@@ -368,13 +368,13 @@ FRandom *FRandom::StaticFindRNG (const char *name, bool client)
 	// Find the RNG in the list, sorted by CRC
 	FRandom **prev = (client ? &CRNGList : &RNGList), *probe = (client ? CRNGList : RNGList);
 
-	while (probe != NULL && probe->NameCRC < NameCRC)
+	while (probe != nullptr && probe->NameCRC < NameCRC)
 	{
 		prev = &probe->Next;
 		probe = probe->Next;
 	}
 	// Found one so return it.
-	if (probe == NULL || probe->NameCRC != NameCRC)
+	if (probe == nullptr || probe->NameCRC != NameCRC)
 	{
 		// A matching RNG doesn't exist yet so create it.
 		probe = new FRandom(name, client);
@@ -416,7 +416,7 @@ void FRandom::StaticPrintSeeds ()
 {
 	FRandom *rng = RNGList;
 
-	while (rng != NULL)
+	while (rng != nullptr)
 	{
 		int idx = rng->idx < SFMT::N32 ? rng->idx : 0;
 		Printf ("%s: %08x .. %d\n", rng->Name, rng->sfmt.u[idx], idx);

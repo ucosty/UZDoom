@@ -312,9 +312,9 @@ static void PrintToStdOut(const char *cpt, HANDLE StdOut)
 	}
 
 	DWORD bytes_written;
-	WriteFile(StdOut, printData.c_str(), (DWORD)printData.length(), &bytes_written, NULL);
+	WriteFile(StdOut, printData.c_str(), (DWORD)printData.length(), &bytes_written, nullptr);
 	if (terminal) 
-		WriteFile(StdOut, "\033[0m", 4, &bytes_written, NULL);
+		WriteFile(StdOut, "\033[0m", 4, &bytes_written, nullptr);
 }
 
 void I_PrintStr(const char *cp)
@@ -390,7 +390,7 @@ bool I_SetCursor(FGameTexture *cursorpic)
 {
 	HCURSOR cursor;
 
-	if (cursorpic != NULL && cursorpic->isValid())
+	if (cursorpic != nullptr && cursorpic->isValid())
 	{
 		auto image = cursorpic->GetTexture()->GetBgraBitmap(nullptr);
 		// Must be no larger than 32x32. (is this still necessary?
@@ -403,11 +403,11 @@ bool I_SetCursor(FGameTexture *cursorpic)
 		int to = cursorpic->GetTexelTopOffset();
 
 		cursor = CreateAlphaCursor(image, lo, to);
-		if (cursor == NULL)
+		if (cursor == nullptr)
 		{
 			cursor = CreateCompatibleCursor(image, lo, to);
 		}
-		if (cursor == NULL)
+		if (cursor == nullptr)
 		{
 			return false;
 		}
@@ -418,7 +418,7 @@ bool I_SetCursor(FGameTexture *cursorpic)
 	else
 	{
 		DestroyCustomCursor();
-		cursor = LoadCursor(NULL, IDC_ARROW);
+		cursor = LoadCursor(nullptr, IDC_ARROW);
 	}
 	SetClassLongPtr(mainwindow.GetHandle(), GCLP_HCURSOR, (LONG_PTR)cursor);
 	if (NativeMouse)
@@ -455,8 +455,8 @@ static HCURSOR CreateCompatibleCursor(FBitmap &bmp, int leftofs, int topofs)
 	int picheight = bmp.GetHeight();
 
 	// Create bitmap masks for the cursor from the texture.
-	HDC dc = GetDC(NULL);
-	if (dc == NULL)
+	HDC dc = GetDC(nullptr);
+	if (dc == nullptr)
 	{
 		return nullptr;
 	}
@@ -464,7 +464,7 @@ static HCURSOR CreateCompatibleCursor(FBitmap &bmp, int leftofs, int topofs)
 	HDC xor_mask_dc = CreateCompatibleDC(dc);
 	HBITMAP and_mask = CreateCompatibleBitmap(dc, 32, 32);
 	HBITMAP xor_mask = CreateCompatibleBitmap(dc, 32, 32);
-	ReleaseDC(NULL, dc);
+	ReleaseDC(nullptr, dc);
 
 	SelectObject(and_mask_dc, and_mask);
 	SelectObject(xor_mask_dc, xor_mask);
@@ -532,27 +532,27 @@ static HCURSOR CreateAlphaCursor(FBitmap &source, int leftofs, int topofs)
 	bi.bV5BlueMask  = 0x000000FF;
 	bi.bV5AlphaMask = 0xFF000000;
 
-	dc = GetDC(NULL);
-	if (dc == NULL)
+	dc = GetDC(nullptr);
+	if (dc == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Create the DIB section with an alpha channel.
-	color = CreateDIBSection(dc, (BITMAPINFO *)&bi, DIB_RGB_COLORS, &bits, NULL, 0);
-	ReleaseDC(NULL, dc);
+	color = CreateDIBSection(dc, (BITMAPINFO *)&bi, DIB_RGB_COLORS, &bits, nullptr, 0);
+	ReleaseDC(nullptr, dc);
 
-	if (color == NULL)
+	if (color == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Create an empty mask bitmap, since CreateIconIndirect requires this.
-	mono = CreateBitmap(32 * scale, 32 * scale, 1, 1, NULL);
-	if (mono == NULL)
+	mono = CreateBitmap(32 * scale, 32 * scale, 1, 1, nullptr);
+	if (mono == nullptr)
 	{
 		DeleteObject(color);
-		return NULL;
+		return nullptr;
 	}
 
 	// Copy cursor to the color bitmap. Note that GDI bitmaps are upside down compared
@@ -618,10 +618,10 @@ static HCURSOR CreateBitmapCursor(int xhot, int yhot, HBITMAP and_mask, HBITMAP 
 
 void DestroyCustomCursor()
 {
-	if (CustomCursor != NULL)
+	if (CustomCursor != nullptr)
 	{
 		DestroyCursor(CustomCursor);
-		CustomCursor = NULL;
+		CustomCursor = nullptr;
 	}
 }
 
@@ -641,12 +641,12 @@ bool I_WriteIniFailed(const char* filename)
 	FormatMessageA (FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 					FORMAT_MESSAGE_FROM_SYSTEM | 
 					FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPSTR)&lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 	errortext.Format ("The config file %s could not be written:\n%s", filename, lpMsgBuf);
 	LocalFree (lpMsgBuf);
@@ -669,11 +669,11 @@ unsigned int I_MakeRNGSeed()
 	// If RtlGenRandom is available, use that to avoid increasing the
 	// working set by pulling in all of the crytographic API.
 	HMODULE advapi = GetModuleHandleA("advapi32.dll");
-	if (advapi != NULL)
+	if (advapi != nullptr)
 	{
 		BOOLEAN (APIENTRY *RtlGenRandom)(void *, ULONG) =
 			(BOOLEAN (APIENTRY *)(void *, ULONG))GetProcAddress(advapi, "SystemFunction036");
-		if (RtlGenRandom != NULL)
+		if (RtlGenRandom != nullptr)
 		{
 			if (RtlGenRandom(&seed, sizeof(seed)))
 			{
@@ -686,13 +686,13 @@ unsigned int I_MakeRNGSeed()
 	// time() is used as a fallback.
 	HCRYPTPROV prov;
 
-	if (!CryptAcquireContext(&prov, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+	if (!CryptAcquireContext(&prov, nullptr, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
 	{
-		return (unsigned int)time(NULL);
+		return (unsigned int)time(nullptr);
 	}
 	if (!CryptGenRandom(prov, sizeof(seed), (uint8_t *)&seed))
 	{
-		seed = (unsigned int)time(NULL);
+		seed = (unsigned int)time(nullptr);
 	}
 	CryptReleaseContext(prov, 0);
 	return seed;
@@ -830,7 +830,7 @@ void I_OpenShellFolder(const char* infolder)
 	{
 		if (longsavemessages)
 			Printf("Opening folder: %s\n", infolder);
-		ShellExecuteW(NULL, L"open", L"explorer.exe", L".", NULL, SW_SHOWNORMAL);
+		ShellExecuteW(nullptr, L"open", L"explorer.exe", L".", nullptr, SW_SHOWNORMAL);
 		SetCurrentDirectoryW(curdir.Data());
 	}
 	else

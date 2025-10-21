@@ -80,7 +80,7 @@ void ST_LoadCrosshair(int num, bool alwaysload)
 	char name[16];
 	char size;
 
-	if (!alwaysload && CrosshairNum == num && CrosshairImage != NULL)
+	if (!alwaysload && CrosshairNum == num && CrosshairImage != nullptr)
 	{ // No change.
 		return;
 	}
@@ -88,7 +88,7 @@ void ST_LoadCrosshair(int num, bool alwaysload)
 	if (num == 0)
 	{
 		CrosshairNum = 0;
-		CrosshairImage = NULL;
+		CrosshairImage = nullptr;
 		return;
 	}
 	if (num < 0)
@@ -114,7 +114,7 @@ void ST_LoadCrosshair(int num, bool alwaysload)
 
 void ST_UnloadCrosshair()
 {
-	CrosshairImage = NULL;
+	CrosshairImage = nullptr;
 	CrosshairNum = 0;
 }
 
@@ -132,7 +132,7 @@ void ST_DrawCrosshair(int phealth, double xpos, double ypos, double scale, DAngl
 	int w, h;
 
 	// Don't draw the crosshair if there is none
-	if (CrosshairImage == NULL)
+	if (CrosshairImage == nullptr)
 	{
 		return;
 	}
@@ -773,7 +773,7 @@ void DStatusBarCore::DrawString(FFont* font, const FString& cstring, double x, d
 
 		int width;
 		FGameTexture* c = font->GetChar(ch, fontcolor, &width);
-		if (c == NULL) //missing character.
+		if (c == nullptr) //missing character.
 		{
 			continue;
 		}

@@ -138,12 +138,12 @@ void DWallLightTransfer::Construct(sector_t *srcSec, int target, uint8_t flags)
 	auto itr = Level->GetLineIdIterator(target);
 	while ((linenum = itr.Next()) >= 0)
 	{
-		if (flags & WLF_SIDE1 && Level->lines[linenum].sidedef[0] != NULL)
+		if (flags & WLF_SIDE1 && Level->lines[linenum].sidedef[0] != nullptr)
 		{
 			Level->lines[linenum].sidedef[0]->Flags |= wallflags;
 		}
 
-		if (flags & WLF_SIDE2 && Level->lines[linenum].sidedef[1] != NULL)
+		if (flags & WLF_SIDE2 && Level->lines[linenum].sidedef[1] != nullptr)
 		{
 			Level->lines[linenum].sidedef[1]->Flags |= wallflags;
 		}
@@ -170,12 +170,12 @@ void DWallLightTransfer::DoTransfer (short lightlevel, int target, uint8_t flags
 	{
 		line_t *line = &Level->lines[linenum];
 
-		if (flags & WLF_SIDE1 && line->sidedef[0] != NULL)
+		if (flags & WLF_SIDE1 && line->sidedef[0] != nullptr)
 		{
 			line->sidedef[0]->SetLight(lightlevel);
 		}
 
-		if (flags & WLF_SIDE2 && line->sidedef[1] != NULL)
+		if (flags & WLF_SIDE2 && line->sidedef[1] != nullptr)
 		{
 			line->sidedef[1]->SetLight(lightlevel);
 		}

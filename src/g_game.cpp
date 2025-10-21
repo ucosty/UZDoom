@@ -226,7 +226,7 @@ float 			mousey;
 FString			savegamefile;
 FString			savedescription;
 
-// [RH] Name of screenshot file to generate (usually NULL)
+// [RH] Name of screenshot file to generate (usually nullptr)
 FString			shotfile;
 
 FString savename;
@@ -481,7 +481,7 @@ CCMD (invuse)
 CCMD(invquery)
 {
 	AActor *inv = players[consoleplayer].mo->PointerVar<AActor>(NAME_InvSel);
-	if (inv != NULL)
+	if (inv != nullptr)
 	{
 		Printf(PRINT_HIGH, "%s (%dx)\n", inv->GetTag(), inv->IntVar(NAME_Amount));
 	}
@@ -491,7 +491,7 @@ constexpr char True[] = "true";
 
 CCMD (use)
 {
-	if (argv.argc() > 1 && players[consoleplayer].mo != NULL)
+	if (argv.argc() > 1 && players[consoleplayer].mo != nullptr)
 	{
 		bool subclass = false;
 		if (argv.argc() > 2)
@@ -518,7 +518,7 @@ CCMD (weapdrop)
 
 CCMD (drop)
 {
-	if (argv.argc() > 1 && players[consoleplayer].mo != NULL)
+	if (argv.argc() > 1 && players[consoleplayer].mo != nullptr)
 	{
 		bool subclass = false;
 		if (argv.argc() > 3)
@@ -551,7 +551,7 @@ CCMD (select)
 			subclass = !stricmp(argv[2], True) || atoi(argv[2]);
 
 		auto item = user->FindInventory(argv[1], subclass);
-		if (item != NULL)
+		if (item != nullptr)
 		{
 			user->PointerVar<AActor>(NAME_InvSel) = item;
 		}
@@ -830,20 +830,20 @@ void G_BuildTiccmd (usercmd_t *cmd)
 	if (SendItemUse == (const AActor *)1)
 	{
 		Net_WriteInt8 (DEM_INVUSEALL);
-		SendItemUse = NULL;
+		SendItemUse = nullptr;
 	}
-	else if (SendItemUse != NULL)
+	else if (SendItemUse != nullptr)
 	{
 		Net_WriteInt8 (DEM_INVUSE);
 		Net_WriteInt32 (SendItemUse->InventoryID);
-		SendItemUse = NULL;
+		SendItemUse = nullptr;
 	}
-	if (SendItemDrop != NULL)
+	if (SendItemDrop != nullptr)
 	{
 		Net_WriteInt8 (DEM_INVDROP);
 		Net_WriteInt32 (SendItemDrop->InventoryID);
 		Net_WriteInt32(SendItemDropAmount);
-		SendItemDrop = NULL;
+		SendItemDrop = nullptr;
 	}
 
 	cmd->forwardmove <<= 8;
@@ -865,7 +865,7 @@ static int LookAdjust(int look)
 {
 	look <<= 16;
 	if (players[consoleplayer].playerstate != PST_DEAD &&		// No adjustment while dead.
-		players[consoleplayer].ReadyWeapon != NULL)			// No adjustment if no weapon.
+		players[consoleplayer].ReadyWeapon != nullptr)			// No adjustment if no weapon.
 	{
 		auto FOVScale = players[consoleplayer].ReadyWeapon->FloatVar(NAME_FOVScale);
 		auto LookScale = players[consoleplayer].ReadyWeapon->FloatVar(NAME_LookScale);
@@ -957,7 +957,7 @@ static void ChangeSpy (int changespy)
 	}
 
 	// If not viewing through a player, return your eyes to your own head.
-	if (players[consoleplayer].camera->player == NULL)
+	if (players[consoleplayer].camera->player == nullptr)
 	{
 		// When watching demos, you will just have to wait until your player
 		// has done this for you, since it could desync otherwise.
@@ -979,7 +979,7 @@ static void ChangeSpy (int changespy)
 	{
 		player_t *player = players[consoleplayer].camera->player;
 		// only use the camera as starting index if it's a valid player.
-		if (player != NULL) pnum = int(players[consoleplayer].camera->player - players);
+		if (player != nullptr) pnum = int(players[consoleplayer].camera->player - players);
 
 		int step = (changespy == SPY_NEXT) ? 1 : -1;
 
@@ -989,7 +989,7 @@ static void ChangeSpy (int changespy)
 			pnum &= MAXPLAYERS-1;
 			if (playeringame[pnum] &&
 				(!checkTeam || players[pnum].mo->IsTeammate (players[consoleplayer].mo) ||
-				(bot_allowspy && players[pnum].Bot != NULL)))
+				(bot_allowspy && players[pnum].Bot != nullptr)))
 			{
 				break;
 			}
@@ -1448,7 +1448,7 @@ void FLevelLocals::PlayerReborn (int player)
 	}
 
 	//Added by MC: Init bot structure.
-	if (p->Bot != NULL)
+	if (p->Bot != nullptr)
 	{
 		botskill_t skill = p->Bot->skill;
 		p->Bot->Clear ();
@@ -1540,7 +1540,7 @@ double FLevelLocals::PlayersRangeFromSpot (FPlayerStart *spot)
 FPlayerStart *FLevelLocals::SelectFarthestDeathmatchSpot (size_t selections)
 {
 	double bestdistance = 0;
-	FPlayerStart *bestspot = NULL;
+	FPlayerStart *bestspot = nullptr;
 	unsigned int i;
 
 	for (i = 0; i < selections; i++)
@@ -1633,7 +1633,7 @@ void FLevelLocals::DeathMatchSpawnPlayer (int playernum)
 	else
 		spot = SelectRandomDeathmatchSpot (playernum, selections);
 
-	if (spot == NULL)
+	if (spot == nullptr)
 	{ // No good spot, so the player will probably get stuck.
 	  // We were probably using select farthest above, and all
 	  // the spots were taken.
@@ -1642,7 +1642,7 @@ void FLevelLocals::DeathMatchSpawnPlayer (int playernum)
 		{ // This map doesn't have enough coop spots for this player
 		  // to use one.
 			spot = SelectRandomDeathmatchSpot(playernum, selections);
-			if (spot == NULL)
+			if (spot == nullptr)
 			{ // We have a player 1 start, right?
 				spot = &playerstarts[0];
 				if (spot->type == 0)
@@ -1653,7 +1653,7 @@ void FLevelLocals::DeathMatchSpawnPlayer (int playernum)
 		}
 	}
 	AActor *mo = SpawnPlayer(spot, playernum);
-	if (mo != NULL) P_PlayerStartStomp(mo);
+	if (mo != nullptr) P_PlayerStartStomp(mo);
 }
 
 
@@ -1664,7 +1664,7 @@ FPlayerStart *FLevelLocals::PickPlayerStart(int playernum, int flags)
 {
 	if (AllPlayerStarts.Size() == 0) // No starts to pick
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ((flags2 & LEVEL2_RANDOMPLAYERSTARTS) || (flags & PPS_FORCERANDOM) ||
@@ -1721,7 +1721,7 @@ void FLevelLocals::QueueBody (AActor *body)
 	int modslot = bodyqueslot % BODYQUESIZE;
 	bodyqueslot = modslot + 1;
 
-	if (bodyqueslot >= BODYQUESIZE && bodyque[modslot] != NULL)
+	if (bodyqueslot >= BODYQUESIZE && bodyque[modslot] != nullptr)
 	{
 		bodyque[modslot]->Destroy ();
 	}
@@ -1788,9 +1788,9 @@ void FLevelLocals::DoReborn (int playernum, bool force)
 		PlayerSpawnPickClass(playernum);
 
 		// this condition should never be false
-		assert(players[playernum].cls != NULL);
+		assert(players[playernum].cls != nullptr);
 
-		if (players[playernum].cls != NULL)
+		if (players[playernum].cls != nullptr)
 		{
 			isUnfriendly = !(GetDefaultByType(players[playernum].cls)->flags & MF_FRIENDLY);
 			DPrintf(DMSG_NOTIFY, "Player class IS defined: unfriendly is %i\n", isUnfriendly);
@@ -1807,7 +1807,7 @@ void FLevelLocals::DoReborn (int playernum, bool force)
 		if (players[playernum].mo)
 		{
 			QueueBody (players[playernum].mo);
-			players[playernum].mo->player = NULL;
+			players[playernum].mo->player = nullptr;
 		}
 
 		// spawn at random spot if in deathmatch
@@ -1822,13 +1822,13 @@ void FLevelLocals::DoReborn (int playernum, bool force)
 			CheckSpot (playernum, &playerstarts[playernum]))
 		{
 			AActor *mo = SpawnPlayer(&playerstarts[playernum], playernum);
-			if (mo != NULL) P_PlayerStartStomp(mo, true);
+			if (mo != nullptr) P_PlayerStartStomp(mo, true);
 		}
 		else
 		{ // try to spawn at any random player's spot
 			FPlayerStart *start = PickPlayerStart(playernum, PPS_FORCERANDOM);
 			AActor *mo = SpawnPlayer(start, playernum);
-			if (mo != NULL) P_PlayerStartStomp(mo, true);
+			if (mo != nullptr) P_PlayerStartStomp(mo, true);
 		}
 	}
 }
@@ -1851,7 +1851,7 @@ void G_DoPlayerPop(int playernum)
 		if (playeringame[ii] && players[ii].camera == players[playernum].mo)
 		{
 			players[ii].camera = players[ii].mo;
-			if (ii == consoleplayer && StatusBar != NULL)
+			if (ii == consoleplayer && StatusBar != nullptr)
 			{
 				StatusBar->AttachToPlayer(&players[ii]);
 			}
@@ -1865,10 +1865,10 @@ void G_DoPlayerPop(int playernum)
 	mo->Level->localEventManager->PlayerDisconnected(playernum);
 	// [RH] Let the scripts know the player left
 	mo->Level->Behaviors.StartTypedScripts(SCRIPT_Disconnect, mo, true, playernum, true);
-	if (mo != NULL)
+	if (mo != nullptr)
 	{
 		P_DisconnectEffect(mo);
-		mo->player = NULL;
+		mo->player = nullptr;
 		mo->Destroy();
 		if (!(players[playernum].mo->ObjectFlags & OF_EuthanizeMe))
 		{ // We just destroyed a morphed player, so now the original player
@@ -1900,7 +1900,7 @@ void G_ScreenShot (const char *filename)
 //
 void G_LoadGame (const char* name, bool hidecon)
 {
-	if (name != NULL)
+	if (name != nullptr)
 	{
 		savename = name;
 		gameaction = !hidecon ? ga_loadgame : ga_loadgamehidecon;
@@ -1909,7 +1909,7 @@ void G_LoadGame (const char* name, bool hidecon)
 
 static bool CheckSingleWad (const char *name, bool &printRequires, bool printwarn)
 {
-	if (name == NULL)
+	if (name == nullptr)
 	{
 		return true;
 	}
@@ -2661,7 +2661,7 @@ void G_BeginRecording (const char *startmap)
 {
 	unsigned int i;
 
-	if (startmap == NULL)
+	if (startmap == nullptr)
 	{
 		startmap = primaryLevel->MapName.c_str();
 	}
@@ -2893,7 +2893,7 @@ bool G_ProcessIFFDemo (FString &mapname)
 
 	if (!bodyHit)
 	{
-		zdembodyend = NULL;
+		zdembodyend = nullptr;
 		Printf ("Demo has no BODY chunk!\n");
 		return true;
 	}
@@ -2961,7 +2961,7 @@ void G_DoPlayDemo (void)
 
 		C_ForgetCVars();
 		demobuffer.Reset();
-		demo_p = NULL;
+		demo_p = nullptr;
 		if (singledemo)
 		{
 			I_Error ("%s", eek);
@@ -3051,7 +3051,7 @@ bool G_CheckDemoStatus (void)
 			playeringame[i] = 0;
 		consoleplayer = 0;
 		players[0].camera = nullptr;
-		if (StatusBar != NULL)
+		if (StatusBar != nullptr)
 		{
 			StatusBar->AttachToPlayer (&players[0]);
 		}

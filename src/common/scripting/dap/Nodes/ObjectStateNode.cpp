@@ -28,7 +28,7 @@ bool ObjectStateNode::SerializeToProtocol(dap::Variable &variable)
 	{
 		if (!m_value.a)
 		{
-			variable.value = StringFormat("%s <NULL>", typeName);
+			variable.value = StringFormat("%s <nullptr>", typeName);
 		}
 		else if (m_VMType != nullptr && !m_subView && pointedType != m_VMType)
 		{

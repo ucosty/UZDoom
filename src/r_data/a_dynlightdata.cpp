@@ -48,7 +48,7 @@
 inline PClassActor * GetRealType(PClassActor * ti)
 {
 	PClassActor *rep = ti->GetReplacement(nullptr, false);
-	if (rep != ti && rep != NULL && rep->IsDescendantOf(NAME_DehackedPickup))
+	if (rep != ti && rep != nullptr && rep->IsDescendantOf(NAME_DehackedPickup))
 	{
 		return rep;
 	}
@@ -211,7 +211,7 @@ void AddLightDefaults(FLightDefaults *defaults, double attnFactor)
 FInternalLightAssociation::FInternalLightAssociation(FLightAssociation * asso)
 {
 
-	m_AssocLight=NULL;
+	m_AssocLight=nullptr;
 	for(unsigned int i=0;i<LightDefaults.Size();i++)
 	{
 		if (LightDefaults[i]->GetName() == asso->Light())
@@ -276,7 +276,7 @@ void InitializeActorLights(TArray<FLightAssociation> &LightAssociations)
 	{
 		if (ParsedStateLights[i] != NAME_None)
 		{
-			StateLights[i] = (FLightDefaults*)-1;	// something invalid that's not NULL.
+			StateLights[i] = (FLightDefaults*)-1;	// something invalid that's not nullptr.
 			for(unsigned int j=0;j<LightDefaults.Size();j++)
 			{
 				if (LightDefaults[j]->GetName() == ParsedStateLights[i])
@@ -286,9 +286,9 @@ void InitializeActorLights(TArray<FLightAssociation> &LightAssociations)
 				}
 			}
 		}
-		else StateLights[i] = NULL;
+		else StateLights[i] = nullptr;
 	}
-	StateLights[StateLights.Size()-1] = NULL;	// terminator
+	StateLights[StateLights.Size()-1] = nullptr;	// terminator
 	ParsedStateLights.Clear();
 	ParsedStateLights.ShrinkToFit();
 }

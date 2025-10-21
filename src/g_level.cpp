@@ -461,7 +461,7 @@ void G_NewInit ()
 	AActor *pawn, *next;
 
 	next = it.Next();
-	while ((pawn = next) != NULL)
+	while ((pawn = next) != nullptr)
 	{
 		next = it.Next();
 		pawn->flags |= MF_NOSECTOR | MF_NOBLOCKMAP;
@@ -543,7 +543,7 @@ static void InitPlayerClasses ()
 			{
 				SinglePlayerClass[i] = (pr_classchoice()) % PlayerClasses.Size ();
 			}
-			players[i].cls = NULL;
+			players[i].cls = nullptr;
 			players[i].CurrentPlayerClass = SinglePlayerClass[i];
 		}
 	}
@@ -743,10 +743,10 @@ void FLevelLocals::ChangeLevel(const char *levelname, int position, int inflags,
 		return;
 	}
 
-	if (levelname == NULL || *levelname == 0)
+	if (levelname == nullptr || *levelname == 0)
 	{
 		// end the game
-		levelname = NULL;
+		levelname = nullptr;
 		if (!NextMap.Compare("enDSeQ",6))
 		{
 			nextlevel = NextMap;	// If there is already an end sequence please leave it alone!
@@ -761,10 +761,10 @@ void FLevelLocals::ChangeLevel(const char *levelname, int position, int inflags,
 		FString reallevelname = levelname;
 		CheckWarpTransMap(reallevelname, true);
 		nextinfo = FindLevelInfo (reallevelname.c_str(), false);
-		if (nextinfo != NULL)
+		if (nextinfo != nullptr)
 		{
 			level_info_t *nextredir = nextinfo->CheckLevelRedirect();
-			if (nextredir != NULL)
+			if (nextredir != nullptr)
 			{
 				nextinfo = nextredir;
 			}
@@ -789,12 +789,12 @@ void FLevelLocals::ChangeLevel(const char *levelname, int position, int inflags,
 	}
 
 	cluster_info_t *thiscluster = FindClusterInfo (cluster);
-	cluster_info_t *nextcluster = nextinfo? FindClusterInfo (nextinfo->cluster) : NULL;
+	cluster_info_t *nextcluster = nextinfo? FindClusterInfo (nextinfo->cluster) : nullptr;
 
 	startpos = position;
 	SetMusicVolume(1.0);
 
-	if (nextinfo != NULL)
+	if (nextinfo != nullptr)
 	{
 		if (thiscluster != nextcluster || (thiscluster && !(thiscluster->flags & CLUSTER_HUB)))
 		{
@@ -815,7 +815,7 @@ void FLevelLocals::ChangeLevel(const char *levelname, int position, int inflags,
 
 	// [RH] Give scripts a chance to do something
 	unloading = true;
-	Behaviors.StartTypedScripts (SCRIPT_Unloading, NULL, false, 0, true);
+	Behaviors.StartTypedScripts (SCRIPT_Unloading, nullptr, false, 0, true);
 	// [ZZ] safe world unload
 	for (auto Level : AllLevels())
 	{
@@ -850,7 +850,7 @@ void FLevelLocals::ChangeLevel(const char *levelname, int position, int inflags,
 				&& !deathmatch && player->playerstate == PST_DEAD)
 			{
 				// Copied from the end of P_DeathThink [[
-				player->cls = NULL;		// Force a new class if the player is using a random class
+				player->cls = nullptr;		// Force a new class if the player is using a random class
 				player->playerstate = PST_REBORN;
 				if (player->mo->special1 > 2)
 				{
@@ -961,7 +961,7 @@ DIntermissionController* FLevelLocals::CreateIntermission()
 	bool endgame = strncmp (nextlevel.c_str(), "enDSeQ", 6) == 0;
 	if (endgame)
 	{
-		FName endsequence = ENamedName(strtoll(nextlevel.c_str()+6, NULL, 16));
+		FName endsequence = ENamedName(strtoll(nextlevel.c_str()+6, nullptr, 16));
 		// Strife needs a special case here to choose between good and sad ending. Bad is handled elsewhere.
 		if (endsequence == NAME_Inter_Strife)
 		{
@@ -1195,7 +1195,7 @@ bool FLevelLocals::DoCompleted (FString nextlevel, wbstartstruct_t &wminfo)
 	else
 	{
 		level_info_t *nextinfo = FindLevelInfo (nextlevel.c_str(), false);
-		if (nextinfo == NULL || strncmp (nextlevel.c_str(), "enDSeQ", 6) == 0)
+		if (nextinfo == nullptr || strncmp (nextlevel.c_str(), "enDSeQ", 6) == 0)
 		{
 			wminfo.next = "";
 			wminfo.LName1.SetInvalid();
@@ -1535,7 +1535,7 @@ void FLevelLocals::DoLoadLevel(const FString &nextmapname, int position, bool au
 	if (FromSnapshot)
 	{
 		// [Nash] run REOPEN scripts upon map re-entry
-		Behaviors.StartTypedScripts(SCRIPT_Reopen, NULL, false);
+		Behaviors.StartTypedScripts(SCRIPT_Reopen, nullptr, false);
 	}
 
 	StatusBar->AttachToPlayer (&players[consoleplayer]);
@@ -2265,7 +2265,7 @@ void P_ReadACSDefereds (FSerializer &arc)
 		while ((key = arc.GetKey()))
 		{
 			level_info_t *i = FindLevelInfo(key);
-			if (i == NULL)
+			if (i == nullptr)
 			{
 				I_Error("Unknown map '%s' in savegame", key);
 			}

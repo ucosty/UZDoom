@@ -53,8 +53,8 @@ static const EAxisCodes ControllerAxisCodes[][2] =
 	{ AXIS_CODE_PAD_LTHUMB_DOWN, AXIS_CODE_PAD_LTHUMB_UP },
 	{ AXIS_CODE_PAD_RTHUMB_RIGHT, AXIS_CODE_PAD_RTHUMB_LEFT },
 	{ AXIS_CODE_PAD_RTHUMB_DOWN, AXIS_CODE_PAD_RTHUMB_UP },
-	{ AXIS_CODE_PAD_LTRIGGER, AXIS_CODE_NULL },
-	{ AXIS_CODE_PAD_RTRIGGER, AXIS_CODE_NULL }
+	{ AXIS_CODE_PAD_LTRIGGER, AXIS_CODE_nullptr },
+	{ AXIS_CODE_PAD_RTRIGGER, AXIS_CODE_nullptr }
 };
 
 #define HAPTICS          0b0001
@@ -77,12 +77,12 @@ public:
 		if (SDL_IsGameController(DeviceIndex))
 		{
 			Mapping = SDL_GameControllerOpen(DeviceIndex);
-			Device = NULL;
+			Device = nullptr;
 
 			DefaultAxes = DefaultControllerAxes;
 			DefaultAxesCount = sizeof(DefaultControllerAxes) / sizeof(DefaultAxisConfig);
 
-			if(Mapping != NULL)
+			if(Mapping != nullptr)
 			{
 				NumAxes = SDL_CONTROLLER_AXIS_MAX;
 				NumHats = 0;
@@ -94,12 +94,12 @@ public:
 		else
 		{
 			Device = SDL_JoystickOpen(DeviceIndex);
-			Mapping = NULL;
+			Mapping = nullptr;
 
 			DefaultAxes = DefaultJoystickAxes;
 			DefaultAxesCount = sizeof(DefaultJoystickAxes) / sizeof(DefaultAxisConfig);
 
-			if(Device != NULL)
+			if(Device != nullptr)
 			{
 				NumAxes = SDL_JoystickNumAxes(Device);
 				NumHats = SDL_JoystickNumHats(Device);
@@ -121,7 +121,7 @@ public:
 
 	bool IsValid() const
 	{
-		return Device != NULL || Mapping != NULL;
+		return Device != nullptr || Mapping != nullptr;
 	}
 
 	FString GetName()
@@ -360,9 +360,9 @@ public:
 		{
 			float axis_value = float(Axes[i].Value * Multiplier * Axes[i].Multiplier);
 
-			int axis_code_pos = AXIS_CODE_NULL;
-			int axis_code_neg = AXIS_CODE_NULL;
-			int ret_code = AXIS_CODE_NULL;
+			int axis_code_pos = AXIS_CODE_nullptr;
+			int axis_code_neg = AXIS_CODE_nullptr;
+			int ret_code = AXIS_CODE_nullptr;
 
 			if (Mapping)
 			{
@@ -390,7 +390,7 @@ public:
 				ret_code = axis_code_neg;
 			}
 
-			if (ret_code != AXIS_CODE_NULL)
+			if (ret_code != AXIS_CODE_nullptr)
 			{
 				joyaxes[ret_code] += fabs(axis_value);
 			}
@@ -743,5 +743,5 @@ void I_JoyConsumeEvent(int instanceID, event_t * event)
 IJoystickConfig *I_UpdateDeviceList()
 {
 	JoystickManager->UpdateDeviceList();
-	return NULL;
+	return nullptr;
 }

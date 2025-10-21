@@ -135,7 +135,7 @@ PClassActor *DecoDerivedClass(const FScriptPosition &sc, PClassActor *parent, FN
 
 FxExpression *ParseParameter(FScanner &sc, PClassActor *cls, PType *type)
 {
-	FxExpression *x = NULL;
+	FxExpression *x = nullptr;
 	int v;
 
 	if (type == TypeSound)
@@ -230,7 +230,7 @@ FxExpression *ParseParameter(FScanner &sc, PClassActor *cls, PType *type)
 	else
 	{
 		assert(false && "Unknown parameter type");
-		x = NULL;
+		x = nullptr;
 	}
 	return x;
 }
@@ -280,7 +280,7 @@ static void ParseConstant (FScanner &sc, PSymbolTable *symt, PClassActor *cls, P
 				sym = Create<PSymbolConstNumeric>(symname, TypeFloat64);
 				sym->Float = val.GetFloat();
 			}
-			if (symt->AddSymbol (sym) == NULL)
+			if (symt->AddSymbol (sym) == nullptr)
 			{
 				delete sym;
 				sc.ScriptMessage ("'%s' is already defined in '%s'.",
@@ -337,7 +337,7 @@ static void ParseEnum (FScanner &sc, PSymbolTable *symt, PClassActor *cls, PName
 		}
 		PSymbolConstNumeric *sym = Create<PSymbolConstNumeric>(symname, TypeSInt32);
 		sym->Value = currvalue;
-		if (symt->AddSymbol (sym) == NULL)
+		if (symt->AddSymbol (sym) == nullptr)
 		{
 			delete sym;
 			sc.ScriptMessage ("'%s' is already defined in '%s'.",
@@ -392,7 +392,7 @@ static void ParseUserVariable (FScanner &sc, PSymbolTable *symt, PClassActor *cl
 	FName symname = sc.String;
 
 	// We must ensure that we do not define duplicates, even when they come from a parent table.
-	if (symt->FindSymbol(symname, true) != NULL)
+	if (symt->FindSymbol(symname, true) != nullptr)
 	{
 		sc.ScriptMessage ("'%s' is already defined in '%s' or one of its ancestors.",
 			symname.GetChars(), cls ? cls->TypeName.GetChars() : "Global");
@@ -431,7 +431,7 @@ static void ParseUserVariable (FScanner &sc, PSymbolTable *symt, PClassActor *cl
 	sc.MustGetToken(';');
 
 	PField *sym = cls->AddField(symname, type, 0);
-	if (sym == NULL)
+	if (sym == nullptr)
 	{
 		sc.ScriptMessage ("'%s' is already defined in '%s'.",
 			symname.GetChars(), cls ? cls->TypeName.GetChars() : "Global");
@@ -449,7 +449,7 @@ static void ParseActorFlag (FScanner &sc, Baggage &bag, int mod)
 	sc.MustGetString ();
 
 	FString part1 = sc.String;
-	const char *part2 = NULL;
+	const char *part2 = nullptr;
 	if (sc.CheckString ("."))
 	{
 		sc.MustGetString ();
@@ -481,7 +481,7 @@ void HandleActorFlag(FScanner &sc, Baggage &bag, const char *part1, const char *
 	}
 	else
 	{
-		if (part2 == NULL)
+		if (part2 == nullptr)
 		{
 			sc.ScriptMessage("\"%s\" is an unknown flag\n", part1);
 		}
@@ -552,7 +552,7 @@ static int ParseMorphStyle (FScanner &sc)
 		{ "MRF_UNDOBYDEATHSAVES",	MORPH_UNDOBYDEATHSAVES},
 		{ "MRF_UNDOALWAYS",			MORPH_UNDOALWAYS },
 		{ "MRF_TRANSFERTRANSLATION", MORPH_TRANSFERTRANSLATION },
-		{ NULL, 0 }
+		{ nullptr, 0 }
 	};
 
 	return ParseFlagExpressionString(sc, morphstyles);
@@ -574,7 +574,7 @@ static int ParseThingActivation (FScanner &sc)
 		{ "THINGSPEC_Activate",				THINGSPEC_Activate},
 		{ "THINGSPEC_Deactivate",			THINGSPEC_Deactivate},
 		{ "THINGSPEC_Switch",				THINGSPEC_Switch},
-		{ NULL, 0 }
+		{ nullptr, 0 }
 	};
 
 	return ParseFlagExpressionString(sc, activationstyles);
@@ -594,15 +594,15 @@ static FState *CheckState(FScanner &sc, PClass *type)
 
 	if (sc.GetString() && !sc.Crossed)
 	{
-		if (sc.Compare("0")) return NULL;
+		if (sc.Compare("0")) return nullptr;
 		else if (sc.Compare("PARENT"))
 		{
-			FState *state = NULL;
+			FState *state = nullptr;
 			sc.MustGetString();
 
 			PClassActor *info = ValidateActor(type->ParentClass);
 
-			if (info != NULL)
+			if (info != nullptr)
 			{
 				state = info->FindState(FName(sc.String));
 			}
@@ -620,15 +620,15 @@ static FState *CheckState(FScanner &sc, PClass *type)
 				}
 			}
 
-			if (state == NULL && v==0)
+			if (state == nullptr && v==0)
 			{
-				return NULL;
+				return nullptr;
 			}
-			if (v != 0 && state==NULL)
+			if (v != 0 && state==nullptr)
 			{
 				sc.ScriptMessage("Attempt to get invalid state from actor %s\n", type->ParentClass->TypeName.GetChars());
 				FScriptPosition::ErrorCounter++;
-				return NULL;
+				return nullptr;
 			}
 			state += v;
 			return state;
@@ -639,7 +639,7 @@ static FState *CheckState(FScanner &sc, PClass *type)
 			FScriptPosition::ErrorCounter++;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -668,15 +668,15 @@ static bool ParsePropertyParams(FScanner &sc, FPropertyInfo *prop, AActor *defau
 			FPropParam pref;
 
 			nocomma = false;
-			conv.s = NULL;
-			pref.s = NULL;
+			conv.s = nullptr;
+			pref.s = nullptr;
 			pref.i = -1;
 			bag.ScriptPosition = sc;
 			switch ((*p) & 223)
 			{
 			case 'X':	// Expression in parentheses or number.
 				{
-					FxExpression *x = NULL;
+					FxExpression *x = nullptr;
 
 					if (sc.CheckString ("("))
 					{
@@ -940,7 +940,7 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 {
 	static const char *statenames[] = {
 		"Spawn", "See", "Melee", "Missile", "Pain", "Death", "XDeath", "Burn", 
-		"Ice", "Raise", "Crash", "Crush", "Wound", "Disintegrate", "Heal", NULL };
+		"Ice", "Raise", "Crash", "Crush", "Wound", "Disintegrate", "Heal", nullptr };
 
 	FString propname = sc.String;
 
@@ -957,7 +957,7 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 
 	FPropertyInfo *prop = FindProperty(propname.c_str());
 
-	if (prop != NULL)
+	if (prop != nullptr)
 	{
 		auto pcls = PClass::FindActor(prop->clsname);
 		if (bag.Info->IsDescendantOf(pcls))
@@ -998,8 +998,8 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 //==========================================================================
 PClassActor *CreateNewActor(const FScriptPosition &sc, FName typeName, FName parentName)
 {
-	PClassActor *replacee = NULL;
-	PClassActor *ti = NULL;
+	PClassActor *replacee = nullptr;
+	PClassActor *ti = nullptr;
 
 	PClassActor *parent = RUNTIME_CLASS(AActor);
 
@@ -1008,7 +1008,7 @@ PClassActor *CreateNewActor(const FScriptPosition &sc, FName typeName, FName par
 		parent = PClass::FindActor(parentName);
 
 		PClassActor *p = parent;
-		while (p != NULL)
+		while (p != nullptr)
 		{
 			if (p->TypeName == typeName)
 			{
@@ -1018,7 +1018,7 @@ PClassActor *CreateNewActor(const FScriptPosition &sc, FName typeName, FName par
 			p = ValidateActor(p->ParentClass);
 		}
 
-		if (parent == NULL)
+		if (parent == nullptr)
 		{
 			sc.Message(MSG_ERROR, "Parent type '%s' not found in %s", parentName.GetChars(), typeName.GetChars());
 			parent = RUNTIME_CLASS(AActor);
@@ -1051,7 +1051,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 	sc.MustGetString();
 	
 	char *colon = strchr(sc.String, ':');
-	if (colon != NULL)
+	if (colon != nullptr)
 	{
 		*colon++ = 0;
 	}
@@ -1060,7 +1060,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 
 	// Do some tweaking so that a definition like 'Actor:Parent' which is read as a single token is recognized as well
 	// without having resort to C-mode (which disallows periods in actor names.)
-	if (colon == NULL)
+	if (colon == nullptr)
 	{
 		sc.MustGetString ();
 		if (sc.String[0]==':')
@@ -1069,7 +1069,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 		}
 	}
 		
-	if (colon != NULL)
+	if (colon != nullptr)
 	{
 		if (colon[0] == 0)
 		{
@@ -1078,7 +1078,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 		}
 	}
 
-	if (colon == NULL)
+	if (colon == nullptr)
 	{
 		sc.UnGet();
 	}
@@ -1141,7 +1141,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 	catch (CRecoverableError &err)
 	{
 		sc.ScriptError("%s", err.GetMessage());
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1152,7 +1152,7 @@ static PClassActor *ParseActorHeader(FScanner &sc, Baggage *bag)
 //==========================================================================
 static void ParseActor(FScanner &sc, PNamespace *ns)
 {
-	PClassActor *info = NULL;
+	PClassActor *info = nullptr;
 	Baggage bag;
 
 	bag.Namespace = ns;
@@ -1296,11 +1296,11 @@ void ParseDecorate (FScanner &sc, PNamespace *ns)
 		}
 
 		case TK_Const:
-			ParseConstant (sc, &ns->Symbols, NULL, ns);
+			ParseConstant (sc, &ns->Symbols, nullptr, ns);
 			break;
 
 		case TK_Enum:
-			ParseEnum (sc, &ns->Symbols, NULL, ns);
+			ParseEnum (sc, &ns->Symbols, nullptr, ns);
 			break;
 
 		case ';':

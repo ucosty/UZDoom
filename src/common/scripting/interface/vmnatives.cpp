@@ -226,7 +226,7 @@ void SBar_DrawString(DStatusBarCore* self, DHUDFont* font, const FString& string
 DEFINE_ACTION_FUNCTION_NATIVE(DStatusBarCore, DrawString, SBar_DrawString)
 {
 	PARAM_SELF_PROLOGUE(DStatusBarCore);
-	PARAM_POINTER_NOT_NULL(font, DHUDFont);
+	PARAM_POINTER_NOT_nullptr(font, DHUDFont);
 	PARAM_STRING(string);
 	PARAM_FLOAT(x);
 	PARAM_FLOAT(y);

@@ -487,7 +487,7 @@ FTexture *OpenGLFrameBuffer::WipeEndScreen()
 	GLRenderer->Flush();
 	const auto &viewport = screen->mScreenViewport;
 	auto tex = new FWrapperTexture(viewport.width, viewport.height, 1);
-	tex->GetSystemTexture()->CreateTexture(NULL, viewport.width, viewport.height, 0, false, "WipeEndScreen");
+	tex->GetSystemTexture()->CreateTexture(nullptr, viewport.width, viewport.height, 0, false, "WipeEndScreen");
 	glFinish();
 	static_cast<FHardwareTexture*>(tex->GetSystemTexture())->Bind(0, false);
 	GLRenderer->mBuffers->BindCurrentFB();

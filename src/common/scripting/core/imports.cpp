@@ -214,7 +214,7 @@ void InitImports()
 	{
 		AutoSegs::ActionFunctons.ForEach([](AFuncDesc *afunc)
 		{
-			assert(afunc->VMPointer != NULL);
+			assert(afunc->VMPointer != nullptr);
 			*(afunc->VMPointer) = new VMNativeFunction(afunc->Function, afunc->FuncName);
 			(*(afunc->VMPointer))->QualifiedName = ClassDataAllocator.Strdup(FStringf("%s.%s", afunc->ClassName + 1, afunc->FuncName).c_str());
 			(*(afunc->VMPointer))->PrintableName = ClassDataAllocator.Strdup(FStringf("%s.%s [Native]", afunc->ClassName+1, afunc->FuncName).c_str());

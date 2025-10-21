@@ -231,7 +231,7 @@ void FGameConfigFile::DoAutoloadSetup (FIWadManager *iwad_man)
 	if (SetSection ("LastRun"))
 	{
 		const char *lastver = GetValueForKey ("Version");
-		if (lastver != NULL) last = atof(lastver);
+		if (lastver != nullptr) last = atof(lastver);
 	}
 
 	if (last < 211)
@@ -263,7 +263,7 @@ void FGameConfigFile::DoAutoloadSetup (FIWadManager *iwad_man)
 		RenameSection("doom.doom2.commercial.Autoload", "doom.id.doom2.commercial.Autoload");
 	}
 	const FString *pAuto;
-	for (int num = 0; (pAuto = iwad_man->GetAutoname(num)) != NULL; num++)
+	for (int num = 0; (pAuto = iwad_man->GetAutoname(num)) != nullptr; num++)
 	{
 		if (!(iwad_man->GetIWadFlags(num) & GI_SHAREWARE))	// we do not want autoload sections for shareware IWADs (which may have an autoname for resource filtering)
 		{
@@ -323,13 +323,13 @@ void FGameConfigFile::DoGlobalSetup ()
 	if (SetSection ("LastRun"))
 	{
 		const char *lastver = GetValueForKey ("Version");
-		if (lastver != NULL)
+		if (lastver != nullptr)
 		{
 			double last = atof (lastver);
 			if (last < 207)
 			{ // Now that snd_midiprecache works again, you probably don't want it on.
-				FBaseCVar *precache = FindCVar ("snd_midiprecache", NULL);
-				if (precache != NULL)
+				FBaseCVar *precache = FindCVar ("snd_midiprecache", nullptr);
+				if (precache != nullptr)
 				{
 					precache->ResetToDefault();
 				}
@@ -344,7 +344,7 @@ void FGameConfigFile::DoGlobalSetup ()
 				while (more)
 				{
 					name = GetCurrentSection();
-					if (name != NULL && 
+					if (name != nullptr &&
 						(namelen = strlen(name)) > 12 &&
 						strcmp(name + namelen - 12, ".WeaponSlots") == 0)
 					{
@@ -359,8 +359,8 @@ void FGameConfigFile::DoGlobalSetup ()
 			if (last < 209)
 			{
 				// menu dimming is now a gameinfo option so switch user override off
-				FBaseCVar *dim = FindCVar ("dimamount", NULL);
-				if (dim != NULL)
+				FBaseCVar *dim = FindCVar ("dimamount", nullptr);
+				if (dim != nullptr)
 				{
 					dim->ResetToDefault ();
 				}
@@ -376,8 +376,8 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 213)
 			{
-				auto var = FindCVar("snd_channels", NULL);
-				if (var != NULL)
+				auto var = FindCVar("snd_channels", nullptr);
+				if (var != nullptr)
 				{
 					// old settings were default 32, minimum 8, new settings are default 128, minimum 64.
 					UCVarValue v = var->GetGenericRep(CVAR_Int);
@@ -386,29 +386,29 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 214)
 			{
-				FBaseCVar *var = FindCVar("hud_scale", NULL);
-				if (var != NULL) var->ResetToDefault();
-				var = FindCVar("st_scale", NULL);
-				if (var != NULL) var->ResetToDefault();
-				var = FindCVar("hud_althudscale", NULL);
-				if (var != NULL) var->ResetToDefault();
-				var = FindCVar("con_scale", NULL);
-				if (var != NULL) var->ResetToDefault();
-				var = FindCVar("con_scaletext", NULL);
-				if (var != NULL) var->ResetToDefault();
-				var = FindCVar("uiscale", NULL);
-				if (var != NULL) var->ResetToDefault();
+				FBaseCVar *var = FindCVar("hud_scale", nullptr);
+				if (var != nullptr) var->ResetToDefault();
+				var = FindCVar("st_scale", nullptr);
+				if (var != nullptr) var->ResetToDefault();
+				var = FindCVar("hud_althudscale", nullptr);
+				if (var != nullptr) var->ResetToDefault();
+				var = FindCVar("con_scale", nullptr);
+				if (var != nullptr) var->ResetToDefault();
+				var = FindCVar("con_scaletext", nullptr);
+				if (var != nullptr) var->ResetToDefault();
+				var = FindCVar("uiscale", nullptr);
+				if (var != nullptr) var->ResetToDefault();
 			}
 			if (last < 215)
 			{
 				// Previously a true/false boolean. Now an on/off/auto tri-state with auto as the default.
-				FBaseCVar *var = FindCVar("snd_hrtf", NULL);
-				if (var != NULL) var->ResetToDefault();
+				FBaseCVar *var = FindCVar("snd_hrtf", nullptr);
+				if (var != nullptr) var->ResetToDefault();
 			}
 			if (last < 216)
 			{
-				FBaseCVar *var = FindCVar("gl_texture_hqresize", NULL);
-				if (var != NULL)
+				FBaseCVar *var = FindCVar("gl_texture_hqresize", nullptr);
+				if (var != nullptr)
 				{
 					auto v = var->GetGenericRep(CVAR_Int);
 					switch (v.Int)
@@ -494,9 +494,9 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 217)
 			{
-				auto var = FindCVar("vid_scalemode", NULL);
+				auto var = FindCVar("vid_scalemode", nullptr);
 				UCVarValue newvalue;
-				if (var != NULL)
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Int);
 					if (v.Int == 3) // 640x400
@@ -515,15 +515,15 @@ void FGameConfigFile::DoGlobalSetup ()
 			{
 				// 2019-12-06 - polybackend merge
 				// migrate vid_enablevulkan to vid_preferbackend
-				auto var = FindCVar("vid_enablevulkan", NULL);
-				if (var != NULL)
+				auto var = FindCVar("vid_enablevulkan", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Int);
 					vid_preferbackend = v.Int;
 				}
 				// 2019-12-31 - r_videoscale.cpp changes
-				var = FindCVar("vid_scale_customstretched", NULL);
-				if (var != NULL)
+				var = FindCVar("vid_scale_customstretched", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Bool);
 					if (v.Bool)
@@ -531,9 +531,9 @@ void FGameConfigFile::DoGlobalSetup ()
 					else
 						vid_scale_custompixelaspect = 1.0f;
 				}
-				var = FindCVar("vid_scalemode", NULL);
+				var = FindCVar("vid_scalemode", nullptr);
 				UCVarValue newvalue;
-				if (var != NULL)
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Int);
 					switch (v.Int)
@@ -554,14 +554,14 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 220)
 			{
-				auto var = FindCVar("Gamma", NULL);
-				if (var != NULL)
+				auto var = FindCVar("Gamma", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Float);
 					vid_gamma = v.Float;
 				}
-				var = FindCVar("fullscreen", NULL);
-				if (var != NULL)
+				var = FindCVar("fullscreen", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Bool);
 					vid_fullscreen = v.Float;
@@ -575,15 +575,15 @@ void FGameConfigFile::DoGlobalSetup ()
 #else
 				double xfact = in_mouse == 1? 1.5 : 4, yfact = 1;
 #endif
-				auto var = FindCVar("m_noprescale", NULL);
-				if (var != NULL)
+				auto var = FindCVar("m_noprescale", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Bool);
 					if (v.Bool) xfact = yfact = 1;
 				}
 
-				var = FindCVar("mouse_sensitivity", NULL);
-				if (var != NULL)
+				var = FindCVar("mouse_sensitivity", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Float);
 					xfact *= v.Float;
@@ -607,8 +607,8 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 222)
 			{
-				auto var = FindCVar("mod_dumb_mastervolume", NULL);
-				if (var != NULL)
+				auto var = FindCVar("mod_dumb_mastervolume", nullptr);
+				if (var != nullptr)
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Float);
 					v.Float /= 4.f;
@@ -622,7 +622,7 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 224)
 			{
-				if (const auto var = FindCVar("m_sensitivity_x", NULL))
+				if (const auto var = FindCVar("m_sensitivity_x", nullptr))
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Float);
 					v.Float *= 0.5f;
@@ -631,7 +631,7 @@ void FGameConfigFile::DoGlobalSetup ()
 			}
 			if (last < 225)
 			{
-				if (const auto var = FindCVar("gl_lightmode", NULL))
+				if (const auto var = FindCVar("gl_lightmode", nullptr))
 				{
 					UCVarValue v = var->GetGenericRep(CVAR_Int);
 					v.Int = v.Int == 16 ? 2 : v.Int == 8 ? 1 : 0;
@@ -703,17 +703,17 @@ void FGameConfigFile::DoGameSetup (const char *gamename)
 	strncpy (subsection, "ConsoleAliases", sublen);
 	if (SetSection (section))
 	{
-		const char *name = NULL;
+		const char *name = nullptr;
 		while (NextInSection (key, value))
 		{
 			if (stricmp (key, "Name") == 0)
 			{
 				name = value;
 			}
-			else if (stricmp (key, "Command") == 0 && name != NULL)
+			else if (stricmp (key, "Command") == 0 && name != nullptr)
 			{
 				C_SetAlias (name, value);
-				name = NULL;
+				name = nullptr;
 			}
 		}
 	}
@@ -727,7 +727,7 @@ void FGameConfigFile::DoKeySetup(const char *gamename)
 		{ "Bindings", &Bindings },
 		{ "DoubleBindings", &DoubleBindings },
 		{ "AutomapBindings", &AutomapBindings },
-		{ NULL, NULL }
+		{ nullptr, nullptr }
 	};
 	const char *key, *value;
 
@@ -737,7 +737,7 @@ void FGameConfigFile::DoKeySetup(const char *gamename)
 
 	C_SetDefaultBindings ();
 
-	for (int i = 0; binders[i].label != NULL; ++i)
+	for (int i = 0; binders[i].label != nullptr; ++i)
 	{
 		strncpy(subsection, binders[i].label, sublen);
 		if (SetSection(section))
@@ -833,10 +833,10 @@ void FGameConfigFile::ReadCVars (uint32_t flags)
 	flags |= CVAR_ARCHIVE|CVAR_UNSETTABLE|CVAR_AUTO;
 	while (NextInSection (key, value))
 	{
-		cvar = FindCVar (key, NULL);
-		if (cvar == NULL)
+		cvar = FindCVar (key, nullptr);
+		if (cvar == nullptr)
 		{
-			cvar = new FStringCVar (key, NULL, flags);
+			cvar = new FStringCVar (key, nullptr, flags);
 		}
 		val.String = const_cast<char *>(value);
 		cvar->SetGenericRep (val, CVAR_String);
@@ -944,7 +944,7 @@ FString FGameConfigFile::GetConfigPath (bool tryProg)
 	const char *pathval;
 
 	pathval = Args->CheckValue ("-config");
-	if (pathval != NULL)
+	if (pathval != nullptr)
 	{
 		return FString(pathval);
 	}

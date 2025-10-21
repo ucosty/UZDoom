@@ -44,7 +44,7 @@
  *
  *  as many times as you want, with as many or as few samples as you want.
  *  If mono, pass the sample buffer in through left_samples, leave
- *  right_samples NULL, and make sure num_channels = 1.
+ *  right_samples nullptr, and make sure num_channels = 1.
  *
  *    GetTitleGain()
  *

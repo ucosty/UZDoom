@@ -253,7 +253,7 @@ static void I_CheckGUICapture ()
 void I_SetMouseCapture()
 {
 	// Clear out any mouse movement.
-	SDL_GetRelativeMouseState (NULL, NULL);
+	SDL_GetRelativeMouseState (nullptr, nullptr);
 	SDL_CaptureMouse (SDL_TRUE);
 }
 
@@ -280,7 +280,7 @@ static void MouseRead ()
 
 static void I_CheckNativeMouse ()
 {
-	bool focus = SDL_GetKeyboardFocus() != NULL;
+	bool focus = SDL_GetKeyboardFocus() != nullptr;
 
 	bool captureModeInGame = sysCallbacks.CaptureModeInGame && sysCallbacks.CaptureModeInGame();
 	bool wantNative = !focus || (!use_mouse || GUICapture || !captureModeInGame);
@@ -295,7 +295,7 @@ static void I_CheckNativeMouse ()
 		if (wantNative) {
 			SDL_SetRelativeMouseMode (SDL_FALSE);
 		} else {
-			SDL_GetRelativeMouseState (NULL, NULL);
+			SDL_GetRelativeMouseState (nullptr, nullptr);
 			SDL_SetRelativeMouseMode (SDL_TRUE);
 		}
 	}

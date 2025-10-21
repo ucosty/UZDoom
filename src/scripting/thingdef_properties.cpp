@@ -66,13 +66,13 @@
 static PClassActor *FindClassTentative(const char *name, PClass *ancestor, bool optional = false)
 {
 	// "" and "none" mean 'no class'
-	if (name == NULL || *name == 0 || !stricmp(name, "none"))
+	if (name == nullptr || *name == 0 || !stricmp(name, "none"))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	PClass *cls = ancestor->FindClassTentative(name);
-	assert(cls != NULL);	// cls can not be NULL here
+	assert(cls != nullptr);	// cls can not be nullptr here
 	if (!cls->IsDescendantOf(ancestor))
 	{
 		I_Error("%s does not inherit from %s\n", name, ancestor->TypeName.GetChars());
@@ -149,24 +149,24 @@ bool ModActorFlag(AActor *actor, const FString &flagname, bool set, bool printer
 {
 	bool found = false;
 
-	if (actor != NULL)
+	if (actor != nullptr)
 	{
 		auto Level = actor->Level;
 		const char *dot = strchr(flagname.c_str(), '.');
 		FFlagDef *fd;
 		PClassActor *cls = actor->GetClass();
 
-		if (dot != NULL)
+		if (dot != nullptr)
 		{
 			FString part1(flagname.c_str(), dot - flagname.c_str());
 			fd = FindFlag(cls, part1.c_str(), dot + 1);
 		}
 		else
 		{
-			fd = FindFlag(cls, flagname.c_str(), NULL);
+			fd = FindFlag(cls, flagname.c_str(), nullptr);
 		}
 
-		if (fd != NULL)
+		if (fd != nullptr)
 		{
 			found = true;
 
@@ -242,17 +242,17 @@ INTBOOL CheckActorFlag(AActor *owner, const char *flagname, bool printerror)
 	FFlagDef *fd;
 	const PClass *cls = owner->GetClass();
 
-	if (dot != NULL)
+	if (dot != nullptr)
 	{
 		FString part1(flagname, dot-flagname);
 		fd = FindFlag (cls, part1.c_str(), dot+1);
 	}
 	else
 	{
-		fd = FindFlag (cls, flagname, NULL);
+		fd = FindFlag (cls, flagname, nullptr);
 	}
 
-	if (fd != NULL)
+	if (fd != nullptr)
 	{
 		return CheckActorFlag(owner, fd);
 	}
@@ -454,7 +454,7 @@ int MatchString (const char *in, const char **strings)
 {
 	int i;
 
-	for (i = 0; *strings != NULL; i++)
+	for (i = 0; *strings != nullptr; i++)
 	{
 		if (!stricmp(in, *strings++))
 		{
@@ -619,7 +619,7 @@ DEFINE_PROPERTY(painchance, ZI, Actor)
 {
 	PROP_STRING_PARM(str, 0);
 	PROP_INT_PARM(id, 1);
-	if (str == NULL)
+	if (str == nullptr)
 	{
 		defaults->PainChance=id;
 	}
@@ -735,7 +735,7 @@ DEFINE_PROPERTY(dropitem, S_i_i, Actor)
 	if (!bag.DropItemSet)
 	{
 		bag.DropItemSet = true;
-		bag.DropItemList = NULL;
+		bag.DropItemList = nullptr;
 	}
 
 	FDropItem *di = (FDropItem*)ClassDataAllocator.Alloc(sizeof(FDropItem));
@@ -767,7 +767,7 @@ DEFINE_PROPERTY(renderstyle, S, Actor)
 	static const char * renderstyles[]={
 		"NONE", "NORMAL", "FUZZY", "SOULTRANS", "OPTFUZZY", "STENCIL", 
 		"TRANSLUCENT", "ADD", "SHADED", "SHADOW", "SUBTRACT", "ADDSTENCIL", 
-		"ADDSHADED", "COLORBLEND", "COLORADD", "MULTIPLY", NULL };
+		"ADDSHADED", "COLORBLEND", "COLORADD", "MULTIPLY", nullptr };
 
 	static const int renderstyle_values[]={
 		STYLE_None, STYLE_Normal, STYLE_Fuzzy, STYLE_SoulTrans, STYLE_OptFuzzy,
@@ -894,7 +894,7 @@ DEFINE_PROPERTY(bloodtype, Sss, Actor)
 //==========================================================================
 DEFINE_PROPERTY(bouncetype, S, Actor)
 {
-	static const char *names[] = { "None", "Doom", "Heretic", "Hexen", "DoomCompat", "HereticCompat", "HexenCompat", "Grenade", "Classic", NULL };
+	static const char *names[] = { "None", "Doom", "Heretic", "Hexen", "DoomCompat", "HereticCompat", "HexenCompat", "Grenade", "Classic", nullptr };
 	static const ActorBounceFlag flags[] = { BOUNCE_None,
 		BOUNCE_Doom, BOUNCE_Heretic, BOUNCE_Hexen,
 		BOUNCE_DoomCompat, BOUNCE_HereticCompat, BOUNCE_HexenCompat,
@@ -1183,7 +1183,7 @@ DEFINE_PROPERTY(distancecheck, S, Actor)
 	PROP_STRING_PARM(cvar, 0);
 	FBaseCVar *scratch;
 	FBaseCVar *cv = FindCVar(cvar, &scratch);
-	if (cv == NULL)
+	if (cv == nullptr)
 	{
 		I_Error("CVar %s not defined", cvar);
 	}
@@ -1241,7 +1241,7 @@ DEFINE_CLASS_PROPERTY(forbiddento, Ssssssssssssssssssss, Inventory)
 //==========================================================================
 static void SetIcon(FTextureID &icon, Baggage &bag, const char *i)
 {
-	if (i == NULL || i[0] == '\0')
+	if (i == nullptr || i[0] == '\0')
 	{
 		icon.SetNull();
 	}
@@ -1308,7 +1308,7 @@ DEFINE_CLASS_PROPERTY(defaultkickback, 0, Weapon)
 //==========================================================================
 DEFINE_CLASS_PROPERTY(bobstyle, S, Weapon)
 {
-	static const char *names[] = { "Normal", "Inverse", "Alpha", "InverseAlpha", "Smooth", "InverseSmooth", NULL };
+	static const char *names[] = { "Normal", "Inverse", "Alpha", "InverseAlpha", "Smooth", "InverseSmooth", nullptr };
 	static const EBobStyle styles[] = { EBobStyle::BobNormal,
 		EBobStyle::BobInverse, EBobStyle::BobAlpha, EBobStyle::BobInverseAlpha,
 		EBobStyle::BobSmooth, EBobStyle::BobInverseSmooth, };
@@ -1337,7 +1337,7 @@ DEFINE_CLASS_PROPERTY(preferredskin, S, Weapon)
 DEFINE_CLASS_PROPERTY_PREFIX(powerup, color, C_f, Inventory)
 {
 	static const char *specialcolormapnames[] = {
-		"INVERSEMAP", "GOLDMAP", "REDMAP", "GREENMAP", "BLUEMAP", NULL };
+		"INVERSEMAP", "GOLDMAP", "REDMAP", "GREENMAP", "BLUEMAP", nullptr };
 
 	int alpha;
 	PalEntry *pBlendColor;
@@ -1774,7 +1774,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, startitem, S_i, PlayerPawn)
 	if (!bag.DropItemSet)
 	{
 		bag.DropItemSet = true;
-		bag.DropItemList = NULL;
+		bag.DropItemList = nullptr;
 	}
 
 	FDropItem *di = (FDropItem*)ClassDataAllocator.Alloc(sizeof(FDropItem));

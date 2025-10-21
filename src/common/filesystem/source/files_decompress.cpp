@@ -277,9 +277,9 @@ public:
 		stupidGlobal = this;
 		FillBuffer ();
 
-		Stream.bzalloc = NULL;
-		Stream.bzfree = NULL;
-		Stream.opaque = NULL;
+		Stream.bzalloc = nullptr;
+		Stream.bzfree = nullptr;
+		Stream.opaque = nullptr;
 
 		err = BZ2_bzDecompressInit(&Stream, 0, 0);
 

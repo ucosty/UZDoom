@@ -354,7 +354,7 @@ struct ZCC_StateLine : ZCC_StatePart
 struct ZCC_VarName : ZCC_TreeNode
 {
 	ENamedName Name;
-	ZCC_Expression *ArraySize;	// NULL if not an array
+	ZCC_Expression *ArraySize;	// nullptr if not an array
 };
 
 struct ZCC_VarInit : ZCC_VarName
@@ -365,7 +365,7 @@ struct ZCC_VarInit : ZCC_VarName
 
 struct ZCC_Type : ZCC_TreeNode
 {
-	ZCC_Expression *ArraySize;	// NULL if not an array
+	ZCC_Expression *ArraySize;	// nullptr if not an array
 };
 
 struct ZCC_BasicType : ZCC_Type
@@ -579,7 +579,7 @@ struct ZCC_SwitchStmt : ZCC_Statement
 
 struct ZCC_CaseStmt : ZCC_Statement
 {
-	// A NULL Condition represents the default branch
+	// A nullptr Condition represents the default branch
 	ZCC_Expression *Condition;
 };
 
@@ -677,7 +677,7 @@ FString ZCC_PrintAST(const ZCC_TreeNode *root);
 
 struct ZCC_AST
 {
-	ZCC_AST() : TopNode(NULL) {}
+	ZCC_AST() : TopNode(nullptr) {}
 	ZCC_TreeNode *InitNode(size_t size, EZCCTreeNodeType type, ZCC_TreeNode *basis);
 
 	FSharedStringArena Strings;

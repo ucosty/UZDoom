@@ -371,7 +371,7 @@ FSerializer &Serialize(FSerializer &arc, const char *key, FState *&state, FState
 			{
 				PClassActor *info = FState::StaticFindStateOwner(state);
 
-				if (info != NULL)
+				if (info != nullptr)
 				{
 					arc.w->StartArray();
 					arc.w->String(info->TypeName.GetChars());

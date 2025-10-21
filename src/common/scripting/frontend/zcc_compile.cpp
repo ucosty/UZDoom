@@ -490,7 +490,7 @@ ZCCCompiler::ZCCCompiler(ZCC_AST &ast, DObject *_outer, PSymbolTable &_symbols, 
 {
 	FScriptPosition::ResetErrorCounter();
 	// Group top-level nodes by type
-	if (ast.TopNode != NULL)
+	if (ast.TopNode != nullptr)
 	{
 		ZCC_TreeNode *node = ast.TopNode;
 		PSymbolTreeNode *tnode = nullptr;
@@ -619,7 +619,7 @@ ZCCCompiler::~ZCCCompiler()
 PSymbolTreeNode *ZCCCompiler::AddTreeNode(FName name, ZCC_TreeNode *node, PSymbolTable *treenodes, bool searchparents)
 {
 	PSymbol *check = treenodes->FindSymbol(name, searchparents);
-	if (check != NULL)
+	if (check != nullptr)
 	{
 		assert(check->IsA(RUNTIME_CLASS(PSymbolTreeNode)));
 		Error(node, "Attempt to redefine '%s'", name.GetChars());
@@ -1343,7 +1343,7 @@ ZCC_Expression *ZCCCompiler::NodeFromSymbol(PSymbol *sym, ZCC_Expression *source
 	{
 		return NodeFromSymbolType(static_cast<PSymbolType *>(sym), source);
 	}
-	return NULL;
+	return nullptr;
 }
 
 //==========================================================================
@@ -1358,7 +1358,7 @@ ZCC_ExprConstant *ZCCCompiler::NodeFromSymbolConst(PSymbolConst *sym, ZCC_Expres
 {
 	ZCC_ExprConstant *val = static_cast<ZCC_ExprConstant *>(AST.InitNode(sizeof(*val), AST_ExprConstant, idnode));
 	val->Operation = PEX_ConstValue;
-	if (sym == NULL)
+	if (sym == nullptr)
 	{
 		val->Type = TypeError;
 		val->IntVal = 0;

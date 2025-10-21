@@ -103,7 +103,7 @@ static void InitContext()
 //
 //==========================================================================
 
-#define FUDGE_FUNC(name, ext) 	if (_ptrc_##name == NULL) _ptrc_##name = _ptrc_##name##ext;
+#define FUDGE_FUNC(name, ext) 	if (_ptrc_##name == nullptr) _ptrc_##name = _ptrc_##name##ext;
 
 
 void gl_LoadExtensions()
@@ -116,16 +116,16 @@ void gl_LoadExtensions()
 	const char *glversion = (const char*)glGetString(GL_VERSION);
 
 	const char *version = Args->CheckValue("-glversion");
-	realglversion = strtod(glversion, NULL);
+	realglversion = strtod(glversion, nullptr);
 
 
-	if (version == NULL)
+	if (version == nullptr)
 	{
 		version = glversion;
 	}
 	else
 	{
-		double v1 = strtod(version, NULL);
+		double v1 = strtod(version, nullptr);
 		if (v1 >= 3.0 && v1 < 3.3)
 		{
 			v1 = 3.3;	// promote '3' to 3.3 to avoid falling back to the legacy path.
@@ -135,7 +135,7 @@ void gl_LoadExtensions()
 		else Printf("Emulating OpenGL v %s\n", version);
 	}
 
-	float gl_version = (float)strtod(version, NULL) + 0.01f;
+	float gl_version = (float)strtod(version, nullptr) + 0.01f;
 
 	// Don't even start if it's lower than 2.0 or no framebuffers are available (The framebuffer extension is needed for glGenerateMipmapsEXT!)
 	if (gl_version < 3.3f)
@@ -145,7 +145,7 @@ void gl_LoadExtensions()
 
 
 	// add 0.01 to account for roundoff errors making the number a tad smaller than the actual version
-	gl.glslversion = strtod((char*)glGetString(GL_SHADING_LANGUAGE_VERSION), NULL) + 0.01f;
+	gl.glslversion = strtod((char*)glGetString(GL_SHADING_LANGUAGE_VERSION), nullptr) + 0.01f;
 
 	gl.vendorstring = (char*)glGetString(GL_VENDOR);
 	gl.modelstring = (char*)glGetString(GL_RENDERER);

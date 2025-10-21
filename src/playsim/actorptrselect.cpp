@@ -42,7 +42,7 @@
 // Standard pointer acquisition functions
 //
 // Possible effective results at run-time
-//   assigntovariable = NULL (or a RETURN statement is issued)
+//   assigntovariable = nullptr (or a RETURN statement is issued)
 //   P_BulletSlope(pointer_owner, &temporary), assigntovariable = temporary
 //   assigntovariable = pointer_owner->target or ...->master or ...->tracer
 //
@@ -94,7 +94,7 @@ AActor *COPY_AAPTREX(FLevelLocals *Level, AActor *origin, int selector)
 		case AAPTR_MASTER: return origin->master;
 		case AAPTR_TRACER: return origin->tracer;
 		case AAPTR_FRIENDPLAYER:
-			return origin->FriendPlayer ? AAPTR_RESOLVE_PLAYERNUM(origin->FriendPlayer - 1) : NULL;
+			return origin->FriendPlayer ? AAPTR_RESOLVE_PLAYERNUM(origin->FriendPlayer - 1) : nullptr;
 
 		case AAPTR_GET_LINETARGET:
 			P_BulletSlope(origin, &t, ALF_PORTALRESTRICT);
@@ -112,7 +112,7 @@ AActor *COPY_AAPTREX(FLevelLocals *Level, AActor *origin, int selector)
 		case AAPTR_PLAYER6: return AAPTR_RESOLVE_PLAYERNUM(5);
 		case AAPTR_PLAYER7: return AAPTR_RESOLVE_PLAYERNUM(6);
 		case AAPTR_PLAYER8: return AAPTR_RESOLVE_PLAYERNUM(7);
-		case AAPTR_NULL: return NULL;
+		case AAPTR_nullptr: return nullptr;
 	}
 
 	return origin;

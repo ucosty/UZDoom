@@ -106,21 +106,21 @@ namespace GC
 	// Handles a read barrier.
 	template<class T> inline T *ReadBarrier(T *&obj)
 	{
-		if (obj == NULL || !(obj->ObjectFlags & OF_EuthanizeMe))
+		if (obj == nullptr || !(obj->ObjectFlags & OF_EuthanizeMe))
 		{
 			return obj;
 		}
-		return obj = NULL;
+		return obj = nullptr;
 	}
 
-	// Handles a read barrier for a const pointer. This does not alter the source data, but only returns NULL if the object is destroyed.
+	// Handles a read barrier for a const pointer. This does not alter the source data, but only returns nullptr if the object is destroyed.
 	template<class T> inline T* ReadBarrier(const T*& obj)
 	{
-		if (obj == NULL || !(obj->ObjectFlags & OF_EuthanizeMe))
+		if (obj == nullptr || !(obj->ObjectFlags & OF_EuthanizeMe))
 		{
 			return obj;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// Check if it's time to collect, and do a collection step if it is.
@@ -133,7 +133,7 @@ namespace GC
 	}
 
 	// Marks a white object gray. If the object wants to die, the pointer
-	// is NULLed instead.
+	// is nullptred instead.
 	void Mark(DObject **obj);
 
 	// Marks an array of objects.
@@ -230,7 +230,7 @@ public:
 		return *this;
 	}
 
-	// To allow NULL, too.
+	// To allow nullptr, too.
 	TObjPtr<T>& operator=(const int val) noexcept
 	{
 		assert(val == 0);
@@ -238,7 +238,7 @@ public:
 		return *this;
 	}
 
-	// To allow NULL, too. In Clang NULL is a long.
+	// To allow nullptr, too. In Clang nullptr is a long.
 	TObjPtr<T>& operator=(const long val) noexcept
 	{
 		assert(val == 0);
@@ -275,7 +275,7 @@ public:
 	constexpr std::remove_pointer<T> &operator*() noexcept
 	{
 		T q = GC::ReadBarrier(pp);
-		assert(q != NULL);
+		assert(q != nullptr);
 		return *q;
 	}
 	constexpr T operator->() noexcept

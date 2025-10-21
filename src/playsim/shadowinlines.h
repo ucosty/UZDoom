@@ -221,7 +221,7 @@ inline DAngle P_AimLineAttack_ShadowHandling(AActor*source, AActor* target, AAct
 		mo = linetarget;
 
 	// [inkoalawetrust] Randomly offset the vertical aim of monsters. Roughly uses the SSG vertical spread.
-	if (source->player == NULL && source->flags9 & MF9_SHADOWAIMVERT && PerformShadowChecks (source, mo, source->PosAtZ (shootZ), penaltyFactor))
+	if (source->player == nullptr && source->flags9 & MF9_SHADOWAIMVERT && PerformShadowChecks (source, mo, source->PosAtZ (shootZ), penaltyFactor))
 	{
 		if (linetarget)
 			return DAngle::fromDeg(pr_shadowaimz.Random2() * (28.388 / 256.)) * source->ShadowAimFactor * penaltyFactor; //Change the autoaims' pitch to this.

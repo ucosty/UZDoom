@@ -95,8 +95,8 @@ bool IsPortable()
 	FStringf path("%s" GAMENAMELOWERCASE "_portable.ini", progdir.c_str());
 	if (FileExists(path))
 	{
-		file = CreateFile(path.WideString().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL,
-			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		file = CreateFile(path.WideString().c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr,
+			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (file != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(file);
@@ -121,7 +121,7 @@ bool IsPortable()
 FString GetKnownFolder(int shell_folder, REFKNOWNFOLDERID known_folder, bool create)
 {
 	PWSTR wpath;
-	if (FAILED(SHGetKnownFolderPath(known_folder, create ? KF_FLAG_CREATE : 0, NULL, &wpath)))
+	if (FAILED(SHGetKnownFolderPath(known_folder, create ? KF_FLAG_CREATE : 0, nullptr, &wpath)))
 	{
 		// This should never be triggered unless the OS was compromised
 		I_FatalError("Unable to retrieve known folder.");
@@ -260,7 +260,7 @@ int M_MigrateOldConfig()
 	taskDialogConfig.pszContent = infostr;
 	taskDialogConfig.hwndParent = mainwindow.GetHandle();
 	taskDialogConfig.dwFlags = TDF_USE_COMMAND_LINKS;
-	TaskDialogIndirect(&taskDialogConfig, &selection, NULL, NULL);
+	TaskDialogIndirect(&taskDialogConfig, &selection, nullptr, nullptr);
 	if (selection == IDYES || selection == IDNO) return selection;
 	throw CExitEvent(3);
 }

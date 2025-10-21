@@ -184,8 +184,8 @@ static size_t ParseCommandLine (const char *args, int *argc, char **argv)
 	char *buffplace;
 
 	count = 0;
-	buffstart = NULL;
-	if (argv != NULL)
+	buffstart = nullptr;
+	if (argv != nullptr)
 	{
 		buffstart = argv[0];
 	}
@@ -204,7 +204,7 @@ static size_t ParseCommandLine (const char *args, int *argc, char **argv)
 		else if (*args == '\"')
 		{ // read quoted string
 			char stuff;
-			if (argv != NULL)
+			if (argv != nullptr)
 			{
 				argv[count] = buffplace;
 			}
@@ -225,7 +225,7 @@ static size_t ParseCommandLine (const char *args, int *argc, char **argv)
 				{
 					args--;
 				}
-				if (argv != NULL)
+				if (argv != nullptr)
 				{
 					*buffplace = stuff;
 				}
@@ -239,7 +239,7 @@ static size_t ParseCommandLine (const char *args, int *argc, char **argv)
 			while (*args && *args > ' ' && *args != '\"')
 				args++;
 			end = args;
-			if (argv != NULL)
+			if (argv != nullptr)
 			{
 				argv[count] = buffplace;
 				while (start < end)
@@ -253,7 +253,7 @@ static size_t ParseCommandLine (const char *args, int *argc, char **argv)
 			count++;
 		}
 	}
-	if (argc != NULL)
+	if (argc != nullptr)
 	{
 		*argc = count;
 	}
@@ -302,7 +302,7 @@ void M_SaveDefaultsFinal ()
 
 UNSAFE_CCMD (writeini)
 {
-	const char *filename = (argv.argc() == 1) ? NULL : argv[1];
+	const char *filename = (argv.argc() == 1) ? nullptr : argv[1];
 	if (!M_SaveDefaults (filename))
 	{
 		Printf ("Writing config failed: %s\n", strerror(errno));
@@ -543,7 +543,7 @@ static bool FindFreeName (FString &fullname, const char *extension)
 		time(&now);
 		tm = localtime(&now);
 
-		if (tm == NULL)
+		if (tm == nullptr)
 		{
 			lbmname.Format ("%sScreenshot_%s_%04d.%s", fullname.c_str(), gamename, i, extension);
 		}
@@ -578,7 +578,7 @@ void M_ScreenShot (const char *filename)
 	bool writepcx = (stricmp (screenshot_type, "pcx") == 0);	// PNG is the default
 
 	// find a file name to save it to
-	if (filename == NULL || filename[0] == '\0')
+	if (filename == nullptr || filename[0] == '\0')
 	{
 		size_t dirlen;
 		autoname = Args->CheckValue("-shotdir");
@@ -622,7 +622,7 @@ void M_ScreenShot (const char *filename)
 	if (buffer.Size() > 0)
 	{
 		file = FileWriter::Open(autoname.c_str());
-		if (file == NULL)
+		if (file == nullptr)
 		{
 			Printf ("Could not open %s\n", autoname.c_str());
 			return;
@@ -658,7 +658,7 @@ void M_ScreenShot (const char *filename)
 UNSAFE_CCMD (screenshot)
 {
 	if (argv.argc() == 1)
-		G_ScreenShot (NULL);
+		G_ScreenShot (nullptr);
 	else
 		G_ScreenShot (argv[1]);
 }

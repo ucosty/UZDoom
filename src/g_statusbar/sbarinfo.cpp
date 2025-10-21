@@ -115,7 +115,7 @@ class SBarInfoMainBlock;
  * implements a sub-block.  And SBarInfoMainBlock which is the root for a
  * single hud (so all commands are held inside a MainBlock at some point).
  *
- * A MainBlock can be passed NULL for the first argument of the Draw function.
+ * A MainBlock can be passed nullptr for the first argument of the Draw function.
  */
 
 class SBarInfoCommand
@@ -237,7 +237,7 @@ class SBarInfoCommandFlowControl : public SBarInfoCommand
 				return;
 
 			this->truth = truth;
-			if(block != NULL)
+			if(block != nullptr)
 				Tick(block, statusBar, true);
 		}
 
@@ -309,7 +309,7 @@ class SBarInfoMainBlock : public SBarInfoCommandFlowControl
 			alpha(1.), currentAlpha(1.), forceScaled(false),
 			fullScreenOffsets(false)
 		{
-			SetTruth(true, NULL, NULL);
+			SetTruth(true, nullptr, nullptr);
 		}
 
 		double	Alpha() const { return currentAlpha; }
@@ -365,7 +365,7 @@ class SBarInfoMainBlock : public SBarInfoCommandFlowControl
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SBarInfo *SBarInfoScript[2] = {NULL,NULL};
+SBarInfo *SBarInfoScript[2] = {nullptr,nullptr};
 
 enum //Key words
 {
@@ -412,7 +412,7 @@ static const char *SBarInfoTopLevel[] =
 	"createpopup",
 	"protrusion",
 	"appendstatusbar",
-	NULL
+	nullptr
 };
 
 static const char *StatusBars[] =
@@ -426,17 +426,17 @@ static const char *StatusBars[] =
 	"popuplog",
 	"popupkeys",
 	"popupstatus",
-	NULL
+	nullptr
 };
 
 void FreeSBarInfoScript()
 {
 	for(int i = 0;i < 2;i++)
 	{
-		if (SBarInfoScript[i] != NULL)
+		if (SBarInfoScript[i] != nullptr)
 		{
 			delete SBarInfoScript[i];
-			SBarInfoScript[i] = NULL;
+			SBarInfoScript[i] = nullptr;
 		}
 	}
 }
@@ -449,7 +449,7 @@ void SBarInfo::Load()
 		if(lump != -1)
 		{
 			if (!batchrun) Printf ("ParseSBarInfo: Loading default status bar definition.\n");
-			if(SBarInfoScript[SCRIPT_DEFAULT] == NULL)
+			if(SBarInfoScript[SCRIPT_DEFAULT] == nullptr)
 				SBarInfoScript[SCRIPT_DEFAULT] = new SBarInfo(lump);
 			else
 				SBarInfoScript[SCRIPT_DEFAULT]->ParseSBarInfo(lump);
@@ -463,7 +463,7 @@ void SBarInfo::Load()
 		lastlump = 0;
 		while((lump = fileSystem.FindLump("SBARINFO", &lastlump)) != -1)
 		{
-			if(SBarInfoScript[SCRIPT_CUSTOM] == NULL)
+			if(SBarInfoScript[SCRIPT_CUSTOM] == nullptr)
 				SBarInfoScript[SCRIPT_CUSTOM] = new SBarInfo(lump);
 			else //We now have to load multiple SBarInfo Lumps so the 2nd time we need to use this method instead.
 				SBarInfoScript[SCRIPT_CUSTOM]->ParseSBarInfo(lump);
@@ -646,13 +646,13 @@ void SBarInfo::ParseSBarInfo(int lump)
 				// SBARINFO_APPENDSTATUSBAR shouldn't delete the old HUD if it exists.
 				if(command != SBARINFO_APPENDSTATUSBAR)
 				{
-					if (this->huds[barNum] != NULL)
+					if (this->huds[barNum] != nullptr)
 					{
 						delete this->huds[barNum];
 					}
 					this->huds[barNum] = new SBarInfoMainBlock(this);
 				}
-				else if(this->huds[barNum] == NULL)
+				else if(this->huds[barNum] == nullptr)
 				{
 					sc.ScriptError("Status bar '%s' has not been created and cannot be appended to. Use 'StatusBar' instead.", StatusBars[barNum]);
 				}
@@ -991,10 +991,10 @@ inline void adjustRelCenter(bool relX, bool relY, const double &x, const double 
 class DSBarInfo
 {
 public:
-	DSBarInfo (DBaseStatusBar *wrapper, SBarInfo *script=NULL) :
-		ammo1(NULL), ammo2(NULL), ammocount1(0), ammocount2(0), armor(NULL),
+	DSBarInfo (DBaseStatusBar *wrapper, SBarInfo *script=nullptr) :
+		ammo1(nullptr), ammo2(nullptr), ammocount1(0), ammocount2(0), armor(nullptr),
 		pendingPopup(DBaseStatusBar::POP_None), currentPopup(DBaseStatusBar::POP_None), lastHud(-1),
-		lastInventoryBar(NULL), lastPopup(NULL)
+		lastInventoryBar(nullptr), lastPopup(nullptr)
 	{
 		this->script = script;
 		this->wrapper = wrapper;
@@ -1082,15 +1082,15 @@ public:
 		{
 			if(hud != lastHud)
 			{
-				script->huds[hud]->Tick(NULL, this, true);
+				script->huds[hud]->Tick(nullptr, this, true);
 				// Restore scaling if need be.
 			}
 			wrapper->ForceHUDScale(script->huds[hud]->ForceScaled());
 
 			if(currentPopup != DBaseStatusBar::POP_None && !script->huds[hud]->FullScreenOffsets())
-				script->huds[hud]->Draw(NULL, this, script->popups[currentPopup-1].getXDisplacement(), script->popups[currentPopup-1].getYDisplacement(), 1.);
+				script->huds[hud]->Draw(nullptr, this, script->popups[currentPopup-1].getXDisplacement(), script->popups[currentPopup-1].getYDisplacement(), 1.);
 			else
-				script->huds[hud]->Draw(NULL, this, 0, 0, 1.);
+				script->huds[hud]->Draw(nullptr, this, 0, 0, 1.);
 			lastHud = hud;
 
 			// Handle inventory bar drawing
@@ -1098,13 +1098,13 @@ public:
 			{
 				SBarInfoMainBlock *inventoryBar = state == HUD_StatusBar ? script->huds[STBAR_INVENTORY] : script->huds[STBAR_INVENTORYFULLSCREEN];
 				if(inventoryBar != lastInventoryBar)
-					inventoryBar->Tick(NULL, this, true);
+					inventoryBar->Tick(nullptr, this, true);
 		
 				// No overlay?  Lets cancel it.
 				if(inventoryBar->NumCommands() == 0)
 					CPlayer->inventorytics = 0;
 				else
-					inventoryBar->DrawAux(NULL, this, 0, 0, 1.);
+					inventoryBar->DrawAux(nullptr, this, 0, 0, 1.);
 			}
 			// Reset hud scale
 			wrapper->ForceHUDScale(false);
@@ -1123,13 +1123,13 @@ public:
 			if(script->huds[popbar] != lastPopup)
 			{
 				lastPopup = script->huds[popbar];
-				lastPopup->Tick(NULL, this, true);
+				lastPopup->Tick(nullptr, this, true);
 			}
 
-			script->huds[popbar]->DrawAux(NULL, this, script->popups[currentPopup-1].getXOffset(), script->popups[currentPopup-1].getYOffset(), script->popups[currentPopup-1].getAlpha());
+			script->huds[popbar]->DrawAux(nullptr, this, script->popups[currentPopup-1].getXOffset(), script->popups[currentPopup-1].getYOffset(), script->popups[currentPopup-1].getAlpha());
 		}
 		else
-			lastPopup = NULL;
+			lastPopup = nullptr;
 
 		// These may not live any longer than beyond here!
 		ammo1 = ammo2 = nullptr;
@@ -1161,13 +1161,13 @@ public:
 					script->popups[currentPopup-1].open();
 			}
 
-			if (lastPopup != NULL) lastPopup->Tick(NULL, this, false);
+			if (lastPopup != nullptr) lastPopup->Tick(nullptr, this, false);
 		}
 
 		if(lastHud != -1)
-			script->huds[lastHud]->Tick(NULL, this, false);
-		if(lastInventoryBar != NULL && CPlayer->inventorytics > 0)
-			lastInventoryBar->Tick(NULL, this, false);
+			script->huds[lastHud]->Tick(nullptr, this, false);
+		if(lastInventoryBar != nullptr && CPlayer->inventorytics > 0)
+			lastInventoryBar->Tick(nullptr, this, false);
 
 		// These may not live any longer than beyond here!
 		ammo1 = ammo2 = nullptr;
@@ -1207,7 +1207,7 @@ public:
 	//draws an image with the specified flags
 	void DrawGraphic(FGameTexture* texture, SBarInfoCoordinate x, SBarInfoCoordinate y, int xOffset, int yOffset, double Alpha, bool fullScreenOffsets, bool translate=false, bool dim=false, int offsetflags=0, bool alphaMap=false, int forceWidth=-1, int forceHeight=-1, const double *clip = nulclip, bool clearDontDraw=false) const
 	{
-		if (texture == NULL)
+		if (texture == nullptr)
 			return;
 
 		double dx = *x;
@@ -1406,7 +1406,7 @@ public:
 				width = font->GetCharWidth((unsigned char) script->spacingCharacter);
 			bool redirected = false;
 			auto c = font->GetChar(ch, fontcolor, &width);
-			if(c == NULL) //missing character.
+			if(c == nullptr) //missing character.
 			{
 				continue;
 			}

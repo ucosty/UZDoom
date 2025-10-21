@@ -720,7 +720,7 @@ asmjit::FuncSignature JitCompiler::CreateFuncSignature()
 	return signature;
 }
 
-void JitCompiler::EmitNULLCHECK()
+void JitCompiler::EmitnullptrCHECK()
 {
 	EmitNullPointerThrow(A, X_READ_NIL);
 }

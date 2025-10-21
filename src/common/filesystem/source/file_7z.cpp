@@ -129,13 +129,13 @@ struct C7zArchive
 		LookStream.buf = StreamBuffer;
 		SzArEx_Init(&DB);
 		BlockIndex = 0xFFFFFFFF;
-		OutBuffer = NULL;
+		OutBuffer = nullptr;
 		OutBufferSize = 0;
 	}
 
 	~C7zArchive()
 	{
-		if (OutBuffer != NULL)
+		if (OutBuffer != nullptr)
 		{
 			IAlloc_Free(&g_Alloc, OutBuffer);
 		}
@@ -214,7 +214,7 @@ bool F7ZFile::Open(LumpFilterInfo *filter, FileSystemMessageFunc Printf)
 	if (res != SZ_OK)
 	{
 		delete Archive;
-		Archive = NULL;
+		Archive = nullptr;
 		if (res == SZ_ERROR_UNSUPPORTED)
 		{
 			Printf(FSMessageLevel::Error, "%s: Decoder does not support this archive\n", FileName);
@@ -251,7 +251,7 @@ bool F7ZFile::Open(LumpFilterInfo *filter, FileSystemMessageFunc Printf)
 			continue;
 		}
 
-		const size_t nameLength = SzArEx_GetFileNameUtf16(archPtr, i, NULL);
+		const size_t nameLength = SzArEx_GetFileNameUtf16(archPtr, i, nullptr);
 
 		if (0 == nameLength)
 		{
@@ -368,7 +368,7 @@ FResourceFile *Check7Z(const char *filename, FileReader &file, LumpFilterInfo* f
 			file = rf->Destroy();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

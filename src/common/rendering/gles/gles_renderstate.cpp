@@ -99,7 +99,7 @@ bool FGLRenderState::ApplyShader()
 	ShaderFlavourData flavour;
 
 	// Need to calc light data now in order to select correct shader
-	float* lightPtr = NULL;
+	float* lightPtr = nullptr;
 	int modLights = 0;
 	int subLights = 0;
 	int addLights = 0;

@@ -597,7 +597,7 @@ void HWWall::PutWall(HWWallDispatcher *di, bool translucent)
 		if (ddi->isFullbrightScene())
 		{
 			// light planes don't get drawn with fullbright rendering
-			if (texture == NULL) return;
+			if (texture == nullptr) return;
 			Colormap.Clear();
 		}
 
@@ -999,7 +999,7 @@ out:
 	lightlevel=origlight;
 	Colormap=origcm;
 	flags &= ~HWF_NOSPLITUPPER;
-	this->lightlist = NULL;
+	this->lightlist = nullptr;
 	//::SplitWall.Unclock();
 }
 
@@ -1116,13 +1116,13 @@ bool HWWall::SetWallCoordinates(seg_t * seg, FTexCoordInfo *tci, float textureto
 	}
 	else
 	{
-		tci = NULL;
+		tci = nullptr;
 		l_ul = 0;
 		texlength = 0;
 	}
 
 	texcoord* srclightuv;
-	if (lightmap && lightmap->Type != ST_NULL)
+	if (lightmap && lightmap->Type != ST_nullptr)
 	{
 		srclightuv = (texcoord*)lightmap->TexCoords;
 		lindex = (float)lightmap->LightmapNum;
@@ -1228,7 +1228,7 @@ bool HWWall::SetWallCoordinates(seg_t * seg, FTexCoordInfo *tci, float textureto
 	lightuv[UPRGT].u = srclightuv[UPLFT].u + (srclightuv[UPRGT].u - srclightuv[UPLFT].u) * glseg.fracright;
 	lightuv[LORGT].u = srclightuv[LOLFT].u + (srclightuv[LORGT].u - srclightuv[LOLFT].u) * glseg.fracright;
 
-	if (texture != NULL)
+	if (texture != nullptr)
 	{
 		bool normalize = false;
 		if (texture->isHardwareCanvas()) normalize = true;
@@ -1624,7 +1624,7 @@ void HWWall::DoMidTexture(HWWallDispatcher *di, seg_t * seg, bool drawfogboundar
 		flags |= HWF_NOSPLITUPPER|HWF_NOSPLITLOWER;
 		type=RENDERWALL_FOGBOUNDARY;
 		auto savetex = texture;
-		texture = NULL;
+		texture = nullptr;
 		PutWall(di, true);
 		if (!savetex) 
 		{
@@ -1779,7 +1779,7 @@ void HWWall::BuildFFBlock(HWWallDispatcher *di, seg_t * seg, F3DFloor * rover, i
 			Colormap.LightColor = light->extra_colormap.FadeColor;
 			// the fog plane defines the light di->Level->, not the front sector
 			lightlevel = hw_ClampLight(*light->p_lightlevel);
-			texture = NULL;
+			texture = nullptr;
 			type = RENDERWALL_FFBLOCK;
 		}
 		else return;
@@ -1829,7 +1829,7 @@ void HWWall::BuildFFBlock(HWWallDispatcher *di, seg_t * seg, F3DFloor * rover, i
 		CheckTexturePosition(&tci);
 
 		texcoord* srclightuv;
-		if (lightmap && lightmap->Type != ST_NULL)
+		if (lightmap && lightmap->Type != ST_nullptr)
 		{
 			srclightuv = (texcoord*)lightmap->TexCoords;
 			lindex = (float)lightmap->LightmapNum;
@@ -2174,7 +2174,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 	{
 		// Need these for aligning the textures
 		realfront = &di->Level->sectors[frontsector->sectornum];
-		realback = backsector ? &di->Level->sectors[backsector->sectornum] : NULL;
+		realback = backsector ? &di->Level->sectors[backsector->sectornum] : nullptr;
 		segfront = frontsector;
 		segback = backsector;
 	}
@@ -2230,7 +2230,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 	Colormap = frontsector->Colormap;
 	flags = 0;
 	dynlightindex = -1;
-	lightlist = NULL;
+	lightlist = nullptr;
 
 	int rel = 0;
 	int orglightlevel = hw_ClampLight(frontsector->lightlevel);
@@ -2238,7 +2238,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 
 	alpha = 1.0f;
 	RenderStyle = STYLE_Normal;
-	texture = NULL;
+	texture = nullptr;
 
 
 	if (frontsector->GetWallGlow(topglowcolor, bottomglowcolor)) flags |= HWF_GLOW;
@@ -2403,7 +2403,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 					else
 					{
 						// skip processing if the back is a malformed subsector
-						if (seg->PartnerSeg != NULL && !(seg->PartnerSeg->Subsector->hacked & 4))
+						if (seg->PartnerSeg != nullptr && !(seg->PartnerSeg->Subsector->hacked & 4))
 						{
 							di->AddUpperMissingTexture(seg->sidedef, sub, bch1a);
 						}
@@ -2418,7 +2418,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 
 		bool drawfogboundary = !di->isFullbrightScene() && CheckFog(di->Level, frontsector, backsec, di->lightmode);
 		auto tex = TexMan.GetGameTexture(seg->sidedef->GetTexture(side_t::mid), true);
-		if (tex != NULL && tex->isValid())
+		if (tex != nullptr && tex->isValid())
 		{
 			if (di->Level->i_compatflags & COMPATF_MASKEDMIDTEX)
 			{
@@ -2551,7 +2551,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 				else if (backsector->GetTexture(sector_t::floor) != skyflatnum)
 				{
 					// skip processing if the back is a malformed subsector
-					if (seg->PartnerSeg != NULL && !(seg->PartnerSeg->Subsector->hacked & 4))
+					if (seg->PartnerSeg != nullptr && !(seg->PartnerSeg->Subsector->hacked & 4))
 					{
 						di->AddLowerMissingTexture(seg->sidedef, sub, bfh1);
 					}
@@ -2569,7 +2569,7 @@ void HWWall::Process(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, s
 void HWWall::ProcessLowerMiniseg(HWWallDispatcher *di, seg_t *seg, sector_t * frontsector, sector_t * backsector)
 {
 	if (frontsector->GetTexture(sector_t::floor) == skyflatnum) return;
-	lightlist = NULL;
+	lightlist = nullptr;
 
 	float ffh = frontsector->GetPlaneTexZ(sector_t::floor);
 	float bfh = backsector->GetPlaneTexZ(sector_t::floor);
@@ -2581,7 +2581,7 @@ void HWWall::ProcessLowerMiniseg(HWWallDispatcher *di, seg_t *seg, sector_t * fr
 		this->seg = seg;
 		this->frontsector = frontsector;
 		this->backsector = backsector;
-		this->sub = NULL;
+		this->sub = nullptr;
 		this->lightmap = nullptr;
 
 		vertex_t * v1 = seg->v1;

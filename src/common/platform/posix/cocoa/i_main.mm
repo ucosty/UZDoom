@@ -517,13 +517,13 @@ void CreateMenu()
 
 void ReleaseApplicationController()
 {
-	if (NULL != appCtrl)
+	if (nullptr != appCtrl)
 	{
 		[NSApp setDelegate:nil];
 		[NSApp deactivate];
 
 		[appCtrl release];
-		appCtrl = NULL;
+		appCtrl = nullptr;
 	}
 }
 

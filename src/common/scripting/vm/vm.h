@@ -264,7 +264,7 @@ struct TypedVMValue
 
 	TypedVMValue()
 	{
-		a = NULL;
+		a = nullptr;
 		Type = REGT_NIL;
 	}
 	TypedVMValue(const TypedVMValue &o)
@@ -344,7 +344,7 @@ struct VMValue
 
 	VMValue()
 	{
-		a = NULL;
+		a = nullptr;
 	}
 	VMValue(const VMValue &o)
 	{
@@ -459,7 +459,7 @@ public:
 
 	int(*ScriptCall)(VMFunction *func, VMValue *params, int numparams, VMReturn *ret, int numret) = nullptr;
 
-	VMFunction(FName name = NAME_None) : ImplicitArgs(0), Name(name), Proto(NULL)
+	VMFunction(FName name = NAME_None) : ImplicitArgs(0), Name(name), Proto(nullptr)
 	{
 		AllFunctions.Push(this);
 	}
@@ -512,7 +512,7 @@ public:
 	typedef int (*NativeCallType)(VM_ARGS);
 
 	// 8 is VARF_Native. I can't write VARF_Native because of circular references between this and dobject/dobjtype.
-	VMNativeFunction() : NativeCall(NULL) { VarFlags = 8; ScriptCall = &VMNativeFunction::NativeScriptCall; }
+	VMNativeFunction() : NativeCall(nullptr) { VarFlags = 8; ScriptCall = &VMNativeFunction::NativeScriptCall; }
 	VMNativeFunction(NativeCallType call) : NativeCall(call) { VarFlags = 8; ScriptCall = &VMNativeFunction::NativeScriptCall; }
 	VMNativeFunction(NativeCallType call, FName name) : VMFunction(name), NativeCall(call) { VarFlags = 8; ScriptCall = &VMNativeFunction::NativeScriptCall; }
 
@@ -526,10 +526,10 @@ private:
 	static int NativeScriptCall(VMFunction *func, VMValue *params, int numparams, VMReturn *ret, int numret);
 };
 
-int VMCall(VMFunction *func, VMValue *params, int numparams, VMReturn *results, int numresults/*, VMException **trap = NULL*/);
-int VMCallWithDefaults(VMFunction *func, TArray<VMValue> &params, VMReturn *results, int numresults/*, VMException **trap = NULL*/);
+int VMCall(VMFunction *func, VMValue *params, int numparams, VMReturn *results, int numresults/*, VMException **trap = nullptr*/);
+int VMCallWithDefaults(VMFunction *func, TArray<VMValue> &params, VMReturn *results, int numresults/*, VMException **trap = nullptr*/);
 
-inline int VMCallAction(VMFunction *func, VMValue *params, int numparams, VMReturn *results, int numresults/*, VMException **trap = NULL*/)
+inline int VMCallAction(VMFunction *func, VMValue *params, int numparams, VMReturn *results, int numresults/*, VMException **trap = nullptr*/)
 {
 	return VMCall(func, params, numparams, results, numresults);
 }
@@ -839,7 +839,7 @@ void NullParam(const char *varname);
 bool AssertObject(void * ob);
 #endif
 
-#define PARAM_NULLCHECK(ptr, var) (ptr == nullptr? NullParam(#var), ptr : ptr)
+#define PARAM_nullptrCHECK(ptr, var) (ptr == nullptr? NullParam(#var), ptr : ptr)
 
 // This cannot assert because there is no info for varargs
 #define PARAM_VA_POINTER(x)			const uint8_t *x = (const uint8_t *)param[numparam-1].a;
@@ -862,11 +862,11 @@ bool AssertObject(void * ob);
 #define PARAM_POINTER_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); type *x = (type *)param[p].a;
 #define PARAM_OUTPOINTER_AT(p,x,type)	assert((p) < numparam); type *x = (type *)param[p].a;
 #define PARAM_POINTERTYPE_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); type x = (type )param[p].a;
-#define PARAM_OBJECT_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER && AssertObject(param[p].a)); type *x = (type *)param[p].a; assert(x == NULL || x->IsKindOf(RUNTIME_CLASS(type)));
-#define PARAM_CLASS_AT(p,x,base)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); base::MetaClass *x = (base::MetaClass *)param[p].a; assert(x == NULL || x->IsDescendantOf(RUNTIME_CLASS(base)));
-#define PARAM_POINTER_NOT_NULL_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); type *x = (type *)PARAM_NULLCHECK(param[p].a, #x);
-#define PARAM_OBJECT_NOT_NULL_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER && (AssertObject(param[p].a))); type *x = (type *)PARAM_NULLCHECK(param[p].a, #x); assert(x == NULL || x->IsKindOf(RUNTIME_CLASS(type)));
-#define PARAM_CLASS_NOT_NULL_AT(p,x,base)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); base::MetaClass *x = (base::MetaClass *)PARAM_NULLCHECK(param[p].a, #x); assert(x == NULL || x->IsDescendantOf(RUNTIME_CLASS(base)));
+#define PARAM_OBJECT_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER && AssertObject(param[p].a)); type *x = (type *)param[p].a; assert(x == nullptr || x->IsKindOf(RUNTIME_CLASS(type)));
+#define PARAM_CLASS_AT(p,x,base)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); base::MetaClass *x = (base::MetaClass *)param[p].a; assert(x == nullptr || x->IsDescendantOf(RUNTIME_CLASS(base)));
+#define PARAM_POINTER_NOT_nullptr_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); type *x = (type *)PARAM_nullptrCHECK(param[p].a, #x);
+#define PARAM_OBJECT_NOT_nullptr_AT(p,x,type)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER && (AssertObject(param[p].a))); type *x = (type *)PARAM_nullptrCHECK(param[p].a, #x); assert(x == nullptr || x->IsKindOf(RUNTIME_CLASS(type)));
+#define PARAM_CLASS_NOT_nullptr_AT(p,x,base)	assert((p) < numparam); assert(reginfo[p] == REGT_POINTER); base::MetaClass *x = (base::MetaClass *)PARAM_nullptrCHECK(param[p].a, #x); assert(x == nullptr || x->IsDescendantOf(RUNTIME_CLASS(base)));
 
 
 // The above, but with an automatically increasing position index.
@@ -892,9 +892,9 @@ bool AssertObject(void * ob);
 #define PARAM_OBJECT(x,type)		++paramnum; PARAM_OBJECT_AT(paramnum,x,type)
 #define PARAM_CLASS(x,base)			++paramnum; PARAM_CLASS_AT(paramnum,x,base)
 #define PARAM_CLASS(x,base)			++paramnum; PARAM_CLASS_AT(paramnum,x,base)
-#define PARAM_POINTER_NOT_NULL(x,type)		++paramnum; PARAM_POINTER_NOT_NULL_AT(paramnum,x,type)
-#define PARAM_OBJECT_NOT_NULL(x,type)		++paramnum; PARAM_OBJECT_NOT_NULL_AT(paramnum,x,type)
-#define PARAM_CLASS_NOT_NULL(x,base)		++paramnum; PARAM_CLASS_NOT_NULL_AT(paramnum,x,base)
+#define PARAM_POINTER_NOT_nullptr(x,type)		++paramnum; PARAM_POINTER_NOT_nullptr_AT(paramnum,x,type)
+#define PARAM_OBJECT_NOT_nullptr(x,type)		++paramnum; PARAM_OBJECT_NOT_nullptr_AT(paramnum,x,type)
+#define PARAM_CLASS_NOT_nullptr(x,base)		++paramnum; PARAM_CLASS_NOT_nullptr_AT(paramnum,x,base)
 
 typedef int(*actionf_p)(VM_ARGS);
 
@@ -1016,18 +1016,18 @@ struct AFuncDesc : FAutoSegEntry<AFuncDesc>
 
 class AActor;
 
-#define ACTION_RETURN_STATE(v) do { FState *state = v; if (numret > 0) { assert(ret != NULL); ret->SetPointer(state); return 1; } return 0; } while(0)
-#define ACTION_RETURN_CONST_POINTER(v) do { const void *state = v; if (numret > 0) { assert(ret != NULL); ret->SetConstPointer(state); return 1; } return 0; } while(0)
-#define ACTION_RETURN_POINTER(v) do { void *state = v; if (numret > 0) { assert(ret != NULL); ret->SetPointer(state); return 1; } return 0; } while(0)
-#define ACTION_RETURN_OBJECT(v) do { auto state = v; if (numret > 0) { assert(ret != NULL); ret->SetObject(state); return 1; } return 0; } while(0)
+#define ACTION_RETURN_STATE(v) do { FState *state = v; if (numret > 0) { assert(ret != nullptr); ret->SetPointer(state); return 1; } return 0; } while(0)
+#define ACTION_RETURN_CONST_POINTER(v) do { const void *state = v; if (numret > 0) { assert(ret != nullptr); ret->SetConstPointer(state); return 1; } return 0; } while(0)
+#define ACTION_RETURN_POINTER(v) do { void *state = v; if (numret > 0) { assert(ret != nullptr); ret->SetPointer(state); return 1; } return 0; } while(0)
+#define ACTION_RETURN_OBJECT(v) do { auto state = v; if (numret > 0) { assert(ret != nullptr); ret->SetObject(state); return 1; } return 0; } while(0)
 #define ACTION_RETURN_FLOAT(v) do { double u = v; if (numret > 0) { assert(ret != nullptr); ret->SetFloat(u); return 1; } return 0; } while(0)
 #define ACTION_RETURN_VEC2(v) do { DVector2 u = v; if (numret > 0) { assert(ret != nullptr); ret[0].SetVector2(u); return 1; } return 0; } while(0)
 #define ACTION_RETURN_VEC3(v) do { DVector3 u = v; if (numret > 0) { assert(ret != nullptr); ret[0].SetVector(u); return 1; } return 0; } while(0)
 #define ACTION_RETURN_VEC4(v) do { DVector4 u = v; if (numret > 0) { assert(ret != nullptr); ret[0].SetVector4(u); return 1; } return 0; } while(0)
 #define ACTION_RETURN_QUAT(v) do { DQuaternion u = v; if (numret > 0) { assert(ret != nullptr); ret[0].SetQuaternion(u); return 1; } return 0; } while(0)
-#define ACTION_RETURN_INT(v) do { int u = v; if (numret > 0) { assert(ret != NULL); ret->SetInt(u); return 1; } return 0; } while(0)
+#define ACTION_RETURN_INT(v) do { int u = v; if (numret > 0) { assert(ret != nullptr); ret->SetInt(u); return 1; } return 0; } while(0)
 #define ACTION_RETURN_BOOL(v) ACTION_RETURN_INT(v)
-#define ACTION_RETURN_STRING(v) do { FString u = v; if (numret > 0) { assert(ret != NULL); ret->SetString(u); return 1; } return 0; } while(0)
+#define ACTION_RETURN_STRING(v) do { FString u = v; if (numret > 0) { assert(ret != nullptr); ret->SetString(u); return 1; } return 0; } while(0)
 
 // Checks to see what called the current action function
 #define ACTION_CALL_FROM_ACTOR() (stateinfo == nullptr || stateinfo->mStateType == STATE_Actor)
@@ -1040,7 +1040,7 @@ class AActor;
 //   callingstate - State this action was called from
 #define PARAM_ACTION_PROLOGUE(type) \
 	PARAM_PROLOGUE; \
-	PARAM_OBJECT_NOT_NULL (self, AActor); \
+	PARAM_OBJECT_NOT_nullptr (self, AActor); \
 	PARAM_OBJECT (stateowner, type) \
 	PARAM_POINTER  (stateinfo, FStateParamInfo) \
 
@@ -1049,12 +1049,12 @@ class AActor;
 
 #define PARAM_SELF_PROLOGUE(type) \
 	PARAM_PROLOGUE; \
-	PARAM_OBJECT_NOT_NULL(self, type);
+	PARAM_OBJECT_NOT_nullptr(self, type);
 
 // for structs we cannot do a class validation
 #define PARAM_SELF_STRUCT_PROLOGUE(type) \
 	PARAM_PROLOGUE; \
-	PARAM_POINTER_NOT_NULL(self, type);
+	PARAM_POINTER_NOT_nullptr(self, type);
 
 class PFunction;
 

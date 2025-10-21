@@ -735,7 +735,7 @@ public:
 	FThinkerCollection ClientSideThinkers;
 	TArray<DThinker*> TravellingThinkers;
 
-	TArray<DVector2>	Scrolls;		// NULL if no DScrollers in this level
+	TArray<DVector2>	Scrolls;		// nullptr if no DScrollers in this level
 
 	int8_t		WallVertLight;			// Light diffs for vert/horiz walls
 	int8_t		WallHorizLight;

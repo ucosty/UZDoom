@@ -70,7 +70,7 @@ public:
 		if (m_Message[0] != '\0')
 			return (const char *)m_Message;
 		else
-			return NULL;
+			return nullptr;
 	}
 	char const *what() const noexcept override
 	{
