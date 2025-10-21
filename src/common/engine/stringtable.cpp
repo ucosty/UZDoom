@@ -435,8 +435,8 @@ void FStringTable::InsertString(int filenum, int langid, FName label, const FStr
 {
 	const char *strlangid = (const char *)&langid;
 	TableElement te = { filenum, { string, string, string, string } };
-	ptrdiff_t index;
-	while ((index = te.strings[0].IndexOf("@[")) >= 0)
+	size_t index;
+	while ((index = te.strings[0].find("@[")) != std::string::npos)
 	{
 		auto endindex = te.strings[0].IndexOf(']', index);
 		if (endindex == -1)

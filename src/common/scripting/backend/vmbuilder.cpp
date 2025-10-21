@@ -1227,7 +1227,7 @@ void VMDisassemblyDumper::Write(VMScriptFunction *sfunc, const FString &fname)
 	{
 		FString fname_lower = fname.c_str();
 		std::transform(fname_lower.begin(), fname_lower.end(), fname_lower.begin(), ::tolower);
-		if (namefilter.Len() > 0 && fname_lower.IndexOf(namefilter) == -1)
+		if (namefilter.Len() > 0 && fname_lower.find(namefilter) == std::string::npos)
 		{
 			return;
 		}

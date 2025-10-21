@@ -419,7 +419,8 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, Filter, StringFilter)
 
 static int StringIndexOf(FString *self, const FString &substr, int startIndex)
 {
-	return (int)self->IndexOf(substr, startIndex);
+	if (const auto index = self->find(substr, startIndex); index != std::string::npos) return index;
+	return -1;
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IndexOf, StringIndexOf)

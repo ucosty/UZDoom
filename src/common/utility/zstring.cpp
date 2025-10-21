@@ -531,11 +531,6 @@ size_t FString::find(const char *substr, const size_t startIndex) const {
 	return str - Chars;
 }
 
-ptrdiff_t FString::IndexOf (const FString &substr, ptrdiff_t startIndex) const
-{
-	return IndexOf (substr.Chars, startIndex);
-}
-
 ptrdiff_t FString::IndexOf (const char *substr, ptrdiff_t startIndex) const
 {
 	if (startIndex > 0 && Len() <= (size_t)startIndex)

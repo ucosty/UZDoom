@@ -192,7 +192,7 @@ const FName * Joy_GuessMapping(const FName identifier)
 
 	for (auto mapping: mappings)
 		for (auto token: mapping.tokens)
-			if (text.IndexOf(token) != -1)
+			if (text.find(token) != std::string::npos)
 				return mapping.mapping;
 
 	return nullptr;
@@ -242,9 +242,9 @@ const FName * Joy_GetMapping(const FName identifier)
 	{
 		FString idString = identifier.GetChars();
 
-		auto skindex = idString.IndexOf("*");
+		auto skindex = idString.find("*");
 
-		if (skindex >= 0)
+		if (skindex != std::string::npos)
 		{
 			idString.Remove(0, skindex);
 		}

@@ -218,7 +218,6 @@ public:
 	size_t find(const FString &substr, size_t startIndex=0) const;
 	size_t find (const char *substr, size_t startIndex=0) const;
 
-	ptrdiff_t IndexOf (const FString &substr, ptrdiff_t startIndex=0) const;
 	ptrdiff_t IndexOf (const char *substr, ptrdiff_t startIndex=0) const;
 	ptrdiff_t IndexOf (char subchar, ptrdiff_t startIndex=0) const;
 
