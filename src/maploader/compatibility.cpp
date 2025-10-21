@@ -324,7 +324,7 @@ FName MapLoader::CheckCompatibility(MapData *map)
 
 	if (developer >= DMSG_NOTIFY)
 	{
-		Printf("MD5 = %s", hash.GetChars());
+		Printf("MD5 = %s", hash.c_str());
 		if (flags != NULL)
 		{
 			Printf(", cflags = %08x, cflags2 = %08x, bflags = %08x\n",

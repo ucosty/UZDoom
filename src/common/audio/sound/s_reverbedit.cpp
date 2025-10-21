@@ -227,7 +227,7 @@ void ExportEnvironments(const char *filename, uint32_t count, const ReverbContai
 {
 	FString dest = M_GetDocumentsPath() + filename;
 
-	FileWriter *f = FileWriter::Open(dest.GetChars());
+	FileWriter *f = FileWriter::Open(dest.c_str());
 
 	if (f != nullptr)
 	{
@@ -368,7 +368,7 @@ DEFINE_ACTION_FUNCTION(DReverbEdit, FillSelectMenu)
 	for (auto env = Environments; env != nullptr; env = env->Next)
 	{
 		FStringf text("(%d, %d) %s", HIBYTE(env->ID), LOBYTE(env->ID), env->Name);
-		FStringf cmd("%s \"%s\"", ccmd.GetChars(), env->Name);
+		FStringf cmd("%s \"%s\"", ccmd.c_str(), env->Name);
 		PClass *cls = PClass::FindClass("OptionMenuItemCommand");
 		if (cls != nullptr && cls->IsDescendantOf("OptionMenuItem"))
 		{
@@ -473,7 +473,7 @@ static void SelectEnvironment(const char *envname)
 			cv.Int = LOBYTE(newid);
 			reverbedit_id2->ForceSet(cv, CVAR_Int);
 			FString selectname = SuggestNewName(env);
-			cv.String = selectname.GetChars();
+			cv.String = selectname.c_str();
 			reverbedit_name->ForceSet(cv, CVAR_String);
 			return;
 		}
@@ -509,13 +509,13 @@ CCMD(createenvironment)
 {
 	if (S_FindEnvironment(reverbedit_name))
 	{
-		M_StartMessage(FStringf("An environment with the name '%s' already exists", *reverbedit_name).GetChars(), 1);
+		M_StartMessage(FStringf("An environment with the name '%s' already exists", *reverbedit_name).c_str(), 1);
 		return;
 	}
 	int id = (reverbedit_id1 << 8) + reverbedit_id2;
 	if (S_FindEnvironment(id))
 	{
-		M_StartMessage(FStringf("An environment with the ID (%d, %d) already exists", *reverbedit_id1, *reverbedit_id2).GetChars(), 1);
+		M_StartMessage(FStringf("An environment with the ID (%d, %d) already exists", *reverbedit_id1, *reverbedit_id2).c_str(), 1);
 		return;
 	}
 

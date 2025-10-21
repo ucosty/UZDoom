@@ -461,7 +461,7 @@ bool FGLRenderBuffers::CheckFrameBufferCompleteness()
 		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE: error << "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE"; break;
 		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS: error << "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS"; break;
 		}
-		Printf("%s\n", error.GetChars());
+		Printf("%s\n", error.c_str());
 	}
 
 	return false;
@@ -836,9 +836,9 @@ FShaderProgram *GLPPRenderState::GetGLShader(PPShader *shader)
 			prolog = UniformBlockDecl::Create("Uniforms", shader->Uniforms, POSTPROCESS_BINDINGPOINT);
 		prolog += shader->Defines;
 
-		glshader->Compile(FShaderProgram::Vertex, shader->VertexShader.GetChars(), "", shader->Version);
-		glshader->Compile(FShaderProgram::Fragment, shader->FragmentShader.GetChars(), prolog.GetChars(), shader->Version);
-		glshader->Link(shader->FragmentShader.GetChars());
+		glshader->Compile(FShaderProgram::Vertex, shader->VertexShader.c_str(), "", shader->Version);
+		glshader->Compile(FShaderProgram::Fragment, shader->FragmentShader.c_str(), prolog.c_str(), shader->Version);
+		glshader->Link(shader->FragmentShader.c_str());
 		if (!shader->Uniforms.empty())
 			glshader->SetUniformBufferLocation(POSTPROCESS_BINDINGPOINT, "Uniforms");
 
@@ -971,7 +971,7 @@ void GLPPRenderState::Draw()
 
 void GLPPRenderState::PushGroup(const FString &name)
 {
-	FGLDebug::PushGroup(name.GetChars());
+	FGLDebug::PushGroup(name.c_str());
 }
 
 void GLPPRenderState::PopGroup()

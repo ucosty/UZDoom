@@ -1756,7 +1756,7 @@ CCMD(cachesound)
 
 CCMD(listsoundchannels)
 {
-	Printf("%s", soundEngine->ListSoundChannels().GetChars());
+	Printf("%s", soundEngine->ListSoundChannels().c_str());
 }
 
 // intentionally moved here to keep the s_music include out of the rest of the file.

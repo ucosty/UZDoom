@@ -741,7 +741,7 @@ static int FindGLNodesInWAD(int labellump)
 	glheader.Format("GL_%s", fileSystem.GetFileFullName(labellump));
 	if (glheader.Len()<=8)
 	{
-		int gllabel = fileSystem.CheckNumForName(glheader.GetChars(), FileSys::ns_global, wadfile);
+		int gllabel = fileSystem.CheckNumForName(glheader.c_str(), FileSys::ns_global, wadfile);
 		if (gllabel >= 0) return gllabel;
 	}
 	else
@@ -759,7 +759,7 @@ static int FindGLNodesInWAD(int labellump)
 				if (fileSystem.GetFileContainer(lump)==wadfile)
 				{
 					auto mem = fileSystem.ReadFile(lump);
-					if (MatchHeader(fileSystem.GetFileFullName(labellump), GetStringFromLump(lump).GetChars())) return lump;
+					if (MatchHeader(fileSystem.GetFileFullName(labellump), GetStringFromLump(lump).c_str())) return lump;
 				}
 			}
 		}
@@ -798,7 +798,7 @@ static int FindGLNodesInFile(FResourceFile * f, const char * label)
 	{
 		for(uint32_t i=0;i<numentries-4;i++)
 		{
-			if (!strnicmp(f->getName(i), glheader.GetChars(), 8))
+			if (!strnicmp(f->getName(i), glheader.c_str(), 8))
 			{
 				if (mustcheck)
 				{
@@ -1010,7 +1010,7 @@ static FString CreateCacheName(MapData *map, bool create)
 	FString lumpname = fileSystem.GetFileFullPath(map->lumpnum).c_str();
 	auto separator = lumpname.IndexOf(':');
 	path << '/' << lumpname.Left(separator);
-	if (create) CreatePath(path.GetChars());
+	if (create) CreatePath(path.c_str());
 
 	lumpname.ReplaceChars('/', '%');
 	lumpname.ReplaceChars(':', '$');
@@ -1131,20 +1131,20 @@ void MapLoader::CreateCachedNodes(MapData *map)
 	memcpy(&compressed[offset - 4], "ZGL3", 4);
 
 	FString path = CreateCacheName(map, true);
-	FileWriter *fw = FileWriter::Open(path.GetChars());
+	FileWriter *fw = FileWriter::Open(path.c_str());
 
 	if (fw != nullptr)
 	{
 		const size_t length = outlen + offset;
 		if (fw->Write(compressed.Data(), length) != length)
 		{
-			Printf("Error saving nodes to file %s\n", path.GetChars());
+			Printf("Error saving nodes to file %s\n", path.c_str());
 		}
 		delete fw;
 	}
 	else
 	{
-		Printf("Cannot open nodes file %s for writing\n", path.GetChars());
+		Printf("Cannot open nodes file %s for writing\n", path.c_str());
 	}
 }
 
@@ -1160,7 +1160,7 @@ bool MapLoader::CheckCachedNodes(MapData *map)
 	FString path = CreateCacheName(map, false);
 	FileReader fr;
 
-	if (!fr.OpenFile(path.GetChars())) return false;
+	if (!fr.OpenFile(path.c_str())) return false;
 
 	if (fr.Read(magic, 4) != 4) return false;
 	if (memcmp(magic, "CACH", 4))  return false;
@@ -1209,9 +1209,9 @@ UNSAFE_CCMD(clearnodecache)
 	FString path = M_GetCachePath(false);
 	path += "/";
 
-	if (!FileSys::ScanDirectory(list, path.GetChars(), "*", false))
+	if (!FileSys::ScanDirectory(list, path.c_str(), "*", false))
 	{
-		Printf("Unable to scan node cache directory %s\n", path.GetChars());
+		Printf("Unable to scan node cache directory %s\n", path.c_str());
 		return;
 	}
 

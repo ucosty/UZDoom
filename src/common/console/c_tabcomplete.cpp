@@ -280,7 +280,7 @@ bool C_TabCompleteList ()
 	{
 		size_t x = 0;
 		maxwidth += 3;
-		Printf (TEXTCOLOR_BLUE "Completions for %s:\n", CmdLineText.GetChars());
+		Printf (TEXTCOLOR_BLUE "Completions for %s:\n", CmdLineText.c_str());
 		for (i = TabPos; nummatches > 0; ++i, --nummatches)
 		{
 			// [Dusk] Print console commands blue, CVars green, aliases red.

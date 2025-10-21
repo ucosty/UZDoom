@@ -389,7 +389,7 @@ bool EventManager::SendNetworkEvent(FString name, int arg1, int arg2, int arg3, 
 		return false;
 
 	Net_WriteInt8(DEM_NETEVENT);
-	Net_WriteString(name.GetChars());
+	Net_WriteString(name.c_str());
 	Net_WriteInt8(3);
 	Net_WriteInt32(arg1);
 	Net_WriteInt32(arg2);
@@ -490,7 +490,7 @@ bool EventManager::SendNetworkCommand(const FName& cmd, VMVa_List& args)
 			{
 				const FString* str = ListGetString(args);
 				if (str != nullptr)
-					Net_WriteString(str->GetChars());
+					Net_WriteString(str->c_str());
 				else
 					Net_WriteString(Default); // Still have to send something here to be read correctly.
 				break;
@@ -569,11 +569,11 @@ static PClass* GetHandlerClass(const FString& typeName)
 
 	if (type == nullptr)
 	{
-		I_Error("Fatal: unknown event handler class %s", typeName.GetChars());
+		I_Error("Fatal: unknown event handler class %s", typeName.c_str());
 	}
 	else if (!type->IsDescendantOf(RUNTIME_CLASS(DStaticEventHandler)))
 	{
-		I_Error("Fatal: event handler class %s is not derived from StaticEventHandler", typeName.GetChars());
+		I_Error("Fatal: event handler class %s is not derived from StaticEventHandler", typeName.c_str());
 	}
 
 	return type;
@@ -626,7 +626,7 @@ void EventManager::InitStaticHandlers(FLevelLocals *l, bool map)
 	{
 		PClass* type = GetHandlerClass(typeName);
 		if (IsStaticType(type))
-			I_Error("Fatal: invalid event handler class %s in MAPINFO!\nMap-specific event handlers cannot be static.\n", typeName.GetChars());
+			I_Error("Fatal: invalid event handler class %s in MAPINFO!\nMap-specific event handlers cannot be static.\n", typeName.c_str());
 		InitHandler(type);
 	}
 }

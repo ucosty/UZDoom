@@ -681,7 +681,7 @@ void FParser::EvaluateExpression(svalue_t &result, int start, int stop)
 		FString tempstr;
 		
 		for(i=start; i<=stop; i++) tempstr << Tokens[i] << ' ';
-		script_error("couldnt evaluate expression: %s\n",tempstr.GetChars());
+		script_error("couldnt evaluate expression: %s\n",tempstr.c_str());
 	}
 }
 
@@ -717,7 +717,7 @@ void FParser::ErrorMessage(FString msg)
     }
 
 	//lineinfo.Format("Script %d, line %d: ", Script->scriptnum, linenum);
-	FS_Error("Script %d, line %d: %s", Script->scriptnum, linenum, msg.GetChars());
+	FS_Error("Script %d, line %d: %s", Script->scriptnum, linenum, msg.c_str());
 }
 
 //==========================================================================

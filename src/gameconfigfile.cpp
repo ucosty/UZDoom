@@ -98,14 +98,14 @@ FGameConfigFile::FGameConfigFile ()
 	OkayToWrite = false;	// Do not allow saving of the config before DoKeySetup()
 	bModSetup = false;
 	pathname = GetConfigPath (true);
-	ChangePathName (pathname.GetChars());
+	ChangePathName (pathname.c_str());
 	LoadConfigFile ();
 
 	// If zdoom.ini was read from the program directory, switch
 	// to the user directory now. If it was read from the user
 	// directory, this effectively does nothing.
 	pathname = GetConfigPath (false);
-	ChangePathName (pathname.GetChars());
+	ChangePathName (pathname.c_str());
 
 	// Set default IWAD search paths if none present
 	if (!SetSection ("IWADSearch.Directories"))
@@ -272,7 +272,7 @@ void FGameConfigFile::DoAutoloadSetup (FIWadManager *iwad_man)
 			while (workname.IsNotEmpty())
 			{
 				FString section = workname + ".Autoload";
-				CreateSectionAtStart(section.GetChars());
+				CreateSectionAtStart(section.c_str());
 				auto dotpos = workname.LastIndexOf('.');
 				if (dotpos < 0) break;
 				workname.Truncate(dotpos);
@@ -957,7 +957,7 @@ void FGameConfigFile::CreateStandardAutoExec(const char *section, bool start)
 	{
 		FString path = M_GetAutoexecPath();
 		SetSection (section, true);
-		SetValueForKey ("Path", path.GetChars());
+		SetValueForKey ("Path", path.c_str());
 	}
 	if (start)
 	{
@@ -1044,5 +1044,5 @@ void FGameConfigFile::SetStrifeDefaults ()
 CCMD (whereisini)
 {
 	FString path = M_GetConfigPath(false);
-	Printf ("%s\n", path.GetChars());
+	Printf ("%s\n", path.c_str());
 }

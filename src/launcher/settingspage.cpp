@@ -92,7 +92,7 @@ SettingsPage::SettingsPage(LauncherWindow* launcher, const FStartupSelectionInfo
 	int i = 0;
 	for (auto& l : languages)
 	{
-		LangList->AddItem(l.second.GetChars());
+		LangList->AddItem(l.second.c_str());
 		if (!l.first.CompareNoCase(info.DefaultLanguage))
 			LangList->SetSelectedItem(i);
 		++i;
@@ -105,7 +105,7 @@ void SettingsPage::SetValues(FStartupSelectionInfo& info) const
 {
 	info.DefaultFullscreen = FullscreenCheckbox->GetChecked();
 	info.DefaultQueryIWAD = !DontAskAgainCheckbox->GetChecked();
-	info.DefaultLanguage = languages[LangList->GetSelectedItem()].first.GetChars();
+	info.DefaultLanguage = languages[LangList->GetSelectedItem()].first.c_str();
 
 	int flags = 0;
 	if (DisableAutoloadCheckbox->GetChecked()) flags |= 1;
@@ -147,7 +147,7 @@ void SettingsPage::UpdateLanguage()
 
 void SettingsPage::OnLanguageChanged(int i)
 {
-	GStrings.UpdateLanguage(languages[i].first.GetChars());
+	GStrings.UpdateLanguage(languages[i].first.c_str());
 	UpdateLanguage();
 	Update();
 	Launcher->UpdateLanguage();

@@ -187,7 +187,7 @@ TArray<FString> I_GetSteamPath()
 	FString regPath = appSupportPath + "/Steam/config/config.vdf";
 	try
 	{
-		SteamInstallFolders = ParseSteamRegistry(regPath.GetChars());
+		SteamInstallFolders = ParseSteamRegistry(regPath.c_str());
 	}
 	catch(class CRecoverableError &error)
 	{
@@ -210,7 +210,7 @@ TArray<FString> I_GetSteamPath()
 
 		try
 		{
-			SteamInstallFolders = ParseSteamRegistry(regPath.GetChars());
+			SteamInstallFolders = ParseSteamRegistry(regPath.c_str());
 		}
 		catch(class CRecoverableError &error)
 		{
@@ -229,7 +229,7 @@ TArray<FString> I_GetSteamPath()
 		{
 			struct stat st;
 			FString candidate(SteamInstallFolders[i] + "/" + AppInfo[app].BasePath);
-			if(DirExists(candidate.GetChars()))
+			if(DirExists(candidate.c_str()))
 				result.Push(candidate);
 		}
 	}

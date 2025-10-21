@@ -231,11 +231,11 @@ bool FState::CallAction(AActor *self, AActor *stateowner, FStateParamInfo *info,
 					if (stateowner->IsKindOf(NAME_Weapon) && stateowner != self) callinfo = "weapon ";
 					else callinfo = "overlay ";
 				}
-				err.stacktrace.AppendFormat("Called from %sstate %s in %s\n", callinfo, FState::StaticGetStateName(this).GetChars(), stateowner->GetClass()->TypeName.GetChars());
+				err.stacktrace.AppendFormat("Called from %sstate %s in %s\n", callinfo, FState::StaticGetStateName(this).c_str(), stateowner->GetClass()->TypeName.GetChars());
 			}
 			else
 			{
-				err.stacktrace.AppendFormat("Called from state %s\n", FState::StaticGetStateName(this).GetChars());
+				err.stacktrace.AppendFormat("Called from state %s\n", FState::StaticGetStateName(this).c_str());
 			}
 
 			throw;

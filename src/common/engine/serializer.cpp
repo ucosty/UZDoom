@@ -198,7 +198,7 @@ void FSerializer::Close()
 	if (mErrors > 0)
 	{
 		if (mLumpName.IsNotEmpty())
-			I_Error("%d errors parsing JSON lump %s", mErrors, mLumpName.GetChars());
+			I_Error("%d errors parsing JSON lump %s", mErrors, mLumpName.c_str());
 		else
 			I_Error("%d errors parsing JSON", mErrors);
 	}
@@ -692,7 +692,7 @@ void FSerializer::ReadObjects(bool hubtravel)
 					PClass *cls = PClass::FindClass(clsname);
 					if (cls == nullptr)
 					{
-						Printf(TEXTCOLOR_RED "Unknown object class '%s' in savegame\n", clsname.GetChars());
+						Printf(TEXTCOLOR_RED "Unknown object class '%s' in savegame\n", clsname.c_str());
 						founderrors = true;
 						r->mDObjects[i] = RUNTIME_CLASS(DObject)->CreateNew();	// make sure we got at least a valid pointer for the duration of the loading process.
 						r->mDObjects[i]->Destroy();								// but we do not want to keep this around, so destroy it right away.
@@ -1187,7 +1187,7 @@ FSerializer &Serialize(FSerializer &arc, const char *key, FTextureID &value, FTe
 			}
 			else
 			{
-				name = pic->GetName().GetChars();
+				name = pic->GetName().c_str();
 			}
 			arc.WriteKey(key);
 			arc.w->StartArray();
@@ -1502,7 +1502,7 @@ FSerializer &Serialize(FSerializer &arc, const char *key, FString &pstr, FString
 		if (!arc.w->inObject() || def == nullptr || pstr.Compare(*def) != 0)
 		{
 			arc.WriteKey(key);
-			arc.w->String(pstr.GetChars());
+			arc.w->String(pstr.c_str());
 		}
 	}
 	else
@@ -1571,8 +1571,8 @@ FString DictionaryToString(const Dictionary &dict)
 
 	while (i.NextPair(pair))
 	{
-		writer.Key(pair->Key.GetChars());
-		writer.String(pair->Value.GetChars());
+		writer.Key(pair->Key.c_str());
+		writer.String(pair->Value.c_str());
 	}
 
 	writer.EndObject();
@@ -1596,7 +1596,7 @@ Dictionary *DictionaryFromString(const FString &string)
 	}
 
 	rapidjson::Document doc;
-	doc.Parse(string.GetChars(), string.Len());
+	doc.Parse(string.c_str(), string.Len());
 
 	if (doc.GetType() != rapidjson::Type::kObjectType)
 	{

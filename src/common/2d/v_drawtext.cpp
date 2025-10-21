@@ -419,7 +419,7 @@ void DrawText(F2DDrawer *drawer, FFont *font, int normalcolor, double x, double 
 	{
 		return;
 	}
-	const char *txt = (parms.localize && string[0] == '$') ? GStrings.GetString(&string[1]) : string.GetChars();
+	const char *txt = (parms.localize && string[0] == '$') ? GStrings.GetString(&string[1]) : string.c_str();
 	DrawTextCommon(drawer, font, normalcolor, x, y, (uint8_t*)txt, parms);
 }
 

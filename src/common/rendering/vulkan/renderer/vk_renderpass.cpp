@@ -40,7 +40,7 @@
 VkRenderPassManager::VkRenderPassManager(VulkanRenderDevice* fb) : fb(fb)
 {
 	FString path = M_GetCachePath(true);
-	CreatePath(path.GetChars());
+	CreatePath(path.c_str());
 	CacheFilename = path + "/pipelinecache.zdpc";
 
 	PipelineCacheBuilder builder;
@@ -49,7 +49,7 @@ VkRenderPassManager::VkRenderPassManager(VulkanRenderDevice* fb) : fb(fb)
 	try
 	{
 		FileReader fr;
-		if (fr.OpenFile(CacheFilename.GetChars()))
+		if (fr.OpenFile(CacheFilename.c_str()))
 		{
 			std::vector<uint8_t> data;
 			data.resize(fr.GetLength());
@@ -71,7 +71,7 @@ VkRenderPassManager::~VkRenderPassManager()
 	try
 	{
 		auto data = PipelineCache->GetCacheData();
-		std::unique_ptr<FileWriter> fw(FileWriter::Open(CacheFilename.GetChars()));
+		std::unique_ptr<FileWriter> fw(FileWriter::Open(CacheFilename.c_str()));
 		if (fw)
 			fw->Write(data.data(), data.size());
 	}

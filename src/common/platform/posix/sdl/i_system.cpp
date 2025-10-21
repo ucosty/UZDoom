@@ -96,7 +96,7 @@ extern "C" int I_FileAvailable(const char* filename)
 	FString cmd = "which {0} >/dev/null 2>&1";
 	cmd.Substitute("{0}", filename);
 
-	if (FILE* f = popen(cmd.GetChars(), "r"))
+	if (FILE* f = popen(cmd.c_str(), "r"))
 	{
 		int status = pclose(f);
 		return WIFEXITED(status) && WEXITSTATUS(status) == 0;
@@ -124,7 +124,7 @@ void Unix_I_FatalError(const char* errortext)
 		FString cmd;
 		cmd << "kdialog --title \"" GAMENAME " " << GetVersionString()
 			<< "\" --msgbox \"" << errortext << "\"";
-		popen(cmd.GetChars(), "r");
+		popen(cmd.c_str(), "r");
 	}
 #ifndef NO_GTK
 	else if (I_GtkAvailable())
@@ -137,7 +137,7 @@ void Unix_I_FatalError(const char* errortext)
 		FString title;
 		title << GAMENAME " " << GetVersionString();
 
-		if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.GetChars(), errortext, NULL) < 0)
+		if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.c_str(), errortext, NULL) < 0)
 		{
 			printf("\n%s\n", errortext);
 		}
@@ -304,7 +304,7 @@ void I_PrintStr(const char *cp)
 	}
 
 	if (StartWindow) CleanProgressBar();
-	fputs(printData.GetChars(),stdout);
+	fputs(printData.c_str(),stdout);
 	if (terminal) fputs("\033[0m",stdout);
 	if (StartWindow) RedrawProgressBar(ProgressBarCurPos,ProgressBarMaxPos);
 }

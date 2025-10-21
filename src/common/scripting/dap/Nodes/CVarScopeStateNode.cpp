@@ -103,8 +103,8 @@ dap::Variable CVarStateNode::ToVariable(FBaseCVar *m_cvar)
 
 	if (!description.IsEmpty())
 	{
-		std::string_view localized = GStrings.localize(description.GetChars());
-		if (!localized.empty() && localized.substr(1) != description.GetChars())
+		std::string_view localized = GStrings.localize(description.c_str());
+		if (!localized.empty() && localized.substr(1) != description.c_str())
 		{
 			variable.type = StringFormat("%s (%s)", realTypeString, localized.data());
 		}

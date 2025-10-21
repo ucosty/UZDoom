@@ -345,10 +345,10 @@ FString level_info_t::LookupLevelName(uint32_t *langtable)
 	if (flags & LEVEL_LOOKUPLEVELNAME)
 	{
 		const char *thename;
-		const char *lookedup = GStrings.CheckString(LevelName.GetChars(), langtable);
+		const char *lookedup = GStrings.CheckString(LevelName.c_str(), langtable);
 		if (lookedup == NULL)
 		{
-			thename = LevelName.GetChars();
+			thename = LevelName.c_str();
 		}
 		else
 		{
@@ -357,7 +357,7 @@ FString level_info_t::LookupLevelName(uint32_t *langtable)
 			// Strip out the header from the localized string
 			if (MapName.Len() > 3 && MapName[0] == 'E' && MapName[2] == 'M')
 			{
-				mysnprintf (checkstring, countof(checkstring), "%s: ", MapName.GetChars());
+				mysnprintf (checkstring, countof(checkstring), "%s: ", MapName.c_str());
 			}
 			else if (MapName.Len() > 3 && MapName[0] == 'M' && MapName[1] == 'A' && MapName[2] == 'P')
 			{
@@ -405,9 +405,9 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 				if (playeringame[i] && players[i].mo->FindInventory(type))
 				{
 					// check for actual presence of the map.
-					if (P_CheckMapData(RedirectMapName.GetChars()))
+					if (P_CheckMapData(RedirectMapName.c_str()))
 					{
-						return FindLevelInfo(RedirectMapName.GetChars());
+						return FindLevelInfo(RedirectMapName.c_str());
 					}
 					break;
 				}
@@ -427,14 +427,14 @@ level_info_t *level_info_t::CheckLevelRedirect ()
 					if (playeringame[i] && (var = GetCVar(i, RedirectCVAR.GetChars())))
 					{
 						if (var->ToInt())
-							if (P_CheckMapData(RedirectCVARMapName.GetChars()))
-								return FindLevelInfo(RedirectCVARMapName.GetChars());
+							if (P_CheckMapData(RedirectCVARMapName.c_str()))
+								return FindLevelInfo(RedirectCVARMapName.c_str());
 					}
 				}
 			}
 			else if (var->ToInt())
-				if (P_CheckMapData(RedirectCVARMapName.GetChars()))
-					return FindLevelInfo(RedirectCVARMapName.GetChars());
+				if (P_CheckMapData(RedirectCVARMapName.c_str()))
+					return FindLevelInfo(RedirectCVARMapName.c_str());
 		}
 	}
 	return NULL;
@@ -854,7 +854,7 @@ void FMapInfoParser::ParseCluster()
 			else
 			{
 				FStringf testlabel("CLUSTERENTER%d", clusterinfo->cluster);
-				if (GStrings.MatchDefaultString(testlabel.GetChars(), clusterinfo->EnterText.GetChars()))
+				if (GStrings.MatchDefaultString(testlabel.c_str(), clusterinfo->EnterText.c_str()))
 				{
 					clusterinfo->EnterText = testlabel;
 					clusterinfo->flags |= CLUSTER_LOOKUPENTERTEXT;
@@ -869,7 +869,7 @@ void FMapInfoParser::ParseCluster()
 			else
 			{
 				FStringf testlabel("CLUSTEREXIT%d", clusterinfo->cluster);
-				if (GStrings.MatchDefaultString(testlabel.GetChars(), clusterinfo->ExitText.GetChars()))
+				if (GStrings.MatchDefaultString(testlabel.c_str(), clusterinfo->ExitText.c_str()))
 				{
 					clusterinfo->ExitText = testlabel;
 					clusterinfo->flags |= CLUSTER_LOOKUPEXITTEXT;
@@ -946,7 +946,7 @@ void FMapInfoParser::ParseCluster()
 	// Remap Hexen's CLUS?MSG lumps to the string table, if applicable. The code here only checks what can actually be in an IWAD.
 	if (clusterinfo->flags & CLUSTER_EXITTEXTINLUMP)
 	{
-		int lump = fileSystem.CheckNumForFullName(clusterinfo->ExitText.GetChars(), true);
+		int lump = fileSystem.CheckNumForFullName(clusterinfo->ExitText.c_str(), true);
 		if (lump > 0)
 		{
 			// Check if this comes from either Hexen.wad or Hexdd.wad and if so, map to the string table.
@@ -954,8 +954,8 @@ void FMapInfoParser::ParseCluster()
 			auto fn = fileSystem.GetResourceFileName(fileno);
 			if (fn && (!stricmp(fn, "HEXEN.WAD") || !stricmp(fn, "HEXDD.WAD")))
 			{
-				FStringf key("TXT_%.5s_%s", fn, clusterinfo->ExitText.GetChars());
-				if (GStrings.exists(key.GetChars()))
+				FStringf key("TXT_%.5s_%s", fn, clusterinfo->ExitText.c_str());
+				if (GStrings.exists(key.c_str()))
 				{
 					clusterinfo->ExitText = key;
 					clusterinfo->flags &= ~CLUSTER_EXITTEXTINLUMP;
@@ -2248,7 +2248,7 @@ level_info_t *FMapInfoParser::ParseMapHeader(level_info_t &defaultinfo)
 			// This checks for a string labelled with the MapName and if that is identical to what got parsed here
 			// the string table entry will be used.
 
-			if (GStrings.MatchDefaultString(levelinfo->MapName.GetChars(), sc.String))
+			if (GStrings.MatchDefaultString(levelinfo->MapName.c_str(), sc.String))
 			{
 				levelinfo->flags |= LEVEL_LOOKUPLEVELNAME;
 				levelinfo->LevelName = levelinfo->MapName;
@@ -2264,8 +2264,8 @@ level_info_t *FMapInfoParser::ParseMapHeader(level_info_t &defaultinfo)
 					auto fn = fileSystem.GetResourceFileName(fileno);
 					if (fn && (!stricmp(fn, "HEXEN.WAD") || !stricmp(fn, "HEXDD.WAD")))
 					{
-						FStringf key("TXT_%.5s_%s", fn, levelinfo->MapName.GetChars());
-						if (GStrings.exists(key.GetChars()))
+						FStringf key("TXT_%.5s_%s", fn, levelinfo->MapName.c_str());
+						if (GStrings.exists(key.c_str()))
 						{
 							levelinfo->flags |= LEVEL_LOOKUPLEVELNAME;
 							levelinfo->LevelName = key;
@@ -2278,7 +2278,7 @@ level_info_t *FMapInfoParser::ParseMapHeader(level_info_t &defaultinfo)
 
 	// Set up levelnum now so that you can use Teleport_NewMap specials
 	// to teleport to maps with standard names without needing a levelnum.
-	levelinfo->levelnum = GetDefaultLevelNum(levelinfo->MapName.GetChars(), levelinfo->id24_levelnum);
+	levelinfo->levelnum = GetDefaultLevelNum(levelinfo->MapName.c_str(), levelinfo->id24_levelnum);
 
 	// Does this map have a song defined via SNDINFO's $map command?
 	// Set that as this map's default music if it does.
@@ -2399,7 +2399,7 @@ void FMapInfoParser::ParseEpisodeInfo ()
 
 	if (optional && !remove)
 	{
-		if (!P_CheckMapData(map.GetChars()))
+		if (!P_CheckMapData(map.c_str()))
 		{
 			// If the episode is optional and the map does not exist
 			// just ignore this episode definition.
@@ -2743,11 +2743,11 @@ void G_ParseMapInfo(FString basemapinfo)
 	{
 		FMapInfoParser parse;
 		level_info_t defaultinfo;
-		int baselump = fileSystem.GetNumForFullName(basemapinfo.GetChars());
+		int baselump = fileSystem.GetNumForFullName(basemapinfo.c_str());
 		if (fileSystem.GetFileContainer(baselump) > 0)
 		{
 			I_FatalError("File %s is overriding core lump %s.",
-				fileSystem.GetResourceFileName(fileSystem.GetFileContainer(baselump)), basemapinfo.GetChars());
+				fileSystem.GetResourceFileName(fileSystem.GetFileContainer(baselump)), basemapinfo.c_str());
 		}
 		parse.ParseMapInfo(baselump, gamedefaults, defaultinfo);
 	}
@@ -2815,7 +2815,7 @@ void G_ParseMapInfo(FString basemapinfo)
 	// ...and then mark them all as secret maps.
 	for (unsigned int i = 0; i < secretMaps.Size(); i++)
 	{
-		auto* li = FindLevelInfo(secretMaps[i].GetChars(), false);
+		auto* li = FindLevelInfo(secretMaps[i].c_str(), false);
 		if (li)
 		{
 			li->flags3 |= LEVEL3_SECRET;
@@ -2838,7 +2838,7 @@ void G_AddBoomHelpScreens()
 			{
 				// only add the screens that exist.
 				FStringf helpxx("HELP%02d", ii);
-				auto texid = TexMan.CheckForTexture(helpxx.GetChars(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
+				auto texid = TexMan.CheckForTexture(helpxx.c_str(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
 				if (texid.Exists())
 				{
 					gameinfo.infoPages.Insert(i++, FName(helpxx));

@@ -183,7 +183,7 @@ bool CT_Responder (event_t *ev)
 			else if (ev->data1 == 'V' && (ev->data3 & GKM_CTRL))
 #endif // __APPLE__
 			{
-				CT_PasteChat(I_GetFromClipboard(false).GetChars());
+				CT_PasteChat(I_GetFromClipboard(false).c_str());
 			}
 		}
 		else if (ev->subtype == EV_GUI_Char)
@@ -203,7 +203,7 @@ bool CT_Responder (event_t *ev)
 #ifdef __unix__
 		else if (ev->subtype == EV_GUI_MButtonDown)
 		{
-			CT_PasteChat(I_GetFromClipboard(true).GetChars());
+			CT_PasteChat(I_GetFromClipboard(true).c_str());
 		}
 #endif
 	}
@@ -295,7 +295,7 @@ void CT_Drawer (void)
 		FString printstr = ChatQueue;
 		// figure out if the text is wider than the screen
 		// if so, only draw the right-most portion of it.
-		const uint8_t *textp = (const uint8_t*)printstr.GetChars();
+		const uint8_t *textp = (const uint8_t*)printstr.c_str();
 		while(*textp)
 		{
 			auto textw = displayfont->StringWidth(textp);
@@ -304,9 +304,9 @@ void CT_Drawer (void)
 		}
 		printstr += displayfont->GetCursor();
 
-		DrawText(drawer, displayfont, CR_GREEN, 0, y, prompt.GetChars(), 
+		DrawText(drawer, displayfont, CR_GREEN, 0, y, prompt.c_str(),
 			DTA_VirtualWidth, screen_width, DTA_VirtualHeight, screen_height, DTA_KeepRatio, true, TAG_DONE);
-		DrawText(drawer, displayfont, CR_GREY, promptwidth, y, printstr.GetChars(),
+		DrawText(drawer, displayfont, CR_GREY, promptwidth, y, printstr.c_str(),
 			DTA_VirtualWidth, screen_width, DTA_VirtualHeight, screen_height, DTA_KeepRatio, true, TAG_DONE);
 	}
 }
@@ -409,7 +409,7 @@ static void ShoveChatStr (const char *str, uint8_t who)
 
 	if (chat_substitution && DoSubstitution (substBuff, str))
 	{
-		str = substBuff.GetChars();
+		str = substBuff.c_str();
 	}
 
 	Net_WriteString(CleanseString(const_cast<char*>(MakeUTF8(str))));

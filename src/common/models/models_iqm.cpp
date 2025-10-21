@@ -89,7 +89,7 @@ bool IQMModel::Load(const char* path, int lumpnum, const char* buffer, int lengt
 			mesh.NumVertices = reader.ReadUInt32();
 			mesh.FirstTriangle = reader.ReadUInt32();
 			mesh.NumTriangles = reader.ReadUInt32();
-			mesh.Skin = LoadSkin(path, mesh.Material.GetChars());
+			mesh.Skin = LoadSkin(path, mesh.Material.c_str());
 		}
 
 		reader.SeekTo(ofs_triangles);
@@ -446,7 +446,7 @@ int IQMModel::FindFrame(const char* name, bool nodefault)
 	size_t nlen = (colon==nullptr)?strlen(name):(colon-name);
 	for (unsigned i = 0; i < Anims.Size(); i++)
 	{
-		if (!strnicmp(name, Anims[i].Name.GetChars(), nlen))
+		if (!strnicmp(name, Anims[i].Name.c_str(), nlen))
 		{
 			// if no offset is given, return the first frame
 			if (colon == nullptr) return Anims[i].FirstFrame;

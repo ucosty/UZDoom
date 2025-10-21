@@ -162,7 +162,7 @@ public:
 	}
 	void Add(FString &str)
 	{
-		Add(str.GetChars(), str.Len());
+		Add(str.c_str(), str.Len());
 	}
 	void AddName(FName name)
 	{

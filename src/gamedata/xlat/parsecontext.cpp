@@ -328,7 +328,7 @@ void FParseContext::ParseLump(const char *lumpname)
 	SourceFile = lumpname;
 
 	FString source = GetStringFromLump(lumpno);
-	const char *sourcep = source.GetChars();
+	const char *sourcep = source.c_str();
 	while ( (tokentype = GetToken(sourcep, &token)) )
 	{
 		// It is much easier to handle include statements outside the main parser.

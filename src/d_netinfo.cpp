@@ -353,7 +353,7 @@ static void UpdateTeam (int pnum, int team, bool update)
 			message = GStrings.GetString("TXT_LONER");
 		}
 		message.Substitute("%s", info->GetName());
-		Printf("%s\n", message.GetChars());
+		Printf("%s\n", message.c_str());
 	}
 	// Let the player take on the team's color
 	R_BuildPlayerTranslation (pnum);
@@ -575,7 +575,7 @@ void D_UserInfoChanged (FBaseCVar *cvar)
 	if (4 + strlen(cvar->GetName()) + escaped_val.Len() > 256)
 		I_Error ("User info descriptor too big");
 
-	mysnprintf (foo, countof(foo), "\\%s\\%s", cvar->GetName(), escaped_val.GetChars());
+	mysnprintf (foo, countof(foo), "\\%s\\%s", cvar->GetName(), escaped_val.c_str());
 
 	Net_WriteInt8 (DEM_UINFCHANGED);
 	Net_WriteString (foo);
@@ -791,11 +791,11 @@ FString D_GetUserInfoStrings(int pnum, bool compact)
 
 			case NAME_PlayerClass:
 				result.AppendFormat("\\%s", info->GetPlayerClassNum() == -1 ? "Random" :
-					D_EscapeUserInfo(info->GetPlayerClassType()->GetDisplayName().GetChars()).GetChars());
+					D_EscapeUserInfo(info->GetPlayerClassType()->GetDisplayName().c_str()).c_str());
 				break;
 
 			case NAME_Skin:
-				result.AppendFormat("\\%s", D_EscapeUserInfo(Skins[info->GetSkin()].Name.GetChars()).GetChars());
+				result.AppendFormat("\\%s", D_EscapeUserInfo(Skins[info->GetSkin()].Name.c_str()).c_str());
 				break;
 
 			default:
@@ -879,15 +879,15 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 			switch (keyname.GetIndex())
 			{
 			case NAME_Gender:
-				info->GenderChanged(value.GetChars());
+				info->GenderChanged(value.c_str());
 				break;
 
 			case NAME_PlayerClass:
-				info->PlayerClassChanged(value.GetChars());
+				info->PlayerClassChanged(value.c_str());
 				break;
 
 			case NAME_Skin:
-				info->SkinChanged(value.GetChars(), players[pnum].CurrentPlayerClass);
+				info->SkinChanged(value.c_str(), players[pnum].CurrentPlayerClass);
 				if (players[pnum].mo != NULL)
 				{
 					if (players[pnum].cls != NULL &&
@@ -904,11 +904,11 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 				break;
 
 			case NAME_Team:
-				UpdateTeam(pnum, atoi(value.GetChars()), update);
+				UpdateTeam(pnum, atoi(value.c_str()), update);
 				break;
 
 			case NAME_Color:
-				info->ColorChanged(value.GetChars());
+				info->ColorChanged(value.c_str());
 				break;
 
 			default:
@@ -929,7 +929,7 @@ void D_ReadUserInfoStrings (int pnum, TArrayView<uint8_t>& stream, bool update)
 					value.UnlockBuffer();
 					if (keyname == NAME_Name && update && oldname.Compare (value))
 					{
-						Printf("%s is now known as %s\n", oldname.GetChars(), value.GetChars());
+						Printf("%s is now known as %s\n", oldname.c_str(), value.c_str());
 					}
 				}
 				break;
@@ -965,12 +965,12 @@ void WriteUserInfo(FSerializer &arc, userinfo_t &info)
 			switch (pair->Key.GetIndex())
 			{
 			case NAME_Skin:
-				string = Skins[info.GetSkin()].Name.GetChars();
+				string = Skins[info.GetSkin()].Name.c_str();
 				break;
 
 			case NAME_PlayerClass:
 				i = info.GetPlayerClassNum();
-				string = (i == -1 ? "Random" : PlayerClasses[i].Type->GetDisplayName().GetChars());
+				string = (i == -1 ? "Random" : PlayerClasses[i].Type->GetDisplayName().c_str());
 				break;
 
 			default:
@@ -978,7 +978,7 @@ void WriteUserInfo(FSerializer &arc, userinfo_t &info)
 				string = val.String;
 				break;
 			}
-			arc.StringPtr(name.GetChars(), string);
+			arc.StringPtr(name.c_str(), string);
 		}
 		arc.EndObject();
 	}
@@ -1076,10 +1076,10 @@ CCMD(playerinfo)
 		Printf("%20s: %s\n",	  "Settings Controller", players[i].settings_controller && players[i].Bot == nullptr ? "Yes" : "No");
 		Printf("%20s: %s\n",      "Name", info.GetName());
 		Printf("%20s: %s (%d)\n", "Team", info.GetTeam() == TEAM_NONE ? "None" : Teams[info.GetTeam()].GetName(), info.GetTeam());
-		Printf("%20s: %s (%d)\n", "Skin", Skins[info.GetSkin()].Name.GetChars(), info.GetSkin());
+		Printf("%20s: %s (%d)\n", "Skin", Skins[info.GetSkin()].Name.c_str(), info.GetSkin());
 		Printf("%20s: %s (%d)\n", "Gender", GenderNames[info.GetGender()], info.GetGender());
 		Printf("%20s: %s (%d)\n", "PlayerClass",
-			info.GetPlayerClassNum() == -1 ? "Random" : info.GetPlayerClassType()->GetDisplayName().GetChars(),
+			info.GetPlayerClassNum() == -1 ? "Random" : info.GetPlayerClassType()->GetDisplayName().c_str(),
 			info.GetPlayerClassNum());
 
 		// Print generic info

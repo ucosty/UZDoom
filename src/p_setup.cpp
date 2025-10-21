@@ -221,12 +221,12 @@ static void PrecacheLevel(FLevelLocals *Level)
 
 	for (auto n : gameinfo.PrecachedTextures)
 	{
-		FTextureID tex = TexMan.CheckForTexture(n.GetChars(), ETextureType::Wall, checkForTextureFlags);
+		FTextureID tex = TexMan.CheckForTexture(n.c_str(), ETextureType::Wall, checkForTextureFlags);
 		if (tex.Exists()) AddToList(hitlist.Data(), tex, FTextureManager::HIT_Wall);
 	}
 	for (unsigned i = 0; i < Level->info->PrecacheTextures.Size(); i++)
 	{
-		FTextureID tex = TexMan.CheckForTexture(Level->info->PrecacheTextures[i].GetChars(), ETextureType::Wall, checkForTextureFlags);
+		FTextureID tex = TexMan.CheckForTexture(Level->info->PrecacheTextures[i].c_str(), ETextureType::Wall, checkForTextureFlags);
 		if (tex.Exists()) AddToList(hitlist.Data(), tex, FTextureManager::HIT_Wall);
 	}
 
@@ -464,10 +464,10 @@ void P_SetupLevel(FLevelLocals *Level, int position, bool newGame)
 	// Free all level data from the previous map
 	P_FreeLevelData();
 
-	MapData *map = P_OpenMapData(Level->MapName.GetChars(), true);
+	MapData *map = P_OpenMapData(Level->MapName.c_str(), true);
 	if (map == nullptr)
 	{
-		I_Error("Unable to open map '%s'\n", Level->MapName.GetChars());
+		I_Error("Unable to open map '%s'\n", Level->MapName.c_str());
 	}
 
 	// [ZZ] init per-map static handlers. we need to call this before everything is set up because otherwise scripts don't receive PlayerEntered event
@@ -485,7 +485,7 @@ void P_SetupLevel(FLevelLocals *Level, int position, bool newGame)
 	}
 
 	MapLoader loader(Level);
-	loader.LoadLevel(map, Level->MapName.GetChars(), position);
+	loader.LoadLevel(map, Level->MapName.c_str(), position);
 	delete map;
 
 	// if deathmatch, randomly spawn the active players
@@ -673,7 +673,7 @@ CCMD(dumpgeometry)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("Geometry for %s\n", Level->MapName.GetChars());
+		Printf("Geometry for %s\n", Level->MapName.c_str());
 		for (auto &sector : Level->sectors)
 		{
 			Printf(PRINT_LOG, "Sector %d\n", sector.sectornum);
@@ -723,7 +723,7 @@ CCMD(listmapsections)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("Map sections for %s:\n", Level->MapName.GetChars());
+		Printf("Map sections for %s:\n", Level->MapName.c_str());
 		for (int i = 0; i < 100; i++)
 		{
 			for (auto &sub : Level->subsectors)

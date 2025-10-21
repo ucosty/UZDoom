@@ -61,7 +61,7 @@ void PrintPickupMessage(bool localview, const FString &str)
 	{
 		StaticLastMessageTic = gametic;
 		StaticLastMessage = str;
-		const char *pstr = str.GetChars();
+		const char *pstr = str.c_str();
 		
 		if (pstr[0] == '$')	pstr = GStrings.GetString(pstr + 1);
 		if (pstr[0] != 0) Printf(PRINT_LOW, "%s\n", pstr);

@@ -260,13 +260,13 @@ static void BuildAddress(sockaddr_in& address, const char* addrName)
 	address.sin_port = htons(port);
 	if (!isNamed)
 	{
-		address.sin_addr.s_addr = inet_addr(target.GetChars());
+		address.sin_addr.s_addr = inet_addr(target.c_str());
 	}
 	else
 	{
-		hostent* hostEntry = gethostbyname(target.GetChars());
+		hostent* hostEntry = gethostbyname(target.c_str());
 		if (hostEntry == nullptr)
-			I_FatalError("gethostbyname: Couldn't find %s\n%s", target.GetChars(), neterror());
+			I_FatalError("gethostbyname: Couldn't find %s\n%s", target.c_str(), neterror());
 
 		address.sin_addr.s_addr = *(int*)hostEntry->h_addr_list[0];
 	}
@@ -387,7 +387,7 @@ static void I_NetLog(const char* text, ...)
 	va_start(argptr, text);
 	str.VFormat(text, argptr);
 	va_end(argptr);
-	fprintf(stderr, "\r%-40s\n", str.GetChars());
+	fprintf(stderr, "\r%-40s\n", str.c_str());
 #endif
 }
 
@@ -611,7 +611,7 @@ static void GetPacket(sockaddr_in* const from = nullptr)
 					int err = uncompress(NetBuffer + 1, &size, dataStart + 1, msgSize - 5);
 					if (err != Z_OK)
 					{
-						Printf("Net decompression failed (zlib error %s)\n", M_ZLibError(err).GetChars());
+						Printf("Net decompression failed (zlib error %s)\n", M_ZLibError(err).c_str());
 						client = -1;
 						msgSize = 0;
 					}

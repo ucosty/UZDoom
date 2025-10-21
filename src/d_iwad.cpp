@@ -387,7 +387,7 @@ int FIWadManager::ScanIWAD (const char *iwad)
 			if (full && strnicmp(full, "maps/", 5) == 0)
 			{
 				FString mapname(&full[5], strcspn(&full[5], "."));
-				CheckFileName(mapname.GetChars());
+				CheckFileName(mapname.c_str());
 			}
 		}
 	}
@@ -395,7 +395,7 @@ int FIWadManager::ScanIWAD (const char *iwad)
 	{
 		if (mLumpsFound[i] == (1 << mIWadInfos[i].Lumps.Size()) - 1)
 		{
-			DPrintf(DMSG_NOTIFY, "Identified %s as %s\n", iwad, mIWadInfos[i].Name.GetChars());
+			DPrintf(DMSG_NOTIFY, "Identified %s as %s\n", iwad, mIWadInfos[i].Name.c_str());
 			return i;
 		}
 	}
@@ -436,7 +436,7 @@ int FIWadManager::CheckIWADInfo(const char* fn)
 					}
 				}
 
-				mOrderNames.emplace_back(result.Name.GetChars());
+				mOrderNames.emplace_back(result.Name.c_str());
 				mIWadInfos.push_back(result);
 				return mIWadInfos.size();
 			}
@@ -473,29 +473,29 @@ void FIWadManager::CollectSearchPaths()
 			if (stricmp(key, "Path") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mSearchPaths.emplace_back(nice.GetChars());
+				if (nice.Len() > 0) mSearchPaths.emplace_back(nice.c_str());
 			}
 			else if (stricmp(key, "RecursivePath") == 0)
 			{
 				FString nice = NicePath(value);
-				if (nice.Len() > 0) mRecursiveSearchPaths.emplace_back(nice.GetChars());
+				if (nice.Len() > 0) mRecursiveSearchPaths.emplace_back(nice.c_str());
 			}
 		}
 	}
 
 	// mSearchPaths.Append(I_GetGogPaths());
 	for (auto& path: I_GetGogPaths()) {
-		mSearchPaths.emplace_back(path.GetChars());
+		mSearchPaths.emplace_back(path.c_str());
 	}
 
 	// mSearchPaths.Append(I_GetSteamPath());
 	for (auto& path: I_GetSteamPath()) {
-		mSearchPaths.emplace_back(path.GetChars());
+		mSearchPaths.emplace_back(path.c_str());
 	}
 
 	// mSearchPaths.Append(I_GetBethesdaPath());
 	for (auto& path: I_GetBethesdaPath()) {
-		mSearchPaths.emplace_back(path.GetChars());
+		mSearchPaths.emplace_back(path.c_str());
 	}
 
 	// Unify and remove trailing slashes
@@ -577,14 +577,14 @@ void FIWadManager::ValidateIWADs()
 		auto &p = mFoundWads[i];
 
 		int index;
-		auto x = strrchr(p.mFullPath.GetChars(), '.');
+		auto x = strrchr(p.mFullPath.c_str(), '.');
 		if (x != nullptr && (!stricmp(x, ".iwad") || !stricmp(x, ".ipk3") || !stricmp(x, ".ipk7")))
 		{
-			index = CheckIWADInfo(p.mFullPath.GetChars());
+			index = CheckIWADInfo(p.mFullPath.c_str());
 		}
 		else
 		{
-			index = ScanIWAD(p.mFullPath.GetChars());
+			index = ScanIWAD(p.mFullPath.c_str());
 		}
 		p.mInfoIndex = index;
 	}
@@ -670,7 +670,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 			{
 				for (auto &dir : mSearchPaths)
 				{
-					FStringf fullpath("%s/%s", dir.c_str(), custwad.GetChars());
+					FStringf fullpath("%s/%s", dir.c_str(), custwad.c_str());
 					if (FileExists(fullpath))
 					{
 						mFoundWads.emplace_back( fullpath, "", -1 );
@@ -699,7 +699,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	// Check for symbolic links leading to non-existent files and for files that are unreadable.
 	for (unsigned int i = 0; i < mFoundWads.size(); i++)
 	{
-		if (!FileExists(mFoundWads[i].mFullPath) || !FileReadable(mFoundWads[i].mFullPath.GetChars())) {
+		if (!FileExists(mFoundWads[i].mFullPath) || !FileReadable(mFoundWads[i].mFullPath.c_str())) {
 			// mFoundWads.Delete(i--);
 			auto it = mFoundWads.begin();
 			std::advance(it, i--);
@@ -841,7 +841,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 		{
 			WadStuff stuff;
 			stuff.Name = mIWadInfos[found.mInfoIndex].Name;
-			stuff.Path = ExtractFileBase(found.mFullPath.GetChars());
+			stuff.Path = ExtractFileBase(found.mFullPath.c_str());
 			wads.Push(stuff);
 		}
 
@@ -883,10 +883,10 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 	fileSystem.SetIwadNum(iwadnum);
 	if (picks[pick].mRequiredPath.IsNotEmpty())
 	{
-		D_AddFile (wadfiles, picks[pick].mRequiredPath.GetChars(), true, -1, GameConfig);
+		D_AddFile (wadfiles, picks[pick].mRequiredPath.c_str(), true, -1, GameConfig);
 		iwadnum++;
 	}
-	D_AddFile (wadfiles, picks[pick].mFullPath.GetChars(), true, -1, GameConfig);
+	D_AddFile (wadfiles, picks[pick].mFullPath.c_str(), true, -1, GameConfig);
 	fileSystem.SetMaxIwadNum(iwadnum);
 
 	auto info = mIWadInfos[picks[pick].mInfoIndex];
@@ -901,7 +901,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 
 			if(supportWAD.IsNotEmpty())
 			{
-				D_AddFile(wadfiles, supportWAD.GetChars(), true, -1, GameConfig, true);
+				D_AddFile(wadfiles, supportWAD.c_str(), true, -1, GameConfig, true);
 			}
 		}
 	}
@@ -920,14 +920,14 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 			}
 			else
 			{
-				path = FString(picks[pick].mFullPath.GetChars(), lastslash + 1);
+				path = FString(picks[pick].mFullPath.c_str(), lastslash + 1);
 			}
 			path += info.Load[i];
-			D_AddFile(wadfiles, path.GetChars(), true, -1, GameConfig);
+			D_AddFile(wadfiles, path.c_str(), true, -1, GameConfig);
 		}
 		else
 		{
-			auto wad = BaseFileSearch(info.Load[i].GetChars() + 1, NULL, true, GameConfig);
+			auto wad = BaseFileSearch(info.Load[i].c_str() + 1, NULL, true, GameConfig);
 			if (wad) D_AddFile(wadfiles, wad, true, -1, GameConfig);
 		}
 

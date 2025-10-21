@@ -161,13 +161,13 @@ FString RecursiveFileExists(const FString& path, const FString& file)
 
 	// If we couldn't find it in the base directory, time to start searching.
 	FileSys::FileList list;
-	if (FileSys::ScanDirectory(list, path.GetChars(), "*"))
+	if (FileSys::ScanDirectory(list, path.c_str(), "*"))
 	{
 		for (auto& entry : list)
 		{
 			if (entry.isDirectory && !entry.isHidden && !entry.isSystem)
 			{
-				FStringf f("%s/%s", entry.FilePath.c_str(), file.GetChars());
+				FStringf f("%s/%s", entry.FilePath.c_str(), file.c_str());
 				if (FileExists(f))
 					return f;
 			}
@@ -581,7 +581,7 @@ void CreatePath(const char *fn)
 	{
 		FString name(fn);
 		name += '/';
-		DoCreatePath(name.GetChars());
+		DoCreatePath(name.c_str());
 	}
 	else
 	{
@@ -884,7 +884,7 @@ FString ExpandEnvVars(const char *searchpathstring)
 			}
 			else
 			{
-				char *varvalue = getenv(varname.GetChars());
+				char *varvalue = getenv(varname.c_str());
 				if ( (varvalue != NULL) && (strlen(varvalue) != 0) )
 				{
 					out += varvalue;
@@ -952,7 +952,7 @@ FString NicePath(const char *path)
 			slash = path + strlen(path);
 		}
 		FString who(path, slash - path);
-		pwstruct = getpwnam(who.GetChars());
+		pwstruct = getpwnam(who.c_str());
 	}
 	if (pwstruct == NULL)
 	{
@@ -1093,6 +1093,6 @@ FString GetStringFromLump(int lump, bool zerotruncate)
 {
 	auto fd = fileSystem.ReadFile(lump);
 	FString ScriptBuffer(fd.string(), fd.size());
-	if (zerotruncate) ScriptBuffer.Truncate(strlen(ScriptBuffer.GetChars()));	// this is necessary to properly truncate the generated string to not contain 0 bytes.
+	if (zerotruncate) ScriptBuffer.Truncate(strlen(ScriptBuffer.c_str()));	// this is necessary to properly truncate the generated string to not contain 0 bytes.
 	return ScriptBuffer;
 }

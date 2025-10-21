@@ -832,7 +832,7 @@ public:
 void PrintSections(FLevelLocals *Level)
 {
 	FSectionContainer &container = Level->sections;
-	Printf("Sections for %s\n", Level->MapName.GetChars());
+	Printf("Sections for %s\n", Level->MapName.c_str());
 	for (unsigned i = 0; i < container.allSections.Size(); i++)
 	{
 		auto &section = container.allSections[i];
@@ -860,12 +860,12 @@ void PrintSections(FLevelLocals *Level)
 			if (seg.sidedef)
 			{
 				Printf(PRINT_LOG, "segment for sidedef %d (line %d) from (%2.6f, %2.6f) to (%2.6f, %2.6f)%s\n", 
-					seg.sidedef->Index(), seg.sidedef->linedef->Index(), seg.start->fX(), seg.start->fY(), seg.end->fX(), seg.end->fY(), partnerstring.GetChars());
+					seg.sidedef->Index(), seg.sidedef->linedef->Index(), seg.start->fX(), seg.start->fY(), seg.end->fX(), seg.end->fY(), partnerstring.c_str());
 			}
 			else
 			{
 				Printf(PRINT_LOG, "segment for seg from (%2.6f, %2.6f) to (%2.6f, %2.6f)%s\n", 
-					seg.start->fX(), seg.start->fY(), seg.end->fX(), seg.end->fY(), partnerstring.GetChars());
+					seg.start->fX(), seg.start->fY(), seg.end->fX(), seg.end->fY(), partnerstring.c_str());
 			}
 		}
 	}

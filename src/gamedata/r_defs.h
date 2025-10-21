@@ -250,8 +250,8 @@ struct FUDMFKey
 	FUDMFKey& operator =(const FString &val)
 	{
 		Type = UDMF_String;
-		IntVal = (int)strtoll(val.GetChars(), NULL, 0);
-		FloatVal = strtod(val.GetChars(), NULL);
+		IntVal = (int)strtoll(val.c_str(), NULL, 0);
+		FloatVal = strtod(val.c_str(), NULL);
 		StringVal = val;
 		return *this;
 	}

@@ -92,7 +92,7 @@ bool IsPortable()
 	}
 
 	// A portable INI means that this storage location should also be portable if the file can be written to.
-	FStringf path("%s" GAMENAMELOWERCASE "_portable.ini", progdir.GetChars());
+	FStringf path("%s" GAMENAMELOWERCASE "_portable.ini", progdir.c_str());
 	if (FileExists(path))
 	{
 		file = CreateFile(path.WideString().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL,
@@ -147,7 +147,7 @@ FString M_GetAppDataPath(bool create)
 	path += "/" GAMENAMELOWERCASE;
 	if (create)
 	{
-		CreatePath(path.GetChars());
+		CreatePath(path.c_str());
 	}
 	return path;
 }
@@ -169,7 +169,7 @@ FString M_GetCachePath(bool create)
 	path += "/zdoom/cache";
 	if (create)
 	{
-		CreatePath(path.GetChars());
+		CreatePath(path.c_str());
 	}
 	return path;
 }
@@ -279,13 +279,13 @@ FString M_GetConfigPath(bool for_reading)
 {
 	if (IsPortable())
 	{
-		return FStringf("%s" GAMENAMELOWERCASE "_portable.ini", progdir.GetChars());
+		return FStringf("%s" GAMENAMELOWERCASE "_portable.ini", progdir.c_str());
 	}
 
 	// Construct a user-specific config name
 	FString path = GetKnownFolder(CSIDL_APPDATA, FOLDERID_Documents, true);
 	path += "/My Games/" GAME_DIR;
-	CreatePath(path.GetChars());
+	CreatePath(path.c_str());
 	path += "/" GAMENAMELOWERCASE ".ini";
 	if (!for_reading || FileExists(path))
 		return path;
@@ -303,11 +303,11 @@ FString M_GetConfigPath(bool for_reading)
 			int action = M_MigrateOldConfig();
 			if (action == IDNO)
 			{
-				path.Format("%s" GAMENAMELOWERCASE "_portable.ini", progdir.GetChars());
+				path.Format("%s" GAMENAMELOWERCASE "_portable.ini", progdir.c_str());
 				isportable = true;
 			}
 		}
-		bool res = MoveFileExW(WideString(oldpath.GetChars()).c_str(), WideString(path.GetChars()).c_str(), MOVEFILE_COPY_ALLOWED);
+		bool res = MoveFileExW(WideString(oldpath.c_str()).c_str(), WideString(path.c_str()).c_str(), MOVEFILE_COPY_ALLOWED);
 		if (res) return path;
 		else return oldpath;	// if we cannot move, just use the config where it was. It won't be written back, though and never be used again if a new one gets saved.
 	}
@@ -353,7 +353,7 @@ FString M_GetScreenshotsPath()
 		path = GetKnownFolder(CSIDL_MYPICTURES, FOLDERID_Pictures, true);
 		path << "/Screenshots/" GAMENAME "/";
 	}
-	CreatePath(path.GetChars());
+	CreatePath(path.c_str());
 	return path;
 }
 
@@ -406,7 +406,7 @@ FString M_GetDocumentsPath()
 		// I assume since this isn't a standard folder, it doesn't have a localized name either.
 		path = GetKnownFolder(CSIDL_PERSONAL, FOLDERID_Documents, true);
 		path << "/My Games/" GAMENAME "/";
-		CreatePath(path.GetChars());
+		CreatePath(path.c_str());
 	}
 	return path;
 }

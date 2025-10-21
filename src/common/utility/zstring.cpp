@@ -584,7 +584,7 @@ ptrdiff_t FString::LastIndexOf (char subchar, ptrdiff_t endIndex) const
 
 ptrdiff_t FString::LastIndexOfBroken (const FString &_substr, ptrdiff_t endIndex) const
 {
-	const char *substr = _substr.GetChars();
+	const char *substr = _substr.c_str();
 	size_t substrlen = _substr.Len();
 	if ((size_t)endIndex > Len())
 	{
@@ -1255,7 +1255,7 @@ void FString::ReallocBuffer (size_t newlen)
 
 TArray<FString> FString::Split(const FString &delimiter, const EmptyTokenType keepEmpty) const
 {
-	return Split(delimiter.GetChars(), keepEmpty);
+	return Split(delimiter.c_str(), keepEmpty);
 }
 
 TArray<FString> FString::Split(const char *const delimiter, const EmptyTokenType keepEmpty) const
@@ -1267,7 +1267,7 @@ TArray<FString> FString::Split(const char *const delimiter, const EmptyTokenType
 
 void FString::Split(TArray<FString>& tokens, const FString &delimiter, EmptyTokenType keepEmpty) const
 {
-	Split(tokens, delimiter.GetChars(), keepEmpty);
+	Split(tokens, delimiter.c_str(), keepEmpty);
 }
 
 void FString::Split(TArray<FString>& tokens, const char *delimiter, EmptyTokenType keepEmpty) const
@@ -1291,7 +1291,7 @@ void FString::Split(TArray<FString>& tokens, const char *delimiter, EmptyTokenTy
 
 		if (pos != lastPos || TOK_KEEPEMPTY == keepEmpty)
 		{
-			tokens.Push(FString(GetChars() + lastPos, pos - lastPos));
+			tokens.Push(FString(c_str() + lastPos, pos - lastPos));
 		}
 
 		lastPos = pos + delimLen;

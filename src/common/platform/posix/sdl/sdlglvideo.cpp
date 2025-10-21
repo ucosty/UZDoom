@@ -174,7 +174,7 @@ namespace Priv
 		caption.Format(GAMENAME " %s (%s)", GetVersionString(), GetGitTime());
 
 		const uint32_t windowFlags = (win_maximized ? SDL_WINDOW_MAXIMIZED : 0) | SDL_WINDOW_RESIZABLE | extraFlags;
-		Priv::window = SDL_CreateWindow(caption.GetChars(), xWindowPos, yWindowPos, win_w, win_h, windowFlags);
+		Priv::window = SDL_CreateWindow(caption.c_str(), xWindowPos, yWindowPos, win_w, win_h, windowFlags);
 
 		if (Priv::window != nullptr)
 		{
@@ -696,7 +696,7 @@ void I_SetWindowTitle(const char* caption)
 	{
 		FString default_caption;
 		default_caption.Format(GAMENAME " %s (%s)", GetVersionString(), GetGitTime());
-		SDL_SetWindowTitle(Priv::window, default_caption.GetChars());
+		SDL_SetWindowTitle(Priv::window, default_caption.c_str());
 	}
 }
 

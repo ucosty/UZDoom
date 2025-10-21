@@ -961,7 +961,7 @@ void M_Init (void)
 	{
 		menuDelegate = nullptr;
 		err.MaybePrintMessage();
-		Printf(PRINT_NONOTIFY | PRINT_BOLD, "%s", err.stacktrace.GetChars());
+		Printf(PRINT_NONOTIFY | PRINT_BOLD, "%s", err.stacktrace.c_str());
 		I_FatalError("Failed to initialize menus");
 	}
 	catch (...)
@@ -1251,7 +1251,7 @@ bool DMenuItemBase::GetString(int i, char *s, int len)
 		FString retstr;
 		VMReturn ret[2]; ret[0].IntAt(&retval); ret[1].StringAt(&retstr);
 		VMCall(func, params, countof(params), ret, 2);
-		strncpy(s, retstr.GetChars(), len);
+		strncpy(s, retstr.c_str(), len);
 		return !!retval;
 	}
 	return false;

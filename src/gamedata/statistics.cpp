@@ -202,7 +202,7 @@ int compare_episode_names(const void *a, const void *b)
 	FStatistics *A = (FStatistics*)a;
 	FStatistics *B = (FStatistics*)b;
 
-	return strnatcasecmp(A->epi_header.GetChars(), B->epi_header.GetChars());
+	return strnatcasecmp(A->epi_header.c_str(), B->epi_header.c_str());
 }
 
 int compare_dates(const void *a, const void *b)
@@ -253,7 +253,7 @@ static void SaveStatistics(const char *fn, TArray<FStatistics> &statlist)
 
 		qsort(&ep_stats.stats[0], ep_stats.stats.Size(), sizeof(ep_stats.stats[0]), compare_dates);
 
-		fw->Printf("%s \"%s\"\n{\n", ep_stats.epi_header.GetChars(), ep_stats.epi_name.GetChars());
+		fw->Printf("%s \"%s\"\n{\n", ep_stats.epi_header.c_str(), ep_stats.epi_name.c_str());
 		for(j=0;j<ep_stats.stats.Size();j++)
 		{
 			FSessionStatistics *sst = &ep_stats.stats[j];
@@ -291,7 +291,7 @@ static FStatistics *GetStatisticsList(TArray<FStatistics> &statlist, const char 
 {
 	for(unsigned int i=0;i<statlist.Size();i++)
 	{
-		if (!stricmp(section, statlist[i].epi_header.GetChars()))
+		if (!stricmp(section, statlist[i].epi_header.c_str()))
 		{
 			return &statlist[i];
 		}
@@ -389,7 +389,7 @@ int compare_level_names(const void* a, const void* b)
 	OneLevel* A = (OneLevel*)a;
 	OneLevel* B = (OneLevel*)b;
 
-	return strnatcasecmp(A->Levelname.GetChars(), B->Levelname.GetChars());
+	return strnatcasecmp(A->Levelname.c_str(), B->Levelname.c_str());
 }
 
 
@@ -462,7 +462,7 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 		{
 			// we reached the end of this episode
 			int wad = 0;
-			MapData * map = P_OpenMapData(StartEpisode->mEpisodeMap.GetChars(), false);
+			MapData * map = P_OpenMapData(StartEpisode->mEpisodeMap.c_str(), false);
 			if (map != NULL)
 			{
 				wad = fileSystem.GetFileContainer(map->lumpnum);
@@ -472,9 +472,9 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 			FString section = ExtractFileBase(name) + "." + StartEpisode->mEpisodeMap;
 			section.ToUpper();
 
-			const char *ep_name = StartEpisode->mEpisodeName.GetChars();
+			const char *ep_name = StartEpisode->mEpisodeName.c_str();
 			if (*ep_name == '$') ep_name = GStrings.GetString(ep_name+1);
-			FStatistics *sl = GetStatisticsList(EpisodeStatistics, section.GetChars(), ep_name);
+			FStatistics *sl = GetStatisticsList(EpisodeStatistics, section.c_str(), ep_name);
 
 			int statvals[6] = {0,0,0,0,0,0};
 			FString infostring;
@@ -490,7 +490,7 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 			}
 
 			infostring.Format("%4d/%4d, %4d/%4d, %3d/%3d, %2d", statvals[0], statvals[1], statvals[2], statvals[3], statvals[4], statvals[5], validlevels);
-			FSessionStatistics *es = StatisticsEntry(sl, infostring.GetChars(), Level->totaltime);
+			FSessionStatistics *es = StatisticsEntry(sl, infostring.c_str(), Level->totaltime);
 
 			for(unsigned i = 0; i < LevelData.Size(); i++)
 			{
@@ -499,7 +499,7 @@ void STAT_ChangeLevel(const char *newl, FLevelLocals *Level)
 				infostring.Format("%4d/%4d, %4d/%4d, %3d/%3d",
 					 LevelData[i].killcount, LevelData[i].totalkills, LevelData[i].itemcount, LevelData[i].totalitems, LevelData[i].secretcount, LevelData[i].totalsecrets);
 
-				LevelStatEntry(es, lsection.GetChars(), infostring.GetChars(), LevelData[i].leveltime);
+				LevelStatEntry(es, lsection.c_str(), infostring.c_str(), LevelData[i].leveltime);
 			}
 			SaveStatistics(statfile, EpisodeStatistics);
 		}
@@ -584,7 +584,7 @@ FString GetStatString()
 	{
 		OneLevel *l = &LevelData[i];
 		compose.AppendFormat("Level %s - Kills: %d/%d - Items: %d/%d - Secrets: %d/%d - Time: %d:%02d\n", 
-			l->Levelname.GetChars(), l->killcount, l->totalkills, l->itemcount, l->totalitems, l->secretcount, l->totalsecrets,
+			l->Levelname.c_str(), l->killcount, l->totalkills, l->itemcount, l->totalitems, l->secretcount, l->totalsecrets,
 			l->leveltime/(60*TICRATE), (l->leveltime/TICRATE)%60);
 	}
 	return compose;
@@ -593,7 +593,7 @@ FString GetStatString()
 CCMD(printstats)
 {
 	StoreLevelStats(primaryLevel);	// Refresh the current level's results.
-	Printf("%s", GetStatString().GetChars());
+	Printf("%s", GetStatString().c_str());
 }
 
 
@@ -620,7 +620,7 @@ ADD_STAT(velocity)
 	FString compose;
 	if (players[consoleplayer].mo != NULL && gamestate == GS_LEVEL) {
 		compose.AppendFormat("Current velocity: %.2f\n", players[consoleplayer].mo->Vel.Length());
-		compose.AppendFormat("Level %s - Velocity Max: %.2f, Velocity Average: %.2f\n", primaryLevel->MapName.GetChars(), primaryLevel->max_velocity, primaryLevel->avg_velocity);
+		compose.AppendFormat("Level %s - Velocity Max: %.2f, Velocity Average: %.2f\n", primaryLevel->MapName.c_str(), primaryLevel->max_velocity, primaryLevel->avg_velocity);
 	}
 	return compose;
 }

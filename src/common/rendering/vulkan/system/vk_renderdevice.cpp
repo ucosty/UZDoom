@@ -117,7 +117,7 @@ void VulkanPrintLog(const char* typestr, const std::string& msg)
 	{
 		FString callstack = JitCaptureStackTrace(0, true, 5);
 		if (!callstack.IsEmpty())
-			Printf("%s\n", callstack.GetChars());
+			Printf("%s\n", callstack.c_str());
 	}
 }
 
@@ -517,8 +517,8 @@ void VulkanRenderDevice::PrintStartupLog()
 	vkversion = VK_API_VERSION_MAJOR(props.apiVersion) * 100 + VK_API_VERSION_MINOR(props.apiVersion);
 
 	Printf("Vulkan device: " TEXTCOLOR_ORANGE "%s\n", props.deviceName);
-	Printf("Vulkan device type: %s\n", deviceType.GetChars());
-	Printf("Vulkan version: %s (api) %s (driver)\n", apiVersion.GetChars(), driverVersion.GetChars());
+	Printf("Vulkan device type: %s\n", deviceType.c_str());
+	Printf("Vulkan version: %s (api) %s (driver)\n", apiVersion.c_str(), driverVersion.c_str());
 
 	Printf(PRINT_LOG, "Vulkan extensions:");
 	for (const VkExtensionProperties &p : device->PhysicalDevice.Extensions)

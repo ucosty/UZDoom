@@ -191,7 +191,7 @@ static FxExpression *CustomTypeCast(FxTypeCast *func, FCompileContext &ctx)
 				delete func;
 				return nullptr;
 			}
-			FxExpression *x = new FxMultiNameState(s.GetChars(), basex->ScriptPosition);
+			FxExpression *x = new FxMultiNameState(s.c_str(), basex->ScriptPosition);
 			x = x->Resolve(ctx);
 			basex = nullptr;
 			delete func;
@@ -739,7 +739,7 @@ FxExpression *FxGetDefaultByType::Resolve(FCompileContext &ctx)
 			cls = PClass::FindActor(static_cast<FxConstant *>(Self)->GetValue().GetName());
 			if (cls == nullptr)
 			{
-				ScriptPosition.Message(MSG_ERROR, "GetDefaultByType() requires an actor class type, but got %s", static_cast<FxConstant *>(Self)->GetValue().GetString().GetChars());
+				ScriptPosition.Message(MSG_ERROR, "GetDefaultByType() requires an actor class type, but got %s", static_cast<FxConstant *>(Self)->GetValue().GetString().c_str());
 				delete this;
 				return nullptr;
 			}
@@ -749,7 +749,7 @@ FxExpression *FxGetDefaultByType::Resolve(FCompileContext &ctx)
 		{
 			// this is the ugly case. We do not know what we have and cannot do proper type casting.
 			// For now error out and let this case require explicit handling on the user side.
-			ScriptPosition.Message(MSG_ERROR, "GetDefaultByType() requires an actor class type, but got %s", static_cast<FxConstant *>(Self)->GetValue().GetString().GetChars());
+			ScriptPosition.Message(MSG_ERROR, "GetDefaultByType() requires an actor class type, but got %s", static_cast<FxConstant *>(Self)->GetValue().GetString().c_str());
 			delete this;
 			return nullptr;
 		}
@@ -911,10 +911,10 @@ FxMultiNameState::FxMultiNameState(const char *_statestring, const FScriptPositi
 
 	if (scopeindex >= 0)
 	{
-		scopename = FName(statestring.GetChars(), scopeindex, false);
+		scopename = FName(statestring.c_str(), scopeindex, false);
 		statestring = statestring.Right((ptrdiff_t)statestring.Len() - scopeindex - 2);
 	}
-	names = MakeStateNameList(statestring.GetChars());
+	names = MakeStateNameList(statestring.c_str());
 	names.Insert(0, scopename);
 	scope = checkclass;
 }

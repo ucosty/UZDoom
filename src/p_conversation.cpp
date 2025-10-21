@@ -505,7 +505,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 			// No, you don't. Say so and let the NPC animate negatively.
 			if (reply->QuickNo.IsNotEmpty() && isconsole)
 			{
-				TerminalResponse(reply->QuickNo.GetChars());
+				TerminalResponse(reply->QuickNo.c_str());
 			}
 			npc->ConversationAnimation(2);
 			if (!(npc->flags8 & MF8_DONTFACETALKER))
@@ -578,7 +578,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 		{
 			TakeStrifeItem (player, reply->ItemCheck[i].Item, reply->ItemCheck[i].Amount);
 		}
-		replyText = reply->QuickYes.GetChars();
+		replyText = reply->QuickYes.c_str();
 	}
 	else
 	{
@@ -588,7 +588,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 	// Update the quest log, if needed.
 	if (reply->LogString.IsNotEmpty())
 	{
-		const char *log = reply->LogString.GetChars();
+		const char *log = reply->LogString.c_str();
 		if (log[0] == '$')
 		{
 			log = GStrings.GetString(log + 1);
@@ -637,7 +637,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 			if (nextname.IsEmpty())
 				Printf ("Next node %u is invalid, no such dialog page\n", next);
 			else
-				Printf ("Next node %u ('%s') is invalid, no such dialog page\n", next, nextname.GetChars());
+				Printf ("Next node %u ('%s') is invalid, no such dialog page\n", next, nextname.c_str());
 		}
 	}
 

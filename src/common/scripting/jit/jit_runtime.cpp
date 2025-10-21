@@ -955,9 +955,9 @@ FString JitGetStackFrameName(NativeSymbolResolver *nativeSymbols, void *pc)
 			FString s;
 
 			if (line == -1)
-				s.Format("Called from %s at %s\n", info.name.GetChars(), info.filename.GetChars());
+				s.Format("Called from %s at %s\n", info.name.c_str(), info.filename.c_str());
 			else
-				s.Format("Called from %s at %s, line %d\n", info.name.GetChars(), info.filename.GetChars(), line);
+				s.Format("Called from %s at %s, line %d\n", info.name.c_str(), info.filename.c_str(), line);
 
 			return s;
 		}

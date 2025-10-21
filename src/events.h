@@ -210,7 +210,7 @@ public:
 
 		inline const char* GetString() const
 		{
-			return std::get<FString>(_message).GetChars();
+			return std::get<FString>(_message).c_str();
 		}
 	};
 

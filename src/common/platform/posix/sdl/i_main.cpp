@@ -143,7 +143,7 @@ void I_DetectOS()
 	}
 
 	if (operatingSystem.Len() > 0)
-		Printf("OS: %s\n", operatingSystem.GetChars());
+		Printf("OS: %s\n", operatingSystem.c_str());
 }
 
 void I_StartupJoysticks();

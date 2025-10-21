@@ -209,7 +209,7 @@ void FTextureAnimator::ProcessSwitchDef (FScanner &sc)
 	def2->PreTexture = def1->frames[def1->NumFrames-1].Texture;
 	if (def1->PreTexture == def2->PreTexture)
 	{
-		sc.ScriptError ("The on state for switch %s must end with a texture other than %s", picname.GetChars(), picname.GetChars());
+		sc.ScriptError ("The on state for switch %s must end with a texture other than %s", picname.c_str(), picname.c_str());
 	}
 	AddSwitchPair(def1, def2);
 	def1->QuestPanel = def2->QuestPanel = quest;

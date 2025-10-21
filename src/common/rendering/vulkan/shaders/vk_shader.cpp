@@ -36,15 +36,15 @@ ShaderIncludeResult VkShaderManager::OnInclude(FString headerName, FString inclu
 		I_Error("Too much include recursion!");
 
 	FString includeguardname;
-	includeguardname << "_HEADERGUARD_" << headerName.GetChars();
+	includeguardname << "_HEADERGUARD_" << headerName.c_str();
 	includeguardname.ReplaceChars("/\\.", '_');
 
 	FString code;
-	code << "#ifndef " << includeguardname.GetChars() << "\n";
-	code << "#define " << includeguardname.GetChars() << "\n";
+	code << "#ifndef " << includeguardname.c_str() << "\n";
+	code << "#define " << includeguardname.c_str() << "\n";
 	code << "#line 1\n";
 
-	int lumpNum = fileSystem.FindFile(headerName.GetChars());
+	int lumpNum = fileSystem.FindFile(headerName.c_str());
 
 	if(lumpNum >= 0)
 	{
@@ -53,7 +53,7 @@ ShaderIncludeResult VkShaderManager::OnInclude(FString headerName, FString inclu
 
 	code << "\n#endif\n";
 
-	return ShaderIncludeResult(headerName.GetChars(), code.GetChars());
+	return ShaderIncludeResult(headerName.c_str(), code.c_str());
 }
 
 bool VkShaderManager::CompileNextShader()
@@ -99,12 +99,12 @@ bool VkShaderManager::CompileNextShader()
 	{
 		// user shaders
 		
-		const FString& name = ExtractFileBase(usershaders[i].shader.GetChars());
+		const FString& name = ExtractFileBase(usershaders[i].shader.c_str());
 		FString defines = defaultshaders[usershaders[i].shaderType].Defines + usershaders[i].defines;
 
 		VkShaderProgram prog;
-		prog.vert = LoadVertShader(name, mainvp, defines.GetChars());
-		prog.frag = LoadFragShader(name, mainfp, usershaders[i].shader.GetChars(), defaultshaders[usershaders[i].shaderType].lightfunc, defines.GetChars(), true, compilePass == GBUFFER_PASS);
+		prog.vert = LoadVertShader(name, mainvp, defines.c_str());
+		prog.frag = LoadFragShader(name, mainfp, usershaders[i].shader.c_str(), defaultshaders[usershaders[i].shaderType].lightfunc, defines.c_str(), true, compilePass == GBUFFER_PASS);
 		mMaterialShaders[compilePass].push_back(std::move(prog));
 
 		compileIndex++;
@@ -379,15 +379,15 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadVertShader(FString shadername
 	code << shaderBindings;
 	if (!fb->device->EnabledFeatures.Features.shaderClipDistance) code << "#define NO_CLIPDISTANCE_SUPPORT\n";
 	code << "#line 1\n";
-	code << LoadPrivateShaderLump(vert_lump).GetChars() << "\n";
+	code << LoadPrivateShaderLump(vert_lump).c_str() << "\n";
 
 	return ShaderBuilder()
 		.Type(ShaderType::Vertex)
-		.AddSource(shadername.GetChars(), code.GetChars())
-		.DebugName(shadername.GetChars())
+		.AddSource(shadername.c_str(), code.c_str())
+		.DebugName(shadername.c_str())
 		.OnIncludeLocal(OnInclude)
 		.OnIncludeSystem(OnInclude)
-		.Create(shadername.GetChars(), fb->device.get());
+		.Create(shadername.c_str(), fb->device.get());
 }
 
 std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername, const char *frag_lump, const char *material_lump, const char *light_lump, const char *defines, bool alphatest, bool gbufferpass)
@@ -410,7 +410,7 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 	if (gbufferpass) code << "#define GBUFFER_PASS\n";
 
 	code << "\n#line 1\n";
-	code << LoadPrivateShaderLump(frag_lump).GetChars() << "\n";
+	code << LoadPrivateShaderLump(frag_lump).c_str() << "\n";
 
 	if (material_lump)
 	{
@@ -425,11 +425,11 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 
 				if (pp_code.IndexOf("GetTexCoord") >= 0)
 				{
-					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat2.fp").GetChars() << "\n";
+					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat2.fp").c_str() << "\n";
 				}
 				else
 				{
-					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat.fp").GetChars() << "\n";
+					code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultmat.fp").c_str() << "\n";
 					if (pp_code.IndexOf("ProcessTexel") < 0)
 					{
 						// this looks like an even older custom hardware shader.
@@ -448,12 +448,12 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 			}
 
 			code << "\n#line 1\n";
-			code << RemoveLegacyUserUniforms(pp_code).GetChars();
+			code << RemoveLegacyUserUniforms(pp_code).c_str();
 			code.Substitute("gl_TexCoord[0]", "vTexCoord");	// fix old custom shaders.
 
 			if (pp_code.IndexOf("ProcessLight") < 0)
 			{
-				code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultlight.fp").GetChars() << "\n";
+				code << "\n" << LoadPrivateShaderLump("shaders/glsl/func_defaultlight.fp").c_str() << "\n";
 			}
 
 			// ProcessMaterial must be considered broken because it requires the user to fill in data they possibly cannot know all about.
@@ -474,16 +474,16 @@ std::unique_ptr<VulkanShader> VkShaderManager::LoadFragShader(FString shadername
 	if (light_lump)
 	{
 		code << "\n#line 1\n";
-		code << LoadPrivateShaderLump(light_lump).GetChars();
+		code << LoadPrivateShaderLump(light_lump).c_str();
 	}
 
 	return ShaderBuilder()
 		.Type(ShaderType::Fragment)
-		.AddSource(shadername.GetChars(), code.GetChars())
-		.DebugName(shadername.GetChars())
+		.AddSource(shadername.c_str(), code.c_str())
+		.DebugName(shadername.c_str())
 		.OnIncludeLocal(OnInclude)
 		.OnIncludeSystem(OnInclude)
-		.Create(shadername.GetChars(), fb->device.get());
+		.Create(shadername.c_str(), fb->device.get());
 }
 
 FString VkShaderManager::GetTargetGlslVersion()

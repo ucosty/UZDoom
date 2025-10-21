@@ -214,7 +214,7 @@ private:
 	void SetTexture(side_t *side, int position, const char *name, FMissingTextureTracker &track);
 	void SetTexture(side_t* side, int position, const FString& name, FMissingTextureTracker& track)
 	{
-		SetTexture(side, position, name.GetChars(), track);
+		SetTexture(side, position, name.c_str(), track);
 	}
 	void SetTexture(sector_t *sector, int index, int position, const char *name, FMissingTextureTracker &track, bool truncate);
 	void SetTexture(side_t *side, int position, uint32_t *blend, const char *name);

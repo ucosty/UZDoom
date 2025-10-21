@@ -554,7 +554,7 @@ template<> FSerializer &Serialize(FSerializer &arc, const char *key, FString *&p
 			}
 			else
 			{
-				arc.w->String(pstr->GetChars());
+				arc.w->String(pstr->c_str());
 			}
 		}
 	}

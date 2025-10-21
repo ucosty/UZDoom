@@ -241,9 +241,9 @@ void FormatNumber(int number, int minsize, int maxsize, int flags, const FString
 		number = clamp(number, -maxvals[maxsize - 1], maxvals[maxsize]);
 	}
 	FString& fmt = *result;
-	if (minsize <= 1) fmt.Format("%s%d", prefix.GetChars(), number);
-	else if (flags & FNF_FILLZEROS) fmt.Format("%s%0*d", prefix.GetChars(), minsize, number);
-	else fmt.Format("%s%*d", prefix.GetChars(), minsize, number);
+	if (minsize <= 1) fmt.Format("%s%d", prefix.c_str(), number);
+	else if (flags & FNF_FILLZEROS) fmt.Format("%s%0*d", prefix.c_str(), minsize, number);
+	else fmt.Format("%s%*d", prefix.c_str(), minsize, number);
 }
 
 void DStatusBarCore::ValidateResolution(int& hres, int& vres) const
@@ -725,7 +725,7 @@ void DStatusBarCore::DrawString(FFont* font, const FString& cstring, double x, d
 	// Take text scale into account
 	x -= dx * scaleX;
 
-	const uint8_t* str = (const uint8_t*)cstring.GetChars();
+	const uint8_t* str = (const uint8_t*)cstring.c_str();
 	const EColorRange boldTranslation = EColorRange(translation ? translation - 1 : NumTextColors - 1);
 	int fontcolor = translation;
 	double orgx = 0, orgy = 0;

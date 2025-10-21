@@ -113,7 +113,7 @@ FFont *V_GetFont(const char *name, const char *fontlumpname)
 		FStringf path("fonts/%s/", name);
 
 		// Use a folder-based font only if it comes from a later file than the single lump version.
-		if (fileSystem.GetFilesInFolder(path.GetChars(), folderdata, true))
+		if (fileSystem.GetFilesInFolder(path.c_str(), folderdata, true))
 		{
 			// This assumes that any custom font comes in one piece and not distributed across multiple resource files.
 			folderfile = fileSystem.GetFileContainer(folderdata[0].lumpnum);
@@ -293,14 +293,14 @@ void V_InitCustomFonts()
 					else if (fileSystem.GetFileContainer(sc.LumpNum) >= fileSystem.GetIwadNum())
 					{
 						// Print a message only if this isn't in zdoom.pk3
-						sc.ScriptMessage("%s: Unable to find texture in font definition for %s", sc.String, namebuffer.GetChars());
+						sc.ScriptMessage("%s: Unable to find texture in font definition for %s", sc.String, namebuffer.c_str());
 					}
 					format = 2;
 				}
 			}
 			if (format == 1)
 			{
-				FFont *fnt = new FFont(namebuffer.GetChars(), templatebuf.GetChars(), nullptr, first, count, start, llump, spacewidth, donttranslate);
+				FFont *fnt = new FFont(namebuffer.c_str(), templatebuf.c_str(), nullptr, first, count, start, llump, spacewidth, donttranslate);
 				fnt->SetCursor(cursor);
 				fnt->SetKerning(kerning);
 				if (ignoreoffsets) fnt->ClearOffsets();
@@ -326,7 +326,7 @@ void V_InitCustomFonts()
 				if (count > 0)
 				{
 					FFont *CreateSpecialFont (const char *name, int first, int count, FGameTexture **lumplist, const bool *notranslate, int lump, bool donttranslate);
-					FFont *fnt = CreateSpecialFont(namebuffer.GetChars(), first, count, &lumplist[first], notranslate, llump, donttranslate);
+					FFont *fnt = CreateSpecialFont(namebuffer.c_str(), first, count, &lumplist[first], notranslate, llump, donttranslate);
 					fnt->SetCursor(cursor);
 					fnt->SetKerning(kerning);
 					if (spacewidth >= 0) fnt->SpaceWidth = spacewidth;
@@ -342,7 +342,7 @@ void V_InitCustomFonts()
 	return;
 
 wrong:
-	sc.ScriptError ("Invalid combination of properties in font '%s', %s not allowed", namebuffer.GetChars(), sc.String);
+	sc.ScriptError ("Invalid combination of properties in font '%s', %s not allowed", namebuffer.c_str(), sc.String);
 }
 
 //==========================================================================

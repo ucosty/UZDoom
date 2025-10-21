@@ -125,7 +125,7 @@ static FString LookupMusic(const char* musicname, int& order)
 	{
 		if (gamestate == GS_LEVEL || gamestate == GS_TITLELEVEL)
 		{
-			musicname = primaryLevel->Music.GetChars();
+			musicname = primaryLevel->Music.c_str();
 			order = primaryLevel->musicorder;
 		}
 		else
@@ -161,7 +161,7 @@ static FString LookupMusic(const char* musicname, int& order)
 		if (mus_string != nullptr)
 		{
 			DEH_Music << "D_" << mus_string;
-			musicname = DEH_Music.GetChars();
+			musicname = DEH_Music.c_str();
 		}
 	}
 
@@ -297,7 +297,7 @@ void S_Start()
 			if (LocalSndInfo.IsNotEmpty())
 			{
 				// Now parse the local SNDINFO
-				int j = fileSystem.CheckNumForFullName(LocalSndInfo.GetChars(), true);
+				int j = fileSystem.CheckNumForFullName(LocalSndInfo.c_str(), true);
 				if (j >= 0) S_AddLocalSndInfo(j);
 			}
 
@@ -311,7 +311,7 @@ void S_Start()
 
 		if (parse_ss)
 		{
-			S_ParseSndSeq(LocalSndSeq.IsNotEmpty() ? fileSystem.CheckNumForFullName(LocalSndSeq.GetChars(), true) : -1);
+			S_ParseSndSeq(LocalSndSeq.IsNotEmpty() ? fileSystem.CheckNumForFullName(LocalSndSeq.c_str(), true) : -1);
 		}
 
 		LastLocalSndInfo = LocalSndInfo;

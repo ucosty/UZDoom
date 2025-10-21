@@ -37,7 +37,7 @@ bool FileExists (const char *filename);
 FString RecursiveFileExists(const FString& path, const FString& file);
 inline bool FileExists(const FString& filename)
 {
-	return FileExists(filename.GetChars());
+	return FileExists(filename.c_str());
 }
 bool FileReadable (const char *filename);
 bool DirExists(const char *filename);

@@ -137,7 +137,7 @@ struct FPatchLookup
 
 void FMultipatchTextureBuilder::MakeTexture(BuildInfo &buildinfo, ETextureType usetype)
 {
-	buildinfo.texture = new FGameTexture(nullptr, buildinfo.Name.GetChars());
+	buildinfo.texture = new FGameTexture(nullptr, buildinfo.Name.c_str());
 	buildinfo.texture->SetUseType(usetype);
 	buildinfo.texture->SetSize(buildinfo.Width, buildinfo.Height);
 	buildinfo.texture->SetOffsets(0, buildinfo.LeftOffset[0], buildinfo.TopOffset[0]);	// These are needed for construction of other multipatch textures.
@@ -234,7 +234,7 @@ void FMultipatchTextureBuilder::BuildTexture(const void *texdef, FPatchLookup *p
 		if (unsigned(LittleShort(mpatch.d->patch)) >= unsigned(maxpatchnum))
 		{
 			I_Error("Bad PNAMES and/or texture directory:\n\nPNAMES has %d entries, but\n%s wants to use entry %d.",
-				maxpatchnum, buildinfo.Name.GetChars(), LittleShort(mpatch.d->patch) + 1);
+				maxpatchnum, buildinfo.Name.c_str(), LittleShort(mpatch.d->patch) + 1);
 		}
 		buildinfo.Parts[i].OriginX = LittleShort(mpatch.d->originx);
 		buildinfo.Parts[i].OriginY = LittleShort(mpatch.d->originy);
@@ -248,7 +248,7 @@ void FMultipatchTextureBuilder::BuildTexture(const void *texdef, FPatchLookup *p
 	}
 	if (NumParts == 0)
 	{
-		Printf("Texture %s is left without any patches\n", buildinfo.Name.GetChars());
+		Printf("Texture %s is left without any patches\n", buildinfo.Name.c_str());
 	}
 
 	// Insert the incomplete texture right here so that it's in the correct place.
@@ -373,7 +373,7 @@ void FMultipatchTextureBuilder::AddTexturesLump(const void *lumpdata, int lumpsi
 		int j;
 		for (j = (int)TexMan.NumTextures() - 1; j >= firstdup; --j)
 		{
-			if (strnicmp(TexMan.GameByIndex(j)->GetName().GetChars(), (const char *)maptex + offset, 8) == 0)
+			if (strnicmp(TexMan.GameByIndex(j)->GetName().c_str(), (const char *)maptex + offset, 8) == 0)
 				break;
 		}
 		if (j + 1 == firstdup)
@@ -651,13 +651,13 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 			{
 				sc.MustGetFloat();
 				buildinfo.Scale.X = sc.Float;
-				if (buildinfo.Scale.X == 0) sc.ScriptError("Texture %s is defined with null x-scale\n", buildinfo.Name.GetChars());
+				if (buildinfo.Scale.X == 0) sc.ScriptError("Texture %s is defined with null x-scale\n", buildinfo.Name.c_str());
 			}
 			else if (sc.Compare("YScale"))
 			{
 				sc.MustGetFloat();
 				buildinfo.Scale.Y = sc.Float;
-				if (buildinfo.Scale.Y == 0) sc.ScriptError("Texture %s is defined with null y-scale\n", buildinfo.Name.GetChars());
+				if (buildinfo.Scale.Y == 0) sc.ScriptError("Texture %s is defined with null y-scale\n", buildinfo.Name.c_str());
 			}
 			else if (sc.Compare("WorldPanning"))
 			{
@@ -758,7 +758,7 @@ void FMultipatchTextureBuilder::ParseTexture(FScanner &sc, ETextureType UseType,
 	if (buildinfo.Width <= 0 || buildinfo.Height <= 0)
 	{
 		UseType = ETextureType::Null;
-		Printf("Texture %s has invalid dimensions (%d, %d)\n", buildinfo.Name.GetChars(), buildinfo.Width, buildinfo.Height);
+		Printf("Texture %s has invalid dimensions (%d, %d)\n", buildinfo.Name.c_str(), buildinfo.Width, buildinfo.Height);
 		buildinfo.Width = buildinfo.Height = 1;
 	}
 
@@ -778,11 +778,11 @@ void FMultipatchTextureBuilder::ResolvePatches(BuildInfo &buildinfo)
 {
 	for (unsigned i = 0; i < buildinfo.Inits.Size(); i++)
 	{
-		FTextureID texno = TexMan.CheckForTexture(buildinfo.Inits[i].TexName.GetChars(), buildinfo.Inits[i].UseType);
+		FTextureID texno = TexMan.CheckForTexture(buildinfo.Inits[i].TexName.c_str(), buildinfo.Inits[i].UseType);
 		if (texno == buildinfo.texture->GetID())	// we found ourselves. Try looking for another one with the same name which is not a multipatch texture itself.
 		{
 			TArray<FTextureID> list;
-			TexMan.ListTextures(buildinfo.Inits[i].TexName.GetChars(), list, true);
+			TexMan.ListTextures(buildinfo.Inits[i].TexName.c_str(), list, true);
 			for (int ii = list.Size() - 1; ii >= 0; ii--)
 			{
 				auto gtex = TexMan.GetGameTexture(list[ii]);
@@ -794,14 +794,14 @@ void FMultipatchTextureBuilder::ResolvePatches(BuildInfo &buildinfo)
 			}
 			if (texno == buildinfo.texture->GetID())
 			{
-				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Texture '%s' references itself as patch\n", buildinfo.Inits[i].TexName.GetChars());
-				else Printf(TEXTCOLOR_YELLOW  "Texture '%s' references itself as patch\n", buildinfo.Inits[i].TexName.GetChars());
+				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Texture '%s' references itself as patch\n", buildinfo.Inits[i].TexName.c_str());
+				else Printf(TEXTCOLOR_YELLOW  "Texture '%s' references itself as patch\n", buildinfo.Inits[i].TexName.c_str());
 				continue;
 			}
 			else
 			{
 				// If it could be resolved, just print a developer warning.
-				DPrintf(DMSG_WARNING, "Resolved self-referencing texture by picking an older entry for %s\n", buildinfo.Inits[i].TexName.GetChars());
+				DPrintf(DMSG_WARNING, "Resolved self-referencing texture by picking an older entry for %s\n", buildinfo.Inits[i].TexName.c_str());
 			}
 		}
 
@@ -809,8 +809,8 @@ void FMultipatchTextureBuilder::ResolvePatches(BuildInfo &buildinfo)
 		{
 			if (!buildinfo.Inits[i].Silent)
 			{
-				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Unknown patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.GetChars(), buildinfo.Name.GetChars());
-				else Printf(TEXTCOLOR_YELLOW  "Unknown patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.GetChars(), buildinfo.Name.GetChars());
+				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Unknown patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.c_str(), buildinfo.Name.c_str());
+				else Printf(TEXTCOLOR_YELLOW  "Unknown patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.c_str(), buildinfo.Name.c_str());
 			}
 		}
 		else
@@ -833,8 +833,8 @@ void FMultipatchTextureBuilder::ResolvePatches(BuildInfo &buildinfo)
 			else
 			{
 				// The patch is bogus. Remove it.
-				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Invalid patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.GetChars(), buildinfo.Name.GetChars());
-				else Printf(TEXTCOLOR_YELLOW  "Invalid patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.GetChars(), buildinfo.Name.GetChars());
+				if (buildinfo.Inits[i].HasLine) buildinfo.Inits[i].sc.Message(MSG_WARNING, "Invalid patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.c_str(), buildinfo.Name.c_str());
+				else Printf(TEXTCOLOR_YELLOW  "Invalid patch '%s' in texture '%s'\n", buildinfo.Inits[i].TexName.c_str(), buildinfo.Name.c_str());
 				buildinfo.Inits.Delete(i);
 				buildinfo.Parts.Delete(i);
 				i--;
@@ -926,7 +926,7 @@ void FMultipatchTextureBuilder::ResolveAllPatches()
 			Printf("%d Unresolved textures remain\n", BuiltTextures.Size());
 			for (auto &b : BuiltTextures)
 			{
-				Printf("%s\n", b.Name.GetChars());
+				Printf("%s\n", b.Name.c_str());
 				// make it hard to find but also ensure that it references valid backing data.
 				b.texture->SetUseType(ETextureType::Null);
 				b.texture->SetBase(TexMan.GameByIndex(0)->GetTexture());

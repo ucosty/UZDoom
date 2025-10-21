@@ -559,7 +559,7 @@ static FxExpression *ParseExpression0 (FScanner &sc, PClassActor *cls)
 	else
 	{
 		FString tokname = sc.TokenName(sc.TokenType, sc.String);
-		sc.ScriptError ("Unexpected token %s", tokname.GetChars());
+		sc.ScriptError ("Unexpected token %s", tokname.c_str());
 	}
 	return NULL;
 }

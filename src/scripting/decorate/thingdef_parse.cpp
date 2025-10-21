@@ -104,7 +104,7 @@ PClassActor *DecoDerivedClass(const FScriptPosition &sc, PClassActor *parent, FN
 		else
 		{
 			// Due to backwards compatibility issues this cannot be an unconditional error.
-			sc.Message(MSG_WARNING, "Tried to define class '%s' more than once. Renaming class to '%s'", typeName.GetChars(), newname.GetChars());
+			sc.Message(MSG_WARNING, "Tried to define class '%s' more than once. Renaming class to '%s'", typeName.GetChars(), newname.c_str());
 		}
 		type = static_cast<PClassActor *>(parent->CreateDerivedClass(newname, parent->Size, &newlycreated));
 		if (type == nullptr)
@@ -455,7 +455,7 @@ static void ParseActorFlag (FScanner &sc, Baggage &bag, int mod)
 		sc.MustGetString ();
 		part2 = sc.String;
 	}
-	HandleActorFlag(sc, bag, part1.GetChars(), part2, mod);
+	HandleActorFlag(sc, bag, part1.c_str(), part2, mod);
 }
 
 //==========================================================================
@@ -719,12 +719,12 @@ static bool ParsePropertyParams(FScanner &sc, FPropertyInfo *prop, AActor *defau
 
 			case 'S':
 				sc.MustGetString();
-				conv.s = (strings[strings.Reserve(1)] = sc.String).GetChars();
+				conv.s = (strings[strings.Reserve(1)] = sc.String).c_str();
 				break;
 
 			case 'T':
 				sc.MustGetString();
-				conv.s = (strings[strings.Reserve(1)] = strbin1(sc.String)).GetChars();
+				conv.s = (strings[strings.Reserve(1)] = strbin1(sc.String)).c_str();
 				break;
 
 			case 'C':
@@ -744,7 +744,7 @@ static bool ParsePropertyParams(FScanner &sc, FPropertyInfo *prop, AActor *defau
 				else
 				{
 					sc.MustGetString ();
-					conv.s = (strings[strings.Reserve(1)] = sc.String).GetChars();
+					conv.s = (strings[strings.Reserve(1)] = sc.String).c_str();
 					pref.i = 1;
 				}
 				break;
@@ -772,7 +772,7 @@ static bool ParsePropertyParams(FScanner &sc, FPropertyInfo *prop, AActor *defau
 					do
 					{
 						sc.MustGetString ();
-						conv.s = (strings[strings.Reserve(1)] = sc.String).GetChars();
+						conv.s = (strings[strings.Reserve(1)] = sc.String).c_str();
 						params.Push(conv);
 						params[0].i++;
 					}
@@ -955,7 +955,7 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 		sc.UnGet ();
 	}
 
-	FPropertyInfo *prop = FindProperty(propname.GetChars());
+	FPropertyInfo *prop = FindProperty(propname.c_str());
 
 	if (prop != NULL)
 	{
@@ -966,13 +966,13 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 		}
 		else
 		{
-			sc.ScriptMessage("'%s' requires an actor of type '%s'\n", propname.GetChars(), pcls->TypeName.GetChars());
+			sc.ScriptMessage("'%s' requires an actor of type '%s'\n", propname.c_str(), pcls->TypeName.GetChars());
 			FScriptPosition::ErrorCounter++;
 		}
 	}
-	else if (MatchString(propname.GetChars(), statenames) != -1)
+	else if (MatchString(propname.c_str(), statenames) != -1)
 	{
-		bag.statedef.SetStateLabel(propname.GetChars(), CheckState (sc, bag.Info));
+		bag.statedef.SetStateLabel(propname.c_str(), CheckState (sc, bag.Info));
 	}
 	else
 	{
@@ -987,7 +987,7 @@ static void ParseActorProperty(FScanner &sc, Baggage &bag)
 				return;
 			}
 		}
-		sc.ScriptError("'%s' is an unknown actor property\n", propname.GetChars());
+		sc.ScriptError("'%s' is an unknown actor property\n", propname.c_str());
 	}
 }
 

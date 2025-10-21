@@ -152,18 +152,18 @@ bool ModActorFlag(AActor *actor, const FString &flagname, bool set, bool printer
 	if (actor != NULL)
 	{
 		auto Level = actor->Level;
-		const char *dot = strchr(flagname.GetChars(), '.');
+		const char *dot = strchr(flagname.c_str(), '.');
 		FFlagDef *fd;
 		PClassActor *cls = actor->GetClass();
 
 		if (dot != NULL)
 		{
-			FString part1(flagname.GetChars(), dot - flagname.GetChars());
-			fd = FindFlag(cls, part1.GetChars(), dot + 1);
+			FString part1(flagname.c_str(), dot - flagname.c_str());
+			fd = FindFlag(cls, part1.c_str(), dot + 1);
 		}
 		else
 		{
-			fd = FindFlag(cls, flagname.GetChars(), NULL);
+			fd = FindFlag(cls, flagname.c_str(), NULL);
 		}
 
 		if (fd != NULL)
@@ -197,7 +197,7 @@ bool ModActorFlag(AActor *actor, const FString &flagname, bool set, bool printer
 		}
 		else if (printerror)
 		{
-			DPrintf(DMSG_ERROR, "ACS/DECORATE: '%s' is not a flag in '%s'\n", flagname.GetChars(), cls->TypeName.GetChars());
+			DPrintf(DMSG_ERROR, "ACS/DECORATE: '%s' is not a flag in '%s'\n", flagname.c_str(), cls->TypeName.GetChars());
 		}
 	}
 
@@ -245,7 +245,7 @@ INTBOOL CheckActorFlag(AActor *owner, const char *flagname, bool printerror)
 	if (dot != NULL)
 	{
 		FString part1(flagname, dot-flagname);
-		fd = FindFlag (cls, part1.GetChars(), dot+1);
+		fd = FindFlag (cls, part1.c_str(), dot+1);
 	}
 	else
 	{
@@ -1455,7 +1455,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(powerup, type, S, PowerupGiver)
 		{
 			FString st;
 			st.Format("%s%s", strnicmp(str, "power", 5) ? "Power" : "", str);
-			cls = FindClassTentative(st.GetChars(), pow);
+			cls = FindClassTentative(st.c_str(), pow);
 		}
 		else
 		{
@@ -1513,7 +1513,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, face, S, PlayerPawn)
 		{
 			bag.ScriptPosition.Message(MSG_OPTERROR,
 				"Invalid face '%s' for '%s';\nSTF replacement codes must be 3 alphanumeric characters.\n",
-				tmp.GetChars(), info->TypeName.GetChars());
+				tmp.c_str(), info->TypeName.GetChars());
 		}
 		defaults->NameVar(NAME_Face) = tmp;
 	}

@@ -601,7 +601,7 @@ void FScanner::TokenMustBe (int token)
 	{
 		FString tok1 = TokenName(token);
 		FString tok2 = TokenName(TokenType, String);
-		ScriptError ("Expected %s but got %s instead.", tok1.GetChars(), tok2.GetChars());
+		ScriptError ("Expected %s but got %s instead.", tok1.c_str(), tok2.c_str());
 	}
 }
 
@@ -1093,12 +1093,12 @@ void FScanner::ScriptError (const char *message, ...)
 	ParseError = true;
 	if (NoFatalErrors)
 	{
-		Printf(TEXTCOLOR_RED "%sScript error, \"%s\"" TEXTCOLOR_RED " line %d:\n" TEXTCOLOR_RED "%s\n", PrependMessage.GetChars(), ScriptName.GetChars(),
-			AlreadyGot ? AlreadyGotLine : Line, composed.GetChars());
+		Printf(TEXTCOLOR_RED "%sScript error, \"%s\"" TEXTCOLOR_RED " line %d:\n" TEXTCOLOR_RED "%s\n", PrependMessage.c_str(), ScriptName.c_str(),
+			AlreadyGot ? AlreadyGotLine : Line, composed.c_str());
 		return;
 	}
-	I_Error ("%sScript error, \"%s\" line %d:\n%s\n", PrependMessage.GetChars(), ScriptName.GetChars(),
-		AlreadyGot? AlreadyGotLine : Line, composed.GetChars());
+	I_Error ("%sScript error, \"%s\" line %d:\n%s\n", PrependMessage.c_str(), ScriptName.c_str(),
+		AlreadyGot? AlreadyGotLine : Line, composed.c_str());
 }
 
 //==========================================================================
@@ -1124,8 +1124,8 @@ void FScanner::ScriptMessage (const char *message, ...)
 	}
 
 	ParseError = true;
-	Printf (TEXTCOLOR_RED "%sScript error, \"%s\"" TEXTCOLOR_RED " line %d:\n" TEXTCOLOR_RED "%s\n", PrependMessage.GetChars(), ScriptName.GetChars(),
-		AlreadyGot? AlreadyGotLine : Line, composed.GetChars());
+	Printf (TEXTCOLOR_RED "%sScript error, \"%s\"" TEXTCOLOR_RED " line %d:\n" TEXTCOLOR_RED "%s\n", PrependMessage.c_str(), ScriptName.c_str(),
+		AlreadyGot? AlreadyGotLine : Line, composed.c_str());
 }
 
 //==========================================================================
@@ -1345,11 +1345,11 @@ void FScriptPosition::Message (int severity, const char *message, ...) const
 
 	case MSG_FATAL:
 		I_Error ("Script error, \"%s\" line %d:\n%s\n",
-			FileName.GetChars(), ScriptLine, composed.GetChars());
+			FileName.GetChars(), ScriptLine, composed.c_str());
 		return;
 	}
 	Printf (level, "%sScript %s, \"%s\" line %d:\n%s%s\n",
-		color, type, FileName.GetChars(), ScriptLine, color, composed.GetChars());
+		color, type, FileName.GetChars(), ScriptLine, color, composed.c_str());
 }
 
 //==========================================================================

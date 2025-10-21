@@ -823,8 +823,8 @@ void G_BuildTiccmd (usercmd_t *cmd)
 	{
 		sendsave = false;
 		Net_WriteInt8 (DEM_SAVEGAME);
-		Net_WriteString (savegamefile.GetChars());
-		Net_WriteString (savedescription.GetChars());
+		Net_WriteString (savegamefile.c_str());
+		Net_WriteString (savedescription.c_str());
 		savegamefile = "";
 	}
 	if (SendItemUse == (const AActor *)1)
@@ -975,7 +975,7 @@ static void ChangeSpy (int changespy)
 	// Otherwise, cycle to the next player.
 	bool checkTeam = !demoplayback && deathmatch;
 	int pnum = consoleplayer;
-	if (changespy != SPY_CANCEL) 
+	if (changespy != SPY_CANCEL)
 	{
 		player_t *player = players[consoleplayer].camera->player;
 		// only use the camera as starting index if it's a valid player.
@@ -1032,15 +1032,15 @@ bool G_Responder (event_t *ev)
 	// check events
 	if (ev->type != EV_Mouse && primaryLevel->localEventManager->Responder(ev)) // [ZZ] ZScript ate the event // update 07.03.17: mouse events are handled directly
 		return true;
-	
+
 	if (gamestate == GS_INTRO || gamestate == GS_CUTSCENE)
 	{
 		return ScreenJobResponder(ev);
 	}
-	
+
 	// any other key pops up menu if in demos
 	// [RH] But only if the key isn't bound to a "special" command
-	if (gameaction == ga_nothing && 
+	if (gameaction == ga_nothing &&
 		(demoplayback || gamestate == GS_DEMOSCREEN || gamestate == GS_TITLELEVEL))
 	{
 		if (chatmodeon) chatmodeon = 0;
@@ -1219,8 +1219,8 @@ void G_Ticker ()
 		{
 		case ga_recordgame:
 			G_CheckDemoStatus();
-			G_RecordDemo(newdemoname.GetChars());
-			G_BeginRecording(newdemomap.GetChars());
+			G_RecordDemo(newdemoname.c_str());
+			G_BeginRecording(newdemomap.c_str());
 			[[fallthrough]];
 		case ga_newgame2:	// Silence GCC (see above)
 		case ga_newgame:
@@ -1232,13 +1232,13 @@ void G_Ticker ()
 			G_DoLoadGame ();
 			break;
 		case ga_savegame:
-			G_DoSaveGame (true, false, savegamefile, savedescription.GetChars());
+			G_DoSaveGame (true, false, savegamefile, savedescription.c_str());
 			gameaction = ga_nothing;
 			savegamefile = "";
 			savedescription = "";
 			break;
 		case ga_quicksave:
-			G_DoSaveGame(true, true, savegamefile, savedescription.GetChars());
+			G_DoSaveGame(true, true, savegamefile, savedescription.c_str());
 			gameaction = ga_nothing;
 			savegamefile = "";
 			savedescription = "";
@@ -1458,10 +1458,10 @@ void FLevelLocals::PlayerReborn (int player)
 }
 
 //
-// G_CheckSpot	
+// G_CheckSpot
 // Returns false if the player cannot be respawned
-// at the given mapthing spot  
-// because something is occupying it 
+// at the given mapthing spot
+// because something is occupying it
 //
 
 bool FLevelLocals::CheckSpot (int playernum, FPlayerStart *mthing)
@@ -1510,9 +1510,9 @@ bool FLevelLocals::CheckSpot (int playernum, FPlayerStart *mthing)
 
 
 //
-// G_DeathMatchSpawnPlayer 
-// Spawns a player at one of the random death match spots 
-// called at level load and each death 
+// G_DeathMatchSpawnPlayer
+// Spawns a player at one of the random death match spots
+// called at level load and each death
 //
 
 // [RH] Returns the distance of the closest player to the given mapthing
@@ -1770,7 +1770,7 @@ void FLevelLocals::DoReborn (int playernum, bool force)
 		{ // Reload the level from scratch
 			bool indemo = demoplayback;
 			BackupSaveName = "";
-			G_InitNew (MapName.GetChars(), false);
+			G_InitNew (MapName.c_str(), false);
 			demoplayback = indemo;
 		}
 	}
@@ -1843,7 +1843,7 @@ void G_DoPlayerPop(int playernum)
 	FString message = GStrings.GetString(deathmatch? "TXT_LEFTWITHFRAGS" : "TXT_LEFTTHEGAME");
 	message.Substitute("%s", players[playernum].userinfo.GetName());
 	message.Substitute("%d", FStringf("%d", players[playernum].fragcount));
-	Printf("%s\n", message.GetChars());
+	Printf("%s\n", message.c_str());
 
 	// [RH] Revert each player to their own view if spying through the player who left
 	for (int ii = 0; ii < signed(MAXPLAYERS); ++ii)
@@ -1887,7 +1887,7 @@ void G_ScreenShot (const char *filename)
 	if (gameaction == ga_nothing)
 	{
 		shotfile = filename;
-		M_ScreenShot(shotfile.GetChars());
+		M_ScreenShot(shotfile.c_str());
 		shotfile = "";
 	}
 }
@@ -1959,7 +1959,7 @@ static void LoadGameError(const char *label, const char *append = "")
 {
 	FString message = GStrings.GetString(label);
 	message.Substitute("%s", savename);
-	Printf ("%s %s\n", message.GetChars(), append);
+	Printf ("%s %s\n", message.c_str(), append);
 }
 
 void C_SerializeCVars(FSerializer& arc, const char* label, uint32_t filter)
@@ -1975,7 +1975,7 @@ void C_SerializeCVars(FSerializer& arc, const char* label, uint32_t filter)
 			while (it.NextPair(pair))
 			{
 				auto cvar = pair->Value;
-				
+
 				if ((cvar->Flags & filter) && !(cvar->Flags & (CVAR_NOSAVE | CVAR_IGNORE | CVAR_CONFIG_ONLY)))
 				{
 					UCVarValue val = cvar->GetGenericRep(CVAR_String);
@@ -2026,7 +2026,7 @@ void G_DoLoadGame ()
 	hidecon = gameaction == ga_loadgamehidecon;
 	gameaction = ga_nothing;
 
-	std::unique_ptr<FResourceFile> resfile(FResourceFile::OpenResourceFile(savename.GetChars(), true));
+	std::unique_ptr<FResourceFile> resfile(FResourceFile::OpenResourceFile(savename.c_str(), true));
 	if (resfile == nullptr)
 	{
 		LoadGameError("TXT_COULDNOTREAD");
@@ -2068,7 +2068,7 @@ void G_DoLoadGame ()
 		}
 		else
 		{
-			LoadGameError("TXT_OTHERENGINESG", engine.GetChars());
+			LoadGameError("TXT_OTHERENGINESG", engine.c_str());
 		}
 		return;
 	}
@@ -2087,7 +2087,7 @@ void G_DoLoadGame ()
 			message.Substitute("%e", FStringf("%d", SAVEVER));
 		}
 		message.Substitute("%d", FStringf("%d", SaveVersion));
-		LoadGameError(message.GetChars());
+		LoadGameError(message.c_str());
 		return;
 	}
 
@@ -2161,7 +2161,7 @@ void G_DoLoadGame ()
 
 	// load a base level
 	bool demoplaybacksave = demoplayback;
-	G_InitNew(map.GetChars(), false);
+	G_InitNew(map.c_str(), false);
 	FinishLoadingCVars();
 	demoplayback = demoplaybacksave;
 	savegamerestore = false;
@@ -2235,8 +2235,8 @@ void G_SaveGame (const char *filename, const char *description, bool quick)
 CCMD(opensaves)
 {
 	FString name = G_GetSavegamesFolder();
-	CreatePath(name.GetChars());
-	I_OpenShellFolder(name.GetChars());
+	CreatePath(name.c_str());
+	I_OpenShellFolder(name.c_str());
 }
 
 CVAR (Int, autosavenum, 0, CVAR_NOSET|CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
@@ -2269,8 +2269,8 @@ void G_DoAutoSave ()
 	UCVarValue num;
 	const char *readableTime;
 	int count = autosavecount != 0 ? autosavecount : 1;
-	
-	if (nextautosave == -1) 
+
+	if (nextautosave == -1)
 	{
 		nextautosave = (autosavenum + 1) % count;
 	}
@@ -2278,7 +2278,7 @@ void G_DoAutoSave ()
 	num.Int = nextautosave;
 	autosavenum->ForceSet (num, CVAR_Int);
 
-	file = G_BuildSaveName(FStringf("auto%02d", nextautosave).GetChars());
+	file = G_BuildSaveName(FStringf("auto%02d", nextautosave).c_str());
 
 	// The hint flag is only relevant on the primary level.
 	if (!(primaryLevel->flags2 & LEVEL2_NOAUTOSAVEHINT))
@@ -2293,7 +2293,7 @@ void G_DoAutoSave ()
 
 	readableTime = myasctime ();
 	description.Format("Autosave %s", readableTime);
-	G_DoSaveGame (false, false, file, description.GetChars());
+	G_DoSaveGame (false, false, file, description.c_str());
 }
 
 void G_DoQuickSave ()
@@ -2308,8 +2308,8 @@ void G_DoQuickSave ()
 	UCVarValue num;
 	const char *readableTime;
 	int count = quicksaverotationcount != 0 ? quicksaverotationcount : 1;
-	
-	if (quicksavenum < 0) 
+
+	if (quicksavenum < 0)
 	{
 		lastquicksave = 0;
 	}
@@ -2321,11 +2321,11 @@ void G_DoQuickSave ()
 	num.Int = lastquicksave;
 	quicksavenum->ForceSet (num, CVAR_Int);
 
-	file = G_BuildSaveName(FStringf("quick%02d", lastquicksave).GetChars());
+	file = G_BuildSaveName(FStringf("quick%02d", lastquicksave).c_str());
 
 	readableTime = myasctime ();
 	description.Format("Quicksave %s", readableTime);
-	G_SaveGame(file.GetChars(), description.GetChars(), true);
+	G_SaveGame(file.c_str(), description.c_str(), true);
 }
 
 
@@ -2348,10 +2348,10 @@ static void PutSaveComment (FSerializer &arc)
 
 	FString comment = myasctime();
 
-	arc.AddString("Creation Time", comment.GetChars());
+	arc.AddString("Creation Time", comment.c_str());
 
 	// Get level name
-	comment.Format("%s - %s\n", primaryLevel->MapName.GetChars(), primaryLevel->LevelName.GetChars());
+	comment.Format("%s - %s\n", primaryLevel->MapName.c_str(), primaryLevel->LevelName.c_str());
 
 	// Append elapsed time
 	const char *const time = GStrings.GetString("SAVECOMMENT_TIME");
@@ -2359,7 +2359,7 @@ static void PutSaveComment (FSerializer &arc)
 	comment.AppendFormat("%s: %02d:%02d:%02d", time, levelTime/3600, (levelTime%3600)/60, levelTime%60);
 
 	// Write out the comment
-	arc.AddString("Comment", comment.GetChars());
+	arc.AddString("Comment", comment.c_str());
 }
 
 static void PutSavePic (FileWriter *file, int width, int height)
@@ -2437,7 +2437,7 @@ void G_DoSaveGame (bool okForQuicksave, bool forceQuicksave, FString filename, c
 	// put some basic info into the PNG so that this isn't lost when the image gets extracted.
 	M_AppendPNGText(&savepic, "Software", buf);
 	M_AppendPNGText(&savepic, "Title", description);
-	M_AppendPNGText(&savepic, "Current Map", primaryLevel->MapName.GetChars());
+	M_AppendPNGText(&savepic, "Current Map", primaryLevel->MapName.c_str());
 	M_FinishPNG(&savepic);
 
 	int ver = SAVEVER;
@@ -2446,7 +2446,7 @@ void G_DoSaveGame (bool okForQuicksave, bool forceQuicksave, FString filename, c
 		("Save Version", ver)
 		("GameUUID", GameUUID)
 		.AddString("Title", description)
-		.AddString("Current Map", primaryLevel->MapName.GetChars());
+		.AddString("Current Map", primaryLevel->MapName.c_str());
 
 
 	PutSaveWads (savegameinfo);
@@ -2489,16 +2489,16 @@ void G_DoSaveGame (bool okForQuicksave, bool forceQuicksave, FString filename, c
 	savegame_content.Push(savegameglobals.GetCompressedOutput());
 	savegame_filenames.Push("globals.json");
 	G_WriteSnapshots (savegame_filenames, savegame_content);
-	
+
 	for (unsigned i = 0; i < savegame_content.Size(); i++)
-		savegame_content[i].filename = savegame_filenames[i].GetChars();
+		savegame_content[i].filename = savegame_filenames[i].c_str();
 
 	bool succeeded = false;
 
-	if (WriteZip(filename.GetChars(), savegame_content.Data(), savegame_content.Size()))
+	if (WriteZip(filename.c_str(), savegame_content.Data(), savegame_content.Size()))
 	{
 		// Check whether the file is ok by trying to open it.
-		FResourceFile *test = FResourceFile::OpenResourceFile(filename.GetChars(), true);
+		FResourceFile *test = FResourceFile::OpenResourceFile(filename.c_str(), true);
 		if (test != nullptr)
 		{
 			delete test;
@@ -2511,7 +2511,7 @@ void G_DoSaveGame (bool okForQuicksave, bool forceQuicksave, FString filename, c
 		savegameManager.NotifyNewSave(filename, description, okForQuicksave, forceQuicksave);
 		BackupSaveName = filename;
 
-		if (longsavemessages) Printf("%s (%s)\n", GStrings.GetString("GGSAVED"), filename.GetChars());
+		if (longsavemessages) Printf("%s (%s)\n", GStrings.GetString("GGSAVED"), filename.c_str());
 		else Printf("%s\n", GStrings.GetString("GGSAVED"));
 	}
 	else
@@ -2527,7 +2527,7 @@ void G_DoSaveGame (bool okForQuicksave, bool forceQuicksave, FString filename, c
 
 	// We don't need the snapshot any longer.
 	level.info->Snapshot.Clean();
-		
+
 	insave = false;
 
 	if (cl_waitforsave)
@@ -2586,7 +2586,7 @@ void G_ReadDemoTiccmd (usercmd_t *cmd, int player)
 			break;
 		}
 	}
-} 
+}
 
 bool stoprecording;
 
@@ -2649,7 +2649,7 @@ void G_RecordDemo (const char* name)
 	DefaultExtension (demoname, ".lmp");
 	maxdemosize = 0x20000;
 	demobuffer.Resize(maxdemosize);
-	demorecording = true; 
+	demorecording = true;
 }
 
 
@@ -2663,7 +2663,7 @@ void G_BeginRecording (const char *startmap)
 
 	if (startmap == NULL)
 	{
-		startmap = primaryLevel->MapName.GetChars();
+		startmap = primaryLevel->MapName.c_str();
 	}
 	demo_p = TArrayView(demobuffer.Data(), demobuffer.Size());
 
@@ -2907,7 +2907,7 @@ bool G_ProcessIFFDemo (FString &mapname)
 		int r = uncompress (uncompressed.Data(), &uncompSize, demo_p.Data(), uLong(zdembodyend - demo_p.Data()));
 		if (r != Z_OK)
 		{
-			Printf ("Could not decompress demo! %s\n", M_ZLibError(r).GetChars());
+			Printf ("Could not decompress demo! %s\n", M_ZLibError(r).c_str());
 			return true;
 		}
 		zdembodyend = uncompressed.Data() + uncompSize;
@@ -2926,7 +2926,7 @@ void G_DoPlayDemo (void)
 	gameaction = ga_nothing;
 
 	// [RH] Allow for demos not loaded as lumps
-	demolump = fileSystem.CheckNumForFullName (defdemoname.GetChars(), true);
+	demolump = fileSystem.CheckNumForFullName (defdemoname.c_str(), true);
 	if (demolump >= 0)
 	{
 		size_t demolen = fileSystem.FileLength (demolump);
@@ -2938,20 +2938,20 @@ void G_DoPlayDemo (void)
 		FixPathSeperator (defdemoname);
 		DefaultExtension (defdemoname, ".lmp");
 		FileReader fr;
-		if (!fr.OpenFile(defdemoname.GetChars()))
+		if (!fr.OpenFile(defdemoname.c_str()))
 		{
-			I_Error("Unable to open demo '%s'", defdemoname.GetChars());
+			I_Error("Unable to open demo '%s'", defdemoname.c_str());
 		}
 		size_t demolen = fr.GetLength();
 		demobuffer.Resize(demolen);
 		if (fr.Read(demobuffer.Data(), demolen) != demolen)
 		{
-			I_Error("Unable to read demo '%s'", defdemoname.GetChars());
+			I_Error("Unable to read demo '%s'", defdemoname.c_str());
 		}
 	}
 	demo_p = TArrayView(demobuffer.Data(), demobuffer.Size());
 
-	if (singledemo) Printf ("Playing demo %s\n", defdemoname.GetChars());
+	if (singledemo) Printf ("Playing demo %s\n", defdemoname.c_str());
 
 	C_BackupCVars ();		// [RH] Save cvars that might be affected by demo
 
@@ -2980,12 +2980,12 @@ void G_DoPlayDemo (void)
 	}
 	else
 	{
-		// don't spend a lot of time in loadlevel 
+		// don't spend a lot of time in loadlevel
 		precache = false;
 		demonew = true;
 		if (mapname.Len() != 0)
 		{
-			G_InitNew (mapname.GetChars(), false);
+			G_InitNew (mapname.c_str(), false);
 		}
 		else if (primaryLevel->sectors.Size() == 0)
 		{
@@ -3076,10 +3076,10 @@ bool G_CheckDemoStatus (void)
 		}
 		else
 		{
-			D_AdvanceDemo (); 
+			D_AdvanceDemo ();
 		}
 
-		return true; 
+		return true;
 	}
 
 	if (demorecording)
@@ -3107,25 +3107,25 @@ bool G_CheckDemoStatus (void)
 		uint8_t* formlen = demobuffer.Data() + 4;
 		UncheckedWriteInt32 (int(demo_p.Data() - demobuffer.Data() - 8), &formlen);
 
-		auto fw = FileWriter::Open(demoname.GetChars());
+		auto fw = FileWriter::Open(demoname.c_str());
 		bool saved = false;
 		if (fw != nullptr)
 		{
 			const size_t size = demo_p.Data() - demobuffer.Data();
 			saved = fw->Write(demobuffer.Data(), size) == size;
 			delete fw;
-			if (!saved) RemoveFile(demoname.GetChars());
+			if (!saved) RemoveFile(demoname.c_str());
 		}
 		demobuffer.Reset();
 		demorecording = false;
 		stoprecording = false;
 		if (saved)
 		{
-			Printf ("Demo %s recorded\n", demoname.GetChars()); 
+			Printf ("Demo %s recorded\n", demoname.c_str());
 		}
 		else
 		{
-			Printf ("Demo %s could not be saved\n", demoname.GetChars());
+			Printf ("Demo %s could not be saved\n", demoname.c_str());
 		}
 	}
 

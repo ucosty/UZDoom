@@ -518,7 +518,7 @@ static void SaveGains()
 {
 	auto path = M_GetAppDataPath(true);
 	path << "/replaygain.ini";
-	FConfigFile gains(path.GetChars());
+	FConfigFile gains(path.c_str());
 	TMap<FString, float>::Iterator it(gainMap);
 	TMap<FString, float>::Pair* pair;
 
@@ -526,7 +526,7 @@ static void SaveGains()
 	{
 		while (it.NextPair(pair))
 		{
-			gains.SetValueForKey(pair->Key.GetChars(), std::to_string(pair->Value).c_str());
+			gains.SetValueForKey(pair->Key.c_str(), std::to_string(pair->Value).c_str());
 		}
 	}
 	gains.WriteConfigFile();
@@ -539,7 +539,7 @@ static void ReadGains()
 	done = true;
 	auto path = M_GetAppDataPath(true);
 	path << "/replaygain.ini";
-	FConfigFile gains(path.GetChars());
+	FConfigFile gains(path.c_str());
 	if (gains.SetSection("Gains"))
 	{
 		const char* key;
@@ -681,7 +681,7 @@ static void CheckReplayGain(const char *musicname, EMidiDevice playertype, const
 		if (result == GAIN_ANALYSIS_OK)
 		{
 			auto gain = analyzer->GetTitleGain();
-			Printf("Calculated replay gain for %s (%s) at %f dB\n", musicname, hash.GetChars(), gain);
+			Printf("Calculated replay gain for %s (%s) at %f dB\n", musicname, hash.c_str(), gain);
 
 			gainMap.Insert(hash, gain);
 			mus_playing.musicVolume = dBToAmplitude(gain);
@@ -703,7 +703,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 	if (mus_cb.LookupFileName)
 	{
 		musicname_ = mus_cb.LookupFileName(musicname, order);
-		musicname = musicname_.GetChars();
+		musicname = musicname_.c_str();
 	}
 
 	if (musicname == nullptr || musicname[0] == 0)
@@ -731,7 +731,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 		{
 			if (!ZMusic_Start(mus_playing.handle, order, looping))
 			{
-				Printf("Unable to start %s: %s\n", mus_playing.name.GetChars(), ZMusic_GetLastError());
+				Printf("Unable to start %s: %s\n", mus_playing.name.c_str(), ZMusic_GetLastError());
 			}
 			S_CreateStream();
 
@@ -785,7 +785,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 		}
 		else
 		{
-			CheckReplayGain(musicname, devp ? (EMidiDevice)devp->device : MDEV_DEFAULT, devp ? devp->args.GetChars() : "");
+			CheckReplayGain(musicname, devp ? (EMidiDevice)devp->device : MDEV_DEFAULT, devp ? devp->args.c_str() : "");
 		}
 		auto mreader = GetMusicReader(reader);	// this passes the file reader to the newly created wrapper.
 		int mod_player = mplay? *mplay : *mod_preferred_player;
@@ -794,10 +794,10 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 		// This config var is only effective when opening a music stream so there's no need for active synchronization. Setting it here is sufficient.
 		// Ideally this should have been a parameter to ZMusic_OpenSong, but that would have necessitated an API break.
 		ChangeMusicSettingInt(zmusic_mod_preferredplayer, mus_playing.handle, mod_player, &scratch);
-		mus_playing.handle = ZMusic_OpenSong(mreader, devp ? (EMidiDevice)devp->device : MDEV_DEFAULT, devp ? devp->args.GetChars() : "");
+		mus_playing.handle = ZMusic_OpenSong(mreader, devp ? (EMidiDevice)devp->device : MDEV_DEFAULT, devp ? devp->args.c_str() : "");
 		if (mus_playing.handle == nullptr)
 		{
-			Printf("Unable to load %s: %s\n", mus_playing.name.GetChars(), ZMusic_GetLastError());
+			Printf("Unable to load %s: %s\n", mus_playing.name.c_str(), ZMusic_GetLastError());
 		}
 	}
 
@@ -810,7 +810,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 	{ // play it
 		if (!S_StartMusicPlaying(mus_playing.handle, looping, 1.f, order))
 		{
-			Printf("Unable to start %s: %s\n", mus_playing.name.GetChars(), ZMusic_GetLastError());
+			Printf("Unable to start %s: %s\n", mus_playing.name.c_str(), ZMusic_GetLastError());
 			return false;
 		}
 
@@ -834,7 +834,7 @@ void S_RestartMusic ()
 	{
 		FString song = mus_playing.LastSong;
 		mus_playing.LastSong = "";
-		S_ChangeMusic (song.GetChars(), mus_playing.baseorder, mus_playing.loop, true);
+		S_ChangeMusic (song.c_str(), mus_playing.baseorder, mus_playing.loop, true);
 	}
 	else
 	{
@@ -857,7 +857,7 @@ void S_MIDIDeviceChanged(int newdev)
 		// Reload the song to change the device
 		auto mi = mus_playing;
 		S_StopMusic(true);
-		S_ChangeMusic(mi.name.GetChars(), mi.baseorder, mi.loop);
+		S_ChangeMusic(mi.name.c_str(), mi.baseorder, mi.loop);
 	}
 }
 
@@ -873,7 +873,7 @@ int S_GetMusic (const char **name)
 
 	if (mus_playing.name.IsNotEmpty())
 	{
-		*name = mus_playing.name.GetChars();
+		*name = mus_playing.name.c_str();
 		order = mus_playing.baseorder;
 	}
 	else
@@ -939,7 +939,7 @@ CCMD (changemus)
 		}
 		else
 		{
-			const char *currentmus = mus_playing.name.GetChars();
+			const char *currentmus = mus_playing.name.c_str();
 			if(currentmus != nullptr && *currentmus != 0)
 			{
 				Printf ("currently playing %s\n", currentmus);
@@ -1090,7 +1090,7 @@ CCMD(currentmusic)
 {
 	if (mus_playing.name.IsNotEmpty())
 	{
-		Printf("Currently playing music '%s'\n", mus_playing.name.GetChars());
+		Printf("Currently playing music '%s'\n", mus_playing.name.c_str());
 	}
 	else
 	{

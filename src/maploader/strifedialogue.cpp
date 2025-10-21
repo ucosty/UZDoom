@@ -109,7 +109,7 @@ void MapLoader::LoadStrifeConversations (MapData *map, const char *mapname)
 		bool addedDialogues = false;
 		for (const FString &addd : gameinfo.AddDialogues)
 		{
-			if (!LoadScriptFile(addd.GetChars(), true, 0))
+			if (!LoadScriptFile(addd.c_str(), true, 0))
 			{
 				continue;
 			}
@@ -133,7 +133,7 @@ void MapLoader::LoadStrifeConversations (MapData *map, const char *mapname)
 
 		if (gameinfo.Dialogue.IsNotEmpty())
 		{
-			if (LoadScriptFile(gameinfo.Dialogue.GetChars(), false, 0))
+			if (LoadScriptFile(gameinfo.Dialogue.c_str(), false, 0))
 			{
 				if (addedDialogues)
 				{
@@ -304,8 +304,8 @@ FStrifeDialogueNode *MapLoader::ReadRetailNode (const char *name, FileReader &lu
 
 	if (name && strncmp(speech.Dialogue, "RANDOM_", 7))
 	{
-		FStringf label("$TXT_DLG_%s_d%d_%s", name, int(pos), TokenFromString(speech.Dialogue).GetChars());
-		node->Dialogue = GStrings.exists(label.GetChars()+1)? label : FString(speech.Dialogue);
+		FStringf label("$TXT_DLG_%s_d%d_%s", name, int(pos), TokenFromString(speech.Dialogue).c_str());
+		node->Dialogue = GStrings.exists(label.c_str()+1)? label : FString(speech.Dialogue);
 	}
 	else
 	{
@@ -328,8 +328,8 @@ FStrifeDialogueNode *MapLoader::ReadRetailNode (const char *name, FileReader &lu
 		FString label = speech.Name;
 		label.ReplaceChars(' ', '_');
 		label.ReplaceChars('\'', '_');
-		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.GetChars());
-		if (!GStrings.exists(node->SpeakerName.GetChars() + 1)) node->SpeakerName = speech.Name;
+		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.c_str());
+		if (!GStrings.exists(node->SpeakerName.c_str() + 1)) node->SpeakerName = speech.Name;
 
 	}
 	else
@@ -400,8 +400,8 @@ FStrifeDialogueNode *MapLoader::ReadTeaserNode (const char *name, FileReader &lu
 	// Convert the rest of the data to our own internal format.
 	if (name && strncmp(speech.Dialogue, "RANDOM_", 7))
 	{
-		FStringf label("$TXT_DLG_%s_d%d_%s", name, pos, TokenFromString(speech.Dialogue).GetChars());
-		node->Dialogue = GStrings.exists(label.GetChars() + 1)? label : FString(speech.Dialogue);
+		FStringf label("$TXT_DLG_%s_d%d_%s", name, pos, TokenFromString(speech.Dialogue).c_str());
+		node->Dialogue = GStrings.exists(label.c_str() + 1)? label : FString(speech.Dialogue);
 	}
 	else
 	{
@@ -429,8 +429,8 @@ FStrifeDialogueNode *MapLoader::ReadTeaserNode (const char *name, FileReader &lu
 		FString label = speech.Name;
 		label.ReplaceChars(' ', '_');
 		label.ReplaceChars('\'', '_');
-		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.GetChars());
-		if (!GStrings.exists(node->SpeakerName.GetChars() + 1)) node->SpeakerName = speech.Name;
+		node->SpeakerName.Format("$TXT_SPEAKER_%s", label.c_str());
+		if (!GStrings.exists(node->SpeakerName.c_str() + 1)) node->SpeakerName = speech.Name;
 	}
 	else
 	{
@@ -526,8 +526,8 @@ void MapLoader::ParseReplies (const char *name, int pos, FStrifeDialogueReply **
 
 		if (name)
 		{
-			FStringf label("$TXT_RPLY%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->Reply).GetChars());
-			reply->Reply = GStrings.exists(label.GetChars() + 1)? label : FString(rsp->Reply);
+			FStringf label("$TXT_RPLY%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->Reply).c_str());
+			reply->Reply = GStrings.exists(label.c_str() + 1)? label : FString(rsp->Reply);
 		}
 		else
 		{
@@ -550,8 +550,8 @@ void MapLoader::ParseReplies (const char *name, int pos, FStrifeDialogueReply **
 		{
 			if (name)
 			{
-				FStringf label("$TXT_RYES%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->Yes).GetChars());
-				reply->QuickYes = GStrings.exists(label.GetChars() + 1)? label : FString(rsp->Yes);
+				FStringf label("$TXT_RYES%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->Yes).c_str());
+				reply->QuickYes = GStrings.exists(label.c_str() + 1)? label : FString(rsp->Yes);
 			}
 			else
 			{
@@ -560,8 +560,8 @@ void MapLoader::ParseReplies (const char *name, int pos, FStrifeDialogueReply **
 		}
 		if (reply->ItemCheck[0].Item != 0)
 		{
-			FStringf label("$TXT_RNO%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->No).GetChars());
-			reply->QuickNo = GStrings.exists(label.GetChars() + 1)? label : FString(rsp->No);
+			FStringf label("$TXT_RNO%d_%s_d%d_%s", j, name, pos, TokenFromString(rsp->No).c_str());
+			reply->QuickNo = GStrings.exists(label.c_str() + 1)? label : FString(rsp->No);
 		}
 		else
 		{

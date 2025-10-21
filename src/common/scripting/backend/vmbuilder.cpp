@@ -826,7 +826,7 @@ VMFunction *FFunctionBuildList::AddFunction(PNamespace *gnspc, const VersionInfo
 	it.PrintableName = name;
 	it.Function = new VMScriptFunction;
 	it.Function->Name = functype->SymbolName;
-	it.Function->QualifiedName = it.Function->PrintableName = ClassDataAllocator.Strdup(name.GetChars());
+	it.Function->QualifiedName = it.Function->PrintableName = ClassDataAllocator.Strdup(name.c_str());
 	it.Function->ImplicitArgs = functype->GetImplicitArgs();
 	it.Proto = nullptr;
 	it.FromDecorate = fromdecorate;
@@ -902,7 +902,7 @@ void FFunctionBuildList::Build()
 				}
 				else
 				{
-					item.Code->ScriptPosition.Message(MSG_ERROR, "Missing return statement in %s", item.PrintableName.GetChars());
+					item.Code->ScriptPosition.Message(MSG_ERROR, "Missing return statement in %s", item.PrintableName.c_str());
 					continue;
 				}
 			}
@@ -910,7 +910,7 @@ void FFunctionBuildList::Build()
 			item.Proto = ctx.ReturnProto;
 			if (item.Proto == nullptr)
 			{
-				item.Code->ScriptPosition.Message(MSG_ERROR, "Function %s without prototype", item.PrintableName.GetChars());
+				item.Code->ScriptPosition.Message(MSG_ERROR, "Function %s without prototype", item.PrintableName.c_str());
 				continue;
 			}
 
@@ -964,7 +964,7 @@ void FFunctionBuildList::Build()
 			catch (CRecoverableError &err)
 			{
 				// catch errors from the code generator and pring something meaningful.
-				item.Code->ScriptPosition.Message(MSG_ERROR, "%s in %s", err.GetMessage(), item.PrintableName.GetChars());
+				item.Code->ScriptPosition.Message(MSG_ERROR, "%s in %s", err.GetMessage(), item.PrintableName.c_str());
 			}
 		}
 		delete item.Code;
@@ -1232,7 +1232,7 @@ void VMDisassemblyDumper::Write(VMScriptFunction *sfunc, const FString &fname)
 
 		assert(sfunc != nullptr);
 
-		DumpFunction(dump, sfunc, fname.GetChars(), (int)fname.Len());
+		DumpFunction(dump, sfunc, fname.c_str(), (int)fname.Len());
 		codesize += sfunc->CodeSize;
 		datasize += sfunc->LineInfoCount * sizeof(FStatementInfo) + sfunc->ExtraSpace + sfunc->NumKonstD * sizeof(int) +
 			sfunc->NumKonstA * sizeof(void*) + sfunc->NumKonstF * sizeof(double) + sfunc->NumKonstS * sizeof(FString);

@@ -1081,7 +1081,7 @@ FUNC(LS_Generic_Lift)
 FUNC(LS_Exit_Normal)
 // Exit_Normal (position)
 {
-	if (Level->CheckIfExitIsGood (it, FindLevelInfo(Level->NextMap.GetChars())))
+	if (Level->CheckIfExitIsGood (it, FindLevelInfo(Level->NextMap.c_str())))
 	{
 		Level->ExitLevel (arg0, false);
 		return true;
@@ -1109,7 +1109,7 @@ FUNC(LS_Teleport_NewMap)
 
 		if (info && Level->CheckIfExitIsGood (it, info))
 		{
-			Level->ChangeLevel(info->MapName.GetChars(), arg1, arg2 ? CHANGELEVEL_KEEPFACING : 0);
+			Level->ChangeLevel(info->MapName.c_str(), arg1, arg2 ? CHANGELEVEL_KEEPFACING : 0);
 			return true;
 		}
 	}
@@ -1926,11 +1926,11 @@ FUNC(LS_ACS_Execute)
 
 	if (arg1 == 0)
 	{
-		mapname = Level->MapName.GetChars();
+		mapname = Level->MapName.c_str();
 	}
 	else if ((info = FindLevelByNum(arg1)) != NULL)
 	{
-		mapname = info->MapName.GetChars();
+		mapname = info->MapName.c_str();
 	}
 	else
 	{
@@ -1949,11 +1949,11 @@ FUNC(LS_ACS_ExecuteAlways)
 
 	if (arg1 == 0)
 	{
-		mapname = Level->MapName.GetChars();
+		mapname = Level->MapName.c_str();
 	}
 	else if ((info = FindLevelByNum(arg1)) != NULL)
 	{
-		mapname = info->MapName.GetChars();
+		mapname = info->MapName.c_str();
 	}
 	else
 	{
@@ -1989,7 +1989,7 @@ FUNC(LS_ACS_ExecuteWithResult)
 	int args[4] = { arg1, arg2, arg3, arg4 };
 	int flags = (backSide ? ACS_BACKSIDE : 0) | ACS_ALWAYS | ACS_WANTRESULT;
 
-	return P_StartScript (Level, it, ln, arg0, Level->MapName.GetChars(), args, 4, flags);
+	return P_StartScript (Level, it, ln, arg0, Level->MapName.c_str(), args, 4, flags);
 }
 
 FUNC(LS_ACS_Suspend)
@@ -1998,9 +1998,9 @@ FUNC(LS_ACS_Suspend)
 	level_info_t *info;
 
 	if (arg1 == 0)
-		P_SuspendScript (Level, arg0, Level->MapName.GetChars());
+		P_SuspendScript (Level, arg0, Level->MapName.c_str());
 	else if ((info = FindLevelByNum (arg1)) )
-		P_SuspendScript (Level, arg0, info->MapName.GetChars());
+		P_SuspendScript (Level, arg0, info->MapName.c_str());
 
 	return true;
 }
@@ -2011,9 +2011,9 @@ FUNC(LS_ACS_Terminate)
 	level_info_t *info;
 
 	if (arg1 == 0)
-		P_TerminateScript (Level, arg0, Level->MapName.GetChars());
+		P_TerminateScript (Level, arg0, Level->MapName.c_str());
 	else if ((info = FindLevelByNum (arg1)) )
-		P_TerminateScript (Level, arg0, info->MapName.GetChars());
+		P_TerminateScript (Level, arg0, info->MapName.c_str());
 
 	return true;
 }
@@ -3249,7 +3249,7 @@ FUNC(LS_SendToCommunicator)
 			// Get the message from the LANGUAGE lump.
 			FString msg;
 			msg.Format("TXT_COMM%d", arg2);
-			const char *str = GStrings.CheckString(msg.GetChars());
+			const char *str = GStrings.CheckString(msg.c_str());
 			if (str != NULL)
 			{
 				Printf (PRINT_CHAT, "%s\n", str);

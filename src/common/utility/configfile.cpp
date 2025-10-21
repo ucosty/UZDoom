@@ -85,7 +85,7 @@ FConfigFile::FConfigFile (const FConfigFile &other)
 	Sections = CurrentSection = NULL;
 	LastSectionPtr = &Sections;
 	CurrentEntry = NULL;
-	ChangePathName (other.PathName.GetChars());
+	ChangePathName (other.PathName.c_str());
 	*this = other;
 	OkayToWrite = other.OkayToWrite;
 	FileExisted = other.FileExisted;
@@ -134,7 +134,7 @@ FConfigFile &FConfigFile::operator = (const FConfigFile &other)
 	while (fromsection != NULL)
 	{
 		fromentry = fromsection->RootEntry;
-		tosection = NewConfigSection (fromsection->SectionName.GetChars());
+		tosection = NewConfigSection (fromsection->SectionName.c_str());
 		while (fromentry != NULL)
 		{
 			NewConfigEntry (tosection, fromentry->Key, fromentry->Value);
@@ -305,7 +305,7 @@ const char *FConfigFile::GetCurrentSection () const
 {
 	if (CurrentSection != NULL)
 	{
-		return CurrentSection->SectionName.GetChars();
+		return CurrentSection->SectionName.c_str();
 	}
 	return NULL;
 }
@@ -602,7 +602,7 @@ void FConfigFile::LoadConfigFile ()
 	bool succ;
 
 	FileExisted = false;
-	if (!file.OpenFile (PathName.GetChars()))
+	if (!file.OpenFile (PathName.c_str()))
 	{
 		return;
 	}
@@ -739,7 +739,7 @@ FConfigFile::FConfigEntry *FConfigFile::ReadMultiLineValue(FileReader *file, FCo
 		// Append this line to the value.
 		value << readbuf;
 	}
-	return NewConfigEntry(section, key, value.GetChars());
+	return NewConfigEntry(section, key, value.c_str());
 }
 
 //====================================================================
@@ -787,7 +787,7 @@ bool FConfigFile::WriteConfigFile () const
 		return true;
 	}
 
-	FileWriter *file = FileWriter::Open (PathName.GetChars());
+	FileWriter *file = FileWriter::Open (PathName.c_str());
 	FConfigSection *section;
 	FConfigEntry *entry;
 
@@ -802,9 +802,9 @@ bool FConfigFile::WriteConfigFile () const
 		entry = section->RootEntry;
 		if (section->Note.IsNotEmpty())
 		{
-			file->Write (section->Note.GetChars(), section->Note.Len());
+			file->Write (section->Note.c_str(), section->Note.Len());
 		}
-		file->Printf ("[%s]\n", section->SectionName.GetChars());
+		file->Printf ("[%s]\n", section->SectionName.c_str());
 		while (entry != NULL)
 		{
 			if (strpbrk(entry->Value, "\r\n") == NULL)

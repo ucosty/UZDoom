@@ -48,7 +48,7 @@ FString FStringFormat(VM_ARGS, int offset)
 	PARAM_VA_POINTER(va_reginfo)	// Get the hidden type information array
 	assert(va_reginfo[offset] == REGT_STRING);
 
-	FString fmtstring = param[offset].s().GetChars();
+	FString fmtstring = param[offset].s().c_str();
 
 	param += offset;
 	numparam -= offset;
@@ -87,7 +87,7 @@ FString FStringFormat(VM_ARGS, int offset)
 				if (!haveargnums && argauto > 1)
 					ThrowAbortException(X_FORMAT_ERROR, "Cannot mix explicit and implicit arguments.");
 				FString argnumstr = fmt_current.Mid(1);
-				if (!argnumstr.IsInt()) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for argument number, got '%s'.", argnumstr.GetChars());
+				if (!argnumstr.IsInt()) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for argument number, got '%s'.", argnumstr.c_str());
 				auto argnum64 = argnumstr.ToLong();
 				if (argnum64 < 1 || argnum64 >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format (tried to access argument %d, %d total).", argnum64, numparam);
 				fmt_current = "%";
@@ -108,9 +108,9 @@ FString FStringFormat(VM_ARGS, int offset)
 					in_fmt = false;
 					// fail if something was found, but it's not a string
 					if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
-					if (va_reginfo[argnum] != REGT_STRING) ThrowAbortException(X_FORMAT_ERROR, "Expected a string for format %s.", fmt_current.GetChars());
+					if (va_reginfo[argnum] != REGT_STRING) ThrowAbortException(X_FORMAT_ERROR, "Expected a string for format %s.", fmt_current.c_str());
 					// append
-					output.AppendFormat(fmt_current.GetChars(), param[argnum].s().GetChars());
+					output.AppendFormat(fmt_current.c_str(), param[argnum].s().c_str());
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
 					break;
@@ -124,9 +124,9 @@ FString FStringFormat(VM_ARGS, int offset)
 					in_fmt = false;
 					// fail if something was found, but it's not a string
 					if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
-					if (va_reginfo[argnum] != REGT_POINTER) ThrowAbortException(X_FORMAT_ERROR, "Expected a pointer for format %s.", fmt_current.GetChars());
+					if (va_reginfo[argnum] != REGT_POINTER) ThrowAbortException(X_FORMAT_ERROR, "Expected a pointer for format %s.", fmt_current.c_str());
 					// append
-					output.AppendFormat(fmt_current.GetChars(), param[argnum].a);
+					output.AppendFormat(fmt_current.c_str(), param[argnum].a);
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
 					break;
@@ -151,11 +151,11 @@ FString FStringFormat(VM_ARGS, int offset)
 						// fail if something was found, but it's not an int
 						if (argnum+1 >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 						if (va_reginfo[argnum] != REGT_INT &&
-							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
+							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 						if (va_reginfo[argnum+1] != REGT_INT &&
-							va_reginfo[argnum+1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
+							va_reginfo[argnum+1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 
-						output.AppendFormat(fmt_current.GetChars(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToInt(va_reginfo[argnum + 1]));
+						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToInt(va_reginfo[argnum + 1]));
 						argauto++;
 					}
 					else
@@ -163,8 +163,8 @@ FString FStringFormat(VM_ARGS, int offset)
 						// fail if something was found, but it's not an int
 						if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 						if (va_reginfo[argnum] != REGT_INT &&
-							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
-						output.AppendFormat(fmt_current.GetChars(), param[argnum].ToInt(va_reginfo[argnum]));
+							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
+						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]));
 					}
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
@@ -189,11 +189,11 @@ FString FStringFormat(VM_ARGS, int offset)
 						// fail if something was found, but it's not an int
 						if (argnum + 1 >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 						if (va_reginfo[argnum] != REGT_INT &&
-							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
+							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 						if (va_reginfo[argnum + 1] != REGT_INT &&
-							va_reginfo[argnum + 1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
+							va_reginfo[argnum + 1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 
-						output.AppendFormat(fmt_current.GetChars(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToDouble(va_reginfo[argnum + 1]));
+						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToDouble(va_reginfo[argnum + 1]));
 						argauto++;
 					}
 					else
@@ -201,9 +201,9 @@ FString FStringFormat(VM_ARGS, int offset)
 						// fail if something was found, but it's not a float
 						if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 						if (va_reginfo[argnum] != REGT_INT &&
-							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.GetChars());
+							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 						// append
-						output.AppendFormat(fmt_current.GetChars(), param[argnum].ToDouble(va_reginfo[argnum]));
+						output.AppendFormat(fmt_current.c_str(), param[argnum].ToDouble(va_reginfo[argnum]));
 					}
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
@@ -408,13 +408,13 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, ByteAt, StringByteAt)
 
 static void StringFilter(FString *self, FString *result)
 {
-	*result = strbin1(self->GetChars());
+	*result = strbin1(self->c_str());
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, Filter, StringFilter)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(FString);
-	ACTION_RETURN_STRING(strbin1(self->GetChars()));
+	ACTION_RETURN_STRING(strbin1(self->c_str()));
 }
 
 static int StringIndexOf(FString *self, const FString &substr, int startIndex)

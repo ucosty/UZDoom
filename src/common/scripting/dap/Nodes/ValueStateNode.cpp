@@ -58,7 +58,7 @@ dap::Variable ValueStateNode::ToVariable(const VMValue &m_variable, PType *m_typ
 		if (IsVMValueValid(&m_variable))
 		{
 			const FString &str = m_variable.s();
-			auto chars = isFStringValid(str) ? str.GetChars() : nullptr;
+			auto chars = isFStringValid(str) ? str.c_str() : nullptr;
 			variable.value = !chars? "\"\"" : StringFormat("\"%s\"", chars);
 		}
 		else
@@ -76,7 +76,7 @@ dap::Variable ValueStateNode::ToVariable(const VMValue &m_variable, PType *m_typ
 		}
 		else if (m_type->isFunctionPointer())
 		{
-			variable.type = PType::toFunctionPointer(m_type)->mDescriptiveName.GetChars();
+			variable.type = PType::toFunctionPointer(m_type)->mDescriptiveName.c_str();
 			if (IsVMValueValid(&m_variable))
 			{
 
@@ -165,7 +165,7 @@ dap::Variable ValueStateNode::ToVariable(const VMValue &m_variable, PType *m_typ
 			int *val_ptr = &val;
 			FTextureID textureID = *reinterpret_cast<FTextureID *>(val_ptr);
 			FGameTexture *gameTexture = TexMan.GetGameTexture(textureID);
-			const char *tex_name = gameTexture ? gameTexture->GetName().GetChars() : "<INVALID>";
+			const char *tex_name = gameTexture ? gameTexture->GetName().c_str() : "<INVALID>";
 			variable.value = StringFormat("TextureID# %d (%s)", m_variable.i, tex_name);
 		}
 		else if (m_type == TypeTranslationID)

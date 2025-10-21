@@ -502,11 +502,11 @@ class USDFParser : public UDMFParserBase
 				{
 					key.ToLower();
 					if (nameToIndex.CheckKey(key))
-						Printf("Warning! Duplicate page name '%s'!\n", dialogues[i]->ThisNodeName.GetChars());
+						Printf("Warning! Duplicate page name '%s'!\n", dialogues[i]->ThisNodeName.c_str());
 					else
 					{
 						nameToIndex[key] = i - startpos;
-						DPrintf(DMSG_NOTIFY, "GZSDF linker: Assigning pagename '%s' to node %i\n", key.GetChars(), i);
+						DPrintf(DMSG_NOTIFY, "GZSDF linker: Assigning pagename '%s' to node %i\n", key.c_str(), i);
 					}
 				}
 			}
@@ -522,10 +522,10 @@ class USDFParser : public UDMFParserBase
 						if (nameToIndex.CheckKey(itemLinkKey))
 						{
 							dialogues[i]->ItemCheckNode = nameToIndex[itemLinkKey] + 1;
-							DPrintf(DMSG_NOTIFY, "GZSDF linker: Item Link '%s' in node %i was index %i\n", itemLinkKey.GetChars(), i, nameToIndex[itemLinkKey]);
+							DPrintf(DMSG_NOTIFY, "GZSDF linker: Item Link '%s' in node %i was index %i\n", itemLinkKey.c_str(), i, nameToIndex[itemLinkKey]);
 						}
 						else
-							Printf("Warning! Reference to non-existent item-linked dialogue page name '%s' in page %i!\n", dialogues[i]->ItemCheckNodeName.GetChars(), i);
+							Printf("Warning! Reference to non-existent item-linked dialogue page name '%s' in page %i!\n", dialogues[i]->ItemCheckNodeName.c_str(), i);
 					}
 
 					FStrifeDialogueReply *NodeCheck = dialogues[i]->Children;
@@ -538,10 +538,10 @@ class USDFParser : public UDMFParserBase
 							if (nameToIndex.CheckKey(key))
 							{
 								NodeCheck->NextNode = nameToIndex[key] + 1;
-								DPrintf(DMSG_NOTIFY, "GZSDF linker: Nextpage Link '%s' in node %i was index %i\n", key.GetChars(), i, nameToIndex[key]);
+								DPrintf(DMSG_NOTIFY, "GZSDF linker: Nextpage Link '%s' in node %i was index %i\n", key.c_str(), i, nameToIndex[key]);
 							}
 							else
-								Printf("Warning! Reference to non-existent reply-linked dialogue page name '%s' in page %i!\n", NodeCheck->NextNodeName.GetChars(), i);
+								Printf("Warning! Reference to non-existent reply-linked dialogue page name '%s' in page %i!\n", NodeCheck->NextNodeName.c_str(), i);
 						}
 						NodeCheck = NodeCheck->Next;
 					}

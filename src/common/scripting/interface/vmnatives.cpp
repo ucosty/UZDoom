@@ -149,7 +149,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DStatusBarCore, DrawTexture, SBar_DrawTexture)
 void SBar_DrawImage(DStatusBarCore* self, const FString& texid, double x, double y, int flags, double alpha, double w, double h, double scaleX, double scaleY, int style, int color, int translation, double clipwidth)
 {
 	if (!twod->HasBegun2D()) ThrowAbortException(X_OTHER, "Attempt to draw to screen outside a draw function");
-	self->DrawGraphic(TexMan.CheckForTexture(texid.GetChars(), ETextureType::Any), x, y, flags, alpha, w, h, scaleX, scaleY, ERenderStyle(style), color, translation, clipwidth);
+	self->DrawGraphic(TexMan.CheckForTexture(texid.c_str(), ETextureType::Any), x, y, flags, alpha, w, h, scaleX, scaleY, ERenderStyle(style), color, translation, clipwidth);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(DStatusBarCore, DrawImage, SBar_DrawImage)
@@ -175,7 +175,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DStatusBarCore, DrawImage, SBar_DrawImage)
 void SBar_DrawImageRotated(DStatusBarCore* self, const FString& texid, double x, double y, int flags, double angle, double alpha, double scaleX, double scaleY, int style, int color, int translation)
 {
 	if (!twod->HasBegun2D()) ThrowAbortException(X_OTHER, "Attempt to draw to screen outside a draw function");
-	self->DrawRotated(TexMan.CheckForTexture(texid.GetChars(), ETextureType::Any), x, y, flags, angle, alpha, scaleX, scaleY, color, translation, (ERenderStyle)style);
+	self->DrawRotated(TexMan.CheckForTexture(texid.c_str(), ETextureType::Any), x, y, flags, angle, alpha, scaleX, scaleY, color, translation, (ERenderStyle)style);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(DStatusBarCore, DrawImageRotated, SBar_DrawImageRotated)
@@ -434,7 +434,7 @@ DEFINE_ACTION_FUNCTION(_TexMan, GetName)
 
 static int CheckForTexture(const FString& name, int type, int flags)
 {
-	return TexMan.CheckForTexture(name.GetChars(), static_cast<ETextureType>(type), flags).GetIndex();
+	return TexMan.CheckForTexture(name.c_str(), static_cast<ETextureType>(type), flags).GetIndex();
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_TexMan, CheckForTexture, CheckForTexture)
@@ -561,7 +561,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_TexMan, CheckRealHeight, CheckRealHeight)
 
 static int OkForLocalization_(int index, const FString& substitute)
 {
-	return sysCallbacks.OkForLocalization? sysCallbacks.OkForLocalization(FSetTextureID(index), substitute.GetChars()) : false;
+	return sysCallbacks.OkForLocalization? sysCallbacks.OkForLocalization(FSetTextureID(index), substitute.c_str()) : false;
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_TexMan, OkForLocalization, OkForLocalization_)
@@ -670,7 +670,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FFont, GetBottomAlignOffset, GetBottomAlignOffset)
 
 static int StringWidth(FFont *font, const FString &str, int localize)
 {
-	const char *txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.GetChars();
+	const char *txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.c_str();
 	return font->StringWidth(txt);
 }
 
@@ -684,7 +684,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FFont, StringWidth, StringWidth)
 
 static int GetMaxAscender(FFont* font, const FString& str, int localize)
 {
-	const char* txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.GetChars();
+	const char* txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.c_str();
 	return font->GetMaxAscender(txt);
 }
 
@@ -698,7 +698,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FFont, GetMaxAscender, GetMaxAscender)
 
 static int CanPrint(FFont *font, const FString &str, int localize)
 {
-	const char *txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.GetChars();
+	const char *txt = (localize && str[0] == '$') ? GStrings.GetString(&str[1]) : str.c_str();
 	return font->CanPrint(txt);
 }
 
@@ -809,14 +809,14 @@ DEFINE_ACTION_FUNCTION(_Wads, CheckNumForName)
 	PARAM_INT(ns);
 	PARAM_INT(wadnum);
 	PARAM_BOOL(exact);
-	ACTION_RETURN_INT(fileSystem.CheckNumForName(name.GetChars(), ns, wadnum, exact));
+	ACTION_RETURN_INT(fileSystem.CheckNumForName(name.c_str(), ns, wadnum, exact));
 }
 
 DEFINE_ACTION_FUNCTION(_Wads, CheckNumForFullName)
 {
 	PARAM_PROLOGUE;
 	PARAM_STRING(name);
-	ACTION_RETURN_INT(fileSystem.CheckNumForFullName(name.GetChars()));
+	ACTION_RETURN_INT(fileSystem.CheckNumForFullName(name.c_str()));
 }
 
 DEFINE_ACTION_FUNCTION(_Wads, FindLump)
@@ -826,7 +826,7 @@ DEFINE_ACTION_FUNCTION(_Wads, FindLump)
 	PARAM_INT(startlump);
 	PARAM_INT(ns);
 	const bool isLumpValid = startlump >= 0 && startlump < fileSystem.GetNumEntries();
-	ACTION_RETURN_INT(isLumpValid ? fileSystem.FindLump(name.GetChars(), &startlump, 0 != ns) : -1);
+	ACTION_RETURN_INT(isLumpValid ? fileSystem.FindLump(name.c_str(), &startlump, 0 != ns) : -1);
 }
 
 DEFINE_ACTION_FUNCTION(_Wads, FindLumpFullName)
@@ -836,7 +836,7 @@ DEFINE_ACTION_FUNCTION(_Wads, FindLumpFullName)
 	PARAM_INT(startlump);
 	PARAM_BOOL(noext);
 	const bool isLumpValid = startlump >= 0 && startlump < fileSystem.GetNumEntries();
-	ACTION_RETURN_INT(isLumpValid ? fileSystem.FindLumpFullName(name.GetChars(), &startlump, noext) : -1);
+	ACTION_RETURN_INT(isLumpValid ? fileSystem.FindLumpFullName(name.c_str(), &startlump, noext) : -1);
 }
 
 DEFINE_ACTION_FUNCTION(_Wads, GetLumpName)
@@ -1025,7 +1025,7 @@ DEFINE_ACTION_FUNCTION(_CVar, SetString)
 	}
 	PARAM_STRING(val);
 	UCVarValue v;
-	v.String = val.GetChars();
+	v.String = val.c_str();
 
 	if(self->GetFlags() & CVAR_ZS_CUSTOM_CLONE)
 	{
@@ -1089,11 +1089,11 @@ DEFINE_ACTION_FUNCTION(FKeyBindings, SetBind)
 	// Only menus are allowed to change bindings.
 	if (DMenu::InMenu == 0)
 	{
-		I_FatalError("Attempt to change key bindings outside of menu code to '%s'", cmd.GetChars());
+		I_FatalError("Attempt to change key bindings outside of menu code to '%s'", cmd.c_str());
 	}
 
 
-	self->SetBind(k, cmd.GetChars());
+	self->SetBind(k, cmd.c_str());
 	return 0;
 }
 
@@ -1121,7 +1121,7 @@ DEFINE_ACTION_FUNCTION(FKeyBindings, GetKeysForCommand)
 	PARAM_SELF_STRUCT_PROLOGUE(FKeyBindings);
 	PARAM_STRING(cmd);
 	int k1, k2;
-	self->GetKeysForCommand(cmd.GetChars(), &k1, &k2);
+	self->GetKeysForCommand(cmd.c_str(), &k1, &k2);
 	if (numret > 0) ret[0].SetInt(k1);
 	if (numret > 1) ret[1].SetInt(k2);
 	return min(numret, 2);
@@ -1132,7 +1132,7 @@ DEFINE_ACTION_FUNCTION(FKeyBindings, GetAllKeysForCommand)
 	PARAM_SELF_STRUCT_PROLOGUE(FKeyBindings);
 	PARAM_POINTER(array, TArray<int>);
 	PARAM_STRING(cmd);
-	*array = self->GetKeysForCommand(cmd.GetChars());
+	*array = self->GetKeysForCommand(cmd.c_str());
 	return 0;
 }
 
@@ -1151,10 +1151,10 @@ DEFINE_ACTION_FUNCTION(FKeyBindings, UnbindACommand)
 	// Only menus are allowed to change bindings.
 	if (DMenu::InMenu == 0)
 	{
-		I_FatalError("Attempt to unbind key bindings for '%s' outside of menu code", cmd.GetChars());
+		I_FatalError("Attempt to unbind key bindings for '%s' outside of menu code", cmd.c_str());
 	}
 
-	self->UnbindACommand(cmd.GetChars());
+	self->UnbindACommand(cmd.c_str());
 	return 0;
 }
 
@@ -1168,11 +1168,11 @@ DEFINE_ACTION_FUNCTION(DOptionMenuItemCommand, DoCommand)
 	// Only menus are allowed to execute CCMDs.
 	if (DMenu::InMenu == 0)
 	{
-		I_FatalError("Attempt to execute CCMD '%s' outside of menu code", cmd.GetChars());
+		I_FatalError("Attempt to execute CCMD '%s' outside of menu code", cmd.c_str());
 	}
 
 	UnsafeExecutionScope scope(unsafe);
-	AddCommandString(cmd.GetChars());
+	AddCommandString(cmd.c_str());
 	return 0;
 }
 
@@ -1188,7 +1188,7 @@ DEFINE_ACTION_FUNCTION(_Console, Printf)
 	PARAM_VA_POINTER(va_reginfo)	// Get the hidden type information array
 
 	FString s = FStringFormat(VM_ARGS_NAMES);
-	Printf("%s\n", s.GetChars());
+	Printf("%s\n", s.c_str());
 	return 0;
 }
 
@@ -1200,7 +1200,7 @@ DEFINE_ACTION_FUNCTION(_Console, PrintfEx)
 
 	FString s = FStringFormat(VM_ARGS_NAMES,1);
 
-	Printf(printlevel,"%s\n", s.GetChars());
+	Printf(printlevel,"%s\n", s.c_str());
 	return 0;
 }
 
@@ -1211,7 +1211,7 @@ DEFINE_ACTION_FUNCTION(_Console, DebugPrintf)
 	PARAM_VA_POINTER(va_reginfo);
 
 	FString s = FStringFormat(VM_ARGS_NAMES, 1);
-	DPrintf(debugLevel, "%s\n", s.GetChars());
+	DPrintf(debugLevel, "%s\n", s.c_str());
 	return 0;
 }
 
@@ -1228,7 +1228,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_System, StopAllSounds, StopAllSounds)
 
 static int PlayMusic(const FString& musname, int order, int looped)
 {
-	return S_ChangeMusic(musname.GetChars(), order, !!looped, true);
+	return S_ChangeMusic(musname.c_str(), order, !!looped, true);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_System, PlayMusic, PlayMusic)
@@ -1459,7 +1459,7 @@ public:
 IMPLEMENT_CLASS(DScriptScanner, false, false);
 
 static void OpenLumpNum(DScriptScanner* self, int lump) { return self->wrapped.OpenLumpNum(lump); }
-static void OpenString(DScriptScanner* self, const FString* name, FString* script) { return self->wrapped.OpenString(name->GetChars(), *script); }
+static void OpenString(DScriptScanner* self, const FString* name, FString* script) { return self->wrapped.OpenString(name->c_str(), *script); }
 static void SavePos(DScriptScanner* self, FScanner::SavedPos *pos) { *pos = self->wrapped.SavePos(); }
 static void RestorePos(DScriptScanner* self, const FScanner::SavedPos* pos) { return self->wrapped.RestorePos(*pos); }
 static void GetStringContents(DScriptScanner* self, FString* str) { *str = self->wrapped.String; }
@@ -1471,16 +1471,16 @@ static void SetCMode(DScriptScanner* self, int cmode) { return self->wrapped.Set
 static void SetNoOctals(DScriptScanner* self, int cmode) { return self->wrapped.SetNoOctals(cmode); }
 static void SetEscape(DScriptScanner* self, int esc) { return self->wrapped.SetNoOctals(esc); }
 static void SetNoFatalErrors(DScriptScanner* self, int cmode) { return self->wrapped.SetNoFatalErrors(cmode); }
-static void AddSymbolUint(DScriptScanner* self, const FString* name, uint32_t value) { return self->wrapped.AddSymbol(name->GetChars(), value); }
-static void AddSymbolInt(DScriptScanner* self, const FString* name, int32_t value) { return self->wrapped.AddSymbol(name->GetChars(), value); }
-static void AddSymbolDouble(DScriptScanner* self, const FString* name, double value) { return self->wrapped.AddSymbol(name->GetChars(), value); }
+static void AddSymbolUint(DScriptScanner* self, const FString* name, uint32_t value) { return self->wrapped.AddSymbol(name->c_str(), value); }
+static void AddSymbolInt(DScriptScanner* self, const FString* name, int32_t value) { return self->wrapped.AddSymbol(name->c_str(), value); }
+static void AddSymbolDouble(DScriptScanner* self, const FString* name, double value) { return self->wrapped.AddSymbol(name->c_str(), value); }
 static int GetString(DScriptScanner* self) { return self->wrapped.GetString(); }
 static int GetNumber(DScriptScanner* self, int evaluate) { return self->wrapped.GetNumber(evaluate); }
 static int GetFloat(DScriptScanner* self, int evaluate) { return self->wrapped.GetFloat(evaluate); }
 static int CheckValue(DScriptScanner* self, int allowfloat, int evaluate) { return self->wrapped.CheckValue(allowfloat, evaluate); }
 static int CheckNumber(DScriptScanner* self, int evaluate) { return self->wrapped.CheckNumber(evaluate); }
 static int CheckBoolToken(DScriptScanner* self) { return self->wrapped.CheckBoolToken(); }
-static int CheckString(DScriptScanner* self, const FString* name) { return self->wrapped.CheckString(name->GetChars()); }
+static int CheckString(DScriptScanner* self, const FString* name) { return self->wrapped.CheckString(name->c_str()); }
 static int CheckFloat(DScriptScanner* self, int evaluate) { return self->wrapped.CheckFloat(evaluate); }
 static void SetPrependMessage(DScriptScanner* self, const FString* message) { return self->wrapped.SetPrependMessage(*message); }
 static void SkipToEndOfBlock(DScriptScanner* self) { return self->wrapped.SkipToEndOfBlock(); }
@@ -1490,7 +1490,7 @@ static void MustGetValue(DScriptScanner* self, int allowfloat, int evaluate) { r
 static void MustGetFloat(DScriptScanner* self, int evaluate) { return self->wrapped.MustGetFloat(evaluate); }
 static void MustGetNumber(DScriptScanner* self, int evaluate) { return self->wrapped.MustGetNumber(evaluate); }
 static void MustGetString(DScriptScanner* self) { return self->wrapped.MustGetString(); }
-static void MustGetStringName(DScriptScanner* self, const FString* name) { return self->wrapped.MustGetStringName(name->GetChars()); }
+static void MustGetStringName(DScriptScanner* self, const FString* name) { return self->wrapped.MustGetStringName(name->c_str()); }
 static void MustGetBoolToken(DScriptScanner* self) { return self->wrapped.MustGetBoolToken(); }
 
 
@@ -1716,7 +1716,7 @@ DEFINE_ACTION_FUNCTION(DScriptScanner, ScriptError)
 	PARAM_SELF_PROLOGUE(DScriptScanner);
 
 	FString s = FStringFormat(VM_ARGS_NAMES, 1);
-	self->wrapped.ScriptError("%s", s.GetChars());
+	self->wrapped.ScriptError("%s", s.c_str());
 	return 0;
 }
 
@@ -1725,7 +1725,7 @@ DEFINE_ACTION_FUNCTION(DScriptScanner, ScriptMessage)
 	PARAM_SELF_PROLOGUE(DScriptScanner);
 
 	FString s = FStringFormat(VM_ARGS_NAMES, 1);
-	self->wrapped.ScriptMessage("%s", s.GetChars());
+	self->wrapped.ScriptMessage("%s", s.c_str());
 	return 0;
 }
 

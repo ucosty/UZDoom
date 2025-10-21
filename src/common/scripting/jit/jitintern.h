@@ -218,7 +218,7 @@ private:
 		if (tmpPos == tmpVector.size())
 		{
 			regname.Format("%s%d", name, (int)tmpVector.size());
-			tmpVector.push_back(newCallback(regname.GetChars()));
+			tmpVector.push_back(newCallback(regname.c_str()));
 		}
 		return tmpVector[tmpPos++];
 	}
@@ -337,7 +337,7 @@ public:
 
 	const char* what() const noexcept override
 	{
-		return message.GetChars();
+		return message.c_str();
 	}
 
 	asmjit::Error error;

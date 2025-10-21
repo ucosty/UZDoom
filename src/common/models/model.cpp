@@ -88,7 +88,7 @@ void FModel::DestroyVertexBuffer()
 
 static int FindGFXFile(FString & fn)
 {
-	int lump = fileSystem.CheckNumForFullName(fn.GetChars());	// if we find something that matches the name plus the extension, return it and do not enter the substitution logic below.
+	int lump = fileSystem.CheckNumForFullName(fn.c_str());	// if we find something that matches the name plus the extension, return it and do not enter the substitution logic below.
 	if (lump != -1) return lump;
 
 	int best = -1;
@@ -100,7 +100,7 @@ static int FindGFXFile(FString & fn)
 
 	for (const char ** extp=extensions; *extp; extp++)
 	{
-		lump = fileSystem.CheckNumForFullName((fn + *extp).GetChars());
+		lump = fileSystem.CheckNumForFullName((fn + *extp).c_str());
 		if (lump >= best)  best = lump;
 	}
 	return best;
@@ -148,11 +148,11 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 
 	if (path) fullname.Format("%s%s", path, modelfile);
 	else fullname = modelfile;
-	int lump = fileSystem.CheckNumForFullName(fullname.GetChars());
+	int lump = fileSystem.CheckNumForFullName(fullname.c_str());
 
 	if (lump<0)
 	{
-		Printf(PRINT_HIGH, "FindModel: '%s' not found\n", fullname.GetChars());
+		Printf(PRINT_HIGH, "FindModel: '%s' not found\n", fullname.c_str());
 		return -1;
 	}
 
@@ -164,7 +164,7 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 	auto len = fileSystem.FileLength(lump);
 	if (len >= 0x80000000ll)
 	{
-		Printf(PRINT_HIGH, "LoadModel: File to large: '%s'\n", fullname.GetChars());
+		Printf(PRINT_HIGH, "LoadModel: File to large: '%s'\n", fullname.c_str());
 		return -1;
 	}
 
@@ -173,18 +173,18 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 
 	if ( (size_t)fullname.LastIndexOf("_d.3d") == fullname.Len()-5 )
 	{
-		FString anivfile = fullname.GetChars();
+		FString anivfile = fullname.c_str();
 		anivfile.Substitute("_d.3d","_a.3d");
-		if ( fileSystem.CheckNumForFullName(anivfile.GetChars()) > 0 )
+		if ( fileSystem.CheckNumForFullName(anivfile.c_str()) > 0 )
 		{
 			model = new FUE1Model;
 		}
 	}
 	else if ( (size_t)fullname.LastIndexOf("_a.3d") == fullname.Len()-5 )
 	{
-		FString datafile = fullname.GetChars();
+		FString datafile = fullname.c_str();
 		datafile.Substitute("_a.3d","_d.3d");
-		if ( fileSystem.CheckNumForFullName(datafile.GetChars()) > 0 )
+		if ( fileSystem.CheckNumForFullName(datafile.c_str()) > 0 )
 		{
 			model = new FUE1Model;
 		}
@@ -228,7 +228,7 @@ unsigned FindModel(const char * path, const char * modelfile, bool silent)
 		}
 		else
 		{
-			Printf(PRINT_HIGH, "LoadModel: Unknown model format in '%s'\n", fullname.GetChars());
+			Printf(PRINT_HIGH, "LoadModel: Unknown model format in '%s'\n", fullname.c_str());
 			return -1;
 		}
 	}

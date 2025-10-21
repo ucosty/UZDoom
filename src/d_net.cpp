@@ -2541,7 +2541,7 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 		{
 			FString message = GStrings.GetString("TXT_X_CHEATS");
 			message.Substitute("%s", players[player].userinfo.GetName());
-			Printf("%s: give %s\n", message.GetChars(), s);
+			Printf("%s: give %s\n", message.c_str(), s);
 		}
 		break;
 
@@ -2769,8 +2769,8 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 			{
 				// Paths sent over the network will be valid for the system that sent
 				// the save command. For other systems, the path needs to be changed.
-				FString basename = ExtractFileBase(savegamefile.GetChars(), true);
-				savegamefile = G_BuildSaveName(basename.GetChars());
+				FString basename = ExtractFileBase(savegamefile.c_str(), true);
+				savegamefile = G_BuildSaveName(basename.c_str());
 			}
 		}
 		gameaction = ga_savegame;
@@ -2859,7 +2859,7 @@ void Net_DoCommand(int cmd, TArrayView<uint8_t>& stream, int player)
 			s = ReadStringConst(stream);
 			FString msg = cht_Morph(players + player, PClass::FindActor(s), false);
 			if (player == consoleplayer)
-				Printf("%s\n", msg[0] != '\0' ? msg.GetChars() : "Morph failed.");
+				Printf("%s\n", msg[0] != '\0' ? msg.c_str() : "Morph failed.");
 		}
 		break;
 
@@ -3062,7 +3062,7 @@ static void RunScript(TArrayView<uint8_t>& stream, AActor *pawn, int snum, int a
 			arg[i] = argval;
 	}
 
-	P_StartScript(pawn->Level, pawn, nullptr, snum, primaryLevel->MapName.GetChars(), arg, min<int>(countof(arg), argn), ACS_NET | always);
+	P_StartScript(pawn->Level, pawn, nullptr, snum, primaryLevel->MapName.c_str(), arg, min<int>(countof(arg), argn), ACS_NET | always);
 }
 
 // TODO: This really needs to be replaced with some kind of packet system that can simply read through packets and opt

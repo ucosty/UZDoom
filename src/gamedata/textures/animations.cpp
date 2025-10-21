@@ -270,8 +270,8 @@ void FTextureAnimator::InitAnimated (void)
 				if (debuganimated)
 				{
 					Printf("Defining animation '%s' (texture %d, lump %d, file %d) to '%s' (texture %d, lump %d, file %d)\n",
-						tex1->GetName().GetChars(), pic1.GetIndex(), tex1->GetSourceLump(), fileSystem.GetFileContainer(tex1->GetSourceLump()),
-						tex2->GetName().GetChars(), pic2.GetIndex(), tex2->GetSourceLump(), fileSystem.GetFileContainer(tex2->GetSourceLump()));
+						tex1->GetName().c_str(), pic1.GetIndex(), tex1->GetSourceLump(), fileSystem.GetFileContainer(tex1->GetSourceLump()),
+						tex2->GetName().c_str(), pic2.GetIndex(), tex2->GetSourceLump(), fileSystem.GetFileContainer(tex2->GetSourceLump()));
 				}
 
 				if (pic1 == pic2)
@@ -733,9 +733,9 @@ void FTextureAnimator::ParseCameraTexture(FScanner &sc)
 	width = sc.Number;
 	sc.MustGetNumber ();
 	height = sc.Number;
-	FTextureID picnum = TexMan.CheckForTexture (picname.GetChars(), ETextureType::Flat, texflags);
+	FTextureID picnum = TexMan.CheckForTexture (picname.c_str(), ETextureType::Flat, texflags);
 	auto canvas = new FCanvasTexture(width, height);
-	FGameTexture *viewer = MakeGameTexture(canvas, picname.GetChars(), ETextureType::Wall);
+	FGameTexture *viewer = MakeGameTexture(canvas, picname.c_str(), ETextureType::Wall);
 	if (picnum.Exists())
 	{
 		auto oldtex = TexMan.GameTexture(picnum);
@@ -804,7 +804,7 @@ void FTextureAnimator::ParseFireTexture(FScanner& sc)
 	sc.MustGetValue(true);
 	duration = uint32_t(sc.Float * 1000 / TICRATE);
 
-	FGameTexture* gametex = MakeGameTexture(new FireTexture(), picname.GetChars(), ETextureType::Wall);
+	FGameTexture* gametex = MakeGameTexture(new FireTexture(), picname.c_str(), ETextureType::Wall);
 	// No decals here.
 	gametex->SetNoDecals(true);
 	if (sc.GetString())
@@ -895,7 +895,7 @@ void FTextureAnimator::FixAnimations ()
 			bool noremap = false;
 			const char *name;
 
-			name = TexMan.GameTexture(anim->BasePic)->GetName().GetChars();
+			name = TexMan.GameTexture(anim->BasePic)->GetName().c_str();
 			nodecals = TexMan.GameTexture(anim->BasePic)->allowNoDecals();
 			for (j = 0; j < anim->NumFrames; ++j)
 			{

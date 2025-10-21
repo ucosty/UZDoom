@@ -68,7 +68,7 @@ static void do_uniform_set(DVector4 value, ExtraUniformCVARData* data)
 		for (unsigned int i = 0; i < PostProcessShaders.Size(); i++)
 		{
 			PostProcessShader& shader = PostProcessShaders[i];
-			if (strcmp(shader.Name.GetChars(), data->Shader.GetChars()) == 0)
+			if (strcmp(shader.Name.c_str(), data->Shader.c_str()) == 0)
 			{
 				data->vec4 = shader.Uniforms[data->Uniform].Values;
 			}
@@ -130,7 +130,7 @@ static void ParseVavoomSkybox()
 		sc.MustGetStringName("{");
 		while (!sc.CheckString("}"))
 		{
-			if (facecount<6) 
+			if (facecount<6)
 			{
 				sc.MustGetStringName("{");
 				sc.MustGetStringName("map");
@@ -141,7 +141,7 @@ static void ParseVavoomSkybox()
 				auto tex = TexMan.FindGameTexture(sc.String, ETextureType::Wall, FTextureManager::TEXMAN_TryAny);
 				if (tex == NULL)
 				{
-					sc.ScriptMessage("Texture '%s' not found in Vavoom skybox '%s'\n", sc.String, s.GetChars());
+					sc.ScriptMessage("Texture '%s' not found in Vavoom skybox '%s'\n", sc.String, s.c_str());
 					error = true;
 				}
 				sb->faces[facecount] = tex;
@@ -151,12 +151,12 @@ static void ParseVavoomSkybox()
 		}
 		if (facecount != 6)
 		{
-			sc.ScriptError("%s: Skybox definition requires 6 faces", s.GetChars());
+			sc.ScriptError("%s: Skybox definition requires 6 faces", s.c_str());
 		}
 		sb->SetSize();
 		if (!error)
 		{
-			TexMan.AddGameTexture(MakeGameTexture(sb, s.GetChars(), ETextureType::Override));
+			TexMan.AddGameTexture(MakeGameTexture(sb, s.c_str(), ETextureType::Override));
 		}
 	}
 }
@@ -386,7 +386,7 @@ class GLDefsParser
 		}
 	}
 
-	
+
 	//==========================================================================
 	//
 	//
@@ -1016,7 +1016,7 @@ class GLDefsParser
 					break;
 				case LIGHTTAG_LIGHT:
 					ParseString(sc);
-					AddLightAssociation(name.GetChars(), frameName.GetChars(), sc.String);
+					AddLightAssociation(name.c_str(), frameName.c_str(), sc.String);
 					break;
 				default:
 					sc.ScriptError("Unknown tag: %s\n", sc.String);
@@ -1044,7 +1044,7 @@ class GLDefsParser
 		sc.GetString();
 		name = sc.String;
 		if (!PClass::FindActor(name))
-			sc.ScriptMessage("Warning: dynamic lights attached to non-existent actor %s\n", name.GetChars());
+			sc.ScriptMessage("Warning: dynamic lights attached to non-existent actor %s\n", name.c_str());
 
 		// check for opening brace
 		sc.GetString();
@@ -1076,7 +1076,7 @@ class GLDefsParser
 			sc.ScriptError("Expected '{'.\n");
 		}
 	}
-	
+
 
 	//-----------------------------------------------------------------------------
 	//
@@ -1091,7 +1091,7 @@ class GLDefsParser
 		sc.MustGetString();
 
 		FString s = sc.String;
-		FSkyBox * sb = new FSkyBox(s.GetChars());
+		FSkyBox * sb = new FSkyBox(s.c_str());
 		if (sc.CheckString("fliptop"))
 		{
 			sb->fliptop = true;
@@ -1100,7 +1100,7 @@ class GLDefsParser
 		while (!sc.CheckString("}"))
 		{
 			sc.MustGetString();
-			if (facecount<6) 
+			if (facecount<6)
 			{
 				sb->faces[facecount] = TexMan.GetGameTexture(TexMan.GetTextureID(sc.String, ETextureType::Wall, FTextureManager::TEXMAN_TryAny|FTextureManager::TEXMAN_Overridable));
 			}
@@ -1108,14 +1108,14 @@ class GLDefsParser
 		}
 		if (facecount != 3 && facecount != 6)
 		{
-			sc.ScriptError("%s: Skybox definition requires either 3 or 6 faces", s.GetChars());
+			sc.ScriptError("%s: Skybox definition requires either 3 or 6 faces", s.c_str());
 		}
 		sb->SetSize();
-		TexMan.AddGameTexture(MakeGameTexture(sb, s.GetChars(), ETextureType::Override));
+		TexMan.AddGameTexture(MakeGameTexture(sb, s.c_str(), ETextureType::Override));
 	}
 
 	//===========================================================================
-	// 
+	//
 	//	Reads glow definitions from GLDEFS
 	//
 	//===========================================================================
@@ -1233,13 +1233,13 @@ class GLDefsParser
 
 				if (bmtex != NULL)
 				{
-					Printf("Multiple brightmap definitions in texture %s\n", tex? tex->GetName().GetChars() : "(null)");
+					Printf("Multiple brightmap definitions in texture %s\n", tex? tex->GetName().c_str() : "(null)");
 				}
 
 				bmtex = TexMan.FindGameTexture(sc.String, ETextureType::Any, FTextureManager::TEXMAN_TryAny);
 
-				if (bmtex == NULL) 
-					Printf("Brightmap '%s' not found in texture '%s'\n", sc.String, tex? tex->GetName().GetChars() : "(null)");
+				if (bmtex == NULL)
+					Printf("Brightmap '%s' not found in texture '%s'\n", sc.String, tex? tex->GetName().c_str() : "(null)");
 			}
 		}
 		if (!tex)
@@ -1262,7 +1262,7 @@ class GLDefsParser
 		if (bmtex != NULL)
 		{
 			tex->SetBrightmap(bmtex);
-		}	
+		}
 		tex->SetDisableFullbright(disable_fullbright);
 	}
 
@@ -1371,7 +1371,7 @@ class GLDefsParser
 				{
 					if (!texName.Compare(textureName))
 					{
-						sc.ScriptError("Trying to redefine custom hardware shader texture '%s' in texture '%s'\n", textureName.GetChars(), tex ? tex->GetName().GetChars() : "(null)");
+						sc.ScriptError("Trying to redefine custom hardware shader texture '%s' in texture '%s'\n", textureName.c_str(), tex ? tex->GetName().c_str() : "(null)");
 					}
 				}
 				sc.MustGetString();
@@ -1385,7 +1385,7 @@ class GLDefsParser
 							mlay.CustomShaderTextures[i] = TexMan.FindGameTexture(sc.String, ETextureType::Any, FTextureManager::TEXMAN_TryAny);
 							if (!mlay.CustomShaderTextures[i])
 							{
-								sc.ScriptError("Custom hardware shader texture '%s' not found in texture '%s'\n", sc.String, tex->GetName().GetChars());
+								sc.ScriptError("Custom hardware shader texture '%s' not found in texture '%s'\n", sc.String, tex->GetName().c_str());
 							}
 
 							texNameList.Push(textureName);
@@ -1396,7 +1396,7 @@ class GLDefsParser
 					}
 					if (!okay)
 					{
-						sc.ScriptError("Error: out of texture units in texture '%s'", tex->GetName().GetChars());
+						sc.ScriptError("Error: out of texture units in texture '%s'", tex->GetName().c_str());
 					}
 				}
 			}
@@ -1410,7 +1410,7 @@ class GLDefsParser
 					sc.MustGetString();
 					defineValue = sc.String;
 				}
-				usershader.defines.AppendFormat("#define %s %s\n", defineName.GetChars(), defineValue.GetChars());
+				usershader.defines.AppendFormat("#define %s %s\n", defineName.c_str(), defineValue.c_str());
 			}
 			else
 			{
@@ -1420,10 +1420,10 @@ class GLDefsParser
 					{
 						sc.MustGetString();
 						if (textures[i])
-							Printf("Multiple %s definitions in texture %s\n", keywords[i], tex? tex->GetName().GetChars() : "(null)");
+							Printf("Multiple %s definitions in texture %s\n", keywords[i], tex? tex->GetName().c_str() : "(null)");
 						textures[i] = TexMan.FindGameTexture(sc.String, ETextureType::Any, FTextureManager::TEXMAN_TryAny);
 						if (!textures[i])
-							Printf("%s '%s' not found in texture '%s'\n", notFound[i], sc.String, tex? tex->GetName().GetChars() : "(null)");
+							Printf("%s '%s' not found in texture '%s'\n", notFound[i], sc.String, tex? tex->GetName().c_str() : "(null)");
 						break;
 					}
 				}
@@ -1489,12 +1489,12 @@ class GLDefsParser
 
 			for (unsigned int i = 0; i < texNameList.Size(); i++)
 			{
-				usershader.defines.AppendFormat("#define %s texture%d\n", texNameList[i].GetChars(), texNameIndex[i] + firstUserTexture);
+				usershader.defines.AppendFormat("#define %s texture%d\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
 			}
 
 			if (tex->isWarped() != 0)
 			{
-				Printf("Cannot combine warping with hardware shader on texture '%s'\n", tex->GetName().GetChars());
+				Printf("Cannot combine warping with hardware shader on texture '%s'\n", tex->GetName().c_str());
 				return;
 			}
 			tex->SetShaderSpeed(speed);
@@ -1535,7 +1535,7 @@ class GLDefsParser
 			bool validTarget = false;
 			if (sc.Compare("beforebloom")) validTarget = true;
 			if (sc.Compare("scene")) validTarget = true;
-			if (sc.Compare("screen")) validTarget = true;		
+			if (sc.Compare("screen")) validTarget = true;
 			if (!validTarget)
 				sc.ScriptError("Invalid target '%s' for postprocess shader",sc.String);
 
@@ -1668,7 +1668,7 @@ class GLDefsParser
 						{
 							sc.MustGetString();
 							cvarname = sc.String;
-							cvar = FindCVar(cvarname.GetChars(), NULL);
+							cvar = FindCVar(cvarname.c_str(), NULL);
 
 							if (!cvar)
 							{
@@ -1684,7 +1684,7 @@ class GLDefsParser
 							case CVAR_Int:
 								if(parsedType != PostProcessUniformType::Int && parsedType != PostProcessUniformType::Float)
 								{
-									sc.ScriptError("CVar '%s' type (int) is not convertible to uniform type (%s), must be int or float", cvarname.GetChars(), uniformType.GetChars());
+									sc.ScriptError("CVar '%s' type (int) is not convertible to uniform type (%s), must be int or float", cvarname.c_str(), uniformType.c_str());
 									ok = false;
 								}
 								else
@@ -1696,7 +1696,7 @@ class GLDefsParser
 							case CVAR_Float:
 								if(parsedType != PostProcessUniformType::Int && parsedType != PostProcessUniformType::Float)
 								{
-									sc.ScriptError("CVar '%s' type (float) is not convertible to uniform type (%s), must be int or float", cvarname.GetChars(), uniformType.GetChars());
+									sc.ScriptError("CVar '%s' type (float) is not convertible to uniform type (%s), must be int or float", cvarname.c_str(), uniformType.c_str());
 									ok = false;
 								}
 								else
@@ -1708,7 +1708,7 @@ class GLDefsParser
 							case CVAR_Color:
 								if(parsedType != PostProcessUniformType::Vec3 && parsedType != PostProcessUniformType::Vec4)
 								{
-									sc.ScriptError("CVar '%s' type (color) is not convertible to uniform type (%s), must be vec3 or vec4", cvarname.GetChars(), uniformType.GetChars());
+									sc.ScriptError("CVar '%s' type (color) is not convertible to uniform type (%s), must be vec3 or vec4", cvarname.c_str(), uniformType.c_str());
 									ok = false;
 								}
 								else
@@ -1724,7 +1724,7 @@ class GLDefsParser
 								}
 								break;
 							default:
-								sc.ScriptError("CVar '%s' type not supported for uniforms!", cvarname.GetChars());
+								sc.ScriptError("CVar '%s' type not supported for uniforms!", cvarname.c_str());
 								ok = false;
 								break;
 							}
@@ -1735,8 +1735,8 @@ class GLDefsParser
 							ExtraUniformCVARData* oldextra = (ExtraUniformCVARData*)cvar->GetExtraDataPointer2();
 
 							ExtraUniformCVARData* extra = new ExtraUniformCVARData;
-							extra->Shader = shaderdesc.Name.GetChars();
-							extra->Uniform = uniformName.GetChars();
+							extra->Shader = shaderdesc.Name.c_str();
+							extra->Uniform = uniformName.c_str();
 							extra->OldCallback = oldextra ? oldextra->OldCallback : cvar->m_Callback;
 							extra->Next = oldextra;
 
@@ -1845,7 +1845,7 @@ class GLDefsParser
 					{
 						if(!texName.Compare(textureName))
 						{
-							sc.ScriptError("Trying to redefine custom hardware shader texture '%s' in texture '%s'\n", textureName.GetChars(), tex? tex->GetName().GetChars() : "(null)");
+							sc.ScriptError("Trying to redefine custom hardware shader texture '%s' in texture '%s'\n", textureName.c_str(), tex? tex->GetName().c_str() : "(null)");
 						}
 					}
 					sc.MustGetString();
@@ -1857,7 +1857,7 @@ class GLDefsParser
 							mlay.CustomShaderTextures[i] = TexMan.FindGameTexture(sc.String, ETextureType::Any, FTextureManager::TEXMAN_TryAny);
 							if (!mlay.CustomShaderTextures[i])
 							{
-								sc.ScriptError("Custom hardware shader texture '%s' not found in texture '%s'\n", sc.String, tex? tex->GetName().GetChars() : "(null)");
+								sc.ScriptError("Custom hardware shader texture '%s' not found in texture '%s'\n", sc.String, tex? tex->GetName().c_str() : "(null)");
 							}
 
 							texNameList.Push(textureName);
@@ -1868,7 +1868,7 @@ class GLDefsParser
 					}
 					if(!okay)
 					{
-						sc.ScriptError("Error: out of texture units in texture '%s'", tex? tex->GetName().GetChars() : "(null)");
+						sc.ScriptError("Error: out of texture units in texture '%s'", tex? tex->GetName().c_str() : "(null)");
 					}
 				}
 				else if(sc.Compare("define"))
@@ -1881,7 +1881,7 @@ class GLDefsParser
 						sc.MustGetString();
 						defineValue = sc.String;
 					}
-					desc.defines.AppendFormat("#define %s %s\n", defineName.GetChars(), defineValue.GetChars());
+					desc.defines.AppendFormat("#define %s %s\n", defineName.c_str(), defineValue.c_str());
 				}
 				else if (sc.Compare("disablealphatest"))
 				{
@@ -1906,14 +1906,14 @@ class GLDefsParser
 
 			for (unsigned int i = 0; i < texNameList.Size(); i++)
 			{
-				desc.defines.AppendFormat("#define %s texture%d\n", texNameList[i].GetChars(), texNameIndex[i] + firstUserTexture);
+				desc.defines.AppendFormat("#define %s texture%d\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
 			}
 
 			if (desc.shader.IsNotEmpty())
 			{
 				if (tex->isWarped() != 0)
 				{
-					Printf("Cannot combine warping with hardware shader on texture '%s'\n", tex->GetName().GetChars());
+					Printf("Cannot combine warping with hardware shader on texture '%s'\n", tex->GetName().c_str());
 					return;
 				}
 				tex->SetShaderSpeed(speed);

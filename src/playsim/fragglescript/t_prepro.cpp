@@ -284,7 +284,7 @@ char *DFsScript::ProcessFindChar(char *datap, char find)
 				Printf(PRINT_BOLD,"Script %d: ':' encountrered in incorrect position!\n",scriptnum);
 			}
 
-			DFsVariable *newlabel = NewVariable(labelname.GetChars(), svt_label);
+			DFsVariable *newlabel = NewVariable(labelname.c_str(), svt_label);
 			newlabel->value.i = MakeIndex(labelptr);
 		}
 		

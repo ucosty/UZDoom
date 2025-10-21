@@ -254,7 +254,7 @@ void VkCommandBufferManager::UpdateGpuStats()
 		double timeNS = timeElapsed * timestampPeriod;
 
 		FString out;
-		out.Format("%s=%04.2f ms\n", q.name.GetChars(), timeNS / 1000000.0f);
+		out.Format("%s=%04.2f ms\n", q.name.c_str(), timeNS / 1000000.0f);
 		gpuStatOutput += out;
 	}
 	timeElapsedQueries.clear();

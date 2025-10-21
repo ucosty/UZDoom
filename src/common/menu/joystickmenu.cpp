@@ -260,7 +260,7 @@ void UpdateJoystickMenu(IJoystickConfig *selected)
 
 		for (int ii = 0; ii < (int)Joysticks.Size(); ++ii)
 		{
-			it = CreateOptionMenuItemJoyConfigMenu(Joysticks[ii]->GetName().GetChars(), Joysticks[ii]);
+			it = CreateOptionMenuItemJoyConfigMenu(Joysticks[ii]->GetName().c_str(), Joysticks[ii]);
 			GC::WriteBarrier(opt, it);
 			opt->mItems.Push(it);
 			if (ii == itemnum) opt->mSelectedItem = opt->mItems.Size();

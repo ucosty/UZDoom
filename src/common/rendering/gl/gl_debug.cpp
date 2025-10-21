@@ -66,7 +66,7 @@ void FGLDebug::Update()
 		glDeleteQueries(1, &query.second);
 
 		FString out;
-		out.Format("%s=%04.2f ms\n", query.first.GetChars(), timeElapsed / 1000000.0f);
+		out.Format("%s=%04.2f ms\n", query.first.c_str(), timeElapsed / 1000000.0f);
 		gpuStatOutput += out;
 	}
 	timeElapsedQueries.clear();
@@ -116,7 +116,7 @@ void FGLDebug::PushGroup(const FString &name)
 {
 	if (HasDebugApi() && gl_debug_level != 0)
 	{
-		glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, (GLsizei)name.Len(), name.GetChars());
+		glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, (GLsizei)name.Len(), name.c_str());
 	}
 
 	if (gpuStatActive)
@@ -271,7 +271,7 @@ void FGLDebug::PrintMessage(GLenum source, GLenum type, GLuint id, GLenum severi
 	FString msg(message, length);
 
 	static std::set<std::string> seenMessages;
-	bool alreadySeen = !seenMessages.insert(msg.GetChars()).second;
+	bool alreadySeen = !seenMessages.insert(msg.c_str()).second;
 	if (alreadySeen)
 		return;
 
@@ -286,9 +286,9 @@ void FGLDebug::PrintMessage(GLenum source, GLenum type, GLuint id, GLenum severi
 		FString typeStr = TypeToString(type);
 		FString severityStr = SeverityToString(severity);
 		if (type != GL_DEBUG_TYPE_OTHER)
-			Printf("[%s] %s, %s: %s\n", sourceStr.GetChars(), severityStr.GetChars(), typeStr.GetChars(), msg.GetChars());
+			Printf("[%s] %s, %s: %s\n", sourceStr.c_str(), severityStr.c_str(), typeStr.c_str(), msg.c_str());
 		else
-			Printf("[%s] %s: %s\n", sourceStr.GetChars(), severityStr.GetChars(), msg.GetChars());
+			Printf("[%s] %s: %s\n", sourceStr.c_str(), severityStr.c_str(), msg.c_str());
 	}
 }
 

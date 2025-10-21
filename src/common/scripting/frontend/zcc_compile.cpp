@@ -76,7 +76,7 @@ const char * ZCCCompiler::GetStringConst(FxExpression *ex, FCompileContext &ctx)
 	ex = ex->Resolve(ctx);
 	if (!ex) return "";
 	// The string here must be stored in a persistent place that lasts long enough to have it processed.
-	return AST.Strings.Alloc(static_cast<FxConstant*>(ex)->GetValue().GetString())->GetChars();
+	return AST.Strings.Alloc(static_cast<FxConstant*>(ex)->GetValue().GetString())->c_str();
 }
 
 int ZCCCompiler::IntConstFromNode(ZCC_TreeNode *node, PContainerType *cls)
@@ -682,10 +682,10 @@ void ZCCCompiler::MessageV(ZCC_TreeNode *node, const char *txtcolor, const char 
 {
 	FString composed;
 
-	composed.Format("%s%s, line %d: ", txtcolor, node->SourceName->GetChars(), node->SourceLoc);
+	composed.Format("%s%s, line %d: ", txtcolor, node->SourceName->c_str(), node->SourceLoc);
 	composed.VAppendFormat(msg, argptr);
 	composed += '\n';
-	PrintString(PRINT_HIGH, composed.GetChars());
+	PrintString(PRINT_HIGH, composed.c_str());
 }
 
 //==========================================================================
@@ -864,7 +864,7 @@ void ZCCCompiler::CreateClassTypes()
 					build += FName(p->Id).GetChars();
 					p = static_cast<decltype(p)>(p->SiblingNext);
 				} while (p != ParentName);
-				Error(c->cls, "Qualified name '%s' for base class not supported in '%s'", build.GetChars(), FName(c->NodeName()).GetChars());
+				Error(c->cls, "Qualified name '%s' for base class not supported in '%s'", build.c_str(), FName(c->NodeName()).GetChars());
 				parent = RUNTIME_CLASS(DObject);
 			}
 
@@ -1524,7 +1524,7 @@ bool ZCCCompiler::CompileFields(PContainerType *type, TArray<ZCC_VarDeclarator *
 
 		if (field->Flags & notallowed)
 		{
-			Error(field, "Invalid qualifiers for %s (%s not allowed)", FName(field->Names->Name).GetChars(), FlagsToString(field->Flags & notallowed).GetChars());
+			Error(field, "Invalid qualifiers for %s (%s not allowed)", FName(field->Names->Name).GetChars(), FlagsToString(field->Flags & notallowed).c_str());
 			field->Flags &= notallowed;
 		}
 		uint32_t varflags = 0;
@@ -1575,7 +1575,7 @@ bool ZCCCompiler::CompileFields(PContainerType *type, TArray<ZCC_VarDeclarator *
 		}
 		if (fc > 1)
 		{
-			Error(field, "Invalid combination of scope qualifiers %s on field %s", FlagsToString(excludeflags).GetChars(), FName(field->Names->Name).GetChars());
+			Error(field, "Invalid combination of scope qualifiers %s on field %s", FlagsToString(excludeflags).c_str(), FName(field->Names->Name).GetChars());
 			varflags &= ~(VARF_UI | VARF_Play); // make plain data
 		}
 
@@ -2216,7 +2216,7 @@ PType *ZCCCompiler::ResolveUserType(PType *outertype, ZCC_BasicType *type, ZCC_I
 			if(ptype->mVersion <= mVersion && !outertype->TypeDeprecated && fileSystem.GetFileContainer(Lump) > 0)
 			{
 				Warn(type, "Type %s is deprecated since ZScript version %d.%d.%d%s%s",
-					FName(type->UserType->Id).GetChars(), mVersion.major, mVersion.minor, mVersion.revision, ptype->mDeprecationMessage.IsEmpty() ? "" : ": ", ptype->mDeprecationMessage.GetChars());
+					FName(type->UserType->Id).GetChars(), mVersion.major, mVersion.minor, mVersion.revision, ptype->mDeprecationMessage.IsEmpty() ? "" : ": ", ptype->mDeprecationMessage.c_str());
 			}
 		}
 		else if (ptype->mVersion > mVersion)
@@ -2263,7 +2263,7 @@ PType *ZCCCompiler::ResolveUserType(PType *outertype, ZCC_BasicType *type, ZCC_I
 		}
 		if (!nativetype) return ptype;
 	}
-	Error(type, "Unable to resolve %s%s as a type.", nativetype? "@" : "", UserTypeName(type).GetChars());
+	Error(type, "Unable to resolve %s%s as a type.", nativetype? "@" : "", UserTypeName(type).c_str());
 	return TypeError;
 }
 
@@ -2465,7 +2465,7 @@ void ZCCCompiler::CompileFunction(ZCC_StructWork *c, ZCC_FuncDeclarator *f, bool
 
 		if (f->Flags & notallowed)
 		{
-			Error(f, "Invalid qualifiers for %s (%s not allowed)", FName(f->Name).GetChars(), FlagsToString(f->Flags & notallowed).GetChars());
+			Error(f, "Invalid qualifiers for %s (%s not allowed)", FName(f->Name).GetChars(), FlagsToString(f->Flags & notallowed).c_str());
 			f->Flags &= notallowed;
 		}
 		uint32_t varflags = VARF_Method;
@@ -2566,7 +2566,7 @@ void ZCCCompiler::CompileFunction(ZCC_StructWork *c, ZCC_FuncDeclarator *f, bool
 		}
 		if (fc > 1)
 		{
-			Error(f, "Invalid combination of qualifiers %s on function %s", FlagsToString(excludeflags).GetChars(), FName(f->Name).GetChars());
+			Error(f, "Invalid combination of qualifiers %s on function %s", FlagsToString(excludeflags).c_str(), FName(f->Name).GetChars());
 			varflags |= VARF_Method;
 		}
 		if (varflags & (VARF_Override | VARF_Abstract)) varflags |= VARF_Virtual;	// Now that the flags are checked, make all override and abstract functions virtual as well.
@@ -2596,7 +2596,7 @@ void ZCCCompiler::CompileFunction(ZCC_StructWork *c, ZCC_FuncDeclarator *f, bool
 		}
 		if (fc > 1)
 		{
-			Error(f, "Invalid combination of scope qualifiers %s on function %s", FlagsToString(excludeflags).GetChars(), FName(f->Name).GetChars());
+			Error(f, "Invalid combination of scope qualifiers %s on function %s", FlagsToString(excludeflags).c_str(), FName(f->Name).GetChars());
 			varflags &= ~(VARF_UI | VARF_Play); // make plain data
 		}
 

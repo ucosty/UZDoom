@@ -396,7 +396,7 @@ static void ParseSingleFile(FScanner *pSC, const char *filename, int lump, void 
 			}
 			else
 			{
-				sc.ScriptMessage("Unexpected token %s.\n", sc.TokenName(sc.TokenType).GetChars());
+				sc.ScriptMessage("Unexpected token %s.\n", sc.TokenName(sc.TokenType).c_str());
 				goto parse_end;
 			}
 			break;
@@ -483,10 +483,10 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 	ParseSingleFile(&sc, nullptr, lumpnum, parser, state);
 	for (unsigned i = 0; i < Includes.Size(); i++)
 	{
-		lumpnum = fileSystem.CheckNumForFullName(Includes[i].GetChars(), true);
+		lumpnum = fileSystem.CheckNumForFullName(Includes[i].c_str(), true);
 		if (lumpnum == -1)
 		{
-			IncludeLocs[i].Message(MSG_ERROR, "Include script lump %s not found", Includes[i].GetChars());
+			IncludeLocs[i].Message(MSG_ERROR, "Include script lump %s not found", Includes[i].c_str());
 		}
 		else
 		{
@@ -494,7 +494,7 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 			if (fileno == 0 && fileno2 != 0)
 			{
 				I_FatalError("File %s is overriding core lump %s.",
-					fileSystem.GetResourceFileFullName(fileSystem.GetFileContainer(lumpnum)), Includes[i].GetChars());
+					fileSystem.GetResourceFileFullName(fileSystem.GetFileContainer(lumpnum)), Includes[i].c_str());
 			}
 
 			ParseSingleFile(nullptr, nullptr, lumpnum, parser, state);
@@ -530,10 +530,10 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 		FString filename = fileSystem.GetFileFullPath(baselump).c_str();
 		filename.ReplaceChars(":\\/?|", '.');
 		filename << ".ast";
-		FileWriter *ff = FileWriter::Open(filename.GetChars());
+		FileWriter *ff = FileWriter::Open(filename.c_str());
 		if (ff != NULL)
 		{
-			ff->Write(ast.GetChars(), ast.Len());
+			ff->Write(ast.c_str(), ast.Len());
 			delete ff;
 		}
 	}

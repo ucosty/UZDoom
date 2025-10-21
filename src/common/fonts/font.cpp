@@ -97,7 +97,7 @@ FFont::FFont (const char *name, const char *nametemplate, const char *filetempla
 		FStringf path("fonts/%s/", filetemplate);
 		// If a name template is given, collect data from all resource files.
 		// For anything else, each folder is being treated as an atomic, self-contained unit and mixing from different glyph sets is blocked.
-		fileSystem.GetFilesInFolder(path.GetChars(), folderdata, nametemplate == nullptr);
+		fileSystem.GetFilesInFolder(path.c_str(), folderdata, nametemplate == nullptr);
 
 		//if (nametemplate == nullptr)
 		{
@@ -231,8 +231,8 @@ FFont::FFont (const char *name, const char *nametemplate, const char *filetempla
 					  // provide STCFN120 (x) and STCFN122 (z) for STCFN121 to load as a 'y'.
 						FStringf c120(nametemplate, 120);
 						FStringf c122(nametemplate, 122);
-						if (!TexMan.CheckForTexture(c120.GetChars(), ETextureType::MiscPatch).isValid() ||
-							!TexMan.CheckForTexture(c122.GetChars(), ETextureType::MiscPatch).isValid())
+						if (!TexMan.CheckForTexture(c120.c_str(), ETextureType::MiscPatch).isValid() ||
+							!TexMan.CheckForTexture(c122.c_str(), ETextureType::MiscPatch).isValid())
 						{
 							// insert the incorrectly named '|' graphic in its correct position.
 							position = 124;
@@ -296,7 +296,7 @@ FFont::FFont (const char *name, const char *nametemplate, const char *filetempla
 			{
 				char *endp;
 				auto base = ExtractFileBase(entry.name);
-				auto position = strtoll(base.GetChars(), &endp, 16);
+				auto position = strtoll(base.c_str(), &endp, 16);
 				if ((*endp == 0 || (*endp == '.' && position >= '!' && position < 0xffff)))
 				{
 					auto texlump = TexMan.CheckForTexture(entry.name, ETextureType::MiscPatch);
@@ -407,7 +407,7 @@ void FFont::ReadSheetFont(std::vector<FileSys::FolderEntry> &folderdata, int wid
 	{
 		char *endp;
 		auto base = ExtractFileBase(entry.name);
-		auto position = strtoll(base.GetChars(), &endp, 16);
+		auto position = strtoll(base.c_str(), &endp, 16);
 		if ((*endp == 0 || (*endp == '.' && position >= 0 && position < 0xffff)))	// Sheet fonts may fill in the low control chars.
 		{
 			auto lump = TexMan.CheckForTexture(entry.name, ETextureType::MiscPatch);

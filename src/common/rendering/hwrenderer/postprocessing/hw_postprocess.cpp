@@ -962,7 +962,7 @@ PPCustomShaderInstance::PPCustomShaderInstance(PostProcessShader *desc) : Desc(d
 	int binding = 1;
 	while (itTextures.NextPair(pairTextures))
 	{
-		uniformTextures.AppendFormat("layout(binding=%d) uniform sampler2D %s;\n", binding++, pairTextures->Key.GetChars());
+		uniformTextures.AppendFormat("layout(binding=%d) uniform sampler2D %s;\n", binding++, pairTextures->Key.c_str());
 	}
 
 	// Setup pipeline
@@ -1014,7 +1014,7 @@ void PPCustomShaderInstance::SetTextures(PPRenderState *renderstate)
 	while (it.NextPair(pair))
 	{
 		FString name = pair->Value;
-		auto gtex = TexMan.GetGameTexture(TexMan.CheckForTexture(name.GetChars(), ETextureType::Any), true);
+		auto gtex = TexMan.GetGameTexture(TexMan.CheckForTexture(name.c_str(), ETextureType::Any), true);
 		if (gtex && gtex->isValid())
 		{
 			// Why does this completely circumvent the normal way of handling textures?
@@ -1110,7 +1110,7 @@ void PPCustomShaderInstance::AddUniformField(size_t &offset, const FString &name
 	FieldOffset[name] = offset;
 
 	auto name2 = std::make_unique<FString>(name);
-	auto chars = name2->GetChars();
+	auto chars = name2->c_str();
 	FieldNames.push_back(std::move(name2));
 	Fields.push_back({ chars, type, offset });
 	offset += fieldsize;
@@ -1118,7 +1118,7 @@ void PPCustomShaderInstance::AddUniformField(size_t &offset, const FString &name
 	if (fieldsize != alignment) // Workaround for buggy OpenGL drivers that does not do std140 layout correctly for vec3
 	{
 		name2 = std::make_unique<FString>(name + "_F39350FF12DE_padding");
-		chars = name2->GetChars();
+		chars = name2->c_str();
 		FieldNames.push_back(std::move(name2));
 		Fields.push_back({ chars, UniformType::Float, offset });
 		offset += alignment - fieldsize;

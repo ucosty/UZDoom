@@ -703,7 +703,7 @@ void FLevelLocals::ReadOnePlayer(FSerializer &arc, bool fromHub)
 			// via a net command, but that won't be processed in time for a screen
 			// wipe, so we need something here.
 			temp.MaxPitch = temp.MinPitch = temp.mo->Angles.Pitch;
-			CopyPlayer(Players[i], &temp, name.GetChars());
+			CopyPlayer(Players[i], &temp, name.c_str());
 		}
 		else
 		{
@@ -764,7 +764,7 @@ void FLevelLocals::ReadMultiplePlayers(FSerializer &arc, int numPlayers, bool fr
 				if (!fromHub)
 				{
 					Printf("Found %s's (%d) data\n", Players[i]->userinfo.GetName(), i);
-					CopyPlayer(Players[i], &p.Info, p.Name.GetChars());
+					CopyPlayer(Players[i], &p.Info, p.Name.c_str());
 				}
 				else
 				{
@@ -791,8 +791,8 @@ void FLevelLocals::ReadMultiplePlayers(FSerializer &arc, int numPlayers, bool fr
 			{
 				if (!fromHub)
 				{
-					Printf("Assigned %s (%d) to %s's data\n", Players[i]->userinfo.GetName(), i, p.Name.GetChars());
-					CopyPlayer(Players[i], &p.Info, p.Name.GetChars());
+					Printf("Assigned %s (%d) to %s's data\n", Players[i]->userinfo.GetName(), i, p.Name.c_str());
+					CopyPlayer(Players[i], &p.Info, p.Name.c_str());
 				}
 				else
 				{
@@ -856,11 +856,11 @@ void FLevelLocals::CopyPlayer(player_t *dst, player_t *src, const char *name)
 	{
 		dst->userinfo.TransferFrom(uibackup);
 		// The player class must come from the save, so that the menu reflects the currently playing one.
-		dst->userinfo.PlayerClassChanged(src->mo->GetInfo()->DisplayName.GetChars());
+		dst->userinfo.PlayerClassChanged(src->mo->GetInfo()->DisplayName.c_str());
 	}
 
 	// Validate the skin
-	dst->userinfo.SkinNumChanged(R_FindSkin(Skins[dst->userinfo.GetSkin()].Name.GetChars(), dst->CurrentPlayerClass));
+	dst->userinfo.SkinNumChanged(R_FindSkin(Skins[dst->userinfo.GetSkin()].Name.c_str(), dst->CurrentPlayerClass));
 
 	// Make sure the player pawn points to the proper player struct.
 	if (dst->mo != nullptr)

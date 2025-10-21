@@ -248,7 +248,7 @@ public:
 
 void I_InitSound ()
 {
-	FModule_SetProgDir(progdir.GetChars());
+	FModule_SetProgDir(progdir.c_str());
 	/* Get command line options: */
 	nosound = !!Args->CheckParm ("-nosound");
 	nosfx = !!Args->CheckParm ("-nosfx");

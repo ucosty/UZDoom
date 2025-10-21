@@ -132,7 +132,7 @@ static PClassActor* FindInfoName(int index, bool mustexist = false)
 		auto cls = PClass::FindActor(name);
 		if (!mustexist)
 		{
-			cls = static_cast<PClassActor*>(RUNTIME_CLASS(AActor)->CreateDerivedClass(name.GetChars(), (unsigned)sizeof(AActor)));
+			cls = static_cast<PClassActor*>(RUNTIME_CLASS(AActor)->CreateDerivedClass(name.c_str(), (unsigned)sizeof(AActor)));
 			NewClassType(cls, -1);	// This needs a VM type to work as intended.
 			cls->InitializeDefaults();
 			PClassActor::AllActorClasses.Push(cls);
@@ -153,7 +153,7 @@ static FSoundID DehFindSound(int index,bool mustexist = false)
 	if (dsdhacked && !mustexist)
 	{
 		FStringf name("~dsdhacked/#%d", index);
-		return soundEngine->FindSoundTentative(name.GetChars());
+		return soundEngine->FindSoundTentative(name.c_str());
 	}
 	return NO_SOUND;
 }
@@ -165,7 +165,7 @@ static void ReplaceSoundName(int index, const char* newname)
 	if (snd == NO_SOUND) return;
 	auto sfx = soundEngine->GetWritableSfx(snd);
 	FStringf dsname("ds%s", newname);
-	sfx->lumpnum = fileSystem.CheckNumForName(dsname.GetChars(), FileSys::ns_sounds);
+	sfx->lumpnum = fileSystem.CheckNumForName(dsname.c_str(), FileSys::ns_sounds);
 	sfx->bTentative = false;
 	sfx->bRandomHeader = false;
 	sfx->bLoadRAW = false;
@@ -1127,7 +1127,7 @@ static void SetDehParams(FState *state, int codepointer, VMDisassemblyDumper &di
 		sfunc->NumArgs = numargs;
 		sfunc->ImplicitArgs = numargs;
 		state->SetAction(sfunc);
-		FString sanitizedPatchName = pstate->PatchName.GetChars();
+		FString sanitizedPatchName = pstate->PatchName.c_str();
 		sanitizedPatchName.ReplaceChars(':', '_');
 		sanitizedPatchName.ReplaceChars('.', '_');
 		sanitizedPatchName.ReplaceChars('-', '_');
@@ -1137,7 +1137,7 @@ static void SetDehParams(FState *state, int codepointer, VMDisassemblyDumper &di
 		sanitizedPatchName.ReplaceChars('*', '_');
 		sanitizedPatchName.ReplaceChars('?', '_');
 		sanitizedPatchName.ReplaceChars('"', '_');
-		sfunc->PrintableName = ClassDataAllocator.Strdup(FStringf("Dehacked.%s.%d.%s.%d.%d", sanitizedPatchName.GetChars(), index, MBFCodePointers[codepointer].name.GetChars(), value1, value2).GetChars());
+		sfunc->PrintableName = ClassDataAllocator.Strdup(FStringf("Dehacked.%s.%d.%s.%d.%d", sanitizedPatchName.c_str(), index, MBFCodePointers[codepointer].name.GetChars(), value1, value2).c_str());
 		sfunc->QualifiedName = sfunc->PrintableName;
 
 		disasmdump.Write(sfunc, sfunc->PrintableName);
@@ -2805,7 +2805,7 @@ static int PatchCodePtrs (int dummy, int flags)
 					if (!symname.CompareNoCase(MBFCodePointers[i].alias))
 					{
 						symname = MBFCodePointers[i].name.GetChars();
-						DPrintf(DMSG_SPAMMY, "%s --> %s\n", MBFCodePointers[i].alias.GetChars(), MBFCodePointers[i].name.GetChars());
+						DPrintf(DMSG_SPAMMY, "%s --> %s\n", MBFCodePointers[i].alias.c_str(), MBFCodePointers[i].name.GetChars());
 						ismbfcp = true;
 						break;
 					}
@@ -2852,7 +2852,7 @@ static int PatchMusic (int dummy, int flags)
 
 		TableElement te = { LumpFileNum, { newname, newname, newname, newname } };
 		DehStrings.Insert(keystring, te);
-		DPrintf (DMSG_SPAMMY, "Music %s set to:\n%s\n", keystring.GetChars(), newname.GetChars());
+		DPrintf (DMSG_SPAMMY, "Music %s set to:\n%s\n", keystring.c_str(), newname.c_str());
 	}
 
 	return result;
@@ -3032,7 +3032,7 @@ static int PatchStrings (int dummy, int flags)
 			if (!stricmp(ll, "GOTREDSKULL")) ll = "GOTREDSKUL";
 			TableElement te = { LumpFileNum, { holdstring, holdstring, holdstring, holdstring } };
 			DehStrings.Insert(ll, te);
-			DPrintf (DMSG_SPAMMY, "%s set to:\n%s\n", Line1, holdstring.GetChars());
+			DPrintf (DMSG_SPAMMY, "%s set to:\n%s\n", Line1, holdstring.c_str());
 		}
 	}
 
@@ -3049,8 +3049,8 @@ static int PatchSoundNames (int dummy, int flags)
 	{
 		stripwhite(Line2);
 		FString newname = skipwhite (Line2);
-		ReplaceSoundName((int)strtoll(Line1, nullptr, 10), newname.GetChars());
-		DPrintf (DMSG_SPAMMY, "Sound %p set to:\n%s\n", Line1, newname.GetChars()); // should %p be %s ?
+		ReplaceSoundName((int)strtoll(Line1, nullptr, 10), newname.c_str());
+		DPrintf (DMSG_SPAMMY, "Sound %p set to:\n%s\n", Line1, newname.c_str()); // should %p be %s ?
 	}
 
 	return result;
@@ -3068,7 +3068,7 @@ static int PatchSpriteNames (int dummy, int flags)
 			FString newname = skipwhite (Line2);
 			if (newname.Len() != 4)
 			{
-				Printf("Sprite name must be 4 characters long, got '%s'\n", newname.GetChars());
+				Printf("Sprite name must be 4 characters long, got '%s'\n", newname.c_str());
 				continue;
 			}
 			int64_t line1val = strtoll(Line1, nullptr, 10);
@@ -3082,10 +3082,10 @@ static int PatchSpriteNames (int dummy, int flags)
 					OrgSprNames[o] = nulname;
 				}
 			}
-			int v = GetSpriteIndex(newname.GetChars());
+			int v = GetSpriteIndex(newname.c_str());
 			memcpy(OrgSprNames[line1val].c, sprites[v].name, 5);
 
-			DPrintf (DMSG_SPAMMY, "Sprite %p set to:\n%s\n", Line1, newname.GetChars()); // should %p be %s ?
+			DPrintf (DMSG_SPAMMY, "Sprite %p set to:\n%s\n", Line1, newname.c_str()); // should %p be %s ?
 		}
 		
 		return result;
@@ -3138,15 +3138,15 @@ static int DoInclude (int dummy, int flags)
 
 		// Try looking for the included file in the same directory
 		// as the patch before looking in the current file.
-		const char *lastSlash = strrchr(savepatchname.GetChars(), '/');
+		const char *lastSlash = strrchr(savepatchname.c_str(), '/');
 		char *path = data;
 
 		if (lastSlash != NULL)
 		{
-			size_t pathlen = lastSlash - savepatchname.GetChars() + strlen (data) + 2;
+			size_t pathlen = lastSlash - savepatchname.c_str() + strlen (data) + 2;
 			path = new char[pathlen];
-			strncpy (path, savepatchname.GetChars(), (lastSlash - savepatchname.GetChars()) + 1);
-			strcpy (path + (lastSlash - savepatchname.GetChars()) + 1, data);
+			strncpy (path, savepatchname.c_str(), (lastSlash - savepatchname.c_str()) + 1);
+			strcpy (path + (lastSlash - savepatchname.c_str()) + 1, data);
 			if (!FileExists (path))
 			{
 				delete[] path;
@@ -3294,7 +3294,7 @@ bool D_LoadDehFile(const char *patchfile, int flags)
 			// some WAD may need it. Should be deleted if it can
 			// be confirmed that nothing uses this case.
 			FString filebase(ExtractFileBase(patchfile));
-			lumpnum = fileSystem.CheckNumForName(filebase.GetChars());
+			lumpnum = fileSystem.CheckNumForName(filebase.c_str());
 		}
 		if (lumpnum >= 0)
 		{
@@ -3307,7 +3307,7 @@ bool D_LoadDehFile(const char *patchfile, int flags)
 
 static bool DoDehPatch(int flags)
 {
-	if (!batchrun) Printf("Adding dehacked patch %s\n", PatchName.GetChars());
+	if (!batchrun) Printf("Adding dehacked patch %s\n", PatchName.c_str());
 
 	int cont;
 	LineNumber = 0;
@@ -3318,7 +3318,7 @@ static bool DoDehPatch(int flags)
 	{
 		if (PatchFile[25] < '3' && (PatchFile[25] < '2' || PatchFile[27] < '3'))
 		{
-			Printf (PRINT_BOLD, "\"%s\" is an old and unsupported DeHackEd patch\n", PatchName.GetChars());
+			Printf (PRINT_BOLD, "\"%s\" is an old and unsupported DeHackEd patch\n", PatchName.c_str());
 			PatchName = "";
 			delete[] PatchFile;
 			return false;
@@ -3337,7 +3337,7 @@ static bool DoDehPatch(int flags)
 		}
 		if (!cont || dversion == -1 || pversion == -1)
 		{
-			Printf (PRINT_BOLD, "\"%s\" is not a DeHackEd patch file\n", PatchName.GetChars());
+			Printf (PRINT_BOLD, "\"%s\" is not a DeHackEd patch file\n", PatchName.c_str());
 			PatchName = "";
 			delete[] PatchFile;
 			return false;

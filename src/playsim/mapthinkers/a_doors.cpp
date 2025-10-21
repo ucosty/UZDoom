@@ -306,7 +306,7 @@ void DDoor::DoorSound(bool raise, DSeqNode *curseq) const
 					continue;
 
 				auto tex = TexMan.GetGameTexture(line->sidedef[0]->GetTexture(side_t::top));
-				texname = tex ? tex->GetName().GetChars() : NULL;
+				texname = tex ? tex->GetName().c_str() : NULL;
 				if (texname != NULL && texname[0] == 'D' && texname[1] == 'O' && texname[2] == 'R')
 				{
 					switch (texname[3])

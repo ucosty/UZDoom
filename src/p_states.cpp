@@ -412,7 +412,7 @@ DEFINE_ACTION_FUNCTION(AActor, FindStateByString)
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_STRING(newstate);
 	PARAM_BOOL(exact);
-	ACTION_RETURN_STATE(self->GetClass()->FindStateByString(newstate.GetChars(), exact));
+	ACTION_RETURN_STATE(self->GetClass()->FindStateByString(newstate.c_str(), exact));
 }
 
 //==========================================================================
@@ -1096,7 +1096,7 @@ void DumpStateHelper(FStateLabels *StateList, const FString &prefix)
 		if (state != NULL)
 		{
 			const PClassActor *owner = FState::StaticFindStateOwner(state);
-			auto pfx = prefix.GetChars();
+			auto pfx = prefix.c_str();
 			auto label = StateList->Labels[i].Label.GetChars();
 			if (owner == NULL)
 			{
@@ -1107,7 +1107,7 @@ void DumpStateHelper(FStateLabels *StateList, const FString &prefix)
 			}
 			else
 			{
-				Printf(PRINT_LOG, "%s%s: %s\n", pfx, label, FState::StaticGetStateName(state).GetChars());
+				Printf(PRINT_LOG, "%s%s: %s\n", pfx, label, FState::StaticGetStateName(state).c_str());
 			}
 		}
 		if (StateList->Labels[i].Children != NULL)

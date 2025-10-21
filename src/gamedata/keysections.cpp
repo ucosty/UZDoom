@@ -51,7 +51,7 @@ static void LoadKeys (const char *modname, bool dbl)
 {
 	char section[64];
 
-	mysnprintf (section, countof(section), "%s.%s%sBindings", gameinfo.ConfigName.GetChars(), modname,
+	mysnprintf (section, countof(section), "%s.%s%sBindings", gameinfo.ConfigName.c_str(), modname,
 		dbl ? ".Double" : ".");
 
 	FKeyBindings *bindings = dbl? &DoubleBindings : &Bindings;
@@ -72,7 +72,7 @@ static void DoSaveKeys (FConfigFile *config, const char *section, FKeySection *k
 	FKeyBindings *bindings = dbl? &DoubleBindings : &Bindings;
 	for (unsigned i = 0; i < keysection->mActions.Size(); ++i)
 	{
-		bindings->ArchiveBindings (config, keysection->mActions[i].mAction.GetChars());
+		bindings->ArchiveBindings (config, keysection->mActions[i].mAction.c_str());
 	}
 }
 
@@ -80,9 +80,9 @@ void M_SaveCustomKeys (FConfigFile *config, char *section, char *subsection, siz
 {
 	for (unsigned i=0; i<KeySections.Size(); i++)
 	{
-		mysnprintf (subsection, sublen, "%s.Bindings", KeySections[i].mSection.GetChars());
+		mysnprintf (subsection, sublen, "%s.Bindings", KeySections[i].mSection.c_str());
 		DoSaveKeys (config, section, &KeySections[i], false);
-		mysnprintf (subsection, sublen, "%s.DoubleBindings", KeySections[i].mSection.GetChars());
+		mysnprintf (subsection, sublen, "%s.DoubleBindings", KeySections[i].mSection.c_str());
 		DoSaveKeys (config, section, &KeySections[i], true);
 	}
 }

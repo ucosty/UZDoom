@@ -81,7 +81,7 @@ DEFINE_ACTION_FUNCTION(DPlayerMenu, PlayerNameChanged)
 {
 	PARAM_PROLOGUE;
 	PARAM_STRING(s);
-	const char *pp = s.GetChars();
+	const char *pp = s.c_str();
 	FString command("name \"");
 
 	if (DMenu::InMenu)
@@ -96,7 +96,7 @@ DEFINE_ACTION_FUNCTION(DPlayerMenu, PlayerNameChanged)
 			command << *p;
 		}
 		command << '"';
-		C_DoCommand(command.GetChars());
+		C_DoCommand(command.c_str());
 	}
 	return 0;
 }
@@ -134,7 +134,7 @@ DEFINE_ACTION_FUNCTION(DPlayerMenu, ClassChanged)
 	PARAM_POINTER(cls, FPlayerClass);
 	if (DMenu::InMenu)
 	{
-		const char *pclass = sel == -1 ? "Random" : GetPrintableDisplayName(cls->Type).GetChars();
+		const char *pclass = sel == -1 ? "Random" : GetPrintableDisplayName(cls->Type).c_str();
 		players[consoleplayer].userinfo.PlayerClassChanged(pclass);
 		cvar_set("playerclass", pclass);
 	}
@@ -155,7 +155,7 @@ DEFINE_ACTION_FUNCTION(DPlayerMenu, SkinChanged)
 	if (DMenu::InMenu)
 	{
 		players[consoleplayer].userinfo.SkinNumChanged(sel);
-		cvar_set("skin", Skins[sel].Name.GetChars());
+		cvar_set("skin", Skins[sel].Name.c_str());
 	}
 	return 0;
 }

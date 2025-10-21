@@ -52,7 +52,7 @@ bool StackFrameStateNode::SerializeToProtocol(dap::StackFrame &stackFrame, PexCa
 		return true;
 	}
 	auto scriptFunction = dynamic_cast<VMScriptFunction *>(m_stackFrame->Func);
-	if (scriptFunction && scriptFunction->SourceFileName.GetChars() && pexCache->GetSourceData(scriptFunction->SourceFileName.GetChars(), source))
+	if (scriptFunction && scriptFunction->SourceFileName.c_str() && pexCache->GetSourceData(scriptFunction->SourceFileName.c_str(), source))
 	{
 		stackFrame.source = source;
 		if (m_stackFrame->PC)

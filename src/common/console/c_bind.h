@@ -76,7 +76,7 @@ public:
 	{
 		if (index < NUM_KEYS)
 		{
-			auto c = Binds[index].GetChars();
+			auto c = Binds[index].c_str();
 			if (*c) return c;
 		}
 		return NULL;

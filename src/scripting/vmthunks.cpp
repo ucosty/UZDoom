@@ -84,7 +84,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_TexMan, SetCameraToTexture, SetCameraToTexture)
 
 static void SetCameraTextureAspectRatio(const FString &texturename, double aspectScale, bool useTextureRatio)
 {
-	FTextureID textureid = TexMan.CheckForTexture(texturename.GetChars(), ETextureType::Wall, FTextureManager::TEXMAN_Overridable);
+	FTextureID textureid = TexMan.CheckForTexture(texturename.c_str(), ETextureType::Wall, FTextureManager::TEXMAN_Overridable);
 	if (textureid.isValid())
 	{
 		// Only proceed if the texture actually has a canvas.
@@ -1076,7 +1076,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_Sector, SetXOffset, SetXOffset)
 
  static void SetEnvironment(sector_t *self, const FString &env)
  {
-	 self->Level->Zones[self->ZoneNumber].Environment = S_FindEnvironment(env.GetChars());
+	 self->Level->Zones[self->ZoneNumber].Environment = S_FindEnvironment(env.c_str());
  }
 
  DEFINE_ACTION_FUNCTION_NATIVE(_Sector, SetEnvironment, SetEnvironment)
@@ -1810,7 +1810,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_Sector, SetXOffset, SetXOffset)
  // This is needed to convert the strings to char pointers.
  static void ReplaceTextures(FLevelLocals *self, const FString &from, const FString &to, int flags)
  {
-	 self->ReplaceTextures(from.GetChars(), to.GetChars(), flags);
+	 self->ReplaceTextures(from.c_str(), to.c_str(), flags);
  }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FLevelLocals, ReplaceTextures, ReplaceTextures)
@@ -1819,7 +1819,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FLevelLocals, ReplaceTextures, ReplaceTextures)
 	PARAM_STRING(from);
 	PARAM_STRING(to);
 	PARAM_INT(flags);
-	self->ReplaceTextures(from.GetChars(), to.GetChars(), flags);
+	self->ReplaceTextures(from.c_str(), to.c_str(), flags);
 	return 0;
 }
 
@@ -2169,7 +2169,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DBaseStatusBar, DetachAllMessages, SBar_DetachAllM
 
 static void SetMugshotState(DBaseStatusBar *self, const FString &statename, bool wait, bool reset)
 {
-	self->mugshot.SetState(statename.GetChars(), wait, reset);
+	self->mugshot.SetState(statename.c_str(), wait, reset);
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(DBaseStatusBar, SetMugshotState, SetMugshotState)
@@ -2178,7 +2178,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DBaseStatusBar, SetMugshotState, SetMugshotState)
 	PARAM_STRING(statename);
 	PARAM_BOOL(wait);
 	PARAM_BOOL(reset);
-	self->mugshot.SetState(statename.GetChars(), wait, reset);
+	self->mugshot.SetState(statename.c_str(), wait, reset);
 	return 0;
 }
 
@@ -2273,7 +2273,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(DBaseStatusBar, ReceivedWeapon, ReceivedWeapon)
 
 static int GetMugshot(DBaseStatusBar *self, int accuracy, int stateflags, const FString &def_face)
 {
-	auto tex = self->mugshot.GetFace(self->CPlayer, def_face.GetChars(), accuracy, (FMugShot::StateFlags)stateflags);
+	auto tex = self->mugshot.GetFace(self->CPlayer, def_face.c_str(), accuracy, (FMugShot::StateFlags)stateflags);
 	return (tex ? tex->GetID().GetIndex() : -1);
 }
 
@@ -2732,7 +2732,7 @@ DEFINE_ACTION_FUNCTION(DObject, S_ChangeMusic)
 	PARAM_INT(order);
 	PARAM_BOOL(looping);
 	PARAM_BOOL(force);
-	ACTION_RETURN_BOOL(S_ChangeMusic(music.GetChars(), order, looping, force));
+	ACTION_RETURN_BOOL(S_ChangeMusic(music.c_str(), order, looping, force));
 }
 
 
@@ -2753,7 +2753,7 @@ DEFINE_ACTION_FUNCTION(_Console, MidPrint)
 	PARAM_STRING(text);
 	PARAM_BOOL(bold);
 
-	const char* txt = text[0] == '$' ? GStrings.GetString(&text[1]) : text.GetChars();
+	const char* txt = text[0] == '$' ? GStrings.GetString(&text[1]) : text.c_str();
 	C_MidPrint(fnt, txt, bold);
 	return 0;
 }
@@ -2815,7 +2815,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_LevelInfo, GetLevelInfo, GetLevelInfo)
 
 static level_info_t* ZFindLevelInfo( const FString &mapname )
 {
-	return FindLevelInfo(mapname.GetChars());
+	return FindLevelInfo(mapname.c_str());
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_LevelInfo, FindLevelInfo, ZFindLevelInfo)
@@ -2834,7 +2834,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(_LevelInfo, FindLevelByNum, FindLevelByNum)
 
 static int MapExists( const FString &mapname )
 {
-	return P_CheckMapData(mapname.GetChars());
+	return P_CheckMapData(mapname.c_str());
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(_LevelInfo, MapExists, MapExists)
@@ -2849,7 +2849,7 @@ DEFINE_ACTION_FUNCTION(_LevelInfo, MapChecksum)
 	PARAM_PROLOGUE;
 	PARAM_STRING(mapname);
 	char md5string[33] = "";
-	MapData *map = P_OpenMapData(mapname.GetChars(), true);
+	MapData *map = P_OpenMapData(mapname.c_str(), true);
 	if (map != nullptr)
 	{
 		uint8_t cksum[16];

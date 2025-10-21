@@ -253,7 +253,7 @@ CCMD (playerclasses)
 	{
 		Printf ("%3d: Class = %s, Name = %s\n", i,
 			PlayerClasses[i].Type->TypeName.GetChars(),
-			PlayerClasses[i].Type->GetDisplayName().GetChars());
+			PlayerClasses[i].Type->GetDisplayName().c_str());
 	}
 }
 
@@ -445,7 +445,7 @@ DEFINE_ACTION_FUNCTION(_PlayerInfo, SetLogText)
 {
 	PARAM_SELF_STRUCT_PROLOGUE(player_t);
 	PARAM_STRING(log);
-	self->SetLogText(log.GetChars());
+	self->SetLogText(log.c_str());
 	return 0;
 }
 
@@ -523,7 +523,7 @@ DEFINE_ACTION_FUNCTION(_PlayerInfo, SetSkin)
 	{
 		// commented code - cvar_set calls this automatically, along with saving the skin selection.
 		//self->userinfo.SkinNumChanged(skinIndex);
-		cvar_set("skin", Skins[skinIndex].Name.GetChars());
+		cvar_set("skin", Skins[skinIndex].Name.c_str());
 		ACTION_RETURN_INT(self->userinfo.GetSkin());
 	}
 	else
@@ -896,16 +896,16 @@ static int SetupCrouchSprite(AActor *self, int crouchsprite)
 		FString normspritename = sprites[self->SpawnState->sprite].name;
 		FString crouchspritename = sprites[crouchsprite].name;
 
-		int spritenorm = fileSystem.CheckNumForName((normspritename + "A1").GetChars(), FileSys::ns_sprites);
+		int spritenorm = fileSystem.CheckNumForName((normspritename + "A1").c_str(), FileSys::ns_sprites);
 		if (spritenorm == -1)
 		{
-			spritenorm = fileSystem.CheckNumForName((normspritename + "A0").GetChars(), FileSys::ns_sprites);
+			spritenorm = fileSystem.CheckNumForName((normspritename + "A0").c_str(), FileSys::ns_sprites);
 		}
 
-		int spritecrouch = fileSystem.CheckNumForName((crouchspritename + "A1").GetChars(), FileSys::ns_sprites);
+		int spritecrouch = fileSystem.CheckNumForName((crouchspritename + "A1").c_str(), FileSys::ns_sprites);
 		if (spritecrouch == -1)
 		{
-			spritecrouch = fileSystem.CheckNumForName((crouchspritename + "A0").GetChars(), FileSys::ns_sprites);
+			spritecrouch = fileSystem.CheckNumForName((crouchspritename + "A0").c_str(), FileSys::ns_sprites);
 		}
 
 		if (spritenorm == -1 || spritecrouch == -1)
@@ -1818,7 +1818,7 @@ void player_t::Serialize(FSerializer &arc)
 	}
 	if (skinname.IsNotEmpty())
 	{
-		userinfo.SkinChanged(skinname.GetChars(), CurrentPlayerClass);
+		userinfo.SkinChanged(skinname.c_str(), CurrentPlayerClass);
 	}
 }
 

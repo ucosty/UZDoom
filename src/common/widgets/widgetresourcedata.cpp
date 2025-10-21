@@ -111,9 +111,9 @@ std::vector<SingleFontData> LoadWidgetFontData(const std::string& name)
 		{
 			returnv.resize(5);
 			FString windir(wbuffer);
-			returnv[3].fontdata = LoadDiskFile((windir + "/fonts/yugothm.ttc").GetChars());
+			returnv[3].fontdata = LoadDiskFile((windir + "/fonts/yugothm.ttc").c_str());
 			returnv[3].language = "ja";
-			returnv[4].fontdata = LoadDiskFile((windir + "/fonts/malgun.ttf").GetChars());
+			returnv[4].fontdata = LoadDiskFile((windir + "/fonts/malgun.ttf").c_str());
 			returnv[4].language = "ko";
 			// Don't fail if these cannot be found
 			if (returnv[4].fontdata.size() == 0) returnv.erase(returnv.begin() + 4);

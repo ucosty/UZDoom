@@ -47,6 +47,6 @@ TArray<FBrokenLines> V_BreakLines (FFont *font, int maxwidth, const uint8_t *str
 inline TArray<FBrokenLines> V_BreakLines (FFont *font, int maxwidth, const char *str, bool preservecolor = false)
  { return V_BreakLines (font, maxwidth, (const uint8_t *)str, preservecolor); }
 inline TArray<FBrokenLines> V_BreakLines (FFont *font, int maxwidth, const FString &str, bool preservecolor = false)
- { return V_BreakLines (font, maxwidth, (const uint8_t *)str.GetChars(), preservecolor); }
+ { return V_BreakLines (font, maxwidth, (const uint8_t *)str.c_str(), preservecolor); }
 
 #endif //__V_TEXT_H__

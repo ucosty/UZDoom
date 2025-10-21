@@ -70,7 +70,7 @@ void JitDumpLog(FILE *file, VMScriptFunction *sfunc)
 
 		FString err;
 		err.Format("Unexpected JIT error: %s\n", e.what());
-		fwrite(err.GetChars(), err.Len(), 1, file);
+		fwrite(err.c_str(), err.Len(), 1, file);
 		fclose(file);
 
 		I_FatalError("Unexpected JIT error: %s\n", e.what());
@@ -87,7 +87,7 @@ static void OutputJitLog(const asmjit::StringLogger &logger)
 		if (*end == '\n')
 		{
 			FString substr(pos, (int)(ptrdiff_t)(end - pos));
-			Printf("%s\n", substr.GetChars());
+			Printf("%s\n", substr.c_str());
 			pos = end + 1;
 		}
 		end++;
@@ -137,7 +137,7 @@ asmjit::CCFunc *JitCompiler::Codegen()
 			FString lineinfo;
 			lineinfo.Format("; line %d: %02x%02x%02x%02x %s", curLine, pc->op, pc->a, pc->b, pc->c, OpNames[op]);
 			cc.comment("", 0);
-			cc.comment(lineinfo.GetChars(), lineinfo.Len());
+			cc.comment(lineinfo.c_str(), lineinfo.Len());
 		}
 
 		labels[i].cursor = cc.getCursor();
@@ -245,7 +245,7 @@ void JitCompiler::Setup()
 
 	FString funcname;
 	funcname.Format("Function: %s", sfunc->PrintableName);
-	cc.comment(funcname.GetChars(), funcname.Len());
+	cc.comment(funcname.c_str(), funcname.Len());
 
 	cc.comment(marks, 56);
 	cc.comment("", 0);
@@ -456,25 +456,25 @@ void JitCompiler::CreateRegisters()
 	for (int i = 0; i < sfunc->NumRegD; i++)
 	{
 		regname.Format("regD%d", i);
-		regD[i] = cc.newInt32(regname.GetChars());
+		regD[i] = cc.newInt32(regname.c_str());
 	}
 
 	for (int i = 0; i < sfunc->NumRegF; i++)
 	{
 		regname.Format("regF%d", i);
-		regF[i] = cc.newXmmSd(regname.GetChars());
+		regF[i] = cc.newXmmSd(regname.c_str());
 	}
 
 	for (int i = 0; i < sfunc->NumRegS; i++)
 	{
 		regname.Format("regS%d", i);
-		regS[i] = cc.newIntPtr(regname.GetChars());
+		regS[i] = cc.newIntPtr(regname.c_str());
 	}
 
 	for (int i = 0; i < sfunc->NumRegA; i++)
 	{
 		regname.Format("regA%d", i);
-		regA[i] = cc.newIntPtr(regname.GetChars());
+		regA[i] = cc.newIntPtr(regname.c_str());
 	}
 }
 

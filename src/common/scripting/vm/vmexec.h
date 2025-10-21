@@ -447,7 +447,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 		GETADDR(PA,KC,X_WRITE_NIL);
 #ifdef _DEBUG
 		// Should never happen, if it does it indicates a compiler side problem.
-		if (((FString*)ptr)->GetChars() == nullptr) ThrowAbortException(X_OTHER, "Uninitialized string");
+		if (((FString*)ptr)->c_str() == nullptr) ThrowAbortException(X_OTHER, "Uninitialized string");
 #endif
 		*(FString *)ptr = reg.s[B];
 		NEXTOP;
@@ -2023,7 +2023,7 @@ static int ExecScriptFunc(VMFrameStack *stack, VMReturn *ret, int numret)
 	catch (CVMAbortException &err)
 	{
 		err.MaybePrintMessage();
-		err.stacktrace.AppendFormat("Called from %s at %s, line %d\n", sfunc->PrintableName, sfunc->SourceFileName.GetChars(), sfunc->PCToLine(pc));
+		err.stacktrace.AppendFormat("Called from %s at %s, line %d\n", sfunc->PrintableName, sfunc->SourceFileName.c_str(), sfunc->PCToLine(pc));
 		// PrintParameters(reg.param + f->NumParam - B, B);
 		throw;
 	}
@@ -2140,7 +2140,7 @@ static void DoCast(const VMRegisters &reg, const VMFrame *f, int a, int b, int c
 
 	case CAST_S2Co:
 		ASSERTD(a); ASSERTS(b);
-		reg.d[a] = V_GetColor(reg.s[b].GetChars());
+		reg.d[a] = V_GetColor(reg.s[b].c_str());
 		break;
 
 	case CAST_Co2S:
@@ -2167,7 +2167,7 @@ static void DoCast(const VMRegisters &reg, const VMFrame *f, int a, int b, int c
 	{
 		ASSERTS(a); ASSERTD(b);
 		auto tex = TexMan.GetGameTexture(*(FTextureID*)&(reg.d[b]));
-		reg.s[a] = tex == nullptr ? "(null)" : tex->GetName().GetChars();
+		reg.s[a] = tex == nullptr ? "(null)" : tex->GetName().c_str();
 		break;
 	}
 

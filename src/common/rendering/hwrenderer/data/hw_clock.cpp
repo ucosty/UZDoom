@@ -175,7 +175,7 @@ void CheckBench()
 		FILE *f = fopen("benchmarks.txt", "at");
 		if (f != NULL)
 		{
-			fputs(compose.GetChars(), f);
+			fputs(compose.c_str(), f);
 			fclose(f);
 		}
 		Printf("Benchmark info saved\n");

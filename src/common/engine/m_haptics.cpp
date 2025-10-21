@@ -425,7 +425,7 @@ void Joy_ReadyRumbleMapping()
 			FString list = "[";
 			while (it.NextPair(pair))
 				list.AppendFormat(" '%s'->'%s'", pair->Key.GetChars(), pair->Value.GetChars());
-			Printf(DMSG_ERROR, TEXTCOLOR_RED "Circular rumble alias found! (%d) %s ]\n", RumbleAlias.CountUsed(), list.GetChars());
+			Printf(DMSG_ERROR, TEXTCOLOR_RED "Circular rumble alias found! (%d) %s ]\n", RumbleAlias.CountUsed(), list.c_str());
 			break;
 		}
 
@@ -757,7 +757,7 @@ void RumblePrint(const FName identifier, const FName * mapping, const struct Hap
 		{	color = TEXTCOLOR_CYAN; text.AppendFormat(" T%d H%.1g L%.1g A%.1g",
 			rumble->ticks, rumble->high_frequency, rumble->low_frequency, attenuation); }
 	}
-	Printf("%s%s\n", color, text.GetChars());
+	Printf("%s%s\n", color, text.c_str());
 }
 
 //==========================================================================
@@ -805,7 +805,7 @@ void RumbleDump()
 			FString val = pair->Value.GetChars();
 			key.ToLower();
 			val.ToUpper();
-			FString a = FStringf("'%s'\t->\t'%s'", key.GetChars(), val.GetChars());
+			FString a = FStringf("'%s'\t->\t'%s'", key.c_str(), val.c_str());
 			FString b = mapping
 				? FStringf(
 					"{ %d %g %g %g %g }",
@@ -815,7 +815,7 @@ void RumbleDump()
 					mapping->left_trigger,
 					mapping->right_trigger
 				) : "[undefined]";
-			Printf("\t%s\t->\t%s\n", a.GetChars(), b.GetChars());
+			Printf("\t%s\t->\t%s\n", a.c_str(), b.c_str());
 		}
 	}
 
@@ -824,9 +824,9 @@ void RumbleDump()
 		Printf("Unused:\n");
 		for (auto i:unused)
 		{
-			FString s = i.GetChars();
+			FString s = i.c_str();
 			s.ToUpper();
-			Printf("\t'%s'\n", s.GetChars());
+			Printf("\t'%s'\n", s.c_str());
 		}
 	}
 }

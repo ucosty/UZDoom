@@ -236,7 +236,7 @@ PClassActor * FParser::T_GetMobjType(svalue_t arg)
 		pclass=PClass::FindActor(arg.string);
 
 		// invalid object to spawn
-		if(!pclass) script_error("unknown object type: %s\n", arg.string.GetChars()); 
+		if(!pclass) script_error("unknown object type: %s\n", arg.string.c_str()); 
 	}
 	else if (arg.type==svt_mobj)
 	{
@@ -389,7 +389,7 @@ bool FParser::CheckArgs(int cnt)
 {
 	if (t_argc<cnt)
 	{
-		script_error("Insufficient parameters for '%s'\n", t_func.GetChars());
+		script_error("Insufficient parameters for '%s'\n", t_func.c_str());
 		return false;
 	}
 	return true;
@@ -418,7 +418,7 @@ bool FParser::CheckArgs(int cnt)
 //==========================================================================
 void FParser::SF_Print(void)
 {
-	Printf(PRINT_HIGH, "%s\n", GetFormatString(0).GetChars());
+	Printf(PRINT_HIGH, "%s\n", GetFormatString(0).c_str());
 }
 
 
@@ -559,7 +559,7 @@ void FParser::SF_Include(void)
 	{
 		if(t_argv[0].type == svt_string)
 		{
-			strncpy(tempstr, t_argv[0].string.GetChars(), 8);
+			strncpy(tempstr, t_argv[0].string.c_str(), 8);
 			tempstr[8]=0;
 		}
 		else
@@ -627,7 +627,7 @@ void FParser::SF_Tip(void)
 	if (t_argc>0 && Script->trigger &&
 		Script->trigger->CheckLocalView()) 
 	{
-		C_MidPrint(nullptr, GetFormatString(0).GetChars());
+		C_MidPrint(nullptr, GetFormatString(0).c_str());
 	}
 }
 
@@ -647,7 +647,7 @@ void FParser::SF_TimedTip(void)
 	{
 		float saved = con_midtime;
 		con_midtime = intvalue(t_argv[0])/100.0f;
-		C_MidPrint(nullptr, GetFormatString(1).GetChars());
+		C_MidPrint(nullptr, GetFormatString(1).c_str());
 		con_midtime=saved;
 	}
 }
@@ -666,7 +666,7 @@ void FParser::SF_PlayerTip(void)
 		int plnum = T_GetPlayerNum(t_argv[0]);
 		if (plnum!=-1 && Level->Players[plnum]->mo->CheckLocalView())
 		{
-			C_MidPrint(nullptr, GetFormatString(1).GetChars());
+			C_MidPrint(nullptr, GetFormatString(1).c_str());
 		}
 	}
 }
@@ -682,7 +682,7 @@ void FParser::SF_Message(void)
 	if (t_argc>0 && Script->trigger &&
 		Script->trigger->CheckLocalView())
 	{
-		Printf(PRINT_HIGH, "%s\n", GetFormatString(0).GetChars());
+		Printf(PRINT_HIGH, "%s\n", GetFormatString(0).c_str());
 	}
 }
 
@@ -699,7 +699,7 @@ void FParser::SF_PlayerMsg(void)
 		int plnum = T_GetPlayerNum(t_argv[0]);
 		if (plnum!=-1 && Level->Players[plnum]->mo->CheckLocalView())
 		{
-			Printf(PRINT_HIGH, "%s\n", GetFormatString(1).GetChars());
+			Printf(PRINT_HIGH, "%s\n", GetFormatString(1).c_str());
 		}
 	}
 }
@@ -1869,7 +1869,7 @@ void FParser::SF_FloorTexture(void)
 		if(t_argc > 1)
 		{
 			int i = -1;
-			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.GetChars(), ETextureType::Flat, FTextureManager::TEXMAN_Overridable);
+			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.c_str(), ETextureType::Flat, FTextureManager::TEXMAN_Overridable);
 			
 			// set all sectors with tag
 			auto itr = Level->GetSectorTagIterator(tagnum);
@@ -1959,7 +1959,7 @@ void FParser::SF_CeilingTexture(void)
 		if(t_argc > 1)
 		{
 			int i = -1;
-			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.GetChars(), ETextureType::Flat, FTextureManager::TEXMAN_Overridable);
+			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.c_str(), ETextureType::Flat, FTextureManager::TEXMAN_Overridable);
 			
 			// set all sectors with tag
 			auto itr = Level->GetSectorTagIterator(tagnum);
@@ -2229,7 +2229,7 @@ void FParser::SF_SetLineTexture(void)
 		}
 		else // and an improved legacy version
 		{ 
-			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.GetChars(), ETextureType::Wall, FTextureManager::TEXMAN_Overridable);
+			FTextureID picnum = TexMan.GetTextureID(t_argv[1].string.c_str(), ETextureType::Wall, FTextureManager::TEXMAN_Overridable);
 			side = !!intvalue(t_argv[2]); 
 			int sections = intvalue(t_argv[3]); 
 			

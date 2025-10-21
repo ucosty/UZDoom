@@ -133,13 +133,13 @@ static FString strv;
 static const char *mus_NicePath(const char* str)
 {
 	strv = NicePath(str);
-	return strv.GetChars();
+	return strv.c_str();
 }
 
 static const char* mus_pathToSoundFont(const char* sfname, int type)
 {
 	auto info = sfmanager.FindSoundFont(sfname, type);
-	return info ? info->mFilename.GetChars() : nullptr;
+	return info ? info->mFilename.c_str() : nullptr;
 }
 
 static void* mus_openSoundFont(const char* sfname, int type)
@@ -312,11 +312,11 @@ static ZMusic_MidiSource GetMIDISource(const char *fn)
 	FString src = fn;
 	if (src.Compare("*") == 0) src = mus_playing.name;
 
-	auto lump = fileSystem.CheckNumForName(src.GetChars(), ns_music);
-	if (lump < 0) lump = fileSystem.CheckNumForFullName(src.GetChars());
+	auto lump = fileSystem.CheckNumForName(src.c_str(), ns_music);
+	if (lump < 0) lump = fileSystem.CheckNumForFullName(src.c_str());
 	if (lump < 0)
 	{
-		Printf("Cannot find MIDI lump %s.\n", src.GetChars());
+		Printf("Cannot find MIDI lump %s.\n", src.c_str());
 		return nullptr;
 	}
 
@@ -326,13 +326,13 @@ static ZMusic_MidiSource GetMIDISource(const char *fn)
 
 	if (wlump.Read(id, 32) != 32 || wlump.Seek(-32, FileReader::SeekCur) != 0)
 	{
-		Printf("Unable to read lump %s\n", src.GetChars());
+		Printf("Unable to read lump %s\n", src.c_str());
 		return nullptr;
 	}
 	auto type = ZMusic_IdentifyMIDIType(id, 32);
 	if (type == MIDI_NOTMIDI)
 	{
-		Printf("%s is not MIDI-based.\n", src.GetChars());
+		Printf("%s is not MIDI-based.\n", src.c_str());
 		return nullptr;
 	}
 
@@ -341,7 +341,7 @@ static ZMusic_MidiSource GetMIDISource(const char *fn)
 
 	if (source == nullptr)
 	{
-		Printf("Unable to open %s: %s\n", src.GetChars(), ZMusic_GetLastError());
+		Printf("Unable to open %s: %s\n", src.c_str(), ZMusic_GetLastError());
 		return nullptr;
 	}
 	return source;
@@ -391,7 +391,7 @@ UNSAFE_CCMD (writewave)
 			Printf("MIDI dump of %s failed: %s\n",argv[1], ZMusic_GetLastError());
 		}
 
-		S_ChangeMusic(savedsong.name.GetChars(), savedsong.baseorder, savedsong.loop, true);
+		S_ChangeMusic(savedsong.name.c_str(), savedsong.baseorder, savedsong.loop, true);
 	}
 	else
 	{

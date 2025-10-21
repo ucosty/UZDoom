@@ -78,15 +78,15 @@ int ButtonMap::ListActionCommands (const char *pattern)
 	for (auto& btn : NumToName)
 	{
 		if (pattern == NULL || CheckWildcards (pattern,
-			(mysnprintf (matcher, countof(matcher), "+%s", btn.GetChars()), matcher)))
+			(mysnprintf (matcher, countof(matcher), "+%s", btn.c_str()), matcher)))
 		{
-			Printf ("+%s\n", btn.GetChars());
+			Printf ("+%s\n", btn.c_str());
 			count++;
 		}
 		if (pattern == NULL || CheckWildcards (pattern,
-			(mysnprintf (matcher, countof(matcher), "-%s", btn.GetChars()), matcher)))
+			(mysnprintf (matcher, countof(matcher), "-%s", btn.c_str()), matcher)))
 		{
-			Printf ("-%s\n", btn.GetChars());
+			Printf ("-%s\n", btn.c_str());
 			count++;
 		}
 	}
@@ -276,7 +276,7 @@ void FButtonStatus::AddAxes (FString &btn_name, float joyaxes[NUM_AXIS_CODES])
 	Axis = 0.0f;
 
 	char cmd_name[16];
-	strcpy(&cmd_name[1], btn_name.GetChars());
+	strcpy(&cmd_name[1], btn_name.c_str());
 
 	cmd_name[0] = '+';
 	TArray<int> positive_keys = Bindings.GetKeysForCommand(cmd_name);
@@ -321,7 +321,7 @@ void ButtonMap::AddButtonTabCommands()
 	for (auto& btn : NumToName)
 	{
 		char tname[16];
-		strcpy (&tname[1], btn.GetChars());
+		strcpy (&tname[1], btn.c_str());
 		tname[0] = '+';
 		C_AddTabCommand (tname);
 		tname[0] = '-';

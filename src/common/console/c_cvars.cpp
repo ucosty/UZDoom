@@ -207,12 +207,12 @@ FBaseCVar::~FBaseCVar ()
 	{
 		FBaseCVar *var, *prev;
 
-		var = FindCVar (VarName.GetChars(), &prev);
+		var = FindCVar (VarName.c_str(), &prev);
 
 		if (var == this)
 		{
 			cvarMap.Remove(var->VarName);
-			C_RemoveTabCommand(VarName.GetChars());
+			C_RemoveTabCommand(VarName.c_str());
 		}
 	}
 }
@@ -877,27 +877,27 @@ ECVarType FStringCVar::GetRealType () const
 
 UCVarValue FStringCVar::GetGenericRep (ECVarType type) const
 {
-	return FromString (mValue.GetChars(), type);
+	return FromString (mValue.c_str(), type);
 }
 
 UCVarValue FStringCVar::GetFavoriteRep (ECVarType *type) const
 {
 	UCVarValue ret;
 	*type = CVAR_String;
-	ret.String = mValue.GetChars();
+	ret.String = mValue.c_str();
 	return ret;
 }
 
 UCVarValue FStringCVar::GetGenericRepDefault (ECVarType type) const
 {
-	return FromString (mDefaultValue.GetChars(), type);
+	return FromString (mDefaultValue.c_str(), type);
 }
 
 UCVarValue FStringCVar::GetFavoriteRepDefault (ECVarType *type) const
 {
 	UCVarValue ret;
 	*type = CVAR_String;
-	ret.String = mDefaultValue.GetChars();
+	ret.String = mDefaultValue.c_str();
 	return ret;
 }
 
@@ -915,7 +915,7 @@ UCVarValue FStringCVar::DoSet (UCVarValue value, ECVarType type)
 {
 	mOldValue = mValue;
 	mValue = ToString(value, type);
-	return mOldValue.GetChars();
+	return mOldValue.c_str();
 }
 
 //
@@ -986,7 +986,7 @@ int FColorCVar::ToInt2 (UCVarValue value, ECVarType type)
 
 		if (string.IsNotEmpty())
 		{
-			ret = V_GetColorFromString (string.GetChars());
+			ret = V_GetColorFromString (string.c_str());
 		}
 		else
 		{
@@ -1412,7 +1412,7 @@ void C_RestoreCVars (void)
 {
 	for (unsigned int i = 0; i < CVarBackups.Size(); ++i)
 	{
-		cvar_set(CVarBackups[i].Name.GetChars(), CVarBackups[i].String.GetChars());
+		cvar_set(CVarBackups[i].Name.c_str(), CVarBackups[i].String.c_str());
 	}
 	C_ForgetCVars();
 }
@@ -1578,7 +1578,7 @@ void C_ArchiveCVars (FConfigFile *f, uint32_t filter)
 	{
 		const char* const value = (cv->Flags & CVAR_ISDEFAULT)
 			? cv->GetGenericRep(CVAR_String).String
-			: cv->SafeValue.GetChars();
+			: cv->SafeValue.c_str();
 		f->SetValueForKey(cv->GetName(), value);
 	}
 }
@@ -1705,7 +1705,7 @@ CCMD (toggle)
 			auto msg = var->GetToggleMessage(val.Bool);
 			if (msg.IsNotEmpty())
 			{
-				Printf(PRINT_NOTIFY, "%s\n", msg.GetChars());
+				Printf(PRINT_NOTIFY, "%s\n", msg.c_str());
 			}
 			else Printf ("\"%s\" = \"%s\"\n", var->GetName(),
 				val.Bool ? "true" : "false");
@@ -1734,9 +1734,9 @@ void FBaseCVar::ListVars (const char *filter, int listtype)
 			// also allow matching to cvar name, localised description, and description language-id
 
 			FString SearchString = FString("*") + filter + "*";
-			ismatch = CheckWildcards (SearchString.GetChars(), var->GetName()) ||
-				CheckWildcards (SearchString.GetChars(), var->GetDescription().GetChars()) ||
-				CheckWildcards (SearchString.GetChars(), GStrings.localize(var->GetDescription().GetChars()));
+			ismatch = CheckWildcards (SearchString.c_str(), var->GetName()) ||
+				CheckWildcards (SearchString.c_str(), var->GetDescription().c_str()) ||
+				CheckWildcards (SearchString.c_str(), GStrings.localize(var->GetDescription().c_str()));
 		}
 		else
 		{
@@ -1773,7 +1773,7 @@ void FBaseCVar::ListVars (const char *filter, int listtype)
 
 				if (includedesc)
 					if (var->GetDescription().Len())
-						Printf(" // \"%s\"\n", GStrings.localize(var->GetDescription().GetChars()));
+						Printf(" // \"%s\"\n", GStrings.localize(var->GetDescription().c_str()));
 					else
 						Printf("\n");
 				else
@@ -2026,7 +2026,7 @@ UCVarValue FZSStringCVar::GenericZSCVarCallback(UCVarValue value, ECVarType type
 	}
 
 	char * str = new char[val.Len() + 1];
-	memcpy(str, val.GetChars(), val.Len() * sizeof(char));
+	memcpy(str, val.c_str(), val.Len() * sizeof(char));
 	str[val.Len()] = '\0';
 
 	UCVarValue v;

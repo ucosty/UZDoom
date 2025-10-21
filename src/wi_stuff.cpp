@@ -299,7 +299,7 @@ private:
 					break;
 				case ECondition::COND_EQUAL:
 				{
-					auto* li = FindLevelInfo(state != StatCount ? wbs->next.GetChars() : wbs->current.GetChars());
+					auto* li = FindLevelInfo(state != StatCount ? wbs->next.c_str() : wbs->current.c_str());
 					if (!li)
 						return false;
 					int levelnum = li->id24_levelnum ? li->id24_levelnum : li->levelnum;
@@ -309,7 +309,7 @@ private:
 				}
 				case ECondition::COND_GREATER:
 				{
-					auto* li = FindLevelInfo(state != StatCount ? wbs->next.GetChars() : wbs->current.GetChars());
+					auto* li = FindLevelInfo(state != StatCount ? wbs->next.c_str() : wbs->current.c_str());
 					if (!li)
 						return false;
 					int levelnum = li->id24_levelnum ? li->id24_levelnum : li->levelnum;
@@ -326,7 +326,7 @@ private:
 				}
 				case ECondition::COND_NOTSECRET:
 				{
-					auto* li = FindLevelInfo(state != StatCount ? wbs->next.GetChars() : wbs->current.GetChars());
+					auto* li = FindLevelInfo(state != StatCount ? wbs->next.c_str() : wbs->current.c_str());
 					if (!li)
 						return false;
 					if (li->flags3 & LEVEL3_SECRET)
@@ -390,18 +390,18 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 	if (!isenterpic) tilebackground = false;
 	texture.SetInvalid();
 
-	level_info_t* li = FindLevelInfo(wbs->current.GetChars());
+	level_info_t* li = FindLevelInfo(wbs->current.c_str());
 	if (li != nullptr)
 	{
 		if (li->ExitAnim.IsNotEmpty())
 		{
 			id24anim = true;
-			exitpic = li->ExitAnim.GetChars();
+			exitpic = li->ExitAnim.c_str();
 			tilebackground = false;
 		}
 		else
 		{
-			exitpic = li->ExitPic.GetChars();
+			exitpic = li->ExitPic.c_str();
 			if (li->ExitPic.IsNotEmpty()) tilebackground = false;
 		}
 	}
@@ -409,18 +409,18 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 
 	if (isenterpic)
 	{
-		level_info_t* li = FindLevelInfo(wbs->next.GetChars());
+		level_info_t* li = FindLevelInfo(wbs->next.c_str());
 		if (li != NULL)
 		{
 			if (li->EnterAnim.IsNotEmpty())
 			{
 				id24anim = true;
-				lumpname = li->EnterAnim.GetChars();
+				lumpname = li->EnterAnim.c_str();
 				tilebackground = false;
 			}
 			else
 			{
-				lumpname = li->EnterPic.GetChars();
+				lumpname = li->EnterPic.c_str();
 				if (li->EnterPic.IsNotEmpty()) tilebackground = false;
 			}
 		}
@@ -436,7 +436,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 		case GAME_Doom:
 			if (!(gameinfo.flags & GI_MAPxx))
 			{
-				const char* levelname = isenterpic ? wbs->next.GetChars() : wbs->current.GetChars();
+				const char* levelname = isenterpic ? wbs->next.c_str() : wbs->current.c_str();
 				if (IsExMy(levelname))
 				{
 					mysnprintf(buffer, countof(buffer), "$IN_EPI%c", levelname[1]);
@@ -458,10 +458,10 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 					if (!(gameinfo.flags & GI_MAPxx))
 					{
 						// not if the last level is not from the first 3 episodes
-						if (!IsExMy(wbs->current.GetChars())) return false;
+						if (!IsExMy(wbs->current.c_str())) return false;
 
 						// not if the next level is one of the first 3 episodes
-						if (IsExMy(wbs->next.GetChars())) return false;
+						if (IsExMy(wbs->next.c_str())) return false;
 					}
 				}
 				lumpname = "INTERPIC";
@@ -472,7 +472,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 		case GAME_Heretic:
 			if (isenterpic)
 			{
-				if (IsExMy(wbs->next.GetChars()))
+				if (IsExMy(wbs->next.c_str()))
 				{
 					mysnprintf(buffer, countof(buffer), "$IN_HTC%c", wbs->next[1]);
 					lumpname = buffer;
@@ -496,7 +496,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 		default:
 			// Strife doesn't have an intermission pic so choose something neutral.
 			if (isenterpic) return false;
-			lumpname = gameinfo.BorderFlat.GetChars();
+			lumpname = gameinfo.BorderFlat.c_str();
 			tilebackground = true;
 			break;
 		}
@@ -527,7 +527,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 			auto data = fileSystem.ReadFile(lumpnum);
 			FSerializer jsonReader;
 			jsonReader.mLumpName = fileSystem.GetFileFullPath(lumpnum);
-			lumpname = jsonReader.mLumpName.GetChars();
+			lumpname = jsonReader.mLumpName.c_str();
 			if (jsonReader.OpenReader(data.string(), data.size()))
 			{
 				FString type = jsonReader.GetString("type");
@@ -543,14 +543,14 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 						I_Error("No music lump specified for intermission animation %s!", lumpname);
 					}
 					muslump = music;
-					if (!MusicExists(muslump.GetChars()))
+					if (!MusicExists(muslump.c_str()))
 					{
-						I_Error("Music lump %s not found!", muslump.GetChars());
+						I_Error("Music lump %s not found!", muslump.c_str());
 					}
 				
 					// Check for background lump.
 					FString backgroundimage = jsonReader.GetString("backgroundimage");
-					texture = TexMan.CheckForTexture(backgroundimage.GetChars(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
+					texture = TexMan.CheckForTexture(backgroundimage.c_str(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
 					if (!texture.isValid())
 					{
 						if (backgroundimage.IsEmpty())
@@ -559,7 +559,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 						}
 						else
 						{
-							I_Error("Texture %s not found!", backgroundimage.GetChars());
+							I_Error("Texture %s not found!", backgroundimage.c_str());
 						}
 					}
 
@@ -671,10 +671,10 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 															I_Error("No image defined for frame %d, anim %d, layer %d in lump %s", anim.frames.Size(), layer.anims.Size(), layers.Size(), lumpname);
 														}
 
-														frame.image = TexMan.CheckForTexture(image.GetChars(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
+														frame.image = TexMan.CheckForTexture(image.c_str(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
 														if (!frame.image.isValid())
 														{
-															I_Error("Texture '%s' not found!", image.GetChars());
+															I_Error("Texture '%s' not found!", image.c_str());
 														}
 
 														frame.duration = round(duration * (double)TICRATE);
@@ -956,7 +956,7 @@ void DInterBackground::updateAnimatedBack()
 	bcnt++;
 	if (bcnt == 1 && muslump.IsNotEmpty())
 	{
-		S_ChangeMusic(muslump.GetChars());
+		S_ChangeMusic(muslump.c_str());
 	}
 
 	for (auto& layer : layers)
@@ -1072,12 +1072,12 @@ void DInterBackground::drawBackground(int state, bool drawsplat, bool snl_pointe
 			switch (a->type & ANIM_CONDITION)
 			{
 			case ANIM_IFVISITED:
-				li = FindLevelInfo(a->LevelName.GetChars());
+				li = FindLevelInfo(a->LevelName.c_str());
 				if (li == NULL || !(li->flags & LEVEL_VISITED)) continue;
 				break;
 
 			case ANIM_IFNOTVISITED:
-				li = FindLevelInfo(a->LevelName.GetChars());
+				li = FindLevelInfo(a->LevelName.c_str());
 				if (li == NULL || (li->flags & LEVEL_VISITED)) continue;
 				break;
 
@@ -1116,7 +1116,7 @@ void DInterBackground::drawBackground(int state, bool drawsplat, bool snl_pointe
 	{
 		for (i = 0; i<lnodes.Size(); i++)
 		{
-			level_info_t * li = FindLevelInfo(lnodes[i].Level.GetChars());
+			level_info_t * li = FindLevelInfo(lnodes[i].Level.c_str());
 			if (li && li->flags & LEVEL_VISITED) drawOnLnode(i, &splat, 1, animwidth, animheight);  // draw a splat on taken cities.
 		}
 	}
@@ -1124,7 +1124,7 @@ void DInterBackground::drawBackground(int state, bool drawsplat, bool snl_pointe
 	// draw flashing ptr
 	if (snl_pointeron && yah.Size())
 	{
-		unsigned int v = MapToIndex(wbs->next.GetChars());
+		unsigned int v = MapToIndex(wbs->next.c_str());
 		// Draw only if it points to a valid level on the current screen!
 		if (v<lnodes.Size()) drawOnLnode(v, &yah[0], yah.Size(), animwidth, animheight);
 	}

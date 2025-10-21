@@ -118,7 +118,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 	{
 		if (!(state->UseFlags & SUF_ITEM))
 		{
-			Printf(TEXTCOLOR_RED "State %s not flagged for use in CustomInventory state chains.\n", FState::StaticGetStateName(state).GetChars());
+			Printf(TEXTCOLOR_RED "State %s not flagged for use in CustomInventory state chains.\n", FState::StaticGetStateName(state).c_str());
 			return false;
 		}
 
@@ -131,7 +131,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 			{
 				// If an unsafe function (i.e. one that accesses user variables) is being detected, print a warning once and remove the bogus function. We may not call it because that would inevitably crash.
 				Printf(TEXTCOLOR_RED "Unsafe state call in state %s to %s which accesses user variables. The action function has been removed from this state\n",
-					FState::StaticGetStateName(state).GetChars(), state->ActionFunc->PrintableName);
+					FState::StaticGetStateName(state).c_str(), state->ActionFunc->PrintableName);
 				state->ActionFunc = nullptr;
 			}
 
@@ -203,7 +203,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 			catch (CVMAbortException &err)
 			{
 				err.MaybePrintMessage();
-				err.stacktrace.AppendFormat("Called from state %s in inventory state chain in %s\n", FState::StaticGetStateName(state).GetChars(), self->GetClass()->TypeName.GetChars());
+				err.stacktrace.AppendFormat("Called from state %s in inventory state chain in %s\n", FState::StaticGetStateName(state).c_str(), self->GetClass()->TypeName.GetChars());
 				throw;
 			}
 
@@ -386,7 +386,7 @@ DEFINE_ACTION_FUNCTION(AActor, GetCVar)
 		PARAM_SELF_PROLOGUE(AActor);
 		PARAM_STRING(cvarname);
 
-		FBaseCVar *cvar = GetCVar(self->player ? int(self->player - players) : -1, cvarname.GetChars());
+		FBaseCVar *cvar = GetCVar(self->player ? int(self->player - players) : -1, cvarname.c_str());
 		if (cvar == nullptr)
 		{
 			ret->SetFloat(0);
@@ -416,7 +416,7 @@ DEFINE_ACTION_FUNCTION(AActor, GetCVarString)
 		PARAM_SELF_PROLOGUE(AActor);
 		PARAM_STRING(cvarname);
 
-		FBaseCVar *cvar = GetCVar(self->player? int(self->player - players) : -1, cvarname.GetChars());
+		FBaseCVar *cvar = GetCVar(self->player? int(self->player - players) : -1, cvarname.c_str());
 		if (cvar == nullptr)
 		{
 			ret->SetString("");
@@ -1308,8 +1308,8 @@ DEFINE_ACTION_FUNCTION(AActor, A_Print)
 		{
 			con_midtime = float(time);
 		}
-		FString formatted = strbin1(text.GetChars());
-		C_MidPrint(font, formatted.GetChars());
+		FString formatted = strbin1(text.c_str());
+		C_MidPrint(font, formatted.c_str());
 		con_midtime = saved;
 	}
 	return 0;
@@ -1340,8 +1340,8 @@ DEFINE_ACTION_FUNCTION(AActor, A_PrintBold)
 	{
 		con_midtime = float(time);
 	}
-	FString formatted = strbin1(text.GetChars());
-	C_MidPrint(font, formatted.GetChars(), true);
+	FString formatted = strbin1(text.c_str());
+	C_MidPrint(font, formatted.c_str(), true);
 	con_midtime = saved;
 	return 0;
 }
@@ -1361,8 +1361,8 @@ DEFINE_ACTION_FUNCTION(AActor, A_Log)
 	if (local && !self->CheckLocalView()) return 0;
 
 	if (text[0] == '$') text = GStrings.GetString(&text[1]);
-	FString formatted = strbin1(text.GetChars());
-	Printf("%s\n", formatted.GetChars());
+	FString formatted = strbin1(text.c_str());
+	Printf("%s\n", formatted.c_str());
 	return 0;
 }
 
@@ -2678,7 +2678,7 @@ DEFINE_ACTION_FUNCTION(AActor, CheckFlag)
 	PARAM_INT	(checkpointer);
 
 	AActor *owner = COPY_AAPTR(self, checkpointer);
-	ACTION_RETURN_BOOL(owner != nullptr && CheckActorFlag(owner, flagname.GetChars()));
+	ACTION_RETURN_BOOL(owner != nullptr && CheckActorFlag(owner, flagname.c_str()));
 }
 
 
@@ -5074,7 +5074,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SprayDecal)
 	PARAM_BOOL(useBloodColor);
 	PARAM_COLOR(decalColor);
 	PARAM_INT(translation);
-	SprayDecal(self, name.GetChars(), dist, DVector3(offset_x, offset_y, offset_z), DVector3(direction_x, direction_y, direction_z), useBloodColor, decalColor, FTranslationID::fromInt(translation));
+	SprayDecal(self, name.c_str(), dist, DVector3(offset_x, offset_y, offset_z), DVector3(direction_x, direction_y, direction_z), useBloodColor, decalColor, FTranslationID::fromInt(translation));
 	return 0;
 }
 
@@ -5083,7 +5083,7 @@ DEFINE_ACTION_FUNCTION(AActor, A_SetMugshotState)
 	PARAM_SELF_PROLOGUE(AActor);
 	PARAM_STRING(name);
 	if (self->CheckLocalView())
-		StatusBar->SetMugShotState(name.GetChars());
+		StatusBar->SetMugShotState(name.c_str());
 	return 0;
 }
 
@@ -6735,8 +6735,8 @@ void ChangeModelNative(
 
 	EnsureModelData(mobj);
 
-	int queryModel = !(flags & CMDL_HIDEMODEL) ? model != NAME_None ? FindModel(modelpath.GetChars(), model.GetChars()) : -1 : -2;
-	int queryAnimation = animation != NAME_None ? FindModel(animationpath.GetChars(), animation.GetChars()) : -1;
+	int queryModel = !(flags & CMDL_HIDEMODEL) ? model != NAME_None ? FindModel(modelpath.c_str(), model.GetChars()) : -1 : -2;
+	int queryAnimation = animation != NAME_None ? FindModel(animationpath.c_str(), animation.GetChars()) : -1;
 
 	mobj->modelData->modelDef = modeldef;
 
@@ -6753,7 +6753,7 @@ void ChangeModelNative(
 		mobj->modelData->animationIDs.AppendFill(-1, animationindex - mobj->modelData->animationIDs.Size());
 	}
 
-	auto skindata = skin != NAME_None ? LoadSkin(skinpath.GetChars(), skin.GetChars()) : FNullTextureID();
+	auto skindata = skin != NAME_None ? LoadSkin(skinpath.c_str(), skin.GetChars()) : FNullTextureID();
 
 	if(mobj->modelData->models.Size() == modelindex)
 	{

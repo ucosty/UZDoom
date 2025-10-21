@@ -362,7 +362,7 @@ void I_ShowFatalError(const char *msg)
 
 	if (CVMAbortException::stacktrace.IsNotEmpty())
 	{
-		Printf("%s", CVMAbortException::stacktrace.GetChars());
+		Printf("%s", CVMAbortException::stacktrace.c_str());
 	}
 
 	if (!batchrun)

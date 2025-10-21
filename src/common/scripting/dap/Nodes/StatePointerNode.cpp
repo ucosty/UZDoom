@@ -21,13 +21,13 @@ void DumpStateHelper(FStateLabels *StateList, const FString &prefix)
 			const PClassActor *owner = FState::StaticFindStateOwner(state);
 			if (owner == NULL)
 			{
-				if (state->DehIndex >= 0) Printf(PRINT_NONOTIFY, "%s%s: DehExtra %d\n", prefix.GetChars(), StateList->Labels[i].Label.GetChars(), state->DehIndex);
+				if (state->DehIndex >= 0) Printf(PRINT_NONOTIFY, "%s%s: DehExtra %d\n", prefix.c_str(), StateList->Labels[i].Label.GetChars(), state->DehIndex);
 				else
-					Printf(PRINT_NONOTIFY, "%s%s: invalid\n", prefix.GetChars(), StateList->Labels[i].Label.GetChars());
+					Printf(PRINT_NONOTIFY, "%s%s: invalid\n", prefix.c_str(), StateList->Labels[i].Label.GetChars());
 			}
 			else
 			{
-				Printf(PRINT_NONOTIFY, "%s%s: %s\n", prefix.GetChars(), StateList->Labels[i].Label.GetChars(), FState::StaticGetStateName(state).GetChars());
+				Printf(PRINT_NONOTIFY, "%s%s: %s\n", prefix.c_str(), StateList->Labels[i].Label.GetChars(), FState::StaticGetStateName(state).c_str());
 			}
 		}
 		if (StateList->Labels[i].Children != NULL)
@@ -68,7 +68,7 @@ bool StatePointerNode::SerializeToProtocol(dap::Variable &variable)
 		}
 		if (!owner || label == NAME_None)
 		{
-			variable.value = FState::StaticGetStateName(state).GetChars();
+			variable.value = FState::StaticGetStateName(state).c_str();
 		}
 		else
 		{

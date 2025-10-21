@@ -825,7 +825,7 @@ static void AddToolHelp (HANDLE file)
 				module.modBaseAddr <= CrashPointers.ExceptionRecord->ExceptionAddress &&
 				module.modBaseAddr + module.modBaseSize > CrashPointers.ExceptionRecord->ExceptionAddress
 				? '*' : ' ',
-				amod.GetChars());
+				amod.c_str());
 		} while (pModule32Next (snapshot, &module));
 	}
 

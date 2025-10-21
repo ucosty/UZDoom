@@ -68,7 +68,7 @@ std::pair<FileReader, FString> FSoundFontReader::LookupFile(const char *name)
 		for(int i = mPaths.Size()-1; i>=0; i--)
 		{
 			FString fullname = mPaths[i] + name;
-			auto fr = OpenFile(fullname.GetChars());
+			auto fr = OpenFile(fullname.c_str());
 			if (fr.isOpen()) return std::make_pair(std::move(fr), fullname);
 		}
 	}
@@ -93,7 +93,7 @@ void FSoundFontReader::AddPath(const char *strp)
 	if (str.Back() != '/') str += '/';	// always let it end with a slash.
 	for (auto &s : mPaths)
 	{
-		if (pathcmp(s.GetChars(), str.GetChars()) == 0)
+		if (pathcmp(s.c_str(), str.c_str()) == 0)
 		{
 			// move string to the back.
 			mPaths.Delete(i);
@@ -122,13 +122,13 @@ FileReader FSoundFontReader::Open(const char *name, std::string& filename)
 	if (name == nullptr)
 	{
 		fr = OpenMainConfigFile();
-		filename = MainConfigFileName().GetChars();
+		filename = MainConfigFileName().c_str();
 	}
 	else
 	{
 		auto res = LookupFile(name);
 		fr = std::move(res.first);
-		filename = res.second.GetChars();
+		filename = res.second.c_str();
 	}
 	return fr;
 }
@@ -173,7 +173,7 @@ FileReader FSF2Reader::OpenMainConfigFile()
 	FileReader fr;
 	if (mMainConfigForSF2.IsNotEmpty())
 	{
-		fr.OpenMemory(mMainConfigForSF2.GetChars(), mMainConfigForSF2.Len());
+		fr.OpenMemory(mMainConfigForSF2.c_str(), mMainConfigForSF2.Len());
 	}
 	return fr;
 }
@@ -244,7 +244,7 @@ FPatchSetReader::FPatchSetReader(const char *filename)
 	const char *paths[] = {
 		"C:/TIMIDITY",
 		"/TIMIDITY",
-		progdir.GetChars()
+		progdir.c_str()
 	};
 #endif
 	mAllowAbsolutePaths = true;
@@ -258,7 +258,7 @@ FPatchSetReader::FPatchSetReader(const char *filename)
 		for(auto c : paths)
 		{
 			FStringf fullname("%s/%s", c, filename);
-			if (fr.OpenFile(fullname.GetChars()))
+			if (fr.OpenFile(fullname.c_str()))
 			{
 				mFullPathToConfig = fullname;
 			}
@@ -267,7 +267,7 @@ FPatchSetReader::FPatchSetReader(const char *filename)
 	if (mFullPathToConfig.Len() > 0)
 	{
 		FixPathSeperator(mFullPathToConfig);
-		mBasePath = ExtractFilePath(mFullPathToConfig.GetChars());
+		mBasePath = ExtractFilePath(mFullPathToConfig.c_str());
 		if (mBasePath.Len() > 0 && mBasePath.Back() != '/') mBasePath += '/';
 	}
 }
@@ -276,7 +276,7 @@ FPatchSetReader::FPatchSetReader(const char *filename)
 FileReader FPatchSetReader::OpenMainConfigFile()
 {
 	FileReader fr;
-	fr.OpenFile(mFullPathToConfig.GetChars());
+	fr.OpenFile(mFullPathToConfig.c_str());
 	return fr;
 }
 
@@ -286,7 +286,7 @@ FileReader FPatchSetReader::OpenFile(const char *name)
 	if (IsAbsPath(name)) path = name;
 	else path = mBasePath + name;
 	FileReader fr;
-	fr.OpenFile(path.GetChars());
+	fr.OpenFile(path.c_str());
 	return fr;
 }
 
@@ -302,7 +302,7 @@ FLumpPatchSetReader::FLumpPatchSetReader(const char *filename)
 
 	mBasePath = filename;
 	FixPathSeperator(mBasePath);
-	mBasePath = ExtractFilePath(mBasePath.GetChars());
+	mBasePath = ExtractFilePath(mBasePath.c_str());
 	if (mBasePath.Len() > 0 && mBasePath.Back() != '/') mBasePath += '/';
 }
 
@@ -316,7 +316,7 @@ FileReader FLumpPatchSetReader::OpenFile(const char *name)
 	FString path;
 	if (IsAbsPath(name)) return FileReader();	// no absolute paths in the lump directory.
 	path = mBasePath + name;
-	auto index = fileSystem.CheckNumForFullName(path.GetChars());
+	auto index = fileSystem.CheckNumForFullName(path.c_str());
 	if (index < 0) return FileReader();
 	return fileSystem.ReopenFileReader(index);
 }
@@ -409,7 +409,7 @@ void FSoundFontManager::CollectSoundfonts()
 				FixPathSeperator(dir);
 				if (dir.IsNotEmpty())
 				{
-					if (FileSys::ScanDirectory(list, dir.GetChars(), "*", true))
+					if (FileSys::ScanDirectory(list, dir.c_str(), "*", true))
 					{
 						for(auto& entry : list)
 						{
@@ -426,7 +426,7 @@ void FSoundFontManager::CollectSoundfonts()
 
 	if (soundfonts.Size() == 0)
 	{
-		ProcessOneFile(NicePath("$PROGDIR/soundfonts/" GAMENAMELOWERCASE ".sf2").GetChars());
+		ProcessOneFile(NicePath("$PROGDIR/soundfonts/" GAMENAMELOWERCASE ".sf2").c_str());
 	}
 }
 
@@ -443,7 +443,7 @@ const FSoundFontInfo *FSoundFontManager::FindSoundFont(const char *name, int all
 		// an empty name will pick the first one in a compatible format.
 		if (allowed & sfi.type && (name == nullptr || *name == 0 || !sfi.mName.CompareNoCase(name) || !sfi.mNameExt.CompareNoCase(name)))
 		{
-			DPrintf(DMSG_NOTIFY, "Found compatible soundfont %s\n", sfi.mNameExt.GetChars());
+			DPrintf(DMSG_NOTIFY, "Found compatible soundfont %s\n", sfi.mNameExt.c_str());
 			return &sfi;
 		}
 	}
@@ -452,7 +452,7 @@ const FSoundFontInfo *FSoundFontManager::FindSoundFont(const char *name, int all
 	{
 		if (allowed & sfi.type)
 		{
-			DPrintf(DMSG_NOTIFY, "Unable to find %s soundfont. Falling back to %s\n", name, sfi.mNameExt.GetChars());
+			DPrintf(DMSG_NOTIFY, "Unable to find %s soundfont. Falling back to %s\n", name, sfi.mNameExt.c_str());
 			return &sfi;
 		}
 	}
@@ -520,8 +520,8 @@ FSoundFontReader *FSoundFontManager::OpenSoundFont(const char *const name, int a
 	auto sfi = FindSoundFont(name, allowed);
 	if (sfi != nullptr)
 	{
-		if (sfi->type == SF_SF2) return new FSF2Reader(sfi->mFilename.GetChars());
-		else return new FZipPatReader(sfi->mFilename.GetChars());
+		if (sfi->type == SF_SF2) return new FSF2Reader(sfi->mFilename.c_str());
+		else return new FZipPatReader(sfi->mFilename.c_str());
 	}
 	return nullptr;
 

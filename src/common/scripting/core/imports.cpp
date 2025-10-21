@@ -216,8 +216,8 @@ void InitImports()
 		{
 			assert(afunc->VMPointer != NULL);
 			*(afunc->VMPointer) = new VMNativeFunction(afunc->Function, afunc->FuncName);
-			(*(afunc->VMPointer))->QualifiedName = ClassDataAllocator.Strdup(FStringf("%s.%s", afunc->ClassName + 1, afunc->FuncName).GetChars());
-			(*(afunc->VMPointer))->PrintableName = ClassDataAllocator.Strdup(FStringf("%s.%s [Native]", afunc->ClassName+1, afunc->FuncName).GetChars());
+			(*(afunc->VMPointer))->QualifiedName = ClassDataAllocator.Strdup(FStringf("%s.%s", afunc->ClassName + 1, afunc->FuncName).c_str());
+			(*(afunc->VMPointer))->PrintableName = ClassDataAllocator.Strdup(FStringf("%s.%s [Native]", afunc->ClassName+1, afunc->FuncName).c_str());
 			(*(afunc->VMPointer))->DirectNativeCall = afunc->DirectNative;
 			AFTable.Push(*afunc);
 		});

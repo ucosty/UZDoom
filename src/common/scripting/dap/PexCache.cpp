@@ -176,7 +176,7 @@ void PexCache::ScanScriptsInContainer(int baselump, BinaryMap &p_scripts, const 
 		if (!vmscriptfunc){
 			continue;
 		}
-		std::string source_name = vmscriptfunc->SourceFileName.GetChars();
+		std::string source_name = vmscriptfunc->SourceFileName.c_str();
 		if (source_name.empty() && !IsFunctionAbstract(vmscriptfunc)){
 			auto class_name = GetFunctionClassName(func);
 			if (class_name.empty()){
@@ -197,7 +197,7 @@ void PexCache::ScanScriptsInContainer(int baselump, BinaryMap &p_scripts, const 
 			continue;
 		}
 		PFunction * pfunc = GetFunctionSymbol(func);
-		addEmptyBinIfNotExists(ref, vmscriptfunc->SourceFileName.GetChars());
+		addEmptyBinIfNotExists(ref, vmscriptfunc->SourceFileName.c_str());
 		if (!pfunc && IsNonAbstractScriptFunction(func)){
 			p_scripts[ref]->stateFunctions[vmscriptfunc->QualifiedName] = vmscriptfunc;
 		} else if (pfunc) {
@@ -519,7 +519,7 @@ uint64_t PexCache::AddDisassemblyLines(VMScriptFunction *func, DisassemblyMap &i
 		LogError("Failed to create a temporary file for disassembly");
 		return 0;
 	}
-	auto ref = GetScriptReference(func->SourceFileName.GetChars());
+	auto ref = GetScriptReference(func->SourceFileName.c_str());
 	auto startPointer = func->Code;
 	auto endPointer = func->Code + func->CodeSize;
 	auto currCodePointer = func->Code;
@@ -548,7 +548,7 @@ uint64_t PexCache::AddDisassemblyLines(VMScriptFunction *func, DisassemblyMap &i
 	auto &lines_map = ret.first->mapped();
 	// check if the last line in lines is empty; if so, remove it
 	std::vector<size_t> lines_to_remove;
-	auto script_name = func->SourceFileName.GetChars();
+	auto script_name = func->SourceFileName.c_str();
 	auto source = GetScript(script_name);
 	int min_line = INT_MAX;
 
@@ -862,7 +862,7 @@ void DebugServer::Binary::ProcessScriptFunction(const std::string &qualPath, VMF
 		return;
 	}
 	auto scriptFunc = static_cast<VMScriptFunction *>(vmfunc);
-	if (!CaseInsensitiveEquals(scriptFunc->SourceFileName.GetChars(), qualPath))
+	if (!CaseInsensitiveEquals(scriptFunc->SourceFileName.c_str(), qualPath))
 	{
 		return;
 	}

@@ -158,7 +158,7 @@ int FArgs::CheckParm(const char** check, int start) const
 {
 	for (unsigned i = start; i < Argv.Size(); ++i)
 	{
-		if (0 == stricmp(check, Argv[i].GetChars()))
+		if (0 == stricmp(check, Argv[i].c_str()))
 		{
 			return i;
 		}
@@ -217,7 +217,7 @@ const char *FArgs::CheckValue(const char *check) const
 	if (i > 0 && i < (int)Argv.Size() - 1)
 	{
 		i++;
-		return Argv[i][0] != '+' && Argv[i][0] != '-' ? Argv[i].GetChars() : nullptr;
+		return Argv[i][0] != '+' && Argv[i][0] != '-' ? Argv[i].c_str() : nullptr;
 	}
 	else
 	{
@@ -284,7 +284,7 @@ void FArgs::RemoveArgs(const char *check)
 
 const char *FArgs::GetArg(int arg) const
 {
-	return ((unsigned)arg < Argv.Size()) ? Argv[arg].GetChars() : nullptr;
+	return ((unsigned)arg < Argv.Size()) ? Argv[arg].c_str() : nullptr;
 }
 
 //===========================================================================

@@ -843,10 +843,10 @@ void ParseModelDefLump(int Lump)
 					}
 					sc.MustGetString();
 					FixPathSeperator(sc.String);
-					smf.modelIDs[index] = FindModel(path.GetChars(), sc.String);
+					smf.modelIDs[index] = FindModel(path.c_str(), sc.String);
 					if (smf.modelIDs[index] == -1)
 					{
-						Printf("%s: model not found in %s\n", sc.String, path.GetChars());
+						Printf("%s: model not found in %s\n", sc.String, path.c_str());
 					}
 				}
 				else if (sc.Compare("animation"))
@@ -863,10 +863,10 @@ void ParseModelDefLump(int Lump)
 					}
 					sc.MustGetString();
 					FixPathSeperator(sc.String);
-					smf.animationIDs[index] = FindModel(path.GetChars(), sc.String);
+					smf.animationIDs[index] = FindModel(path.c_str(), sc.String);
 					if (smf.animationIDs[index] == -1)
 					{
-						Printf("%s: animation model not found in %s\n", sc.String, path.GetChars());
+						Printf("%s: animation model not found in %s\n", sc.String, path.c_str());
 					}
 				}
 				else if (sc.Compare("scale"))
@@ -1013,7 +1013,7 @@ void ParseModelDefLump(int Lump)
 					}
 					else
 					{
-						smf.skinIDs[index] = LoadSkin(path.GetChars(), sc.String);
+						smf.skinIDs[index] = LoadSkin(path.c_str(), sc.String);
 						if (!smf.skinIDs[index].isValid())
 						{
 							Printf("Skin '%s' not found in '%s'\n",
@@ -1047,7 +1047,7 @@ void ParseModelDefLump(int Lump)
 					}
 					else
 					{
-						smf.surfaceskinIDs[ssIndex] = LoadSkin(path.GetChars(), sc.String);
+						smf.surfaceskinIDs[ssIndex] = LoadSkin(path.c_str(), sc.String);
 						if (!smf.surfaceskinIDs[ssIndex].isValid())
 						{
 							Printf("Surface Skin '%s' not found in '%s'\n",

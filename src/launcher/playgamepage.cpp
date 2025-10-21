@@ -22,23 +22,23 @@ PlayGamePage::PlayGamePage(LauncherWindow* launcher, const FStartupSelectionInfo
 
 	SaveArgsCheckbox->SetChecked(info.bSaveArgs);
 	if (!info.DefaultArgs.IsEmpty())
-		ParametersEdit->SetText(info.DefaultArgs.GetChars());
+		ParametersEdit->SetText(info.DefaultArgs.c_str());
 
 	for (const auto& wad : *info.Wads)
 	{
-		const char* filepart = strrchr(wad.Path.GetChars(), '/');
+		const char* filepart = strrchr(wad.Path.c_str(), '/');
 		if (filepart == nullptr)
-			filepart = wad.Path.GetChars();
+			filepart = wad.Path.c_str();
 		else
 			++filepart;
 
 		FString work;
 		if (*filepart)
-			work.Format("%s (%s)", wad.Name.GetChars(), filepart);
+			work.Format("%s (%s)", wad.Name.c_str(), filepart);
 		else
-			work = wad.Name.GetChars();
+			work = wad.Name.c_str();
 
-		GamesList->AddItem(work.GetChars());
+		GamesList->AddItem(work.c_str());
 	}
 
 	if (info.DefaultIWAD >= 0 && info.DefaultIWAD < info.Wads->SSize())
@@ -63,10 +63,10 @@ void PlayGamePage::UpdateLanguage()
 	ParametersLabel->SetText(GStrings.GetString("PICKER_ADDPARM"));
 	FString welcomeText = GStrings.GetString("PICKER_WELCOME");
 	welcomeText.Substitute("%s", GAMENAME);
-	WelcomeLabel->SetText(welcomeText.GetChars());
+	WelcomeLabel->SetText(welcomeText.c_str());
 	FString versionText = GStrings.GetString("PICKER_VERSION");
 	versionText.Substitute("%s", GetVersionString());
-	VersionLabel->SetText(versionText.GetChars());
+	VersionLabel->SetText(versionText.c_str());
 	SaveArgsCheckbox->SetText(GStrings.GetString("PICKER_REMPARM"));
 }
 

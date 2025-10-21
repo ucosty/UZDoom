@@ -508,7 +508,7 @@ FSoundID S_AddPlayerSound (const char *pclass, int gender, FSoundID refid, int l
 	fakename += '"';
 	fakename += sfx->name.GetChars();
 
-	id = soundEngine->AddSoundLump (fakename.GetChars(), lumpnum, CurrentPitchMask);
+	id = soundEngine->AddSoundLump (fakename.c_str(), lumpnum, CurrentPitchMask);
 	int classnum = S_AddPlayerClass (pclass);
 	int soundlist = S_AddPlayerGender (classnum, gender);
 
@@ -806,7 +806,7 @@ static void S_AddSNDINFO (int lump)
 				FSoundID refid, sfxnum;
 
 				S_ParsePlayerSoundCommon(sc, pclass, gender, refid);
-				sfxnum = S_AddPlayerSound(pclass.GetChars(), gender, refid, sc.String);
+				sfxnum = S_AddPlayerSound(pclass.c_str(), gender, refid, sc.String);
 				if (0 == stricmp(sc.String, "dsempty"))
 				{
 					soundEngine->GetWritableSfx(sfxnum)->UserData[0] |= SND_PlayerSilent;
@@ -827,7 +827,7 @@ static void S_AddSNDINFO (int lump)
 				{
 					sc.ScriptError("%s is not a player sound", sc.String);
 				}
-				S_DupPlayerSound (pclass.GetChars(), gender, refid, targid);
+				S_DupPlayerSound (pclass.c_str(), gender, refid, targid);
 				}
 				break;
 
@@ -840,7 +840,7 @@ static void S_AddSNDINFO (int lump)
 
 				S_ParsePlayerSoundCommon (sc, pclass, gender, refid);
 				sfxfrom = S_AddSound (sc.String, -1, &sc);
-				aliasto = S_LookupPlayerSound (pclass.GetChars(), gender, refid);
+				aliasto = S_LookupPlayerSound (pclass.c_str(), gender, refid);
 				auto sfx = soundEngine->GetWritableSfx(sfxfrom);
 				sfx->link = aliasto;
 				sfx->UserData[0] |= SND_PlayerCompat;
@@ -855,7 +855,7 @@ static void S_AddSNDINFO (int lump)
 
 				S_ParsePlayerSoundCommon (sc, pclass, gender, refid);
 				soundnum = soundEngine->FindSoundTentative (sc.String);
-				S_AddPlayerSoundExisting (pclass.GetChars(), gender, refid, soundnum);
+				S_AddPlayerSoundExisting (pclass.c_str(), gender, refid, soundnum);
 				}
 				break;
 
@@ -1216,7 +1216,7 @@ static void S_AddSNDINFO (int lump)
 			}
 
 			sc.MustGetString ();
-			S_AddSound (name.GetChars(), sc.String, &sc);
+			S_AddSound (name.c_str(), sc.String, &sc);
 		}
 	}
 }
@@ -1318,7 +1318,7 @@ static int S_FindPlayerClass (const char *name)
 
 		for (i = 0; i < PlayerClassLookups.Size(); ++i)
 		{
-			if (stricmp (name, PlayerClassLookups[i].Name.GetChars()) == 0)
+			if (stricmp (name, PlayerClassLookups[i].Name.c_str()) == 0)
 			{
 				return (int)i;
 			}
@@ -1332,7 +1332,7 @@ static int S_FindPlayerClass (const char *name)
 		while (min <= max)
 		{
 			int mid = (min + max) / 2;
-			int lexx = stricmp (PlayerClassLookups[mid].Name.GetChars(), name);
+			int lexx = stricmp (PlayerClassLookups[mid].Name.c_str(), name);
 			if (lexx == 0)
 			{
 				return mid;
@@ -1387,13 +1387,13 @@ void S_ShrinkPlayerSoundLists ()
 	qsort (&PlayerClassLookups[0], PlayerClassLookups.Size(),
 		sizeof(FPlayerClassLookup), SortPlayerClasses);
 	PlayerClassesIsSorted = true;
-	DefPlayerClass = S_FindPlayerClass (DefPlayerClassName.GetChars());
+	DefPlayerClass = S_FindPlayerClass (DefPlayerClassName.c_str());
 }
 
 static int SortPlayerClasses (const void *a, const void *b)
 {
-	return stricmp (((const FPlayerClassLookup *)a)->Name.GetChars(),
-					((const FPlayerClassLookup *)b)->Name.GetChars());
+	return stricmp (((const FPlayerClassLookup *)a)->Name.c_str(),
+					((const FPlayerClassLookup *)b)->Name.c_str());
 }
 
 //==========================================================================
@@ -1575,10 +1575,10 @@ const char *S_GetSoundClass(AActor *pp)
 		(unsigned)player->userinfo.GetSkin() < Skins.Size() &&
 		player->SoundClass.IsEmpty())
 	{
-		return Skins[player->userinfo.GetSkin()].Name.GetChars();
+		return Skins[player->userinfo.GetSkin()].Name.c_str();
 	}
 		
-	return (!player || player->SoundClass.IsEmpty()) ? defaultsoundclass : player->SoundClass.GetChars();
+	return (!player || player->SoundClass.IsEmpty()) ? defaultsoundclass : player->SoundClass.c_str();
 }
 
 //==========================================================================
@@ -1710,7 +1710,7 @@ CCMD (playersounds)
 		{
 			if ((l = PlayerClassLookups[i].ListIndex[j]) != 0xffff)
 			{
-				Printf ("\n%s, %s:\n", PlayerClassLookups[i].Name.GetChars(), GenderNames[j]);
+				Printf ("\n%s, %s:\n", PlayerClassLookups[i].Name.c_str(), GenderNames[j]);
 				for (k = 0; k < NumPlayerReserves; ++k)
 				{
 					auto sndid = PlayerSounds[l].LookupSound(FSoundID::fromInt(k));

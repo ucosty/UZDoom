@@ -497,15 +497,15 @@ DEFINE_ACTION_FUNCTION(DObject, G_SkillPropertyFloat)
 
 const char * G_SkillName()
 {
-	const char *name = AllSkills[gameskill].MenuName.GetChars();
+	const char *name = AllSkills[gameskill].MenuName.c_str();
 
 	player_t *player = &players[consoleplayer];
-	const char *playerclass = player->mo->GetInfo()->DisplayName.GetChars();
+	const char *playerclass = player->mo->GetInfo()->DisplayName.c_str();
 
 	if (playerclass != NULL)
 	{
 		FString * pmnm = AllSkills[gameskill].MenuNamesForPlayerClass.CheckKey(playerclass);
-		if (pmnm != NULL) name = pmnm->GetChars();
+		if (pmnm != NULL) name = pmnm->c_str();
 	}
 
 	if (*name == '$') name = GStrings.GetString(name+1);
@@ -592,11 +592,11 @@ int FSkillInfo::GetTextColor() const
 	{
 		return CR_UNTRANSLATED;
 	}
-	const uint8_t *cp = (const uint8_t *)TextColor.GetChars();
+	const uint8_t *cp = (const uint8_t *)TextColor.c_str();
 	int color = V_ParseFontColor(cp, 0, 0);
 	if (color == CR_UNDEFINED)
 	{
-		Printf("Undefined color '%s' in definition of skill %s\n", TextColor.GetChars(), Name.GetChars());
+		Printf("Undefined color '%s' in definition of skill %s\n", TextColor.c_str(), Name.GetChars());
 		color = CR_UNTRANSLATED;
 	}
 	return color;

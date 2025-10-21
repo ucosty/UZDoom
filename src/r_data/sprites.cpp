@@ -124,7 +124,7 @@ static bool R_InstallSpriteLump (FTextureID lump, unsigned frame, char rot, bool
 
 	if (frame >= MAX_SPRITE_FRAMES || rotation > 16)
 	{
-		Printf (TEXTCOLOR_RED "R_InstallSpriteLump: Bad frame characters in lump %s\n", TexMan.GetGameTexture(lump)->GetName().GetChars());
+		Printf (TEXTCOLOR_RED "R_InstallSpriteLump: Bad frame characters in lump %s\n", TexMan.GetGameTexture(lump)->GetName().c_str());
 		return false;
 	}
 
@@ -335,7 +335,7 @@ void R_InitSpriteDefs ()
 	for (i = 0; i < smax; ++i)
 	{
 		auto tex = TexMan.GameByIndex(i);
-		if (tex->GetUseType() == ETextureType::Sprite && strlen(tex->GetName().GetChars()) >= 6)
+		if (tex->GetUseType() == ETextureType::Sprite && strlen(tex->GetName().c_str()) >= 6)
 		{
 			size_t bucket = TEX_DWNAME(tex) % smax;
 			hashes[i].Next = hashes[bucket].Head;
@@ -622,7 +622,7 @@ void R_InitSkins (void)
 					if (Skins[i].Name.CompareNoCase(Skins[j].Name) == 0)
 					{
 						Skins[i].Name.Format("skin%u", i);
-						Printf (PRINT_BOLD, "Skin %s duplicated as %s\n", Skins[j].Name.GetChars(), Skins[i].Name.GetChars());
+						Printf (PRINT_BOLD, "Skin %s duplicated as %s\n", Skins[j].Name.c_str(), Skins[i].Name.c_str());
 						break;
 					}
 				}
@@ -721,11 +721,11 @@ void R_InitSkins (void)
 				{
 					if (stricmp (key, "*pain") == 0)
 					{ // Replace all pain sounds in one go
-						aliasid = S_AddPlayerSound (Skins[i].Name.GetChars(), Skins[i].gender,
+						aliasid = S_AddPlayerSound (Skins[i].Name.c_str(), Skins[i].gender,
 							playersoundrefs[0], lump, true);
 						for (int l = 3; l > 0; --l)
 						{
-							S_AddPlayerSoundExisting (Skins[i].Name.GetChars(), Skins[i].gender,
+							S_AddPlayerSoundExisting (Skins[i].Name.c_str(), Skins[i].gender,
 								playersoundrefs[l], aliasid, true);
 						}
 					}
@@ -734,7 +734,7 @@ void R_InitSkins (void)
 						auto sndref = soundEngine->FindSoundNoHash (key);
 						if (sndref.isvalid())
 						{
-							S_AddPlayerSound (Skins[i].Name.GetChars(), Skins[i].gender, sndref, lump, true);
+							S_AddPlayerSound (Skins[i].Name.c_str(), Skins[i].gender, sndref, lump, true);
 						}
 					}
 				}
@@ -856,7 +856,7 @@ void R_InitSkins (void)
 
 				if (spr == 0 && maxframe <= 0)
 				{
-					Printf (PRINT_BOLD, "Skin %s (#%u) has no frames. Removing.\n", Skins[i].Name.GetChars(), i);
+					Printf (PRINT_BOLD, "Skin %s (#%u) has no frames. Removing.\n", Skins[i].Name.c_str(), i);
 					remove = true;
 					break;
 				}
@@ -888,12 +888,12 @@ void R_InitSkins (void)
 			{
 				if (j == 0 || sndlumps[j] != sndlumps[j-1])
 				{
-					aliasid = S_AddPlayerSound (Skins[i].Name.GetChars(), Skins[i].gender,
+					aliasid = S_AddPlayerSound (Skins[i].Name.c_str(), Skins[i].gender,
 						playersoundrefs[j], sndlumps[j], true);
 				}
 				else
 				{
-					S_AddPlayerSoundExisting (Skins[i].Name.GetChars(), Skins[i].gender,
+					S_AddPlayerSoundExisting (Skins[i].Name.c_str(), Skins[i].gender,
 						playersoundrefs[j], aliasid, true);
 				}
 			}
@@ -940,7 +940,7 @@ CCMD (skins)
 	int i;
 
 	for (i = PlayerClasses.Size() - 1; i < (int)Skins.Size(); i++)
-		Printf("% 3d %s\n", i - PlayerClasses.Size() + 1, Skins[i].Name.GetChars());
+		Printf("% 3d %s\n", i - PlayerClasses.Size() + 1, Skins[i].Name.c_str());
 }
 
 

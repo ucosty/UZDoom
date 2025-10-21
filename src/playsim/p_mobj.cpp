@@ -886,7 +886,7 @@ bool AActor::SetState (FState *newstate, bool nofunction)
 	{
 		if (!(--statelooplimit))
 		{
-			Printf(TEXTCOLOR_RED "Infinite state loop in Actor '%s' state '%s'\n", GetClass()->TypeName.GetChars(), FState::StaticGetStateName(state).GetChars());
+			Printf(TEXTCOLOR_RED "Infinite state loop in Actor '%s' state '%s'\n", GetClass()->TypeName.GetChars(), FState::StaticGetStateName(state).c_str());
 			state = nullptr;
 			Destroy();
 			return false;
@@ -909,7 +909,7 @@ bool AActor::SetState (FState *newstate, bool nofunction)
 		}
 		if (!(newstate->UseFlags & SUF_ACTOR))
 		{
-			Printf(TEXTCOLOR_RED "State %s in %s not flagged for use as an actor sprite\n", FState::StaticGetStateName(newstate).GetChars(), GetClass()->TypeName.GetChars());
+			Printf(TEXTCOLOR_RED "State %s in %s not flagged for use as an actor sprite\n", FState::StaticGetStateName(newstate).c_str(), GetClass()->TypeName.GetChars());
 			state = nullptr;
 			Destroy();
 			return false;
@@ -1784,7 +1784,7 @@ void SerializeModelID(FSerializer &arc, const char *key, int &id)
 			std::pair<FString, FString> modelFile;
 			arc(key, modelFile);
 
-			id = FindModel(modelFile.first.GetChars(), modelFile.second.GetChars(), true);
+			id = FindModel(modelFile.first.c_str(), modelFile.second.c_str(), true);
 		}
 		else
 		{
@@ -3703,7 +3703,7 @@ CCMD(utid)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("%s, %d\n", Level->MapName.GetChars(), Level->FindUniqueTID(argv.argc() > 1 ? atoi(argv[1]) : 0,
+		Printf("%s, %d\n", Level->MapName.c_str(), Level->FindUniqueTID(argv.argc() > 1 ? atoi(argv[1]) : 0,
 			(argv.argc() > 2 && atoi(argv[2]) >= 0) ? atoi(argv[2]) : 0, false));
 	}
 }
@@ -6354,7 +6354,7 @@ AActor *FLevelLocals::SpawnPlayer (FPlayerStart *mthing, int playernum, int flag
 	}
 
 	// [GRB] Reset skin
-	p->userinfo.SkinNumChanged(R_FindSkin (Skins[p->userinfo.GetSkin()].Name.GetChars(), p->CurrentPlayerClass));
+	p->userinfo.SkinNumChanged(R_FindSkin (Skins[p->userinfo.GetSkin()].Name.c_str(), p->CurrentPlayerClass));
 
 	if (!(mobj->flags2 & MF2_DONTTRANSLATE))
 	{
@@ -8554,7 +8554,7 @@ const char *AActor::GetTag(const char *def) const
 {
 	if (Tag != NULL)
 	{
-		const char *tag = Tag->GetChars();
+		const char *tag = Tag->c_str();
 		if (tag[0] == '$')
 		{
 			return GStrings.GetString(tag + 1);
@@ -8584,7 +8584,7 @@ const char *AActor::GetCharacterName() const
 {
 	if (Conversation && Conversation->SpeakerName.Len() != 0)
 	{
-		const char *cname = Conversation->SpeakerName.GetChars();
+		const char *cname = Conversation->SpeakerName.c_str();
 		if (cname[0] == '$')
 		{
 			return GStrings.GetString(cname + 1);
@@ -8798,6 +8798,6 @@ void PrintMiscActorInfo(AActor *query)
 		Printf("Target: %s\n", query->target ? query->target->GetClass()->TypeName.GetChars() : "-");
 		Printf("Last enemy: %s\n", query->lastenemy ? query->lastenemy->GetClass()->TypeName.GetChars() : "-");
 		auto sn = FState::StaticGetStateName(query->state);
-		Printf("State:%s, Tics: %d\n", sn.GetChars(), query->tics);
+		Printf("State:%s, Tics: %d\n", sn.c_str(), query->tics);
 	}
 }

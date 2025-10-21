@@ -112,7 +112,7 @@ public:
 	int GetDefaultKerning () const { return GlobalKerning; }
 	int GetMaxAscender(const uint8_t* text) const;
 	int GetMaxAscender(const char* text) const { return GetMaxAscender((uint8_t*)text); }
-	int GetMaxAscender(const FString &text) const { return GetMaxAscender((uint8_t*)text.GetChars()); }
+	int GetMaxAscender(const FString &text) const { return GetMaxAscender((uint8_t*)text.c_str()); }
 	virtual void LoadTranslations();
 	FName GetName() const { return FontName; }
 
@@ -121,12 +121,12 @@ public:
 	// Return width of string in pixels (unscaled)
 	int StringWidth (const uint8_t *str, int spacing = 0) const;
 	inline int StringWidth (const char *str, int spacing = 0) const { return StringWidth ((const uint8_t *)str, spacing); }
-	inline int StringWidth (const FString &str, int spacing = 0) const { return StringWidth ((const uint8_t *)str.GetChars(), spacing); }
+	inline int StringWidth (const FString &str, int spacing = 0) const { return StringWidth ((const uint8_t *)str.c_str(), spacing); }
 
 	// Checks if the font contains all characters to print this text.
 	bool CanPrint(const uint8_t *str) const;
 	inline bool CanPrint(const char *str) const { return CanPrint((const uint8_t *)str); }
-	inline bool CanPrint(const FString &str) const { return CanPrint((const uint8_t *)str.GetChars()); }
+	inline bool CanPrint(const FString &str) const { return CanPrint((const uint8_t *)str.c_str()); }
 
 	inline FFont* AltFont()
 	{

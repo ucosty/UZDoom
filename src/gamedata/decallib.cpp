@@ -383,7 +383,7 @@ void FDecalLib::ParseDecal (FScanner &sc)
 		sc.MustGetString ();
 		if (sc.Compare ("}"))
 		{
-			AddDecal(decalName.GetChars(), decalNum, newdecal);
+			AddDecal(decalName.c_str(), decalNum, newdecal);
 			break;
 		}
 		switch (sc.MustMatchString (DecalKeywords))
@@ -585,7 +585,7 @@ void FDecalLib::ParseFader (FScanner &sc)
 		sc.MustGetString ();
 		if (sc.Compare ("}"))
 		{
-			FDecalFaderAnim *fader = new FDecalFaderAnim (faderName.GetChars());
+			FDecalFaderAnim *fader = new FDecalFaderAnim (faderName.c_str());
 			fader->DecayStart = startTime;
 			fader->DecayTime = decayTime;
 			Animators.Push (fader);
@@ -625,7 +625,7 @@ void FDecalLib::ParseStretcher (FScanner &sc)
 		{
 			if (goalX >= 0 || goalY >= 0)
 			{
-				FDecalStretcherAnim *stretcher = new FDecalStretcherAnim (stretcherName.GetChars());
+				FDecalStretcherAnim *stretcher = new FDecalStretcherAnim (stretcherName.c_str());
 				stretcher->StretchStart = startTime;
 				stretcher->StretchTime = takeTime;
 				stretcher->GoalX = goalX;
@@ -676,7 +676,7 @@ void FDecalLib::ParseSlider (FScanner &sc)
 		{
 			if ((/*distX |*/ distY) != 0)
 			{
-				FDecalSliderAnim *slider = new FDecalSliderAnim (sliderName.GetChars());
+				FDecalSliderAnim *slider = new FDecalSliderAnim (sliderName.c_str());
 				slider->SlideStart = startTime;
 				slider->SlideTime = takeTime;
 				/*slider->DistX = distX;*/
@@ -698,7 +698,7 @@ void FDecalLib::ParseSlider (FScanner &sc)
 		else if (sc.Compare ("DistX"))
 		{
 			sc.MustGetFloat ();	// must remain to avoid breaking definitions that accidentally used DistX
-			Printf ("DistX in slider decal %s is unsupported\n", sliderName.GetChars());
+			Printf ("DistX in slider decal %s is unsupported\n", sliderName.c_str());
 		}
 		else if (sc.Compare ("DistY"))
 		{
@@ -727,7 +727,7 @@ void FDecalLib::ParseColorchanger (FScanner &sc)
 		sc.MustGetString ();
 		if (sc.Compare ("}"))
 		{
-			FDecalColorerAnim *fader = new FDecalColorerAnim (faderName.GetChars());
+			FDecalColorerAnim *fader = new FDecalColorerAnim (faderName.c_str());
 			fader->DecayStart = startTime;
 			fader->DecayTime = decayTime;
 			fader->GoalColor = goal;
@@ -780,7 +780,7 @@ void FDecalLib::ParseCombiner (FScanner &sc)
 
 	if (last > first)
 	{
-		FDecalCombinerAnim *combiner = new FDecalCombinerAnim (combinerName.GetChars());
+		FDecalCombinerAnim *combiner = new FDecalCombinerAnim (combinerName.c_str());
 		combiner->FirstAnimator = (int)first;
 		combiner->NumAnimators = (int)(last - first);
 		Animators.Push (combiner);

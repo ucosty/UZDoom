@@ -689,14 +689,14 @@ class CommandDrawString : public SBarInfoCommand
 		{
 			if(lineBreaks)
 			{
-				auto lines = V_BreakLines(font, breakWidth, str.GetChars());
+				auto lines = V_BreakLines(font, breakWidth, str.c_str());
 				for(unsigned i = 0; i < lines.Size();i++)
 				{
-					statusBar->DrawString(font, lines[i].Text.GetChars(), x, y+i*(font->GetHeight()+4), block->XOffset(), block->YOffset(), block->Alpha(), block->FullScreenOffsets(), translation, spacing, shadow, shadowX, shadowY);
+					statusBar->DrawString(font, lines[i].Text.c_str(), x, y+i*(font->GetHeight()+4), block->XOffset(), block->YOffset(), block->Alpha(), block->FullScreenOffsets(), translation, spacing, shadow, shadowX, shadowY);
 				}
 			}
 			else
-				statusBar->DrawString(font, str.GetChars(), x, y, block->XOffset(), block->YOffset(), block->Alpha(), block->FullScreenOffsets(), translation, spacing, shadow, shadowX, shadowY);
+				statusBar->DrawString(font, str.c_str(), x, y, block->XOffset(), block->YOffset(), block->Alpha(), block->FullScreenOffsets(), translation, spacing, shadow, shadowX, shadowY);
 		}
 		void	Parse(FScanner &sc, bool fullScreenOffsets)
 		{
@@ -923,7 +923,7 @@ class CommandDrawString : public SBarInfoCommand
 					str = GStrings.GetString(statusBar->CPlayer->LogText);
 					break;
 				default:
-					str = GStrings.localize(label.GetChars());
+					str = GStrings.localize(label.c_str());
 					RealignString();
 					break;
 			}
@@ -1183,7 +1183,7 @@ class CommandDrawNumber : public CommandDrawString
 
 						// We have a name, but make sure it exists. If not, send notification so modders
 						// are aware of the situation.
-						FBaseCVar *CVar = FindCVar(cvarName.GetChars(), nullptr);
+						FBaseCVar *CVar = FindCVar(cvarName.c_str(), nullptr);
 
 						if (CVar != nullptr)
 						{
@@ -1191,12 +1191,12 @@ class CommandDrawNumber : public CommandDrawString
 
 							if (!(cvartype == CVAR_Bool || cvartype == CVAR_Int))
 							{
-								sc.ScriptMessage("CVar '%s' is not an int or bool", cvarName.GetChars());
+								sc.ScriptMessage("CVar '%s' is not an int or bool", cvarName.c_str());
 							}
 						}
 						else
 						{
-							sc.ScriptMessage("CVar '%s' does not exist", cvarName.GetChars());
+							sc.ScriptMessage("CVar '%s' does not exist", cvarName.c_str());
 						}
 						
 						if (parenthesized) sc.MustGetToken(')');
@@ -1484,7 +1484,7 @@ class CommandDrawNumber : public CommandDrawString
 					break;
 				case INTCVAR:
 				{
-					FBaseCVar *CVar = GetCVar(int(statusBar->CPlayer - players), cvarName.GetChars());
+					FBaseCVar *CVar = GetCVar(int(statusBar->CPlayer - players), cvarName.c_str());
 					if (CVar != nullptr)
 					{
 						ECVarType cvartype = CVar->GetRealType();
@@ -1542,9 +1542,9 @@ class CommandDrawNumber : public CommandDrawString
 			}
 
 			if(useFillZeros)
-				str.Format("%s%s%0*d", usePrefix ? str.GetChars() : "", prefixPadding.GetChars(), drawValue < 0 ? length - 1 : length, drawValue);
+				str.Format("%s%s%0*d", usePrefix ? str.c_str() : "", prefixPadding.c_str(), drawValue < 0 ? length - 1 : length, drawValue);
 			else
-				str.Format("%s%s%d", usePrefix ? str.GetChars() : "", prefixPadding.GetChars(), drawValue);
+				str.Format("%s%s%d", usePrefix ? str.c_str() : "", prefixPadding.c_str(), drawValue);
 
 			RealignString();
 		}
@@ -1618,7 +1618,7 @@ class CommandDrawMugShot : public SBarInfoCommand
 
 		void	Draw(const SBarInfoMainBlock *block, const DSBarInfo *statusBar)
 		{
-			FGameTexture *face = statusBar->wrapper->mugshot.GetFace(statusBar->CPlayer, defaultFace.GetChars(), accuracy, stateFlags);
+			FGameTexture *face = statusBar->wrapper->mugshot.GetFace(statusBar->CPlayer, defaultFace.c_str(), accuracy, stateFlags);
 			if (face != NULL)
 				statusBar->DrawGraphic(face, x, y, block->XOffset(), block->YOffset(), block->Alpha(), block->FullScreenOffsets());
 		}
@@ -2954,7 +2954,7 @@ class CommandPlayerClass : public SBarInfoCommandFlowControl
 				bool foundClass = false;
 				for(unsigned int c = 0;c < PlayerClasses.Size();c++)
 				{
-					if(stricmp(sc.String, PlayerClasses[c].Type->GetDisplayName().GetChars()) == 0)
+					if(stricmp(sc.String, PlayerClasses[c].Type->GetDisplayName().c_str()) == 0)
 					{
 						foundClass = true;
 						classes.Push(PlayerClasses[c].Type);
@@ -3499,7 +3499,7 @@ class CommandIfCVarInt : public SBarInfoNegatableFlowControl
 			}
 
 			cvarname = sc.String;
-			cvar = FindCVar(cvarname.GetChars(), nullptr);
+			cvar = FindCVar(cvarname.c_str(), nullptr);
 
 			if (cvar != nullptr)
 			{
@@ -3523,12 +3523,12 @@ class CommandIfCVarInt : public SBarInfoNegatableFlowControl
 				}
 				else
 				{
-					sc.ScriptError("Type mismatch: console variable '%s' is not of type 'bool' or 'int'.", cvarname.GetChars());
+					sc.ScriptError("Type mismatch: console variable '%s' is not of type 'bool' or 'int'.", cvarname.c_str());
 				}
 			}
 			else
 			{
-				sc.ScriptError("Unknown console variable '%s'.", cvarname.GetChars());
+				sc.ScriptError("Unknown console variable '%s'.", cvarname.c_str());
 			}
 		}
 		void	Tick(const SBarInfoMainBlock *block, const DSBarInfo *statusBar, bool hudChanged)
@@ -3536,7 +3536,7 @@ class CommandIfCVarInt : public SBarInfoNegatableFlowControl
 			SBarInfoNegatableFlowControl::Tick(block, statusBar, hudChanged);
 
 			bool result = false;
-			cvar = GetCVar(int(statusBar->CPlayer - players), cvarname.GetChars());
+			cvar = GetCVar(int(statusBar->CPlayer - players), cvarname.c_str());
 
 			if (cvar != nullptr)
 			{

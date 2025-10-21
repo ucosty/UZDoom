@@ -181,8 +181,8 @@ void FGameTexture::AddAutoMaterials()
 		auto& layer = autosearchpaths[i];
 		if (this->*(layer.pointer) == nullptr)	// only if no explicit assignment had been done.
 		{
-			FStringf lookup("%s%s%s", layer.path, fullname ? "" : "auto/", searchname.GetChars());
-			auto lump = fileSystem.CheckNumForFullName(lookup.GetChars(), false, FileSys::ns_global, true);
+			FStringf lookup("%s%s%s", layer.path, fullname ? "" : "auto/", searchname.c_str());
+			auto lump = fileSystem.CheckNumForFullName(lookup.c_str(), false, FileSys::ns_global, true);
 			if (lump != -1)
 			{
 				auto bmtex = TexMan.FindGameTexture(fileSystem.GetFileFullName(lump), ETextureType::Any, FTextureManager::TEXMAN_TryAny);
@@ -198,8 +198,8 @@ void FGameTexture::AddAutoMaterials()
 		auto& layer = autosearchpaths2[i];
 		if (!this->Layers || this->Layers.get()->*(layer.pointer) == nullptr)	// only if no explicit assignment had been done.
 		{
-			FStringf lookup("%s%s%s", layer.path, fullname ? "" : "auto/", searchname.GetChars());
-			auto lump = fileSystem.CheckNumForFullName(lookup.GetChars(), false, FileSys::ns_global, true);
+			FStringf lookup("%s%s%s", layer.path, fullname ? "" : "auto/", searchname.c_str());
+			auto lump = fileSystem.CheckNumForFullName(lookup.c_str(), false, FileSys::ns_global, true);
 			if (lump != -1)
 			{
 				auto bmtex = TexMan.FindGameTexture(fileSystem.GetFileFullName(lump), ETextureType::Any, FTextureManager::TEXMAN_TryAny);
@@ -240,13 +240,13 @@ void FGameTexture::CreateDefaultBrightmap()
 				if (GPalette.GlobalBrightmap.Remap[texbuf[i]] == white)
 				{
 					// Create a brightmap
-					DPrintf(DMSG_NOTIFY, "brightmap created for texture '%s'\n", GetName().GetChars());
+					DPrintf(DMSG_NOTIFY, "brightmap created for texture '%s'\n", GetName().c_str());
 					Brightmap = CreateBrightmapTexture(tex->GetImage());
 					return;
 				}
 			}
 			// No bright pixels found
-			DPrintf(DMSG_SPAMMY, "No bright pixels found in texture '%s'\n", GetName().GetChars());
+			DPrintf(DMSG_SPAMMY, "No bright pixels found in texture '%s'\n", GetName().c_str());
 		}
 	}
 }

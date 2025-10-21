@@ -180,7 +180,7 @@ static inline bool IsVMValueValid(const VMValue *val) { return !(!val || !val->a
 
 static inline bool isFStringValid(const FString &str)
 {
-	auto chars = str.GetChars();
+	auto chars = str.c_str();
 	// check the lower 32-bits of the char pointer
 	auto ptr = *(uint32_t *)&chars;
 	return ptr != 0;
@@ -449,7 +449,7 @@ static inline BasicType GetBasicType(PType *type)
 	if (type->isPointer()) return BASIC_pointer;
 	if (type->Flags & TT::TypeFlags::TYPE_IntNotInt)
 	{
-		std::string name = type->mDescriptiveName.GetChars();
+		std::string name = type->mDescriptiveName.c_str();
 		// if name begins with "Enum"
 		if (name.find("Enum") == 0) return BASIC_Enum;
 		if (type->Size == 4) return BASIC_uint32;
@@ -698,7 +698,7 @@ static PFunction *GetFunctionSymbol(const VMFunction *func)
 			{
 				for (PType *ty = TypeTable.TypeHash[i]; ty != nullptr; ty = ty->HashNext)
 				{
-					if (ty->isContainer() && std::string_view(ty->mDescriptiveName.GetChars()).find(structName.c_str()) != std::string_view::npos){
+					if (ty->isContainer() && std::string_view(ty->mDescriptiveName.c_str()).find(structName.c_str()) != std::string_view::npos){
 						PContainerType *struct_type = dynamic_cast<PContainerType *>(ty);
 						if (struct_type){
 							pfunc = dyn_cast<PFunction>(struct_type->Symbols.FindSymbol(funcName, true));
@@ -832,7 +832,7 @@ static StructInfo GetStructState(std::string struct_name, VMValue m_value, PType
 		catch (...)
 		{
 			// struct name + type name
-			LogError("GetStructState: %s (%s) Error getting field %s", struct_name.c_str(), structType->mDescriptiveName.GetChars(), field_name.c_str());
+			LogError("GetStructState: %s (%s) Error getting field %s", struct_name.c_str(), structType->mDescriptiveName.c_str(), field_name.c_str());
 		}
 	}
 	return m_structInfo;

@@ -169,7 +169,7 @@ public:
 	}
 	const char *GetAxisName(int axis)
 	{
-		return Axes[axis].Name.GetChars();
+		return Axes[axis].Name.c_str();
 	}
 	float GetAxisScale(int axis)
 	{

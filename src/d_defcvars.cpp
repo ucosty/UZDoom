@@ -132,7 +132,7 @@ void D_GrabCVarDefaults()
 			SHOULD_BLACKLIST(anonstats_host)
 			SHOULD_BLACKLIST(sentstats_hwr_done)
 
-			var = FindCVar(CurrentFindCVar.GetChars(), NULL);
+			var = FindCVar(CurrentFindCVar.c_str(), NULL);
 
 			if (var && var->GetFlags() & CVAR_SYSTEM_ONLY)
 				blacklisted = true;

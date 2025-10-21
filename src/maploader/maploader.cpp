@@ -249,7 +249,7 @@ void MapLoader::SummarizeMissingTextures(const FMissingTextureTracker &missing)
 			Printf(TEXTCOLOR_RED "Missing texture '"
 				TEXTCOLOR_ORANGE "%s" TEXTCOLOR_RED
 				"' is used %d more times\n",
-				pair->Key.GetChars(), pair->Value.Count - MISSING_TEXTURE_WARN_LIMIT);
+				pair->Key.c_str(), pair->Value.Count - MISSING_TEXTURE_WARN_LIMIT);
 		}
 	}
 }
@@ -2068,9 +2068,9 @@ void MapLoader::ProcessSideTextures(bool checktranmap, side_t *sd, sector_t *sec
 		  //	  instead of figuring something out from the colormap.
 		if (sec != nullptr)
 		{
-			SetTexture (sd, side_t::bottom, &sec->bottommap, msd->bottomtexture.GetChars());
-			SetTexture (sd, side_t::mid, &sec->midmap, msd->midtexture.GetChars());
-			SetTexture (sd, side_t::top, &sec->topmap, msd->toptexture.GetChars());
+			SetTexture (sd, side_t::bottom, &sec->bottommap, msd->bottomtexture.c_str());
+			SetTexture (sd, side_t::mid, &sec->midmap, msd->midtexture.c_str());
+			SetTexture (sd, side_t::top, &sec->topmap, msd->toptexture.c_str());
 		}
 		break;
 
@@ -2082,9 +2082,9 @@ void MapLoader::ProcessSideTextures(bool checktranmap, side_t *sd, sector_t *sec
 			uint32_t color = MAKERGB(255,255,255), fog = 0;
 			bool colorgood, foggood;
 
-			SetTextureNoErr (sd, side_t::bottom, &fog, msd->bottomtexture.GetChars(), &foggood, true);
-			SetTextureNoErr (sd, side_t::top, &color, msd->toptexture.GetChars(), &colorgood, false);
-			SetTexture(sd, side_t::mid, msd->midtexture.GetChars(), missingtex);
+			SetTextureNoErr (sd, side_t::bottom, &fog, msd->bottomtexture.c_str(), &foggood, true);
+			SetTextureNoErr (sd, side_t::top, &color, msd->toptexture.c_str(), &colorgood, false);
+			SetTexture(sd, side_t::mid, msd->midtexture.c_str(), missingtex);
 
 			if (colorgood | foggood)
 			{
@@ -2124,12 +2124,12 @@ void MapLoader::ProcessSideTextures(bool checktranmap, side_t *sd, sector_t *sec
 		{
 			int lumpnum;
 
-			if (strnicmp ("TRANMAP", msd->midtexture.GetChars(), 8) == 0)
+			if (strnicmp ("TRANMAP", msd->midtexture.c_str(), 8) == 0)
 			{
 				// The translator set the alpha argument already; no reason to do it again.
 				sd->SetTexture(side_t::mid, FNullTextureID());
 			}
-			else if ((lumpnum = fileSystem.CheckNumForName (msd->midtexture.GetChars())) > 0 &&
+			else if ((lumpnum = fileSystem.CheckNumForName (msd->midtexture.c_str())) > 0 &&
 				fileSystem.FileLength (lumpnum) == 65536)
 			{
 				auto fr = fileSystem.OpenFileReader(lumpnum);
@@ -2968,7 +2968,7 @@ void MapLoader::LoadLevel(MapData *map, const char *lumpname, int position)
 		if (!Level->info->Translator.IsEmpty())
 		{
 			// The map defines its own translator.
-			translator = Level->info->Translator.GetChars();
+			translator = Level->info->Translator.c_str();
 		}
 		else
 		{
@@ -2977,7 +2977,7 @@ void MapLoader::LoadLevel(MapData *map, const char *lumpname, int position)
 			if (translator == nullptr)
 			{
 				// Use the game's default.
-				translator = gameinfo.translator.GetChars();
+				translator = gameinfo.translator.c_str();
 			}
 		}
 		Level->Translator = P_LoadTranslator(translator);

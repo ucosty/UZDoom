@@ -157,8 +157,8 @@ void AddTiles(const FString& pathprefix, const void* tiles, FRemapTable *remap)
 
 		if (width <= 0 || height <= 0) continue;
 
-		FStringf name("%sBTIL%04d", pathprefix.GetChars(), i);
-		auto tex = MakeGameTexture(new FImageTexture(new FBuildTexture(pathprefix, i, tiledata, remap, width, height, xoffs, yoffs)), name.GetChars(), ETextureType::Override);
+		FStringf name("%sBTIL%04d", pathprefix.c_str(), i);
+		auto tex = MakeGameTexture(new FImageTexture(new FBuildTexture(pathprefix, i, tiledata, remap, width, height, xoffs, yoffs)), name.c_str(), ETextureType::Override);
 		texnum = TexMan.AddGameTexture(tex);
 		tiledata += size;
 
@@ -272,11 +272,11 @@ void InitBuildTiles()
 
 			for (int numartfiles = 0; numartfiles < 1000; numartfiles++)
 			{
-				FStringf artpath("%stiles%03d.art", path.GetChars(), numartfiles);
+				FStringf artpath("%stiles%03d.art", path.c_str(), numartfiles);
 				// only read from the same source as the palette.
 				// The entire format here is just too volatile to allow liberal mixing.
 				// An .ART set must be treated as one unit.
-				lumpnum = fileSystem.CheckNumForFullName(artpath.GetChars(), fileSystem.GetFileContainer(i));
+				lumpnum = fileSystem.CheckNumForFullName(artpath.c_str(), fileSystem.GetFileContainer(i));
 				if (lumpnum < 0)
 				{
 					break;

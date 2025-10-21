@@ -212,7 +212,7 @@ void gl_PrintStartupLog()
 	Printf (PRINT_LOG, "GL_EXTENSIONS:");
 	for (unsigned i = 0; i < m_Extensions.Size(); i++)
 	{
-		Printf(PRINT_LOG, " %s", m_Extensions[i].GetChars());
+		Printf(PRINT_LOG, " %s", m_Extensions[i].c_str());
 	}
 
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &v);

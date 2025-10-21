@@ -91,8 +91,8 @@ static FString CalcProgramBinaryChecksum(const FString &vertex, const FString &f
 	md5.Update(vendor, (unsigned int)strlen((const char*)vendor));
 	md5.Update(renderer, (unsigned int)strlen((const char*)renderer));
 	md5.Update(version, (unsigned int)strlen((const char*)version));
-	md5.Update((const uint8_t *)vertex.GetChars(), (unsigned int)vertex.Len());
-	md5.Update((const uint8_t *)fragment.GetChars(), (unsigned int)fragment.Len());
+	md5.Update((const uint8_t *)vertex.c_str(), (unsigned int)vertex.Len());
+	md5.Update((const uint8_t *)fragment.c_str(), (unsigned int)fragment.Len());
 	md5.Final(digest);
 
 	char hexdigest[33];
@@ -110,7 +110,7 @@ static FString CalcProgramBinaryChecksum(const FString &vertex, const FString &f
 static FString CreateProgramCacheName(bool create)
 {
 	FString path = M_GetCachePath(create);
-	if (create) CreatePath(path.GetChars());
+	if (create) CreatePath(path.c_str());
 	path << "/shadercache.zdsc";
 	return path;
 }
@@ -126,7 +126,7 @@ static void LoadShaders()
 	{
 		FString path = CreateProgramCacheName(false);
 		FileReader fr;
-		if (!fr.OpenFile(path.GetChars()))
+		if (!fr.OpenFile(path.c_str()))
 			I_Error("Could not open shader file");
 
 		char magic[4];
@@ -167,7 +167,7 @@ static void LoadShaders()
 static void SaveShaders()
 {
 	FString path = CreateProgramCacheName(true);
-	std::unique_ptr<FileWriter> fw(FileWriter::Open(path.GetChars()));
+	std::unique_ptr<FileWriter> fw(FileWriter::Open(path.c_str()));
 	if (fw)
 	{
 		uint32_t count = (uint32_t)ShaderCache.size();
@@ -176,7 +176,7 @@ static void SaveShaders()
 		for (const auto &it : ShaderCache)
 		{
 			uint32_t size = it.second->data.Size();
-			fw->Write(it.first.GetChars(), 32);
+			fw->Write(it.first.c_str(), 32);
 			fw->Write(&it.second->format, sizeof(uint32_t));
 			fw->Write(&size, sizeof(uint32_t));
 			fw->Write(it.second->data.Data(), it.second->data.Size());
@@ -498,14 +498,14 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 		vp_comb << "#define SHADER_STORAGE_LIGHTS\n#define SHADER_STORAGE_BONES\n";
 
 	FString fp_comb = vp_comb;
-	vp_comb << defines << i_data.GetChars();
-	fp_comb << "$placeholder$\n" << defines << i_data.GetChars();
+	vp_comb << defines << i_data.c_str();
+	fp_comb << "$placeholder$\n" << defines << i_data.c_str();
 
 	vp_comb << "#line 1\n";
 	fp_comb << "#line 1\n";
 
-	vp_comb << RemoveLayoutLocationDecl(GetStringFromLump(vp_lump), "out").GetChars() << "\n";
-	fp_comb << RemoveLayoutLocationDecl(GetStringFromLump(fp_lump), "in").GetChars() << "\n";
+	vp_comb << RemoveLayoutLocationDecl(GetStringFromLump(vp_lump), "out").c_str() << "\n";
+	fp_comb << RemoveLayoutLocationDecl(GetStringFromLump(fp_lump), "in").c_str() << "\n";
 	FString placeholder = "\n";
 	TArray<FString> filenames_for_error;
 
@@ -533,7 +533,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 
 					if(!error.IsEmpty())
 					{
-						I_Error("Unable to load '%s': %s", proc_prog_lump, error.GetChars());
+						I_Error("Unable to load '%s': %s", proc_prog_lump, error.c_str());
 					}
 				}
 			}
@@ -576,7 +576,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 				}
 			}
 
-			fp_comb << RemoveLegacyUserUniforms(pp_data).GetChars();
+			fp_comb << RemoveLegacyUserUniforms(pp_data).c_str();
 			fp_comb.Substitute("gl_TexCoord[0]", "vTexCoord");	// fix old custom shaders.
 
 			if (pp_data.IndexOf("ProcessLight") < 0)
@@ -643,8 +643,8 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 		int vp_size = (int)vp_comb.Len();
 		int fp_size = (int)fp_comb.Len();
 
-		const char *vp_ptr = vp_comb.GetChars();
-		const char *fp_ptr = fp_comb.GetChars();
+		const char *vp_ptr = vp_comb.c_str();
+		const char *fp_ptr = fp_comb.c_str();
 
 		glShaderSource(hVertProg, 1, &vp_ptr, &vp_size);
 		glShaderSource(hFragProg, 1, &fp_ptr, &fp_size);
@@ -693,7 +693,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 		if(errored)
 		{
 			// only print message if there's an error.
-			I_Error("Errors Compiliong Shader '%s':\n%s\n", name, error.GetChars());
+			I_Error("Errors Compiliong Shader '%s':\n%s\n", name, error.c_str());
 		}
 
 		glAttachShader(hShader, hVertProg);
@@ -714,7 +714,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 				error << "Linking:\n" << buffer.Data() << "\n";
 			}
 
-			I_Error("Errors Linking Shader '%s':\n%s\n", name, error.GetChars());
+			I_Error("Errors Linking Shader '%s':\n%s\n", name, error.c_str());
 		}
 		else if (glProgramBinary && IsShaderCacheActive())
 		{
@@ -847,7 +847,7 @@ FShader *FShaderCollection::Compile (const char *ShaderName, const char *ShaderP
 	try
 	{
 		shader = new FShader(ShaderName);
-		if (!shader->Load(ShaderName, "shaders/glsl/main.vp", "shaders/glsl/main.fp", ShaderPath, LightModePath, defines.GetChars()))
+		if (!shader->Load(ShaderName, "shaders/glsl/main.vp", "shaders/glsl/main.fp", ShaderPath, LightModePath, defines.c_str()))
 		{
 			I_FatalError("Unable to load shader %s\n", ShaderName);
 		}
@@ -991,9 +991,9 @@ bool FShaderCollection::CompileNextShader()
 	}
 	else if (mCompileState == 2)
 	{
-		FString name = ExtractFileBase(usershaders[i].shader.GetChars());
+		FString name = ExtractFileBase(usershaders[i].shader.c_str());
 		FString defines = defaultshaders[usershaders[i].shaderType].Defines + usershaders[i].defines;
-		FShader *shc = Compile(name.GetChars(), usershaders[i].shader.GetChars(), defaultshaders[usershaders[i].shaderType].lightfunc, defines.GetChars(), true, mPassType);
+		FShader *shc = Compile(name.c_str(), usershaders[i].shader.c_str(), defaultshaders[usershaders[i].shaderType].lightfunc, defines.c_str(), true, mPassType);
 		mMaterialShaders.Push(shc);
 		mCompileIndex++;
 		if (mCompileIndex >= (int)usershaders.Size())

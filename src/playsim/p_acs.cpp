@@ -1011,9 +1011,9 @@ int ACSStringPool::AddString(const char *str)
 
 int ACSStringPool::AddString(FString &str)
 {
-	unsigned int h = SuperFastHash(str.GetChars(), str.Len());
+	unsigned int h = SuperFastHash(str.c_str(), str.Len());
 	unsigned int bucketnum = h % NUM_BUCKETS;
-	int i = FindString(str.GetChars(), str.Len(), h, bucketnum);
+	int i = FindString(str.c_str(), str.Len(), h, bucketnum);
 	if (i >= 0)
 	{
 		return i | STRPOOL_LIBRARYID_OR;
@@ -1033,7 +1033,7 @@ const char *ACSStringPool::GetString(int strnum)
 	strnum &= ~LIBRARYID_MASK;
 	if ((unsigned)strnum < Pool.Size() && Pool[strnum].Next != FREE_ENTRY)
 	{
-		return Pool[strnum].Str.GetChars();
+		return Pool[strnum].Str.c_str();
 	}
 	return NULL;
 }
@@ -1230,7 +1230,7 @@ int ACSStringPool::FindString(const char *str, size_t len, unsigned int h, unsig
 		PoolEntry *entry = &Pool[i];
 		assert(entry->Next != FREE_ENTRY);
 		if (entry->Hash == h && entry->Str.Len() == len &&
-			memcmp(entry->Str.GetChars(), str, len) == 0)
+			memcmp(entry->Str.c_str(), str, len) == 0)
 		{
 			return i;
 		}
@@ -1333,7 +1333,7 @@ void ACSStringPool::ReadStrings(FSerializer &file, const char *key)
 						file("string", Pool[ii].Str)
 							("locks", Pool[ii].Locks);
 
-						unsigned h = SuperFastHash(Pool[ii].Str.GetChars(), Pool[ii].Str.Len());
+						unsigned h = SuperFastHash(Pool[ii].Str.c_str(), Pool[ii].Str.Len());
 						unsigned bucketnum = h % NUM_BUCKETS;
 						Pool[ii].Hash = h;
 						Pool[ii].Next = PoolBuckets[bucketnum];
@@ -1403,7 +1403,7 @@ void ACSStringPool::Dump() const
 	{
 		if (Pool[i].Next != FREE_ENTRY)
 		{
-			Printf("%4u. (%2d) \"%s\"\n", i, Pool[i].Locks.Size(), Pool[i].Str.GetChars());
+			Printf("%4u. (%2d) \"%s\"\n", i, Pool[i].Locks.Size(), Pool[i].Str.c_str());
 		}
 	}
 	Printf("First free %u\n", FirstFreeEntry);
@@ -1629,7 +1629,7 @@ static void WriteArrayVars (FSerializer &file, FWorldGlobalArray *vars, unsigned
 					FString arraykey;
 
 					arraykey.Format("%d", i);
-					if (file.BeginObject(arraykey.GetChars()))
+					if (file.BeginObject(arraykey.c_str()))
 					{
 						FWorldGlobalArray::ConstIterator it(vars[i]);
 						const FWorldGlobalArray::Pair *pair;
@@ -1638,7 +1638,7 @@ static void WriteArrayVars (FSerializer &file, FWorldGlobalArray *vars, unsigned
 						{
 							arraykey.Format("%d", pair->Key);
 							int v = pair->Value;
-							file(arraykey.GetChars(), v);
+							file(arraykey.c_str(), v);
 						}
 						file.EndObject();
 					}
@@ -2886,7 +2886,7 @@ void FBehavior::LoadScriptsDirectory ()
 				if (Scripts[i].Number == Scripts[i+1].Number)
 				{
 					Printf(TEXTCOLOR_ORANGE "%s appears more than once.\n",
-						ScriptPresentation(Scripts[i].Number).GetChars());
+						ScriptPresentation(Scripts[i].Number).c_str());
 					// Make the closed version the first one.
 					if (Scripts[i+1].Type == SCRIPT_Closed)
 					{
@@ -3295,8 +3295,8 @@ const char *FBehavior::LookupString (uint32_t index, bool forprint) const
 			token.Substitute(" ", "");
 			token.Truncate(5);
 
-			FStringf label("TXT_ACS_%s_%d_%.5s", Level->MapName.GetChars(), index, token.GetChars());
-			auto p = GStrings.CheckString(label.GetChars());
+			FStringf label("TXT_ACS_%s_%d_%.5s", Level->MapName.c_str(), index, token.c_str());
+			auto p = GStrings.CheckString(label.c_str());
 			if (p) return p;
 		}
 
@@ -6177,7 +6177,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 				{
 					newlen = oldlen - pos;
 				}
-				return GlobalACSStrings.AddString(FString(oldstr + pos, newlen).GetChars());
+				return GlobalACSStrings.AddString(FString(oldstr + pos, newlen).c_str());
 			}
 			break;
 
@@ -6758,7 +6758,7 @@ doplaysound:			if (funcIndex == ACSF_PlayActorSound)
 			auto a = Level->SingleActorFromTID(args[0], activator);
 			if (a != nullptr)
 			{
-				return GlobalACSStrings.AddString(TexMan.GetGameTexture(a->floorpic)->GetName().GetChars());
+				return GlobalACSStrings.AddString(TexMan.GetGameTexture(a->floorpic)->GetName().c_str());
 			}
 			else
 			{
@@ -7050,7 +7050,7 @@ int DLevelScript::RunScript()
 	{
 		if (++runaway > 2000000)
 		{
-			Printf ("Runaway %s terminated\n", ScriptPresentation(script).GetChars());
+			Printf ("Runaway %s terminated\n", ScriptPresentation(script).c_str());
 			state = SCRIPT_PleaseRemove;
 			break;
 		}
@@ -7071,11 +7071,11 @@ int DLevelScript::RunScript()
 		switch (pcd)
 		{
 		default:
-			Printf ("Unknown P-Code %d in %s\n", pcd, ScriptPresentation(script).GetChars());
+			Printf ("Unknown P-Code %d in %s\n", pcd, ScriptPresentation(script).c_str());
 			activeBehavior = savedActiveBehavior;
 			// fall through
 		case PCD_TERMINATE:
-			DPrintf (DMSG_NOTIFY, "%s finished\n", ScriptPresentation(script).GetChars());
+			DPrintf (DMSG_NOTIFY, "%s finished\n", ScriptPresentation(script).c_str());
 			state = SCRIPT_PleaseRemove;
 			break;
 
@@ -7350,13 +7350,13 @@ int DLevelScript::RunScript()
 
 				if (func == NULL)
 				{
-					Printf ("Function %d in %s out of range\n", funcnum, ScriptPresentation(script).GetChars());
+					Printf ("Function %d in %s out of range\n", funcnum, ScriptPresentation(script).c_str());
 					state = SCRIPT_PleaseRemove;
 					break;
 				}
 				if (sp + func->LocalCount + 64 > STACK_SIZE)
 				{ // 64 is the margin for the function's working space
-					Printf ("Out of stack space in %s\n", ScriptPresentation(script).GetChars());
+					Printf ("Out of stack space in %s\n", ScriptPresentation(script).c_str());
 					state = SCRIPT_PleaseRemove;
 					break;
 				}
@@ -8795,7 +8795,7 @@ scriptwait:
 		case PCD_ENDLOG:
 			if (pcd == PCD_ENDLOG)
 			{
-				Printf ("%s\n", work.GetChars());
+				Printf ("%s\n", work.c_str());
 				STRINGBUILDER_FINISH(work);
 			}
 			else if (pcd != PCD_MOREHUDMESSAGE)
@@ -8813,7 +8813,7 @@ scriptwait:
 				if (pcd == PCD_ENDPRINTBOLD || screen == NULL ||
 					screen->CheckLocalView())
 				{
-					C_MidPrint (activefont, work.GetChars(), pcd == PCD_ENDPRINTBOLD && (gameinfo.correctprintbold || (Level->flags2 & LEVEL2_HEXENHACK)));
+					C_MidPrint (activefont, work.c_str(), pcd == PCD_ENDPRINTBOLD && (gameinfo.correctprintbold || (Level->flags2 & LEVEL2_HEXENHACK)));
 				}
 				STRINGBUILDER_FINISH(work);
 			}
@@ -8868,13 +8868,13 @@ scriptwait:
 					{
 					default:	// normal
 						alpha = (optstart < sp) ? ACSToFloat(Stack[optstart]) : 1.f;
-						msg = Create<DHUDMessage> (activefont, work.GetChars(), x, y, hudwidth, hudheight, color, holdTime);
+						msg = Create<DHUDMessage> (activefont, work.c_str(), x, y, hudwidth, hudheight, color, holdTime);
 						break;
 					case 1:		// fade out
 						{
 							float fadeTime = (optstart < sp) ? ACSToFloat(Stack[optstart]) : 0.5f;
 							alpha = (optstart < sp-1) ? ACSToFloat(Stack[optstart+1]) : 1.f;
-							msg = Create<DHUDMessageFadeOut> (activefont, work.GetChars(), x, y, hudwidth, hudheight, color, holdTime, fadeTime);
+							msg = Create<DHUDMessageFadeOut> (activefont, work.c_str(), x, y, hudwidth, hudheight, color, holdTime, fadeTime);
 						}
 						break;
 					case 2:		// type on, then fade out
@@ -8882,7 +8882,7 @@ scriptwait:
 							float typeTime = (optstart < sp) ? ACSToFloat(Stack[optstart]) : 0.05f;
 							float fadeTime = (optstart < sp-1) ? ACSToFloat(Stack[optstart+1]) : 0.5f;
 							alpha = (optstart < sp-2) ? ACSToFloat(Stack[optstart+2]) : 1.f;
-							msg = Create<DHUDMessageTypeOnFadeOut> (activefont, work.GetChars(), x, y, hudwidth, hudheight, color, typeTime, holdTime, fadeTime);
+							msg = Create<DHUDMessageTypeOnFadeOut> (activefont, work.c_str(), x, y, hudwidth, hudheight, color, typeTime, holdTime, fadeTime);
 						}
 						break;
 					case 3:		// fade in, then fade out
@@ -8890,7 +8890,7 @@ scriptwait:
 							float inTime = (optstart < sp) ? ACSToFloat(Stack[optstart]) : 0.5f;
 							float outTime = (optstart < sp-1) ? ACSToFloat(Stack[optstart+1]) : 0.5f;
 							alpha = (optstart < sp-2) ? ACSToFloat(Stack[optstart + 2]) : 1.f;
-							msg = Create<DHUDMessageFadeInOut> (activefont, work.GetChars(), x, y, hudwidth, hudheight, color, holdTime, inTime, outTime);
+							msg = Create<DHUDMessageFadeInOut> (activefont, work.c_str(), x, y, hudwidth, hudheight, color, holdTime, inTime, outTime);
 						}
 						break;
 					}
@@ -8917,7 +8917,7 @@ scriptwait:
 					if (type & HUDMSG_LOG)
 					{
 						int consolecolor = color >= CR_BRICK && color < NUM_TEXT_COLORS && color != CR_UNTRANSLATED ? color + 'A' : '-';
-						Printf(PRINT_HIGH | PRINT_NONOTIFY, "\n" TEXTCOLOR_ESCAPESTR "%c%s\n%s\n%s\n", consolecolor, console_bar, work.GetChars(), console_bar);
+						Printf(PRINT_HIGH | PRINT_NONOTIFY, "\n" TEXTCOLOR_ESCAPESTR "%c%s\n%s\n%s\n", consolecolor, console_bar, work.c_str(), console_bar);
 					}
 				}
 			}
@@ -10415,12 +10415,12 @@ scriptwait:
 
 	if (state == SCRIPT_DivideBy0)
 	{
-		Printf ("Divide by zero in %s\n", ScriptPresentation(script).GetChars());
+		Printf ("Divide by zero in %s\n", ScriptPresentation(script).c_str());
 		state = SCRIPT_PleaseRemove;
 	}
 	else if (state == SCRIPT_ModulusBy0)
 	{
-		Printf ("Modulus by zero in %s\n", ScriptPresentation(script).GetChars());
+		Printf ("Modulus by zero in %s\n", ScriptPresentation(script).c_str());
 		state = SCRIPT_PleaseRemove;
 	}
 	if (state == SCRIPT_PleaseRemove)
@@ -10522,7 +10522,7 @@ DLevelScript::DLevelScript (FLevelLocals *l, AActor *who, line_t *where, int num
 		PutLast();
 	}
 
-	DPrintf(DMSG_SPAMMY, "%s started.\n", ScriptPresentation(num).GetChars());
+	DPrintf(DMSG_SPAMMY, "%s started.\n", ScriptPresentation(num).c_str());
 }
 
 void SetScriptState (FLevelLocals& level, int script, DLevelScript::EScriptState state)
@@ -10553,7 +10553,7 @@ void FLevelLocals::DoDeferedScripts ()
 		scriptdata = Behaviors.FindScript(def->script, module);
 		if (scriptdata == nullptr)
 		{
-			Printf("P_DoDeferredScripts: Unknown %s\n", ScriptPresentation(def->script).GetChars());
+			Printf("P_DoDeferredScripts: Unknown %s\n", ScriptPresentation(def->script).c_str());
 			continue;
 		}
 
@@ -10571,12 +10571,12 @@ void FLevelLocals::DoDeferedScripts ()
 
 		case acsdefered_t::defsuspend:
 			SetScriptState (*this, def->script, DLevelScript::SCRIPT_Suspended);
-			DPrintf (DMSG_SPAMMY, "Deferred suspend of %s\n", ScriptPresentation(def->script).GetChars());
+			DPrintf (DMSG_SPAMMY, "Deferred suspend of %s\n", ScriptPresentation(def->script).c_str());
 			break;
 
 		case acsdefered_t::defterminate:
 			SetScriptState (*this, def->script, DLevelScript::SCRIPT_PleaseRemove);
-			DPrintf (DMSG_SPAMMY, "Deferred terminate of %s\n", ScriptPresentation(def->script).GetChars());
+			DPrintf (DMSG_SPAMMY, "Deferred terminate of %s\n", ScriptPresentation(def->script).c_str());
 			break;
 		}
 	}
@@ -10608,7 +10608,7 @@ static void addDefered (level_info_t *i, acsdefered_t::EType type, int script, c
 		{
 			def.playernum = -1;
 		}
-		DPrintf (DMSG_SPAMMY, "%s on map %s deferred\n", ScriptPresentation(script).GetChars(), i->MapName.GetChars());
+		DPrintf (DMSG_SPAMMY, "%s on map %s deferred\n", ScriptPresentation(script).c_str(), i->MapName.c_str());
 	}
 }
 
@@ -10618,7 +10618,7 @@ CVAR(Bool, sv_allowallscripts, false, CVAR_SERVERINFO | CVAR_NOSAVE)
 
 int P_StartScript (FLevelLocals *Level, AActor *who, line_t *where, int script, const char *map, const int *args, int argcount, int flags)
 {
-	if (map == NULL || 0 == strnicmp (Level->MapName.GetChars(), map, 8))
+	if (map == NULL || 0 == strnicmp (Level->MapName.c_str(), map, 8))
 	{
 		FBehavior *module = NULL;
 		const ScriptPtr *scriptdata;
@@ -10636,7 +10636,7 @@ int P_StartScript (FLevelLocals *Level, AActor *who, line_t *where, int script, 
 				else if (consoleplayer == Net_Arbitrator && !IsClientSideScript(who, *scriptdata))
 				{
 					Printf(PRINT_BOLD, "%s tried to puke %s (\n",
-						who->player->userinfo.GetName(), ScriptPresentation(script).GetChars());
+						who->player->userinfo.GetName(), ScriptPresentation(script).c_str());
 					for (int i = 0; i < argcount; ++i)
 					{
 						Printf(PRINT_BOLD, "%d%s", args[i], i == argcount - 1 ? "" : ", ");
@@ -10664,7 +10664,7 @@ int P_StartScript (FLevelLocals *Level, AActor *who, line_t *where, int script, 
 		{
 			if (!(flags & ACS_NET) || (who && Level->isConsolePlayer(who->player->mo))) // The indirection is necessary here.
 			{
-				Printf("P_StartScript: Unknown %s\n", ScriptPresentation(script).GetChars());
+				Printf("P_StartScript: Unknown %s\n", ScriptPresentation(script).c_str());
 			}
 		}
 	}
@@ -10680,7 +10680,7 @@ int P_StartScript (FLevelLocals *Level, AActor *who, line_t *where, int script, 
 
 void P_SuspendScript (FLevelLocals *Level, int script, const char *map)
 {
-	if (strnicmp (Level->MapName.GetChars(), map, 8))
+	if (strnicmp (Level->MapName.c_str(), map, 8))
 		addDefered (FindLevelInfo (map), acsdefered_t::defsuspend, script, NULL, 0, NULL);
 	else
 		SetScriptState (*Level, script, DLevelScript::SCRIPT_Suspended);
@@ -10688,7 +10688,7 @@ void P_SuspendScript (FLevelLocals *Level, int script, const char *map)
 
 void P_TerminateScript (FLevelLocals *Level, int script, const char *map)
 {
-	if (strnicmp (Level->MapName.GetChars(), map, 8))
+	if (strnicmp (Level->MapName.c_str(), map, 8))
 		addDefered (FindLevelInfo (map), acsdefered_t::defterminate, script, NULL, 0, NULL);
 	else
 		SetScriptState (*Level, script, DLevelScript::SCRIPT_PleaseRemove);
@@ -10711,7 +10711,7 @@ CCMD (scriptstat)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("Script status for %s\n", Level->MapName.GetChars());
+		Printf("Script status for %s\n", Level->MapName.c_str());
 		if (Level->ACSThinker == nullptr)
 		{
 			Printf("No scripts are running.\n");
@@ -10740,7 +10740,7 @@ void DACSThinker::DumpScriptStatus ()
 
 	while (script != NULL)
 	{
-		Printf("%s: %s\n", ScriptPresentation(script->script).GetChars(), stateNames[script->state]);
+		Printf("%s: %s\n", ScriptPresentation(script->script).c_str(), stateNames[script->state]);
 		script = script->next;
 	}
 }
@@ -10919,7 +10919,7 @@ static void ShowProfileData(TArray<ProfileCollector> &profiles, int ilimit,
 		else
 		{
 			mysnprintf(scriptname, sizeof(scriptname), "%s",
-				ScriptPresentation(prof->Module->GetScriptPtr(prof->Index)->Number).GetChars() + 7);
+				ScriptPresentation(prof->Module->GetScriptPtr(prof->Index)->Number).c_str() + 7);
 		}
 		Printf("%-12s %-20s%11llu%8u%8u%8u%8u\n",
 			modname, scriptname,
@@ -10951,7 +10951,7 @@ void ACSProfile(FLevelLocals *Level, FCommandLine &argv)
 
 	assert(countof(sort_names) == countof(sort_match_len));
 
-	Printf("ACS profile for %s\n", Level->MapName.GetChars());
+	Printf("ACS profile for %s\n", Level->MapName.c_str());
 	Level->Behaviors.ArrangeScriptProfiles(ScriptProfiles);
 	Level->Behaviors.ArrangeFunctionProfiles(FuncProfiles);
 

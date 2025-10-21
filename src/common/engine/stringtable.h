@@ -97,7 +97,7 @@ public:
 	bool MatchDefaultString(const char *name, const char *content) const;
 	const char *CheckString(const char *name, uint32_t *langtable = nullptr, int gender = -1) const;
 	const char* GetString(const char* name) const;
-	const char* GetString(const FString& name) const { return GetString(name.GetChars()); }
+	const char* GetString(const FString& name) const { return GetString(name.c_str()); }
 	bool exists(const char *name);
 
 	void InsertString(int filenum, int langid, FName label, const FString& string);

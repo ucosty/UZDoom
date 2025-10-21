@@ -396,13 +396,13 @@ bool FDInputJoystick::GetDevice()
 	hr = SetDataFormat();
 	if (FAILED(hr))
 	{
-		Printf(TEXTCOLOR_ORANGE "Setting data format for %s failed.\n", Name.GetChars());
+		Printf(TEXTCOLOR_ORANGE "Setting data format for %s failed.\n", Name.c_str());
 		return false;
 	}
 	hr = Device->SetCooperativeLevel(mainwindow.GetHandle(), DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	if (FAILED(hr))
 	{
-		Printf(TEXTCOLOR_ORANGE "Setting cooperative level for %s failed.\n", Name.GetChars());
+		Printf(TEXTCOLOR_ORANGE "Setting cooperative level for %s failed.\n", Name.c_str());
 		return false;
 	}
 	Device->Acquire();
@@ -1001,7 +1001,7 @@ const char *FDInputJoystick::GetAxisName(int axis)
 {
 	if (unsigned(axis) < Axes.Size())
 	{
-		return Axes[axis].Name.GetChars();
+		return Axes[axis].Name.c_str();
 	}
 	return "Invalid";
 }

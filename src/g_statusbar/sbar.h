@@ -125,7 +125,7 @@ public:
 	void SetNoWrap(bool nowrap)
 	{
 		NoWrap = nowrap;
-		ResetText(SourceText.GetChars());
+		ResetText(SourceText.c_str());
 	}
 	void SetClipRect(int x, int y, int width, int height, bool aspect)
 	{
@@ -138,7 +138,7 @@ public:
 	void SetWrapWidth(int wrap)
 	{
 		WrapWidth = wrap;
-		ResetText(SourceText.GetChars());
+		ResetText(SourceText.c_str());
 	}
 
 protected:

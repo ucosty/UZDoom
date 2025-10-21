@@ -90,7 +90,7 @@ bool ArrayStateNode::SerializeToProtocol(dap::Variable &variable)
 	variable.indexedVariables = count < 0 ? 0 : count;
 	SetVariableName(variable);
 	std::string elementTypeName = m_elementType->DescriptiveName();
-	variable.type = m_type->mDescriptiveName.GetChars();
+	variable.type = m_type->mDescriptiveName.c_str();
 	if (!IsVMValueValid(&m_value) || count < 0)
 	{
 		variable.value = StringFormat("%s[<NONE>]", elementTypeName.c_str());

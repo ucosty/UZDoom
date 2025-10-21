@@ -108,7 +108,7 @@ static void RecurseWriteFields(const PClass *type, FSerializer &ar, const void *
 				// that will actually be allowed remains to be seen.
 				FString key;
 				key.Format("class:%s", type->TypeName.GetChars());
-				if (ar.BeginObject(key.GetChars()))
+				if (ar.BeginObject(key.c_str()))
 				{
 					type->VMType->Symbols.WriteFields(ar, addr);
 					ar.EndObject();

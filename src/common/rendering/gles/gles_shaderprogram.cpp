@@ -108,7 +108,7 @@ void FShaderProgram::CompileShader(ShaderType type)
 
 	const FString &patchedCode = mShaderSources[type];
 	int lengths[1] = { (int)patchedCode.Len() };
-	const char *sources[1] = { patchedCode.GetChars() };
+	const char *sources[1] = { patchedCode.c_str() };
 	glShaderSource(handle, 1, sources, lengths);
 
 	glCompileShader(handle);
@@ -117,7 +117,7 @@ void FShaderProgram::CompileShader(ShaderType type)
 	glGetShaderiv(handle, GL_COMPILE_STATUS, &status);
 	if (status == GL_FALSE)
 	{
-		I_FatalError("Compile Shader '%s':\n%s\n", mShaderNames[type].GetChars(), GetShaderInfoLog(handle).GetChars());
+		I_FatalError("Compile Shader '%s':\n%s\n", mShaderNames[type].c_str(), GetShaderInfoLog(handle).c_str());
 	}
 	else
 	{
@@ -154,7 +154,7 @@ void FShaderProgram::Link(const char *name)
 		glGetProgramiv(mProgram, GL_LINK_STATUS, &status);
 		if (status == GL_FALSE)
 		{
-			I_FatalError("Link Shader '%s':\n%s\n", name, GetProgramInfoLog(mProgram).GetChars());
+			I_FatalError("Link Shader '%s':\n%s\n", name, GetProgramInfoLog(mProgram).c_str());
 		}
 	}
 
@@ -164,7 +164,7 @@ void FShaderProgram::Link(const char *name)
 		glUseProgram(mProgram);
 		for (auto &uni : samplerstobind)
 		{
-			auto index = glGetUniformLocation(mProgram, uni.first.GetChars());
+			auto index = glGetUniformLocation(mProgram, uni.first.c_str());
 			if (index >= 0)
 			{
 				glUniform1i(index, uni.second);
@@ -265,8 +265,8 @@ void FPresentShaderBase::Init(const char * vtx_shader_name, const char * program
 	FString prolog = Uniforms.CreateDeclaration("Uniforms", PresentUniforms::Desc());
 
 	mShader.reset(new FShaderProgram());
-	mShader->Compile(FShaderProgram::Vertex, "shaders_gles/pp/screenquad.vp", prolog.GetChars(), 330);
-	mShader->Compile(FShaderProgram::Fragment, vtx_shader_name, prolog.GetChars(), 330);
+	mShader->Compile(FShaderProgram::Vertex, "shaders_gles/pp/screenquad.vp", prolog.c_str(), 330);
+	mShader->Compile(FShaderProgram::Fragment, vtx_shader_name, prolog.c_str(), 330);
 	mShader->Link(program_name);
 	mShader->Bind();
 	Uniforms.Init();

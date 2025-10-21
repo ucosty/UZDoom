@@ -293,7 +293,7 @@ void PType::GetTypeIDs(intptr_t &id1, intptr_t &id2) const
 
 const char *PType::DescriptiveName() const
 {
-	return mDescriptiveName.GetChars();
+	return mDescriptiveName.c_str();
 }
 
 //==========================================================================
@@ -2570,7 +2570,7 @@ static void PMapValueWriter(FSerializer &ar, const M *map, const PMap *m)
 	{
 		if constexpr(std::is_same_v<typename M::KeyType,FString>)
 		{
-			m->ValueType->WriteValue(ar,p->Key.GetChars(),static_cast<const void *>(&p->Value));
+			m->ValueType->WriteValue(ar,p->Key.c_str(),static_cast<const void *>(&p->Value));
 		}
 		else if constexpr(std::is_same_v<typename M::KeyType,uint32_t>)
 		{
@@ -2610,26 +2610,26 @@ static void PMapValueWriter(FSerializer &ar, const M *map, const PMap *m)
 						}
 						else
 						{
-							name = tex->GetName().GetChars();
+							name = tex->GetName().c_str();
 						}
 
 						name.AppendFormat(":%u",useType);
 
-						m->ValueType->WriteValue(ar,name.GetChars(),static_cast<const void *>(&p->Value));
+						m->ValueType->WriteValue(ar,name.c_str(),static_cast<const void *>(&p->Value));
 					}
 				}
 				else
 				{ // bool/color/enum/sprite/translationID
 					FString key;
 					key.Format("%u",p->Key);
-					m->ValueType->WriteValue(ar,key.GetChars(),static_cast<const void *>(&p->Value));
+					m->ValueType->WriteValue(ar,key.c_str(),static_cast<const void *>(&p->Value));
 				}
 			}
 			else
 			{
 				FString key;
 				key.Format("%u",p->Key);
-				m->ValueType->WriteValue(ar,key.GetChars(),static_cast<const void *>(&p->Value));
+				m->ValueType->WriteValue(ar,key.c_str(),static_cast<const void *>(&p->Value));
 			}
 		}
 		//else unknown key type
@@ -2703,7 +2703,7 @@ static bool PMapValueReader(FSerializer &ar, M *map, const PMap *m)
 						FString texName = s.Left(sep);
 						FString useType = s.Mid(sep + 1);
 
-						tex = TexMan.GetTextureID(texName.GetChars(), (ETextureType) useType.ToULong());
+						tex = TexMan.GetTextureID(texName.c_str(), (ETextureType) useType.ToULong());
 					}
 					val = &map->InsertNew(tex.GetIndex());
 				}
@@ -3144,9 +3144,9 @@ bool PFunctionPointer::ReadValue(FSerializer &ar, const char *key, void *addr) c
 		{
 			*fn = nullptr;
 			Printf(TEXTCOLOR_RED "Function Pointer ('%s::%s'): '%s' is not a valid class\n",
-				val.ClassName.GetChars(),
-				val.FunctionName.GetChars(),
-				val.ClassName.GetChars()
+				val.ClassName.c_str(),
+				val.FunctionName.c_str(),
+				val.ClassName.c_str()
 			);
 			ar.mErrors++;
 			return false;
@@ -3156,10 +3156,10 @@ bool PFunctionPointer::ReadValue(FSerializer &ar, const char *key, void *addr) c
 		{
 			*fn = nullptr;
 			Printf(TEXTCOLOR_RED "Function Pointer ('%s::%s'): symbol '%s' does not exist in class '%s'\n",
-				val.ClassName.GetChars(),
-				val.FunctionName.GetChars(),
-				val.FunctionName.GetChars(),
-				val.ClassName.GetChars()
+				val.ClassName.c_str(),
+				val.FunctionName.c_str(),
+				val.FunctionName.c_str(),
+				val.ClassName.c_str()
 			);
 			ar.mErrors++;
 			return false;
@@ -3169,10 +3169,10 @@ bool PFunctionPointer::ReadValue(FSerializer &ar, const char *key, void *addr) c
 		{
 			*fn = nullptr;
 			Printf(TEXTCOLOR_RED "Function Pointer (%s::%s): '%s' in class '%s' is a variable, not a function\n",
-				val.ClassName.GetChars(),
-				val.FunctionName.GetChars(),
-				val.FunctionName.GetChars(),
-				val.ClassName.GetChars()
+				val.ClassName.c_str(),
+				val.FunctionName.c_str(),
+				val.FunctionName.c_str(),
+				val.ClassName.c_str()
 			);
 			ar.mErrors++;
 			return false;
@@ -3184,10 +3184,10 @@ bool PFunctionPointer::ReadValue(FSerializer &ar, const char *key, void *addr) c
 			{
 				*fn = nullptr;
 				Printf(TEXTCOLOR_RED "Function Pointer (%s::%s): function '%s' in class '%s' is %s, not a static function\n",
-					val.ClassName.GetChars(),
-					val.FunctionName.GetChars(),
-					val.FunctionName.GetChars(),
-					val.ClassName.GetChars(),
+					val.ClassName.c_str(),
+					val.FunctionName.c_str(),
+					val.FunctionName.c_str(),
+					val.ClassName.c_str(),
 					(p->GetImplicitArgs() == 1 ? "a virtual function" : "an action function")
 				);
 			}
@@ -3195,10 +3195,10 @@ bool PFunctionPointer::ReadValue(FSerializer &ar, const char *key, void *addr) c
 			{
 				FString fn_name = MakeFunctionPointerDescriptiveName(p->Variants[0].Proto,p->Variants[0].ArgFlags, FScopeBarrier::SideFromFlags(p->Variants[0].Flags));
 				Printf(TEXTCOLOR_RED "Function Pointer (%s::%s) has incompatible type (Pointer is '%s', Function is '%s')\n",
-							val.ClassName.GetChars(),
-							val.FunctionName.GetChars(),
-							fn_name.GetChars(),
-							mDescriptiveName.GetChars()
+							val.ClassName.c_str(),
+							val.FunctionName.c_str(),
+							fn_name.c_str(),
+							mDescriptiveName.c_str()
 				);
 			}
 			ar.mErrors++;

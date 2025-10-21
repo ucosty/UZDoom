@@ -119,7 +119,7 @@ FHexenStartScreen::FHexenStartScreen(int max_progress)
 	{
 		if (GameStartupInfo.Song.IsNotEmpty())
 		{
-			S_ChangeMusic(GameStartupInfo.Song.GetChars(), true, true);
+			S_ChangeMusic(GameStartupInfo.Song.c_str(), true, true);
 		}
 		else
 		{

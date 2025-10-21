@@ -19,7 +19,7 @@ bool ObjectStateNode::SerializeToProtocol(dap::Variable &variable)
 	variable.variablesReference = IsVMValValidDObject(&m_value) ? GetId() : 0;
 	auto pointedType = m_ClassType->isObjectPointer() ? m_ClassType->toPointer()->PointedType : m_ClassType;
 	SetVariableName(variable);
-	const char *typeName = pointedType->mDescriptiveName.GetChars();
+	const char *typeName = pointedType->mDescriptiveName.c_str();
 	variable.type = typeName;
 	std::vector<std::string> childNames;
 	GetChildNames(childNames);
@@ -35,11 +35,11 @@ bool ObjectStateNode::SerializeToProtocol(dap::Variable &variable)
 			// If this is something that isn't actually descended from the class...
 			if (!PType::toClass(m_VMType)->Descriptor->IsDescendantOf(PType::toClass(pointedType)->Descriptor))
 			{
-				variable.value = StringFormat("%s (%p) as %s", m_VMType->mDescriptiveName.GetChars(), m_value.a, typeName);
+				variable.value = StringFormat("%s (%p) as %s", m_VMType->mDescriptiveName.c_str(), m_value.a, typeName);
 			}
 			else
 			{
-				variable.value = StringFormat("%s (%p)", m_VMType->mDescriptiveName.GetChars(), m_value.a);
+				variable.value = StringFormat("%s (%p)", m_VMType->mDescriptiveName.c_str(), m_value.a);
 			}
 		}
 		else
@@ -85,7 +85,7 @@ bool ObjectStateNode::GetChildNames(std::vector<std::string> &names)
 		if (classType->ParentType && descriptor && descriptor->ParentClass)
 		{
 			auto parent = classType->ParentType;
-			auto parentName = parent->mDescriptiveName.GetChars();
+			auto parentName = parent->mDescriptiveName.c_str();
 			m_children[parentName] = std::make_shared<ObjectStateNode>(parentName, m_value, parent, true);
 			m_virtualChildren[parentName] = m_children[parentName];
 			m_cachedNames.push_back(parentName);
@@ -130,7 +130,7 @@ bool ObjectStateNode::GetChildNames(std::vector<std::string> &names)
 		catch (CRecoverableError &e)
 		{
 
-			LogError("Failed to get child names for object '%s' of type %s", m_name.c_str(), p_type->mDescriptiveName.GetChars());
+			LogError("Failed to get child names for object '%s' of type %s", m_name.c_str(), p_type->mDescriptiveName.c_str());
 			if (!error_msg.empty())
 			{
 				LogError("Error: %s", error_msg.c_str());
@@ -142,7 +142,7 @@ bool ObjectStateNode::GetChildNames(std::vector<std::string> &names)
 		names = m_cachedNames;
 		return true;
 	}
-	LogError("Failed to get child names for object '%s' of type %s", m_name.c_str(), p_type->mDescriptiveName.GetChars());
+	LogError("Failed to get child names for object '%s' of type %s", m_name.c_str(), p_type->mDescriptiveName.c_str());
 	return false;
 }
 

@@ -302,7 +302,7 @@ const char *UDMFParserBase::CheckString(FName key)
 	{
 		sc.ScriptMessage("String value expected for key '%s'", key.GetChars());
 	}
-	return parsedString.GetChars();
+	return parsedString.c_str();
 }
 
 int UDMFParserBase::MatchString(FName key, const char* const* strings, int defval)

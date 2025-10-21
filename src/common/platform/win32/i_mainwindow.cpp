@@ -113,7 +113,7 @@ void MainWindow::ShowErrorPane(const char* text)
 	std::string alltext;
 	alltext.reserve(totalsize);
 	for (const FString& line : bufferedConsoleStuff)
-		alltext.append(line.GetChars(), line.Len());
+		alltext.append(line.c_str(), line.Len());
 
 	restartrequest = ErrorWindow::ExecModal(text, alltext);
 }

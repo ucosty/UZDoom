@@ -312,7 +312,7 @@ static void PrintToStdOut(const char *cpt, HANDLE StdOut)
 	}
 
 	DWORD bytes_written;
-	WriteFile(StdOut, printData.GetChars(), (DWORD)printData.Len(), &bytes_written, NULL);
+	WriteFile(StdOut, printData.c_str(), (DWORD)printData.Len(), &bytes_written, NULL);
 	if (terminal) 
 		WriteFile(StdOut, "\033[0m", 4, &bytes_written, NULL);
 }
@@ -650,7 +650,7 @@ bool I_WriteIniFailed(const char* filename)
 	);
 	errortext.Format ("The config file %s could not be written:\n%s", filename, lpMsgBuf);
 	LocalFree (lpMsgBuf);
-	return MessageBoxA(mainwindow.GetHandle(), errortext.GetChars(), GAMENAME " configuration not saved", MB_ICONEXCLAMATION | MB_RETRYCANCEL) == IDRETRY;
+	return MessageBoxA(mainwindow.GetHandle(), errortext.c_str(), GAMENAME " configuration not saved", MB_ICONEXCLAMATION | MB_RETRYCANCEL) == IDRETRY;
 }
 
 

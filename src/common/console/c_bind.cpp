@@ -395,7 +395,7 @@ void FKeyBindings::PerformBind(FCommandLine &argv, const char *msg)
 		}
 		if (argv.argc() == 2)
 		{
-			Printf ("\"%s\" = \"%s\"\n", argv[1], Binds[i].GetChars());
+			Printf ("\"%s\" = \"%s\"\n", argv[1], Binds[i].c_str());
 		}
 		else
 		{
@@ -409,7 +409,7 @@ void FKeyBindings::PerformBind(FCommandLine &argv, const char *msg)
 		for (i = 0; i < NUM_KEYS; i++)
 		{
 			if (!Binds[i].IsEmpty())
-				Printf ("%s \"%s\"\n", KeyName (i), Binds[i].GetChars());
+				Printf ("%s \"%s\"\n", KeyName (i), Binds[i].c_str());
 		}
 	}
 }
@@ -450,7 +450,7 @@ void FKeyBindings::ArchiveBindings(FConfigFile *f, const char *matchcmd)
 				Binds[i] = "";
 				continue;
 			}
-			f->SetValueForKey(ConfigKeyName(i), Binds[i].GetChars());
+			f->SetValueForKey(ConfigKeyName(i), Binds[i].c_str());
 			if (matchcmd != nullptr)
 			{ // If saving a specific command, set a marker so that
 			  // it does not get saved in the general binding list.
@@ -479,7 +479,7 @@ int FKeyBindings::GetKeysForCommand (const char *cmd, int *first, int *second)
 
 	while (i < NUM_KEYS && c < 2)
 	{
-		if (stricmp (cmd, Binds[i].GetChars()) == 0)
+		if (stricmp (cmd, Binds[i].c_str()) == 0)
 		{
 			if (c++ == 0)
 				*first = i;
@@ -504,7 +504,7 @@ TArray<int> FKeyBindings::GetKeysForCommand (const char *cmd)
 
 	while (i < NUM_KEYS)
 	{
-		if (stricmp (cmd, Binds[i].GetChars()) == 0)
+		if (stricmp (cmd, Binds[i].c_str()) == 0)
 		{
 			result.Push(i);
 		}
@@ -525,7 +525,7 @@ void FKeyBindings::UnbindACommand (const char *str)
 
 	for (i = 0; i < NUM_KEYS; i++)
 	{
-		if (!stricmp (str, Binds[i].GetChars()))
+		if (!stricmp (str, Binds[i].c_str()))
 		{
 			Binds[i] = "";
 		}
@@ -552,7 +552,7 @@ void FKeyBindings::DefaultBind(const char *keyname, const char *cmd)
 	}
 	for (int i = 0; i < NUM_KEYS; ++i)
 	{
-		if (!Binds[i].IsEmpty() && stricmp (Binds[i].GetChars(), cmd) == 0)
+		if (!Binds[i].IsEmpty() && stricmp (Binds[i].c_str(), cmd) == 0)
 		{ // This command is already bound to a key.
 			return;
 		}

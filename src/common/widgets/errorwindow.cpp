@@ -28,7 +28,7 @@ bool ErrorWindow::ExecModal(const std::string& text, const std::string& log, std
 ErrorWindow::ErrorWindow(std::vector<uint8_t> initminidump) : Widget(nullptr, WidgetType::Window), minidump(std::move(initminidump))
 {
 	FStringf caption("Fatal Error - " GAMENAME " %s (%s)", GetVersionString(), GetGitTime());
-	SetWindowTitle(caption.GetChars());
+	SetWindowTitle(caption.c_str());
 	SetWindowBackground(Colorf::fromRgba8(51, 51, 51));
 	SetWindowBorderColor(Colorf::fromRgba8(51, 51, 51));
 	SetWindowCaptionColor(Colorf::fromRgba8(33, 33, 33));

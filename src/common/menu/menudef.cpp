@@ -1738,7 +1738,7 @@ static void InitMusicMenus()
 					{
 						FString display = entry.mName;
 						display.ReplaceChars("_", ' ');
-						auto it = CreateOptionMenuItemCommand(display.GetChars(), FStringf("%s \"%s\"", std::get<2>(p), entry.mName.GetChars()), true);
+						auto it = CreateOptionMenuItemCommand(display.c_str(), FStringf("%s \"%s\"", std::get<2>(p), entry.mName.c_str()), true);
 						static_cast<DOptionMenuDescriptor*>(*menu)->mItems.Push(it);
 					}
 				}

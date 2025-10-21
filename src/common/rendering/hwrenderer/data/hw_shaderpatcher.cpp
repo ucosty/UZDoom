@@ -204,7 +204,7 @@ FString RemoveSamplerBindings(FString code, TArray<std::pair<FString, int>> &sam
 						FString type = NextGlslToken(chars, len, pos);
 						FString identifier = NextGlslToken(chars, len, pos);
 
-						isSamplerUniformName = uniform.Compare("uniform") == 0 && isShaderType(type.GetChars());
+						isSamplerUniformName = uniform.Compare("uniform") == 0 && isShaderType(type.c_str());
 						if (isSamplerUniformName)
 						{
 							samplerstobind.Push(std::make_pair(identifier, val));

@@ -158,45 +158,45 @@ void V_DrawFrame(F2DDrawer* drawer, int left, int top, int width, int height, bo
 	if (!scalemode)
 	{
 		// Draw top and bottom sides.
-		p = TexMan.GetGameTextureByName(border->t.GetChars());
+		p = TexMan.GetGameTextureByName(border->t.c_str());
 		drawer->AddFlatFill(left, top - (int)p->GetDisplayHeight(), right, top, p, true);
-		p = TexMan.GetGameTextureByName(border->b.GetChars());
+		p = TexMan.GetGameTextureByName(border->b.c_str());
 		drawer->AddFlatFill(left, bottom, right, bottom + (int)p->GetDisplayHeight(), p, true);
 
 		// Draw left and right sides.
-		p = TexMan.GetGameTextureByName(border->l.GetChars());
+		p = TexMan.GetGameTextureByName(border->l.c_str());
 		drawer->AddFlatFill(left - (int)p->GetDisplayWidth(), top, left, bottom, p, true);
-		p = TexMan.GetGameTextureByName(border->r.GetChars());
+		p = TexMan.GetGameTextureByName(border->r.c_str());
 		drawer->AddFlatFill(right, top, right + (int)p->GetDisplayWidth(), bottom, p, true);
 
 		// Draw beveled corners.
-		DrawTexture(drawer, TexMan.GetGameTextureByName(border->tl.GetChars()), left - offset, top - offset, TAG_DONE);
-		DrawTexture(drawer, TexMan.GetGameTextureByName(border->tr.GetChars()), left + width, top - offset, TAG_DONE);
-		DrawTexture(drawer, TexMan.GetGameTextureByName(border->bl.GetChars()), left - offset, top + height, TAG_DONE);
-		DrawTexture(drawer, TexMan.GetGameTextureByName(border->br.GetChars()), left + width, top + height, TAG_DONE);
+		DrawTexture(drawer, TexMan.GetGameTextureByName(border->tl.c_str()), left - offset, top - offset, TAG_DONE);
+		DrawTexture(drawer, TexMan.GetGameTextureByName(border->tr.c_str()), left + width, top - offset, TAG_DONE);
+		DrawTexture(drawer, TexMan.GetGameTextureByName(border->bl.c_str()), left - offset, top + height, TAG_DONE);
+		DrawTexture(drawer, TexMan.GetGameTextureByName(border->br.c_str()), left + width, top + height, TAG_DONE);
 	}
 	else
 	{
 		// Draw top and bottom sides.
-		p = TexMan.GetGameTextureByName(border->t.GetChars());
+		p = TexMan.GetGameTextureByName(border->t.c_str());
 		drawer->AddFlatFill(left, top - (int)(p->GetDisplayHeight() / sh), right, top, p, -2);
-		p = TexMan.GetGameTextureByName(border->b.GetChars());
+		p = TexMan.GetGameTextureByName(border->b.c_str());
 		drawer->AddFlatFill(left, bottom, right, bottom + (int)(p->GetDisplayHeight() / sh), p, -2);
 
 		// Draw left and right sides.
-		p = TexMan.GetGameTextureByName(border->l.GetChars());
+		p = TexMan.GetGameTextureByName(border->l.c_str());
 		drawer->AddFlatFill(left - (int)(p->GetDisplayWidth() / sw), top, left, bottom, p, -2);
-		p = TexMan.GetGameTextureByName(border->r.GetChars());
+		p = TexMan.GetGameTextureByName(border->r.c_str());
 		drawer->AddFlatFill(right, top, right + (int)(p->GetDisplayWidth() / sw), bottom, p, -2);
 
 		// Draw beveled corners.
-		p = TexMan.GetGameTextureByName(border->tl.GetChars());
+		p = TexMan.GetGameTextureByName(border->tl.c_str());
 		drawer->AddFlatFill(left - (int)(p->GetDisplayWidth() / sw), top - (int)(p->GetDisplayHeight() / sh), left, top, p, -2);
-		p = TexMan.GetGameTextureByName(border->tr.GetChars());
+		p = TexMan.GetGameTextureByName(border->tr.c_str());
 		drawer->AddFlatFill(right, top - (int)(p->GetDisplayHeight() / sh), right + (int)(p->GetDisplayWidth() / sw), top, p, -2);
-		p = TexMan.GetGameTextureByName(border->bl.GetChars());
+		p = TexMan.GetGameTextureByName(border->bl.c_str());
 		drawer->AddFlatFill(left - (int)(p->GetDisplayWidth() / sw), bottom, left, bottom + (int)(p->GetDisplayHeight() / sh), p, -2);
-		p = TexMan.GetGameTextureByName(border->br.GetChars());
+		p = TexMan.GetGameTextureByName(border->br.c_str());
 		drawer->AddFlatFill(right, bottom, right + (int)(p->GetDisplayWidth() / sw), bottom + (int)(p->GetDisplayHeight() / sh), p, -2);
 	}
 }
@@ -558,7 +558,7 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 	{
 		sec = Tics2Seconds(primaryLevel->time);
 		textbuffer.Format("%02d:%02d:%02d", sec / 3600, (sec % 3600) / 60, sec % 60);
-		DrawText(twod, font, crdefault, vwidth - zerowidth * 8 - textdist, y, textbuffer.GetChars(), DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight,
+		DrawText(twod, font, crdefault, vwidth - zerowidth * 8 - textdist, y, textbuffer.c_str(), DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight,
 			DTA_Monospace, EMonospacing::CellCenter, DTA_Spacing, zerowidth, DTA_KeepRatio, true, TAG_END);
 		y += fheight;
 	}
@@ -567,7 +567,7 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 	{
 		sec = Tics2Seconds(primaryLevel->totaltime);
 		textbuffer.Format("%02d:%02d:%02d", sec / 3600, (sec % 3600) / 60, sec % 60);
-		DrawText(twod, font, crdefault, vwidth - zerowidth * 8 - textdist, y, textbuffer.GetChars(), DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight,
+		DrawText(twod, font, crdefault, vwidth - zerowidth * 8 - textdist, y, textbuffer.c_str(), DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight,
 			DTA_Monospace, EMonospacing::CellCenter, DTA_Spacing, zerowidth, DTA_KeepRatio, true, TAG_END);
 	}
 
@@ -577,14 +577,14 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 		if (am_showmonsters)
 		{
 			textbuffer.Format("%s\34%c %d/%d", GStrings.GetString("AM_MONSTERS"), crdefault + 65, primaryLevel->killed_monsters, primaryLevel->total_monsters);
-			DrawText(twod, font2, highlight, textdist, y, textbuffer.GetChars(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
+			DrawText(twod, font2, highlight, textdist, y, textbuffer.c_str(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
 			y += fheight;
 		}
 
 		if (am_showsecrets)
 		{
 			textbuffer.Format("%s\34%c %d/%d", GStrings.GetString("AM_SECRETS"), crdefault + 65, primaryLevel->found_secrets, primaryLevel->total_secrets);
-			DrawText(twod, font2, highlight, textdist, y, textbuffer.GetChars(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
+			DrawText(twod, font2, highlight, textdist, y, textbuffer.c_str(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
 			y += fheight;
 		}
 
@@ -592,7 +592,7 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 		if (am_showitems)
 		{
 			textbuffer.Format("%s\34%c %d/%d", GStrings.GetString("AM_ITEMS"), crdefault + 65, primaryLevel->found_items, primaryLevel->total_items);
-			DrawText(twod, font2, highlight, textdist, y, textbuffer.GetChars(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
+			DrawText(twod, font2, highlight, textdist, y, textbuffer.c_str(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
 			y += fheight;
 		}
 
@@ -634,7 +634,7 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 	for (unsigned i = 0; i < numlines; i++)
 	{
 		int x = (vwidth - font->StringWidth(lines[i].Text)) / 2;
-		DrawText(twod, font, highlight, x, y, lines[i].Text.GetChars(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
+		DrawText(twod, font, highlight, x, y, lines[i].Text.c_str(), DTA_KeepRatio, true, DTA_VirtualWidth, vwidth, DTA_VirtualHeight, vheight, TAG_DONE);
 		y += fheight;
 	}
 }
@@ -888,10 +888,10 @@ static FTextureID GetBorderTexture(FLevelLocals *Level)
 {
 	if (Level != nullptr && Level->info != nullptr && Level->info->BorderTexture.Len() != 0)
 	{
-		auto picnum = TexMan.CheckForTexture (Level->info->BorderTexture.GetChars(), ETextureType::Flat);
+		auto picnum = TexMan.CheckForTexture (Level->info->BorderTexture.c_str(), ETextureType::Flat);
 		if (picnum.isValid()) return picnum;
 	}
-	return TexMan.CheckForTexture (gameinfo.BorderFlat.GetChars(), ETextureType::Flat);
+	return TexMan.CheckForTexture (gameinfo.BorderFlat.c_str(), ETextureType::Flat);
 }
 
 //==========================================================================
@@ -970,7 +970,7 @@ void DBaseStatusBar::RefreshBackground () const
 
 		if (setblocks >= 10)
 		{
-			FGameTexture *p = TexMan.GetGameTextureByName(gameinfo.Border.b.GetChars());
+			FGameTexture *p = TexMan.GetGameTextureByName(gameinfo.Border.b.c_str());
 			if (p != NULL)
 			{
 				if (!ui_screenborder_classic_scaling)
@@ -1116,7 +1116,7 @@ void DBaseStatusBar::DrawLog ()
 		FFont *font = (generic_ui || log_vgafont)? NewSmallFont : SmallFont;
 
 		int linelen = hudwidth<640? Scale(hudwidth,9,10)-40 : 560;
-		auto lines = V_BreakLines (font, linelen, text[0] == '$'? GStrings.GetString(text.GetChars()+1) : text.GetChars());
+		auto lines = V_BreakLines (font, linelen, text[0] == '$'? GStrings.GetString(text.c_str()+1) : text.c_str());
 		int height = 20;
 
 		for (unsigned i = 0; i < lines.Size(); i++) height += font->GetHeight ();
@@ -1142,7 +1142,7 @@ void DBaseStatusBar::DrawLog ()
 		y+=10;
 		for (const FBrokenLines &line : lines)
 		{
-			DrawText(twod, font, CPlayer->SubtitleCounter? CR_CYAN : CR_UNTRANSLATED, x, y, line.Text.GetChars(),
+			DrawText(twod, font, CPlayer->SubtitleCounter? CR_CYAN : CR_UNTRANSLATED, x, y, line.Text.c_str(),
 				DTA_KeepRatio, true,
 				DTA_VirtualWidth, hudwidth, DTA_VirtualHeight, hudheight, TAG_DONE);
 			y += font->GetHeight ();
@@ -1254,13 +1254,13 @@ double DBaseStatusBar::DrawConsistancy(double yOfs) const
 	double y = yOfs;
 	if (desync)
 	{
-		auto lines = V_BreakLines(SmallFont, twod->GetWidth() / CleanXfac - 40, text.GetChars());
+		auto lines = V_BreakLines(SmallFont, twod->GetWidth() / CleanXfac - 40, text.c_str());
 		const int height = SmallFont->GetHeight() * CleanYfac;
 		for (auto& line : lines)
 		{
 			DrawText(twod, SmallFont, CR_GREEN,
 				(twod->GetWidth() - SmallFont->StringWidth(line.Text) * CleanXfac) * 0.5,
-				y, line.Text.GetChars(), DTA_CleanNoMove, true, TAG_DONE);
+				y, line.Text.c_str(), DTA_CleanNoMove, true, TAG_DONE);
 			y += height;
 		}
 	}
@@ -1295,13 +1295,13 @@ double DBaseStatusBar::DrawWaiting(double yOfs) const
 	double y = yOfs;
 	if (isWaiting)
 	{
-		auto lines = V_BreakLines(SmallFont, twod->GetWidth() / CleanXfac - 40, text.GetChars());
+		auto lines = V_BreakLines(SmallFont, twod->GetWidth() / CleanXfac - 40, text.c_str());
 		const int height = SmallFont->GetHeight() * CleanYfac;
 		for (auto& line : lines)
 		{
 			DrawText(twod, SmallFont, CR_ORANGE,
 				(twod->GetWidth() - SmallFont->StringWidth(line.Text) * CleanXfac) * 0.5,
-				y, line.Text.GetChars(), DTA_CleanNoMove, true, TAG_DONE);
+				y, line.Text.c_str(), DTA_CleanNoMove, true, TAG_DONE);
 			y += height;
 		}
 	}

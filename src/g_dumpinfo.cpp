@@ -61,7 +61,7 @@ CCMD(listlights)
 	
 	for (auto Level : AllLevels())
 	{
-		Printf("Lights for %s\n", Level->MapName.GetChars());
+		Printf("Lights for %s\n", Level->MapName.c_str());
 		for (dl = Level->lights; dl; dl = dl->next)
 		{
 			walls=0;
@@ -76,7 +76,7 @@ CCMD(listlights)
 			if (dl->target)
 			{
 				FTextureID spr = sprites[dl->target->sprite].GetSpriteFrame(dl->target->frame, 0, nullAngle, nullptr);
-				Printf(", frame = %s\n", TexMan.GetGameTexture(spr)->GetName().GetChars());
+				Printf(", frame = %s\n", TexMan.GetGameTexture(spr)->GetName().c_str());
 			}
 			
 			/*
@@ -98,7 +98,7 @@ CCMD (countdecals)
 		while (iterator.Next())
 			count++;
 		
-		Printf("%s: Counted %d impact decals, level counter is at %d\n", Level->MapName.GetChars(), count, Level->ImpactDecalCount);
+		Printf("%s: Counted %d impact decals, level counter is at %d\n", Level->MapName.c_str(), count, Level->ImpactDecalCount);
 	}
 }
 
@@ -131,7 +131,7 @@ CCMD (mapchecksum)
 			Printf("%02X", level.md5[i]);
 		}
 
-		Printf(" // %s %s\n", wadname, level.MapName.GetChars());
+		Printf(" // %s %s\n", wadname, level.MapName.c_str());
 	}
 	else if (argv.argc() < 2)
 	{
@@ -153,7 +153,7 @@ CCMD (mapchecksum)
 					Printf("%02X", level.md5[i]);
 				}
 
-				Printf(" // %s %s\n", wadname, level.MapName.GetChars());
+				Printf(" // %s %s\n", wadname, level.MapName.c_str());
 			}
 			else
 			{
@@ -188,7 +188,7 @@ CCMD (hiddencompatflags)
 {
 	for(auto Level : AllLevels())
 	{
-		Printf("%s: %08x %08x %08x\n", Level->MapName.GetChars(), Level->ii_compatflags, Level->ii_compatflags2, Level->ib_compatflags);
+		Printf("%s: %08x %08x %08x\n", Level->MapName.c_str(), Level->ii_compatflags, Level->ii_compatflags2, Level->ib_compatflags);
 	}
 }
 
@@ -196,7 +196,7 @@ CCMD(dumpportals)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("Portal groups for %s\n", Level->MapName.GetChars());
+		Printf("Portal groups for %s\n", Level->MapName.c_str());
 		for (unsigned i = 0; i < Level->portalGroups.Size(); i++)
 		{
 			auto p = Level->portalGroups[i];
@@ -239,7 +239,7 @@ ADD_STAT (interpolations)
 	for (auto Level : AllLevels())
 	{
 		if (out.Len() > 0) out << '\n';
-		out.AppendFormat("%s: %d interpolations", Level->MapName.GetChars(), Level->interpolator.CountInterpolations ());
+		out.AppendFormat("%s: %d interpolations", Level->MapName.c_str(), Level->interpolator.CountInterpolations ());
 		
 	}
 	return out;
@@ -304,7 +304,7 @@ CCMD(dumplinktable)
 {
 	for (auto Level : AllLevels())
 	{
-		Printf("Portal displacements for %s:\n", Level->MapName.GetChars());
+		Printf("Portal displacements for %s:\n", Level->MapName.c_str());
 		for (int x = 1; x < Level->Displacements.size; x++)
 		{
 			for (int y = 1; y < Level->Displacements.size; y++)
@@ -375,23 +375,23 @@ CCMD(listmaps)
 	for (unsigned i = 0; i < wadlevelinfos.Size(); i++)
 	{
 		level_info_t *info = &wadlevelinfos[i];
-		MapData *map = P_OpenMapData(info->MapName.GetChars(), true);
+		MapData *map = P_OpenMapData(info->MapName.c_str(), true);
 
 		if (map != NULL)
 		{
 			int mapWadNum = fileSystem.GetFileContainer(map->lumpnum);
 
 			if (argv.argc() == 1 
-			    || CheckWildcards(argv[1], info->MapName.GetChars()) 
-			    || CheckWildcards(argv[1], info->LookupLevelName().GetChars())
+			    || CheckWildcards(argv[1], info->MapName.c_str())
+			    || CheckWildcards(argv[1], info->LookupLevelName().c_str())
 			    || CheckWildcards(argv[1], fileSystem.GetResourceFileName(mapWadNum)))
 			{
 				bool isFromPwad = mapWadNum != iwadNum;
 
 				const char* lineColor = isFromPwad ? TEXTCOLOR_LIGHTBLUE : "";
 
-				Printf("%s%s: '%s' (%s)\n", lineColor, info->MapName.GetChars(),
-					info->LookupLevelName().GetChars(),
+				Printf("%s%s: '%s' (%s)\n", lineColor, info->MapName.c_str(),
+					info->LookupLevelName().c_str(),
 					fileSystem.GetResourceFileName(mapWadNum));
 			}
 			delete map;
@@ -427,7 +427,7 @@ CCMD(listsnapshots)
 		FCompressedBuffer *snapshot = &wadlevelinfos[i].Snapshot;
 		if (snapshot->mBuffer != nullptr)
 		{
-			Printf("%s (%lu -> %lu bytes)\n", wadlevelinfos[i].MapName.GetChars(), snapshot->mCompressedSize, snapshot->mSize);
+			Printf("%s (%lu -> %lu bytes)\n", wadlevelinfos[i].MapName.c_str(), snapshot->mCompressedSize, snapshot->mSize);
 		}
 	}
 }

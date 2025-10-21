@@ -28,7 +28,7 @@ bool FileStream::Open(const char *fileName)
 {
 	FString fixedname = fileName;
 	FixPathSeperator(fixedname);
-    file = fileSystem.OpenFileReader(fixedname.GetChars());
+    file = fileSystem.OpenFileReader(fixedname.c_str());
 	if (!file.isOpen())
 	{
 		// log error

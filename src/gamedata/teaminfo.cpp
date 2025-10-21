@@ -274,7 +274,7 @@ bool FTeam::ChangeTeam(unsigned int pNum, unsigned int newTeam)
 
 const char *FTeam::GetName () const
 {
-	return m_Name.GetChars();
+	return m_Name.c_str();
 }
 
 //==========================================================================
@@ -299,12 +299,12 @@ int FTeam::GetTextColor () const
 	if (m_TextColor.IsEmpty ())
 		return CR_UNTRANSLATED;
 
-	const uint8_t *pColor = (const uint8_t *)m_TextColor.GetChars ();
+	const uint8_t *pColor = (const uint8_t *)m_TextColor.c_str ();
 	int iColor = V_ParseFontColor (pColor, 0, 0);
 
 	if (iColor == CR_UNDEFINED)
 	{
-		Printf ("GetTextColor: Undefined color '%s' in definition of team '%s'.\n", m_TextColor.GetChars (), m_Name.GetChars ());
+		Printf ("GetTextColor: Undefined color '%s' in definition of team '%s'.\n", m_TextColor.c_str (), m_Name.c_str ());
 		return CR_UNTRANSLATED;
 	}
 
@@ -408,7 +408,7 @@ static int GetLogo(FTeam* self)
 	if (name.IsEmpty())
 		return -1;
 
-	return TexMan.CheckForTexture(name.GetChars(), ETextureType::Any).GetIndex();
+	return TexMan.CheckForTexture(name.c_str(), ETextureType::Any).GetIndex();
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FTeam, GetLogo, GetLogo)

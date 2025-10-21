@@ -74,7 +74,7 @@ FString URLencode(const char *s)
 // accept FString inputs too
 FString URLencode(FString s)
 {
-	return URLencode(s.GetChars());
+	return URLencode(s.c_str());
 }
 
 #ifdef _WIN32

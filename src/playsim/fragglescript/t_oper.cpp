@@ -167,7 +167,7 @@ void FParser::OPcmp(svalue_t &result, int start, int n, int stop)
 	
 	if(left.type == svt_string && right.type == svt_string)
 	{
-		result.value.i = !strcmp(left.string.GetChars(), right.string.GetChars());
+		result.value.i = !strcmp(left.string.c_str(), right.string.c_str());
 		return;
 	}
 	
@@ -274,15 +274,15 @@ void FParser::OPplus(svalue_t &result, int start, int n, int stop)
     {
       	if (right.type == svt_string)
 		{
-			result.string.Format("%s%s", left.string.GetChars(), right.string.GetChars());
+			result.string.Format("%s%s", left.string.c_str(), right.string.c_str());
 		}
       	else if (right.type == svt_fixed)
 		{
-			result.string.Format("%s%4.4f", left.string.GetChars(), floatvalue(right));
+			result.string.Format("%s%4.4f", left.string.c_str(), floatvalue(right));
 		}
       	else
 		{
-	  		result.string.Format("%s%i", left.string.GetChars(), intvalue(right));
+	  		result.string.Format("%s%i", left.string.c_str(), intvalue(right));
 		}
       	result.type = svt_string;
     }

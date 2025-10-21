@@ -157,7 +157,7 @@ public:
 	FBaseCVar (const char *name, uint32_t flags, void *callback, const char *descr);
 	virtual ~FBaseCVar ();
 
-	inline const char *GetName () const { return VarName.GetChars(); }
+	inline const char *GetName () const { return VarName.c_str(); }
 	inline uint32_t GetFlags () const { return Flags; }
 
 	void CmdSet (const char *newval);
@@ -441,7 +441,7 @@ class FStringCVar : public FBaseCVar
 {
 	friend class FxCVar;
 public:
-	CALLBACK_DEFINE(FStringCVar, const char *, mDefaultValue.GetChars());
+	CALLBACK_DEFINE(FStringCVar, const char *, mDefaultValue.c_str());
 	~FStringCVar ();
 
 	virtual ECVarType GetRealType () const;
@@ -454,8 +454,8 @@ public:
 
 	const char *operator= (const char *stringrep)
 		{ UCVarValue val; val.String = const_cast<char *>(stringrep); SetGenericRep (val, CVAR_String); return stringrep; }
-	inline operator const char * () const { return mValue.GetChars(); }
-	inline const char *operator *() const { return mValue.GetChars(); }
+	inline operator const char * () const { return mValue.c_str(); }
+	inline const char *operator *() const { return mValue.c_str(); }
 
 protected:
 	virtual UCVarValue DoSet (UCVarValue value, ECVarType type);

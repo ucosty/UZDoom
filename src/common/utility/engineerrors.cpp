@@ -61,7 +61,7 @@ void I_DebugPrintf(const char *fmt,...)
 
 		va_end(args);
 
-		auto wstr = WideString(s.GetChars());
+		auto wstr = WideString(s.c_str());
 		OutputDebugStringW(wstr.c_str());
 	}
 }

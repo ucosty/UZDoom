@@ -167,7 +167,7 @@ bool FStringTable::readMacros(const char* buffer, size_t size)
 	for (unsigned i = 1; i < data.Size(); i++)
 	{
 		auto macroname = data[i][0];
-		FName name = macroname.GetChars();
+		FName name = macroname.c_str();
 
 		StringMacro macro;
 
@@ -243,7 +243,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 						auto filter = filterstr.Split(" ", FString::TOK_SKIPEMPTY);
 						for (auto& entry : filter)
 						{
-							if (sysCallbacks.CheckGame(entry.GetChars()))
+							if (sysCallbacks.CheckGame(entry.c_str()))
 							{
 								ok = true;
 								break;
@@ -255,7 +255,7 @@ bool FStringTable::ParseLanguageCSV(int filenum, const char* buffer, size_t size
 			}
 
 			row[labelcol].StripLeftRight();
-			FName strName = row[labelcol].GetChars();
+			FName strName = row[labelcol].c_str();
 			if (hasDefaultEntry)
 			{
 				DeleteForLabel(filenum, strName);
@@ -444,13 +444,13 @@ void FStringTable::InsertString(int filenum, int langid, FName label, const FStr
 			Printf("Bad macro in %s : %s\n", strlangid, label.GetChars());
 			break;
 		}
-		FString macroname(te.strings[0].GetChars() + index + 2, endindex - index - 2);
-		FStringf replacee("@[%s]", macroname.GetChars());
-		FName lookupname(macroname.GetChars(), true);
+		FString macroname(te.strings[0].c_str() + index + 2, endindex - index - 2);
+		FStringf replacee("@[%s]", macroname.c_str());
+		FName lookupname(macroname.c_str(), true);
 		auto replace = allMacros.CheckKey(lookupname);
 		for (int i = 0; i < 4; i++)
 		{
-			const char *replacement = replace? replace->Replacements[i].GetChars() : "";
+			const char *replacement = replace? replace->Replacements[i].c_str() : "";
 			te.strings[i].Substitute(replacee, replacement);
 		}
 	}
@@ -466,7 +466,7 @@ void FStringTable::InsertString(int filenum, int langid, FName label, const FStr
 void FStringTable::UpdateLanguage(const char *language)
 {
 	if (language) activeLanguage = language;
-	else language = activeLanguage.GetChars();
+	else language = activeLanguage.c_str();
 	size_t langlen = strlen(language);
 
 	int LanguageID = (langlen < 2 || langlen > 3) ?
@@ -602,7 +602,7 @@ const char *FStringTable::CheckString(const char *name, uint32_t *langtable, int
 					continue;
 				}
 				if (langtable) *langtable = map.first;
-				auto c = item->strings[gender].GetChars();
+				auto c = item->strings[gender].c_str();
 				if (c && *c == '$' && c[1] == '$')
 					c = CheckString(c + 2, langtable, gender);
 				return c;
@@ -634,7 +634,7 @@ const char *FStringTable::GetLanguageString(const char *name, uint32_t langtable
 		auto item = map->CheckKey(nm);
 		if (item)
 		{
-			return item->strings[gender].GetChars();
+			return item->strings[gender].c_str();
 		}
 	}
 	return nullptr;
@@ -648,7 +648,7 @@ bool FStringTable::MatchDefaultString(const char *name, const char *content) con
 
 	// Check a secondary key, in case the text comparison cannot be done due to needed orthographic fixes (see Harmony's exit text)
 	FStringf checkkey("%s_CHECK", name);
-	auto cc = GetLanguageString(checkkey.GetChars(), FStringTable::default_table);
+	auto cc = GetLanguageString(checkkey.c_str(), FStringTable::default_table);
 	if (cc) c = cc;
 
 	return (c && !strnicmp(c, content, strcspn(content, "\n\r\t")));

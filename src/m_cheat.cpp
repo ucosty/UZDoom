@@ -200,7 +200,7 @@ void cht_DoCheat (player_t *player, int cheat)
 
 	case CHT_MORPH:
 		smsg = cht_Morph (player, PClass::FindActor (gameinfo.gametype == GAME_Heretic ? NAME_ChickenPlayer : NAME_PigPlayer), true);
-		msg = smsg.GetChars();
+		msg = smsg.c_str();
 		break;
 
 	case CHT_NOTARGET:
@@ -338,7 +338,7 @@ void cht_DoCheat (player_t *player, int cheat)
 				smsg = GStrings.GetString(cheat == CHT_MASSACRE? "TXT_MONSTERS_KILLED" : "TXT_BADDIES_KILLED");
 				FStringf countstr("%d", killcount);
 				smsg.Substitute("%d", countstr);
-				msg = smsg.GetChars();
+				msg = smsg.c_str();
 			}
 		}
 		break;
@@ -548,7 +548,7 @@ void cht_DoCheat (player_t *player, int cheat)
 	{
 		FString message = GStrings.GetString("TXT_X_CHEATS");
 		message.Substitute("%s", player->userinfo.GetName());
-		Printf("%s: %s\n", message.GetChars(), msg);
+		Printf("%s: %s\n", message.c_str(), msg);
 	}
 }
 

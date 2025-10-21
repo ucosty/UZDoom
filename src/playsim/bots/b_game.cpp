@@ -142,7 +142,7 @@ void FCajunMaster::Main(FLevelLocals *Level)
 	{
 		if (t_join == ((wanted_botnum - botnum) * SPAWN_DELAY))
 		{
-			if (!SpawnBot (getspawned[spawn_tries].GetChars()))
+			if (!SpawnBot (getspawned[spawn_tries].c_str()))
 				wanted_botnum--;
 			spawn_tries++;
 		}
@@ -309,7 +309,7 @@ bool FCajunMaster::SpawnBot (const char *name, int color)
 		{ // Keep the bot on the same team when switching levels
 			concat.AppendFormat("\\team\\%d\n", thebot->lastteam);
 		}
-		Net_WriteString (concat.GetChars());
+		Net_WriteString (concat.c_str());
 	}
 	Net_WriteInt8(thebot->skill.aiming);
 	Net_WriteInt8(thebot->skill.perfection);
@@ -525,9 +525,9 @@ bool FCajunMaster::LoadBots ()
 		DPrintf (DMSG_ERROR, "No " BOTFILENAME ", so no bots\n");
 		return false;
 	}
-	if (!sc.OpenFile(tmp.GetChars()))
+	if (!sc.OpenFile(tmp.c_str()))
 	{
-		Printf("Unable to open %s. So no bots\n", tmp.GetChars());
+		Printf("Unable to open %s. So no bots\n", tmp.c_str());
 		return false;
 	}
 

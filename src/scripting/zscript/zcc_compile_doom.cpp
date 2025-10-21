@@ -426,7 +426,7 @@ void ZCCDoomCompiler::InitDefaultFunctionPointers()
 			if(!casted)
 			{
 				FString fn_proto_name = PFunctionPointer::GenerateNameForError(fn);
-				Error(d.prop, "Function has incompatible types, cannot convert from '%s' to '%s'",fn_proto_name.GetChars(), d.type->DescriptiveName());
+				Error(d.prop, "Function has incompatible types, cannot convert from '%s' to '%s'",fn_proto_name.c_str(), d.type->DescriptiveName());
 			}
 			else
 			{
@@ -667,7 +667,7 @@ void ZCCDoomCompiler::DispatchScriptProperty(PProperty *prop, ZCC_PropertyStmt *
 				PClass * cls = PClass::FindClass(fn_info[0]);
 				if(!cls)
 				{
-					Error(property, "Could not find class '%s'",fn_info[0].GetChars());
+					Error(property, "Could not find class '%s'",fn_info[0].c_str());
 					*(PFunction**)addr = nullptr;
 				}
 				else
@@ -675,7 +675,7 @@ void ZCCDoomCompiler::DispatchScriptProperty(PProperty *prop, ZCC_PropertyStmt *
 					FName fn_name(fn_info[1], true);
 					if(fn_name.GetIndex() == 0)
 					{
-						Error(property, "Could not find function '%s' in class '%s'",fn_info[1].GetChars(),fn_info[0].GetChars());
+						Error(property, "Could not find function '%s' in class '%s'",fn_info[1].c_str(),fn_info[0].c_str());
 						*(PFunction**)addr = nullptr;
 					}
 					else
@@ -742,7 +742,7 @@ void ZCCDoomCompiler::ProcessDefaultProperty(PClassActor *cls, ZCC_PropertyStmt 
 	}
 
 
-	FPropertyInfo *property = FindProperty(propname.GetChars());
+	FPropertyInfo *property = FindProperty(propname.c_str());
 
 	if (property != nullptr && property->category != CAT_INFO)
 	{
@@ -753,7 +753,7 @@ void ZCCDoomCompiler::ProcessDefaultProperty(PClassActor *cls, ZCC_PropertyStmt 
 		}
 		else
 		{
-			Error(prop, "'%s' requires an actor of type '%s'\n", propname.GetChars(), pcls->TypeName.GetChars());
+			Error(prop, "'%s' requires an actor of type '%s'\n", propname.c_str(), pcls->TypeName.GetChars());
 		}
 	}
 	else
@@ -769,7 +769,7 @@ void ZCCDoomCompiler::ProcessDefaultProperty(PClassActor *cls, ZCC_PropertyStmt 
 				return;
 			}
 		}
-		Error(prop, "'%s' is an unknown actor property\n", propname.GetChars());
+		Error(prop, "'%s' is an unknown actor property\n", propname.c_str());
 	}
 }
 
@@ -1087,7 +1087,7 @@ void ZCCDoomCompiler::CompileStates()
 				{
 					auto sl = static_cast<ZCC_StateLabel *>(st);
 					statename = FName(sl->Label).GetChars();
-					statedef.AddStateLabel(statename.GetChars());
+					statedef.AddStateLabel(statename.c_str());
 					break;
 				}
 				case AST_StateLine:
@@ -1098,11 +1098,11 @@ void ZCCDoomCompiler::CompileStates()
 					state.UseFlags = flags;
 					if (sl->Sprite->Len() != 4)
 					{
-						Error(sl, "Sprite name must be exactly 4 characters. Found '%s'", sl->Sprite->GetChars());
+						Error(sl, "Sprite name must be exactly 4 characters. Found '%s'", sl->Sprite->c_str());
 					}
 					else
 					{
-						state.sprite = GetSpriteIndex(sl->Sprite->GetChars());
+						state.sprite = GetSpriteIndex(sl->Sprite->c_str());
 					}
 					FCompileContext ctx(OutNamespace, c->Type(), false, mVersion);
 					if (CheckRandom(sl->Duration))
@@ -1146,7 +1146,7 @@ void ZCCDoomCompiler::CompileStates()
 						auto l = sl->Lights;
 						do
 						{
-							AddStateLight(&state, StringConstFromNode(l, c->Type()).GetChars());
+							AddStateLight(&state, StringConstFromNode(l, c->Type()).c_str());
 							l = static_cast<decltype(l)>(l->SiblingNext);
 						} while (l != sl->Lights);
 					}
@@ -1161,10 +1161,10 @@ void ZCCDoomCompiler::CompileStates()
 						}
 					}
 
-					int count = statedef.AddStates(&state, sl->Frames->GetChars(), *sl);
+					int count = statedef.AddStates(&state, sl->Frames->c_str(), *sl);
 					if (count < 0)
 					{
-						Error(sl, "Invalid frame character string '%s'", sl->Frames->GetChars());
+						Error(sl, "Invalid frame character string '%s'", sl->Frames->c_str());
 						count = -count;
 					}
 					break;
@@ -1197,7 +1197,7 @@ void ZCCDoomCompiler::CompileStates()
 							statename.AppendFormat("+%d", offset);
 						}
 					}
-					if (!statedef.SetGotoLabel(statename.GetChars()))
+					if (!statedef.SetGotoLabel(statename.c_str()))
 					{
 						Error(sg, "GOTO before first state");
 					}

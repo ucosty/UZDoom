@@ -218,7 +218,7 @@ struct userinfo_t : TMap<FName,FBaseCVar *>
 
 				temp.Truncate(next);
 				temp += "...";
-				name = temp.GetChars();
+				name = temp.c_str();
 			}
 		}
 

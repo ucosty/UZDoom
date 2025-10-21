@@ -1473,7 +1473,7 @@ FxExpression *FxColorCast::Resolve(FCompileContext &ctx)
 			}
 			else
 			{
-				FxExpression *x = new FxConstant(V_GetColor(constval.GetString().GetChars(), &ScriptPosition), ScriptPosition);
+				FxExpression *x = new FxConstant(V_GetColor(constval.GetString().c_str(), &ScriptPosition), ScriptPosition);
 				delete this;
 				return x;
 			}
@@ -1553,7 +1553,7 @@ FxExpression *FxSoundCast::Resolve(FCompileContext &ctx)
 		if (basex->isConstant())
 		{
 			ExpVal constval = static_cast<FxConstant *>(basex)->GetValue();
-			FxExpression *x = new FxConstant(S_FindSound(constval.GetString().GetChars()), ScriptPosition);
+			FxExpression *x = new FxConstant(S_FindSound(constval.GetString().c_str()), ScriptPosition);
 			delete this;
 			return x;
 		}
@@ -1732,12 +1732,12 @@ FxExpression *FxFontCast::Resolve(FCompileContext &ctx)
 	else if ((basex->ValueType == TypeString || basex->ValueType == TypeName) && basex->isConstant())
 	{
 		ExpVal constval = static_cast<FxConstant *>(basex)->GetValue();
-		FFont *font = V_GetFont(constval.GetString().GetChars());
+		FFont *font = V_GetFont(constval.GetString().c_str());
 		// Font must exist. Most internal functions working with fonts do not like null pointers.
 		// If checking is needed scripts will have to call Font.GetFont themselves.
 		if (font == nullptr)
 		{
-			ScriptPosition.Message(MSG_ERROR, "Unknown font '%s'", constval.GetString().GetChars());
+			ScriptPosition.Message(MSG_ERROR, "Unknown font '%s'", constval.GetString().c_str());
 			delete this;
 			return nullptr;
 		}
@@ -2505,7 +2505,7 @@ FxExpression *FxPreIncrDecr::Resolve(FCompileContext &ctx)
 	}
 	else if (Base->ValueType == TypeBool)
 	{
-		ScriptPosition.Message(MSG_ERROR, "%s is not allowed on type bool", FScanner::TokenName(Token).GetChars());
+		ScriptPosition.Message(MSG_ERROR, "%s is not allowed on type bool", FScanner::TokenName(Token).c_str());
 		delete this;
 		return nullptr;
 	}
@@ -2591,7 +2591,7 @@ FxExpression *FxPostIncrDecr::Resolve(FCompileContext &ctx)
 	}
 	else if (Base->ValueType == TypeBool)
 	{
-		ScriptPosition.Message(MSG_ERROR, "%s is not allowed on type bool", FScanner::TokenName(Token).GetChars());
+		ScriptPosition.Message(MSG_ERROR, "%s is not allowed on type bool", FScanner::TokenName(Token).c_str());
 		delete this;
 		return nullptr;
 	}
@@ -6812,7 +6812,7 @@ FxExpression *FxIdentifier::Resolve(FCompileContext& ctx)
 
 			if (vsym->GetVersion() > ctx.Version)
 			{
-				ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", sym->SymbolName.GetChars(), ctx.VersionString.GetChars());
+				ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", sym->SymbolName.GetChars(), ctx.VersionString.c_str());
 				delete this;
 				return nullptr;
 			}
@@ -6831,7 +6831,7 @@ FxExpression *FxIdentifier::Resolve(FCompileContext& ctx)
 					ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING, 
 						"%sAccessing deprecated global variable %s - deprecated since %d.%d.%d%s%s", internal ? TEXTCOLOR_BLUE : "",
 						sym->SymbolName.GetChars(), vsym->mVersion.major, vsym->mVersion.minor, vsym->mVersion.revision,
-						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.GetChars());
+						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
 				}
 			}
 
@@ -6906,7 +6906,7 @@ FxExpression *FxIdentifier::ResolveMember(FCompileContext &ctx, PContainerType *
 			PField *vsym = static_cast<PField*>(sym);
 			if (vsym->GetVersion() > ctx.Version)
 			{
-				ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", sym->SymbolName.GetChars(), ctx.VersionString.GetChars());
+				ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", sym->SymbolName.GetChars(), ctx.VersionString.c_str());
 				delete object;
 				object = nullptr;
 				return nullptr;
@@ -6921,7 +6921,7 @@ FxExpression *FxIdentifier::ResolveMember(FCompileContext &ctx, PContainerType *
 
 					ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING,
 						"Accessing deprecated member variable %s - deprecated since %d.%d.%d%s%s", sym->SymbolName.GetChars(), vsym->mVersion.major, vsym->mVersion.minor, vsym->mVersion.revision,
-						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.GetChars());
+						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
 				}
 			}
 
@@ -7712,7 +7712,7 @@ FxExpression *FxStructMember::Resolve(FCompileContext &ctx)
 	FScopeBarrier scopeBarrier(outerflags, membervar->Flags, membervar->SymbolName.GetChars());
 	if (!scopeBarrier.readable)
 	{
-		ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.readerror.GetChars());
+		ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.readerror.c_str());
 		delete this;
 		return nullptr;
 	}
@@ -8553,7 +8553,7 @@ FxExpression *FxFunctionCall::Resolve(FCompileContext& ctx)
 			FScopeBarrier scopeBarrier(outerflags, innerflags, MethodName.GetChars());
 			if (!scopeBarrier.callable)
 			{
-				ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.callerror.GetChars());
+				ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.callerror.c_str());
 				delete this;
 				return nullptr;
 			}
@@ -9648,7 +9648,7 @@ isresolved:
 	FScopeBarrier scopeBarrier(outerflags, innerflags, MethodName.GetChars());
 	if (!scopeBarrier.callable)
 	{
-		ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.callerror.GetChars());
+		ScriptPosition.Message(MSG_ERROR, "%s", scopeBarrier.callerror.c_str());
 		delete this;
 		return nullptr;
 	}
@@ -9766,7 +9766,7 @@ bool FxVMFunctionCall::CheckAccessibility(const VersionInfo &ver)
 		{
 			VersionString = "DECORATE";
 		}
-		ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", Function->SymbolName.GetChars(), VersionString.GetChars());
+		ScriptPosition.Message(MSG_ERROR, "%s not accessible to %s", Function->SymbolName.GetChars(), VersionString.c_str());
 		return false;
 	}
 	if ((Function->Variants[0].Flags & VARF_Deprecated))
@@ -9779,7 +9779,7 @@ bool FxVMFunctionCall::CheckAccessibility(const VersionInfo &ver)
 
 			ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING,
 				"Accessing deprecated function %s - deprecated since %d.%d.%d%s%s", Function->SymbolName.GetChars(), Function->mVersion.major, Function->mVersion.minor, Function->mVersion.revision, 
-				deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.GetChars());
+				deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
 		}
 	}
 	return true;

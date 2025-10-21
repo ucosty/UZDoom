@@ -215,10 +215,10 @@ const char* GameInfoBorders[] =
 	{ \
 		sc.MustGetToken(TK_StringConst); \
 		FString color = sc.String; \
-		FString colorName = V_GetColorStringByName(color.GetChars()); \
+		FString colorName = V_GetColorStringByName(color.c_str()); \
 		if(!colorName.IsEmpty()) \
 			color = colorName; \
-		gameinfo.key = V_GetColorFromString(color.GetChars()); \
+		gameinfo.key = V_GetColorFromString(color.c_str()); \
 	}
 
 #define GAMEINFOKEY_BOOL(key, variable) \
@@ -470,7 +470,7 @@ void FMapInfoParser::ParseGameInfo()
 
 		else
 		{
-			DPrintf(DMSG_ERROR, "Unknown GAMEINFO key \"%s\" found in %s:%i\n", nextKey.GetChars(), sc.ScriptName.GetChars(), sc.Line);
+			DPrintf(DMSG_ERROR, "Unknown GAMEINFO key \"%s\" found in %s:%i\n", nextKey.c_str(), sc.ScriptName.c_str(), sc.Line);
 
 			// ignore unkown keys.
 			sc.UnGet();

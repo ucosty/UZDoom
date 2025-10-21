@@ -226,12 +226,12 @@ dap::ResponseOrError<dap::SetBreakpointsResponse> BreakpointManager::SetBreakpoi
 			auto actualBin = binary;
 
 			// Mixin; find the actual script
-			if (srcRef != GetScriptReference(func->SourceFileName.GetChars()))
+			if (srcRef != GetScriptReference(func->SourceFileName.c_str()))
 			{
-				actualBin = m_pexCache->GetScript(func->SourceFileName.GetChars());
+				actualBin = m_pexCache->GetScript(func->SourceFileName.c_str());
 				if (!actualBin)
 				{
-					addInvalidBreakpoint(line, StringFormat("Could not find script %s in loaded sources!", func->SourceFileName.GetChars()));
+					addInvalidBreakpoint(line, StringFormat("Could not find script %s in loaded sources!", func->SourceFileName.c_str()));
 					found.pop();
 					continue;
 				}
@@ -297,7 +297,7 @@ dap::ResponseOrError<dap::SetFunctionBreakpointsResponse> BreakpointManager::Set
 		}
 		// script function
 		auto scriptFunction = dynamic_cast<VMScriptFunction *>(func);
-		auto scriptName = scriptFunction->SourceFileName.GetChars();
+		auto scriptName = scriptFunction->SourceFileName.c_str();
 		dap::Source source;
 		auto binary = m_pexCache->GetScript(scriptName);
 		if (!binary)
@@ -481,7 +481,7 @@ dap::ResponseOrError<dap::SetInstructionBreakpointsResponse> BreakpointManager::
 				continue;
 			}
 			auto line = scriptFunc->LineInfo[0].LineNumber;
-			auto binary = m_pexCache->GetScript(scriptFunc->SourceFileName.GetChars());
+			auto binary = m_pexCache->GetScript(scriptFunc->SourceFileName.c_str());
 			dap::Breakpoint bpoint;
 			AddBreakpointInfo(binary, scriptFunc, line, srcAddress, (int)offset, BreakpointInfo::Type::Instruction, response.breakpoints);
 		}

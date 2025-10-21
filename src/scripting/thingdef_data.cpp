@@ -902,10 +902,10 @@ void InitThingdef()
 
 			arc("name", name);
 
-			FBaseCVar * backing = FindCVar(name.GetChars(), nullptr);
+			FBaseCVar * backing = FindCVar(name.c_str(), nullptr);
 			if(!backing)
 			{
-				I_Error("Attempt to load pointer to inexisted CVar '%s'", name.GetChars());
+				I_Error("Attempt to load pointer to inexisted CVar '%s'", name.c_str());
 			}
 			else if((backing->GetFlags()  & (CVAR_USERINFO|CVAR_IGNORE)) == CVAR_USERINFO)
 			{
@@ -936,7 +936,7 @@ void FinishLoadingCVars()
 {
 	for(UserInfoCVarNamePlayer &cvar : LoadGameUserInfoCVars)
 	{
-		(*cvar.addr) = GetCVar(cvar.pnum, cvar.name.GetChars());
+		(*cvar.addr) = GetCVar(cvar.pnum, cvar.name.c_str());
 	}
 }
 

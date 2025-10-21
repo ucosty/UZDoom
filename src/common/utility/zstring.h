@@ -164,7 +164,7 @@ public:
 	explicit operator bool() = delete; // this is needed to render the operator const char * ineffective when used in boolean constructs.
 	bool operator !() = delete;
 
-	const char *GetChars() const { return Chars; }
+	const char *c_str() const { return Chars; }
 
 	TArrayView<uint8_t> GetTArrayView();
 
@@ -467,14 +467,14 @@ namespace StringFormat
 
 template<> struct THashTraits<FString>
 {
-	hash_t Hash(const FString &key) { return (hash_t)SuperFastHash(key.GetChars(), key.Len()); }
+	hash_t Hash(const FString &key) { return (hash_t)SuperFastHash(key.c_str(), key.Len()); }
 	// Compares two keys, returning zero if they are the same.
 	int Compare(const FString &left, const FString &right) { return left.Compare(right); }
 };
 
 struct StringNoCaseHashTraits
 {
-	hash_t Hash(const FString& key) { return (hash_t)SuperFastHashI(key.GetChars(), key.Len()); }
+	hash_t Hash(const FString& key) { return (hash_t)SuperFastHashI(key.c_str(), key.Len()); }
 	// Compares two keys, returning zero if they are the same.
 	int Compare(const FString& left, const FString& right) { return left.CompareNoCase(right); }
 };

@@ -304,7 +304,7 @@ void FCommandBuffer::AddString(FString clip)
 		{
 			clip.Truncate(brk);
 		}
-		auto strp = (const uint8_t*)clip.GetChars();
+		auto strp = (const uint8_t*)clip.c_str();
 		while (auto chr = GetCharFromString(strp)) build += chr;
 
 		if (Text.length() == 0)
@@ -323,7 +323,7 @@ void FCommandBuffer::AddString(FString clip)
 void FCommandBuffer::SetString(const FString &str)
 {
 	Text.clear();
-	auto strp = (const uint8_t*)str.GetChars();
+	auto strp = (const uint8_t*)str.c_str();
 	while (auto chr = GetCharFromString(strp)) Text += chr;
 
 	CursorEnd();

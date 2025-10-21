@@ -310,7 +310,7 @@ namespace OpenGLESRenderer
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: error << "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"; break;
 		case GL_FRAMEBUFFER_UNSUPPORTED: error << "GL_FRAMEBUFFER_UNSUPPORTED"; break;
 		}
-		Printf("%s\n", error.GetChars());
+		Printf("%s\n", error.c_str());
 
 
 		return false;

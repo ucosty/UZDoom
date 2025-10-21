@@ -216,7 +216,7 @@ void FMapInfoParser::ParseDoomEdNums()
 						// special case: Special without arguments
 						if (minargs != 0)
 						{
-							sc.ScriptMessage("Incorrect number of args for special %s, min = %d, max = %d, found = 0", specialname.GetChars(), minargs, maxargs);
+							sc.ScriptMessage("Incorrect number of args for special %s, min = %d, max = %d, found = 0", specialname.c_str(), minargs, maxargs);
 							error++;
 						}
 						DoomEdFromMapinfo.Insert(ednum, editem);
@@ -241,7 +241,7 @@ void FMapInfoParser::ParseDoomEdNums()
 				}
 				if (specialname.IsNotEmpty() && (i < minargs || i > maxargs))
 				{
-					sc.ScriptMessage("Incorrect number of args for special %s, min = %d, max = %d, found = %d", specialname.GetChars(), minargs, maxargs, i);
+					sc.ScriptMessage("Incorrect number of args for special %s, min = %d, max = %d, found = %d", specialname.c_str(), minargs, maxargs, i);
 					error++;
 				}
 			}
@@ -275,7 +275,7 @@ void InitActorNumsFromMapinfo()
 			if (cls == NULL)
 			{
 				Printf(TEXTCOLOR_RED "Script error, \"%s\" line %d:\nUnknown actor class %s\n",
-					pair->Value.filename.GetChars(), pair->Value.linenum, pair->Value.classname.GetChars());
+					pair->Value.filename.c_str(), pair->Value.linenum, pair->Value.classname.GetChars());
 				error++;
 			}
 		}
@@ -444,7 +444,7 @@ void InitClassMap(FClassMap &themap, SpawnMap &thedata)
 			if (cls == NULL)
 			{
 				Printf(TEXTCOLOR_RED "Script error, \"%s\" line %d:\nUnknown actor class %s\n",
-					pair->Value.filename.GetChars(), pair->Value.linenum, pair->Value.classname.GetChars());
+					pair->Value.filename.c_str(), pair->Value.linenum, pair->Value.classname.GetChars());
 				error++;
 			}
 			themap.Insert(pair->Key, cls);

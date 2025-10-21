@@ -217,14 +217,14 @@ static void FormatTime(const FString& timeForm, int timeVal, FString* result)
 {
 	FString error = CheckStrfString(timeForm);
 	if (!error.IsEmpty())
-		ThrowAbortException(X_FORMAT_ERROR, "'%s' is not a valid format specifier of SystemTime.Format()", error.GetChars());
+		ThrowAbortException(X_FORMAT_ERROR, "'%s' is not a valid format specifier of SystemTime.Format()", error.c_str());
 
 	time_t val = timeVal;
 	struct tm* timeinfo = localtime(&val);
 	if (timeinfo != nullptr)
 	{
 		char timeString[1024];
-		if (strftime(timeString, sizeof(timeString), timeForm.GetChars(), timeinfo))
+		if (strftime(timeString, sizeof(timeString), timeForm.c_str(), timeinfo))
 			*result = timeString;
 	}
 }

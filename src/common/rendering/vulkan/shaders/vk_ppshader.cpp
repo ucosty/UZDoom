@@ -37,19 +37,19 @@ VkPPShader::VkPPShader(VulkanRenderDevice* fb, PPShader *shader) : fb(fb)
 
 	VertexShader = ShaderBuilder()
 		.Type(ShaderType::Vertex)
-		.AddSource(shader->VertexShader.GetChars(), LoadShaderCode(shader->VertexShader, "", shader->Version).GetChars())
-		.DebugName(shader->VertexShader.GetChars())
+		.AddSource(shader->VertexShader.c_str(), LoadShaderCode(shader->VertexShader, "", shader->Version).c_str())
+		.DebugName(shader->VertexShader.c_str())
 		.OnIncludeLocal(VkShaderManager::OnInclude)
 		.OnIncludeSystem(VkShaderManager::OnInclude)
-		.Create(shader->VertexShader.GetChars(), fb->device.get());
+		.Create(shader->VertexShader.c_str(), fb->device.get());
 
 	FragmentShader = ShaderBuilder()
 		.Type(ShaderType::Fragment)
-		.AddSource(shader->FragmentShader.GetChars(), LoadShaderCode(shader->FragmentShader, prolog, shader->Version).GetChars())
-		.DebugName(shader->FragmentShader.GetChars())
+		.AddSource(shader->FragmentShader.c_str(), LoadShaderCode(shader->FragmentShader, prolog, shader->Version).c_str())
+		.DebugName(shader->FragmentShader.c_str())
 		.OnIncludeLocal(VkShaderManager::OnInclude)
 		.OnIncludeSystem(VkShaderManager::OnInclude)
-		.Create(shader->FragmentShader.GetChars(), fb->device.get());
+		.Create(shader->FragmentShader.c_str(), fb->device.get());
 
 	fb->GetShaderManager()->AddVkPPShader(this);
 }
@@ -71,8 +71,8 @@ void VkPPShader::Reset()
 
 FString VkPPShader::LoadShaderCode(const FString &lumpName, const FString &defines, int version)
 {
-	int lump = fileSystem.CheckNumForFullName(lumpName.GetChars());
-	if (lump == -1) I_FatalError("Unable to load '%s'", lumpName.GetChars());
+	int lump = fileSystem.CheckNumForFullName(lumpName.c_str());
+	if (lump == -1) I_FatalError("Unable to load '%s'", lumpName.c_str());
 	FString code = GetStringFromLump(lump);
 
 	FString patchedCode;

@@ -132,7 +132,7 @@ int FStartupSelectionInfo::SaveInfo()
 	DefaultNetSaveFile.StripLeftRight();
 
 	queryiwad = DefaultQueryIWAD;
-	language = DefaultLanguage.GetChars();
+	language = DefaultLanguage.c_str();
 	vid_fullscreen = DefaultFullscreen;
 	if (DefaultBackend != vid_preferbackend)
 		vid_preferbackend = DefaultBackend;
@@ -142,10 +142,10 @@ int FStartupSelectionInfo::SaveInfo()
 		savenetfile = bSaveNetFile;
 		savenetargs = bSaveNetArgs;
 
-		defaultnetiwad = (*Wads)[DefaultNetIWAD].Name.GetChars();
+		defaultnetiwad = (*Wads)[DefaultNetIWAD].Name.c_str();
 		defaultnetpage = DefaultNetPage;
-		defaultnetsavefile = savenetfile ? DefaultNetSaveFile.GetChars() : "";
-		defaultnetargs = savenetargs ? DefaultNetArgs.GetChars() : "";
+		defaultnetsavefile = savenetfile ? DefaultNetSaveFile.c_str() : "";
+		defaultnetargs = savenetargs ? DefaultNetArgs.c_str() : "";
 
 		if (bHosting)
 		{
@@ -160,7 +160,7 @@ int FStartupSelectionInfo::SaveInfo()
 		}
 		else
 		{
-			defaultnetaddress = DefaultNetAddress.GetChars();
+			defaultnetaddress = DefaultNetAddress.c_str();
 			defaultnetjoinport = DefaultNetJoinPort;
 			defaultnetjointeam = DefaultNetJoinTeam;
 		}
@@ -173,9 +173,9 @@ int FStartupSelectionInfo::SaveInfo()
 		return DefaultNetIWAD;
 	}
 
-	defaultiwad = (*Wads)[DefaultIWAD].Name.GetChars();
+	defaultiwad = (*Wads)[DefaultIWAD].Name.c_str();
 	saveargs = bSaveArgs;
-	defaultargs = saveargs ? DefaultArgs.GetChars() : "";
+	defaultargs = saveargs ? DefaultArgs.c_str() : "";
 
 	if (!DefaultArgs.IsEmpty())
 		Args->AppendArgsString(DefaultArgs);

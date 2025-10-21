@@ -209,7 +209,7 @@ void NetStartWindow::SetProgress(int newpos)
 		pos = newpos;
 		FString message;
 		message.Format("%d/%d", pos, maxpos);
-		ProgressLabel->SetText(message.GetChars());
+		ProgressLabel->SetText(message.c_str());
 	}
 }
 

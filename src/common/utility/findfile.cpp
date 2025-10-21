@@ -73,7 +73,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 		{
 			DIR *d;
 			struct dirent *dir;
-			d = opendir(basepath.GetChars());
+			d = opendir(basepath.c_str());
 			if (d)
 			{
 				while ((dir = readdir(d)) != NULL)
@@ -83,7 +83,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 						found = true;
 						filename = dir->d_name;
 						fullpath = basepath << "/" << filename;
-						file = fullpath.GetChars();
+						file = fullpath.c_str();
 						break;
 					}
 				}
@@ -96,7 +96,7 @@ bool D_AddFile(std::vector<std::string>& wadfiles, const char* file, bool check,
 			}
 			else
 			{
-				Printf("Can't open directory '%s'\n", basepath.GetChars());
+				Printf("Can't open directory '%s'\n", basepath.c_str());
 				return false;
 			}
 		}
@@ -146,7 +146,7 @@ void D_AddWildFile(std::vector<std::string>& wadfiles, const char* value, const 
 		auto path = ExtractFilePath(value);
 		auto name = ExtractFileBase(value, true);
 		if (path.IsEmpty()) path = ".";
-		if (FileSys::ScanDirectory(list, path.GetChars(), name.GetChars(), true))
+		if (FileSys::ScanDirectory(list, path.c_str(), name.c_str(), true))
 		{ 
 			for(auto& entry : list)
 			{
@@ -178,7 +178,7 @@ void D_AddConfigFiles(std::vector<std::string>& wadfiles, const char* section, c
 			{
 				// D_AddWildFile resets config's position, so remember it
 				config->GetPosition(pos);
-				D_AddWildFile(wadfiles, ExpandEnvVars(value).GetChars(), extension, config, optional);
+				D_AddWildFile(wadfiles, ExpandEnvVars(value).c_str(), extension, config, optional);
 				// Reset config's position to get next wad
 				config->SetPosition(pos);
 			}
@@ -229,17 +229,17 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 	}
 	if (lookfirstinprogdir)
 	{
-		BFSwad.Format("%s%s%s", progdir.GetChars(), progdir.Back() == '/' ? "" : "/", file);
-		if (DirEntryExists(BFSwad.GetChars()))
+		BFSwad.Format("%s%s%s", progdir.c_str(), progdir.Back() == '/' ? "" : "/", file);
+		if (DirEntryExists(BFSwad.c_str()))
 		{
-			return BFSwad.GetChars();
+			return BFSwad.c_str();
 		}
 	}
 
 	if (DirEntryExists(file))
 	{
 		BFSwad.Format("%s", file);
-		return BFSwad.GetChars();
+		return BFSwad.c_str();
 	}
 
 	if (config != nullptr && config->SetSection("FileSearch.Directories"))
@@ -256,10 +256,10 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 				dir = NicePath(value);
 				if (dir.IsNotEmpty())
 				{
-					BFSwad.Format("%s%s%s", dir.GetChars(), dir.Back() == '/' ? "" : "/", file);
-					if (DirEntryExists(BFSwad.GetChars()))
+					BFSwad.Format("%s%s%s", dir.c_str(), dir.Back() == '/' ? "" : "/", file);
+					if (DirEntryExists(BFSwad.c_str()))
 					{
-						return BFSwad.GetChars();
+						return BFSwad.c_str();
 					}
 				}
 			}
@@ -278,7 +278,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 					FString path = RecursiveFileExists(dir, file);
 					if (path.IsNotEmpty())
 					{
-						return path.GetChars();
+						return path.c_str();
 					}
 				}
 			}
@@ -290,7 +290,7 @@ const char* BaseFileSearch(const char* file, const char* ext, bool lookfirstinpr
 	{
 		FString tmp = file;
 		DefaultExtension(tmp, ext);
-		return BaseFileSearch(tmp.GetChars(), nullptr, lookfirstinprogdir, config);
+		return BaseFileSearch(tmp.c_str(), nullptr, lookfirstinprogdir, config);
 	}
 	return nullptr;
 }

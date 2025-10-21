@@ -87,7 +87,7 @@ void FPortalSceneState::EndFrame(HWDrawInfo *di, FRenderState &state)
 
 	if (gl_portalinfo)
 	{
-		Printf("%s%d portals, depth = %d\n%s{\n", indent.GetChars(), di->Portals.Size(), renderdepth, indent.GetChars());
+		Printf("%s%d portals, depth = %d\n%s{\n", indent.c_str(), di->Portals.Size(), renderdepth, indent.c_str());
 		indent += "  ";
 	}
 
@@ -95,7 +95,7 @@ void FPortalSceneState::EndFrame(HWDrawInfo *di, FRenderState &state)
 	{
 		if (gl_portalinfo) 
 		{
-			Printf("%sProcessing %s, depth = %d\n", indent.GetChars(), p->GetName(), renderdepth);
+			Printf("%sProcessing %s, depth = %d\n", indent.c_str(), p->GetName(), renderdepth);
 		}
 		if (p->lines.Size() > 0)
 		{
@@ -108,7 +108,7 @@ void FPortalSceneState::EndFrame(HWDrawInfo *di, FRenderState &state)
 	if (gl_portalinfo)
 	{
 		indent.Truncate(indent.Len()-2);
-		Printf("%s}\n", indent.GetChars());
+		Printf("%s}\n", indent.c_str());
 		if (indent.Len() == 0) gl_portalinfo = false;
 	}
 }

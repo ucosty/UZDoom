@@ -265,7 +265,7 @@ UNSAFE_CCMD (atexit)
 		GameAtExit *record = ExitCmdList;
 		while (record != NULL)
 		{
-			Printf ("%s\n", record->Command.GetChars());
+			Printf ("%s\n", record->Command.c_str());
 			record = record->Next;
 		}
 		return;
@@ -294,7 +294,7 @@ void C_DeinitConsole ()
 	while (cmd != NULL)
 	{
 		GameAtExit *next = cmd->Next;
-		AddCommandString (cmd->Command.GetChars());
+		AddCommandString (cmd->Command.c_str());
 		delete cmd;
 		cmd = next;
 	}
@@ -456,7 +456,7 @@ int VPrintf (int printlevel, const char *format, va_list parms)
 {
 	FString outline;
 	outline.VFormat (format, parms);
-	return PrintString (printlevel, outline.GetChars());
+	return PrintString (printlevel, outline.c_str());
 }
 
 int Printf (int printlevel, const char *format, ...)
@@ -664,11 +664,11 @@ void C_DrawConsole ()
 			{
 				if (textScale == 1)
 				{
-					DrawText(twod, CurrentConsoleFont, CR_TAN, LEFTMARGIN, offset + lines * CurrentConsoleFont->GetHeight(), p->Text.GetChars(), TAG_DONE);
+					DrawText(twod, CurrentConsoleFont, CR_TAN, LEFTMARGIN, offset + lines * CurrentConsoleFont->GetHeight(), p->Text.c_str(), TAG_DONE);
 				}
 				else
 				{
-					DrawText(twod, CurrentConsoleFont, CR_TAN, LEFTMARGIN, offset + lines * CurrentConsoleFont->GetHeight(), p->Text.GetChars(),
+					DrawText(twod, CurrentConsoleFont, CR_TAN, LEFTMARGIN, offset + lines * CurrentConsoleFont->GetHeight(), p->Text.c_str(),
 						DTA_VirtualWidth, twod->GetWidth() / textScale,
 						DTA_VirtualHeight, twod->GetHeight() / textScale,
 						DTA_KeepRatio, true, TAG_DONE);
@@ -962,7 +962,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			FString bufferText = buffer.GetText();
 
 			bufferText.StripLeftRight();
-			Printf(127, TEXTCOLOR_WHITE "]%s\n", bufferText.GetChars());
+			Printf(127, TEXTCOLOR_WHITE "]%s\n", bufferText.c_str());
 
 			if (bufferText.Len() == 0)
 			{
@@ -1007,7 +1007,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 			}
 			HistPos = NULL;
 			buffer.SetString("");
-			AddCommandString(bufferText.GetChars());
+			AddCommandString(bufferText.c_str());
 			TabbedLast = false;
 			TabbedList = false;
 			break;
@@ -1055,7 +1055,7 @@ static bool C_HandleKey (event_t *ev, FCommandBuffer &buffer)
 				{ // copy to clipboard
 					if (buffer.TextLength() > 0)
 					{
-						I_PutInClipboard(buffer.GetText().GetChars());
+						I_PutInClipboard(buffer.GetText().c_str());
 					}
 				}
 				else
@@ -1154,7 +1154,7 @@ CCMD (history)
 
 	while (hist)
 	{
-		Printf ("   %s\n", hist->String.GetChars());
+		Printf ("   %s\n", hist->String.c_str());
 		hist = hist->Newer;
 	}
 }
@@ -1171,7 +1171,7 @@ CCMD (echo)
 	for (int i = 1; i <= last; ++i)
 	{
 		FString formatted = strbin1 (argv[i]);
-		Printf ("%s%s", formatted.GetChars(), i!=last ? " " : "\n");
+		Printf ("%s%s", formatted.c_str(), i!=last ? " " : "\n");
 	}
 }
 

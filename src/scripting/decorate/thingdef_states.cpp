@@ -80,11 +80,11 @@ FxVMFunctionCall *DoActionSpecials(FScanner &sc, FState & state, Baggage &bag)
 
 		if (i < min_args)
 		{
-			sc.ScriptError ("Too few arguments to %s", specname.GetChars());
+			sc.ScriptError ("Too few arguments to %s", specname.c_str());
 		}
 		if (i > max_args)
 		{
-			sc.ScriptError ("Too many arguments to %s", specname.GetChars());
+			sc.ScriptError ("Too many arguments to %s", specname.c_str());
 		}
 		auto f = dyn_cast<PFunction>(RUNTIME_CLASS(AActor)->FindSymbol("A_CallSpecial", false));
 		assert(f != nullptr);
@@ -167,7 +167,7 @@ do_goto:
 				statestring += '+';
 				statestring += sc.String;
 			}
-			if (!bag.statedef.SetGotoLabel(statestring.GetChars()))
+			if (!bag.statedef.SetGotoLabel(statestring.c_str()))
 			{
 				sc.ScriptError("GOTO before first state");
 			}
@@ -204,7 +204,7 @@ do_stop:
 			{
 				do
 				{
-					bag.statedef.AddStateLabel(statestring.GetChars());
+					bag.statedef.AddStateLabel(statestring.c_str());
 					statestring = ParseStateString(sc);
 					if (!statestring.CompareNoCase("GOTO"))
 					{
@@ -227,7 +227,7 @@ do_stop:
 			}
 
 			scp = sc;
-			state.sprite = GetSpriteIndex(statestring.GetChars());
+			state.sprite = GetSpriteIndex(statestring.c_str());
 			state.Misc1 = state.Misc2 = 0;
 			sc.MustGetString();
 			statestring = sc.String;
@@ -331,10 +331,10 @@ endofstate:
 				auto funcsym = CreateAnonymousFunction(actor->VMType, nullptr, state.UseFlags);
 				state.ActionFunc = FunctionBuildList.AddFunction(bag.Namespace, bag.Version, funcsym, ScriptCode, FStringf("%s.StateFunction.%d", actor->TypeName.GetChars(), bag.statedef.GetStateCount()), true, bag.statedef.GetStateCount(), int(statestring.Len()), sc.LumpNum);
 			}
-			int count = bag.statedef.AddStates(&state, statestring.GetChars(), scp);
+			int count = bag.statedef.AddStates(&state, statestring.c_str(), scp);
 			if (count < 0)
 			{
-				sc.ScriptError("Invalid frame character string '%s'", statestring.GetChars());
+				sc.ScriptError("Invalid frame character string '%s'", statestring.c_str());
 				count = -count;
 			}
 		}

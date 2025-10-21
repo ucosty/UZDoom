@@ -279,7 +279,7 @@ bool M_SaveDefaults (const char *filename)
 	GameConfig->ArchiveGlobalData ();
 	if (gameinfo.ConfigName.IsNotEmpty())
 	{
-		GameConfig->ArchiveGameData (gameinfo.ConfigName.GetChars());
+		GameConfig->ArchiveGameData (gameinfo.ConfigName.c_str());
 	}
 	success = GameConfig->WriteConfigFile ();
 	if (filename != nullptr)
@@ -316,7 +316,7 @@ UNSAFE_CCMD (writeini)
 CCMD(openconfig)
 {
 	M_SaveDefaults(nullptr);
-	I_OpenShellFolder(ExtractFilePath(GameConfig->GetPathName()).GetChars());
+	I_OpenShellFolder(ExtractFilePath(GameConfig->GetPathName()).c_str());
 }
 
 //
@@ -535,7 +535,7 @@ static bool FindFreeName (FString &fullname, const char *extension)
 
 	for (i = 0; i <= 9999; i++)
 	{
-		const char *gamename = gameinfo.ConfigName.GetChars();
+		const char *gamename = gameinfo.ConfigName.c_str();
 
 		time_t now;
 		tm *tm;
@@ -545,24 +545,24 @@ static bool FindFreeName (FString &fullname, const char *extension)
 
 		if (tm == NULL)
 		{
-			lbmname.Format ("%sScreenshot_%s_%04d.%s", fullname.GetChars(), gamename, i, extension);
+			lbmname.Format ("%sScreenshot_%s_%04d.%s", fullname.c_str(), gamename, i, extension);
 		}
 		else if (i == 0)
 		{
-			lbmname.Format ("%sScreenshot_%s_%04d%02d%02d_%02d%02d%02d.%s", fullname.GetChars(), gamename,
+			lbmname.Format ("%sScreenshot_%s_%04d%02d%02d_%02d%02d%02d.%s", fullname.c_str(), gamename,
 				tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
 				tm->tm_hour, tm->tm_min, tm->tm_sec,
 				extension);
 		}
 		else
 		{
-			lbmname.Format ("%sScreenshot_%s_%04d%02d%02d_%02d%02d%02d_%02d.%s", fullname.GetChars(), gamename,
+			lbmname.Format ("%sScreenshot_%s_%04d%02d%02d_%02d%02d%02d_%02d.%s", fullname.c_str(), gamename,
 				tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
 				tm->tm_hour, tm->tm_min, tm->tm_sec,
 				i, extension);
 		}
 
-		if (!FileExists (lbmname.GetChars()))
+		if (!FileExists (lbmname.c_str()))
 		{
 			fullname = lbmname;
 			return true;		// file doesn't exist
@@ -599,8 +599,8 @@ void M_ScreenShot (const char *filename)
 				autoname += '/';
 			}
 		}
-		autoname = NicePath(autoname.GetChars());
-		CreatePath(autoname.GetChars());
+		autoname = NicePath(autoname.c_str());
+		CreatePath(autoname.c_str());
 		if (!FindFreeName (autoname, writepcx ? "pcx" : "png"))
 		{
 			Printf ("M_ScreenShot: Delete some screenshots\n");
@@ -621,10 +621,10 @@ void M_ScreenShot (const char *filename)
 	auto buffer = screen->GetScreenshotBuffer(pitch, color_type, gamma);
 	if (buffer.Size() > 0)
 	{
-		file = FileWriter::Open(autoname.GetChars());
+		file = FileWriter::Open(autoname.c_str());
 		if (file == NULL)
 		{
-			Printf ("Could not open %s\n", autoname.GetChars());
+			Printf ("Could not open %s\n", autoname.c_str());
 			return;
 		}
 		if (writepcx)
@@ -643,7 +643,7 @@ void M_ScreenShot (const char *filename)
 		{
 			ptrdiff_t slash = -1;
 			if (!longsavemessages) slash = autoname.LastIndexOfAny(":/\\");
-			Printf ("Captured %s\n", autoname.GetChars()+slash+1);
+			Printf ("Captured %s\n", autoname.c_str()+slash+1);
 		}
 	}
 	else
@@ -685,11 +685,11 @@ CCMD(openscreenshots)
 			autoname += '/';
 		}
 	}
-	autoname = NicePath(autoname.GetChars());
+	autoname = NicePath(autoname.c_str());
 
-	CreatePath(autoname.GetChars());
+	CreatePath(autoname.c_str());
 
-	I_OpenShellFolder(autoname.GetChars());
+	I_OpenShellFolder(autoname.c_str());
 }
 
 static int SaveConfig()

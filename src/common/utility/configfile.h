@@ -68,10 +68,10 @@ public:
 	void SetValueForKey (const char *key, const char *value, bool duplicates=false);
 	void SetValueForKey(const char* key, const FString& value, bool duplicates = false)
 	{
-		SetValueForKey(key, value.GetChars(), duplicates);
+		SetValueForKey(key, value.c_str(), duplicates);
 	}
 
-	const char *GetPathName () const { return PathName.GetChars(); }
+	const char *GetPathName () const { return PathName.c_str(); }
 	void ChangePathName (const char *path);
 
 	void LoadConfigFile ();

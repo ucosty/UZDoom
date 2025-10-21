@@ -28,11 +28,11 @@ NetworkPage::NetworkPage(LauncherWindow* launcher, const FStartupSelectionInfo& 
 
 	SaveFileCheckbox->SetChecked(info.bSaveNetFile);
 	if (!info.DefaultNetSaveFile.IsEmpty())
-		SaveFileEdit->SetText(info.DefaultNetSaveFile.GetChars());
+		SaveFileEdit->SetText(info.DefaultNetSaveFile.c_str());
 
 	SaveParametersCheckbox->SetChecked(info.bSaveNetArgs);
 	if (!info.DefaultNetArgs.IsEmpty())
-		ParametersEdit->SetText(info.DefaultNetArgs.GetChars());
+		ParametersEdit->SetText(info.DefaultNetArgs.c_str());
 
 	StartPages = new TabWidget(this);
 	HostPage = new HostSubPage(this, info);
@@ -40,19 +40,19 @@ NetworkPage::NetworkPage(LauncherWindow* launcher, const FStartupSelectionInfo& 
 
 	for (const auto& wad : *info.Wads)
 	{
-		const char* filepart = strrchr(wad.Path.GetChars(), '/');
+		const char* filepart = strrchr(wad.Path.c_str(), '/');
 		if (filepart == nullptr)
-			filepart = wad.Path.GetChars();
+			filepart = wad.Path.c_str();
 		else
 			++filepart;
 
 		FString work;
 		if (*filepart)
-			work.Format("%s (%s)", wad.Name.GetChars(), filepart);
+			work.Format("%s (%s)", wad.Name.c_str(), filepart);
 		else
-			work = wad.Name.GetChars();
+			work = wad.Name.c_str();
 
-		IWADsDropdown->AddItem(work.GetChars());
+		IWADsDropdown->AddItem(work.c_str());
 	}
 
 	if (info.DefaultNetIWAD >= 0 && info.DefaultNetIWAD < info.Wads->SSize())
@@ -381,7 +381,7 @@ JoinSubPage::JoinSubPage(NetworkPage* main, const FStartupSelectionInfo& info) :
 	AddressLabel = new TextLabel(this);
 	AddressPortLabel = new TextLabel(this);
 
-	AddressEdit->SetText(info.DefaultNetAddress.GetChars());
+	AddressEdit->SetText(info.DefaultNetAddress.c_str());
 	AddressPortEdit->SetMaxLength(5);
 	AddressPortEdit->SetNumericMode(true);
 	if (info.DefaultNetJoinPort > 0)
@@ -419,7 +419,7 @@ void JoinSubPage::SetValues(FStartupSelectionInfo& info) const
 	}
 
 	info.AdditionalNetArgs = "";
-	info.AdditionalNetArgs.AppendFormat(" -join %s", addr.GetChars());
+	info.AdditionalNetArgs.AppendFormat(" -join %s", addr.c_str());
 
 	int team = 255;
 	if (!TeamEdit->GetText().empty())

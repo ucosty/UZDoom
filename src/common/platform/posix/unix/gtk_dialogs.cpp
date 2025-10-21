@@ -292,15 +292,15 @@ public:
 		store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 		for (int i = 0; i < numwads; ++i)
 		{
-			const char *filepart = strrchr (wads[i].Path.GetChars(), '/');
+			const char *filepart = strrchr (wads[i].Path.c_str(), '/');
 			if (filepart == NULL)
-				filepart = wads[i].Path.GetChars();
+				filepart = wads[i].Path.c_str();
 			else
 				filepart++;
 			gtk_list_store_append (store, &iter);
 			gtk_list_store_set (store, &iter,
 				0, filepart,
-				1, wads[i].Name.GetChars(),
+				1, wads[i].Name.c_str(),
 				2, i,
 				-1);
 			if (i == defaultiwad)

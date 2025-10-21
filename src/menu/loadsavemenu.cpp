@@ -77,7 +77,7 @@ void FSavegameManager::ReadSaveStrings()
 		LastSaved = LastAccessed = -1;
 		quickSaveSlot = nullptr;
 		FileSys::FileList list;
-		if (FileSys::ScanDirectory(list, G_GetSavegamesFolder().GetChars(), "*." SAVEGAME_EXT, true))
+		if (FileSys::ScanDirectory(list, G_GetSavegamesFolder().c_str(), "*." SAVEGAME_EXT, true))
 		{
 			for (auto& entry : list)
 			{
@@ -185,7 +185,7 @@ FString FSavegameManager::ExtractSaveComment(FSerializer &arc)
 
 FString FSavegameManager::BuildSaveName(const char* prefix, int slot)
 {
-	return G_BuildSaveName(FStringf("%s%02d", prefix, slot).GetChars());
+	return G_BuildSaveName(FStringf("%s%02d", prefix, slot).c_str());
 }
 
 //=============================================================================

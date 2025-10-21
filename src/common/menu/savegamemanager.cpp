@@ -88,7 +88,7 @@ int FSavegameManagerBase::RemoveSaveSlot(int index)
 	int listindex = SaveGames[0]->bNoDelete ? index - 1 : index;
 	if (listindex < 0) return index;
 
-	RemoveFile(SaveGames[index]->Filename.GetChars());
+	RemoveFile(SaveGames[index]->Filename.c_str());
 	UnloadSaveData();
 
 	FSaveGameNode *file = SaveGames[index];
@@ -238,7 +238,7 @@ void FSavegameManagerBase::NotifyNewSave(const FString &file, const FString &tit
 
 void FSavegameManagerBase::LoadSavegame(int Selected)
 {
-	PerformLoadGame(SaveGames[Selected]->Filename.GetChars(), true);
+	PerformLoadGame(SaveGames[Selected]->Filename.c_str(), true);
 	if (quickSaveSlot == (FSaveGameNode*)1)
 	{
 		quickSaveSlot = SaveGames[Selected];
@@ -266,7 +266,7 @@ void FSavegameManagerBase::DoSave(int Selected, const char *savegamestring)
 	if (Selected != 0)
 	{
 		auto node = SaveGames[Selected];
-		PerformSaveGame(node->Filename.GetChars(), savegamestring);
+		PerformSaveGame(node->Filename.c_str(), savegamestring);
 	}
 	else
 	{
@@ -304,7 +304,7 @@ void FSavegameManagerBase::DoSave(int Selected, const char *savegamestring)
 				M_ClearMenus();
 				return;
 			}
-			filename = G_BuildSaveName(filename.GetChars());
+			filename = G_BuildSaveName(filename.c_str());
 		}
 		else
 		{
@@ -317,7 +317,7 @@ void FSavegameManagerBase::DoSave(int Selected, const char *savegamestring)
 				}
 			}
 		}
-		PerformSaveGame(filename.GetChars(), savegamestring);
+		PerformSaveGame(filename.c_str(), savegamestring);
 	}
 	M_ClearMenus();
 }
@@ -327,7 +327,7 @@ DEFINE_ACTION_FUNCTION(FSavegameManager, DoSave)
 	PARAM_SELF_STRUCT_PROLOGUE(FSavegameManagerBase);
 	PARAM_INT(sel);
 	PARAM_STRING(name);
-	self->DoSave(sel, name.GetChars());
+	self->DoSave(sel, name.c_str());
 	return 0;
 }
 
@@ -360,7 +360,7 @@ unsigned FSavegameManagerBase::ExtractSaveData(int index)
 		(node = SaveGames[index]) &&
 		!node->Filename.IsEmpty() &&
 		!node->bOldVersion &&
-		( (resf.reset(FResourceFile::OpenResourceFile(node->Filename.GetChars(), true))), resf != nullptr))
+		( (resf.reset(FResourceFile::OpenResourceFile(node->Filename.c_str(), true))), resf != nullptr))
 	{
 		auto info = resf->FindEntry("info.json");
 		if (info < 0)
@@ -478,7 +478,7 @@ void FSavegameManagerBase::SetFileInfo(int Selected)
 {
 	if (!SaveGames[Selected]->Filename.IsEmpty())
 	{
-		SaveCommentString.Format("File on disk:\n%s", SaveGames[Selected]->Filename.GetChars());
+		SaveCommentString.Format("File on disk:\n%s", SaveGames[Selected]->Filename.c_str());
 	}
 }
 
@@ -663,8 +663,8 @@ FString G_GetSavegamesFolder()
 	if (usefilter && SavegameFolder.IsNotEmpty())
 		name << SavegameFolder << '/';
 
-	name = NicePath(name.GetChars());
-	CreatePath(name.GetChars());
+	name = NicePath(name.c_str());
+	CreatePath(name.c_str());
 	return name;
 }
 
@@ -678,7 +678,7 @@ FString G_BuildSaveName(const char* prefix)
 {
 	FString name = G_GetSavegamesFolder() + prefix;
 	DefaultExtension(name, "." SAVEGAME_EXT); // only add an extension if the prefix doesn't have one already.
-	name = NicePath(name.GetChars());
+	name = NicePath(name.c_str());
 	name.Substitute("\\", "/");
 	return name;
 }

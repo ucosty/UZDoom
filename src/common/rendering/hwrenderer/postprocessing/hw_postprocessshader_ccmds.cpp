@@ -99,7 +99,7 @@ CCMD(listshaders)
 	for (unsigned int i = 0; i < PostProcessShaders.Size(); i++)
 	{
 		PostProcessShader &shader = PostProcessShaders[i];
-		Printf("Shader (%i): %s\n", i, shader.Name.GetChars());
+		Printf("Shader (%i): %s\n", i, shader.Name.c_str());
 	}
 }
 
@@ -126,7 +126,7 @@ CCMD(listuniforms)
 			while (it.NextPair(pair))
 			{
 				double *vec4 = shader.Uniforms[pair->Key].Values;
-				Printf("  %s : %f %f %f\n", pair->Key.GetChars(), vec4[0], vec4[1], vec4[2]);
+				Printf("  %s : %f %f %f\n", pair->Key.c_str(), vec4[0], vec4[1], vec4[2]);
 			}
 			found = 1;
 		}

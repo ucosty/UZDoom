@@ -192,11 +192,11 @@ UNSAFE_CCMD (dir)
 	{
 		path = I_GetCWD();;
 	}
-	auto base = ExtractFileBase(path.GetChars(), true);
+	auto base = ExtractFileBase(path.c_str(), true);
 	FString bpath;
 	if (base.IndexOfAny("*?") >= 0)
 	{
-		bpath = ExtractFilePath(path.GetChars());
+		bpath = ExtractFilePath(path.c_str());
 	}
 	else
 	{
@@ -205,13 +205,13 @@ UNSAFE_CCMD (dir)
 	}
 
 	FileSys::FileList list;
-	if (!FileSys::ScanDirectory(list, bpath.GetChars(), base.GetChars(), true))
+	if (!FileSys::ScanDirectory(list, bpath.c_str(), base.c_str(), true))
 	{ 
-		Printf ("Nothing matching %s\n", path.GetChars());
+		Printf ("Nothing matching %s\n", path.c_str());
 	}
 	else
 	{
-		Printf ("Listing of %s:\n", path.GetChars());
+		Printf ("Listing of %s:\n", path.c_str());
 		for(auto& entry : list)
 		{
 			if (entry.isDirectory)

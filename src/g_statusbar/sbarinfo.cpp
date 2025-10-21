@@ -445,7 +445,7 @@ void SBarInfo::Load()
 {
 	if(gameinfo.statusbar.IsNotEmpty())
 	{
-		int lump = fileSystem.CheckNumForFullName(gameinfo.statusbar.GetChars(), true);
+		int lump = fileSystem.CheckNumForFullName(gameinfo.statusbar.c_str(), true);
 		if(lump != -1)
 		{
 			if (!batchrun) Printf ("ParseSBarInfo: Loading default status bar definition.\n");
@@ -808,7 +808,7 @@ int SBarInfo::newImage(const char *patchname)
 	}
 	for(unsigned int i = 0;i < this->Images.Size();i++) //did we already load it?
 	{
-		if(stricmp(this->Images[i].GetChars(), patchname) == 0)
+		if(stricmp(this->Images[i].c_str(), patchname) == 0)
 		{
 			return i;
 		}
@@ -1009,7 +1009,7 @@ public:
 		unsigned int i = 0;
 		for(i = 0;i < script->Images.Size();i++)
 		{
-			patchnames[i] = script->Images[i].GetChars();
+			patchnames[i] = script->Images[i].c_str();
 		}
 		for(i = 0;i < 9;i++)
 		{

@@ -128,7 +128,7 @@ static bool M_SetJoystickConfigSection(IJoystickConfig *joy, bool create, FConfi
 	FString id = "Joy:";
 	id += joy->GetIdentifier();
 	if (!GameConfig) return false;
-	return GameConfig->SetSection(id.GetChars(), create);
+	return GameConfig->SetSection(id.c_str(), create);
 }
 
 //==========================================================================
@@ -379,7 +379,7 @@ CCMD (gamepad)
 		{
 			for (int i = 0; i < sticks.SSize(); i++)
 			{
-				Printf("%d: '%s'\n", i, sticks[i]->GetName().GetChars());
+				Printf("%d: '%s'\n", i, sticks[i]->GetName().c_str());
 				for (int j = 0; j < sticks[i]->GetNumAxes(); j++)
 				{
 					Printf("  %d.%d: '%s'\n", i, j, sticks[i]->GetAxisName(j));

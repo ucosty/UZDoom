@@ -408,9 +408,9 @@ void FWeaponSlots::LocalSetup(PClassActor *type)
 	{
 		FString sectionclass(WeaponSection);
 		sectionclass << '.' << type->TypeName.GetChars();
-		if (RestoreSlots(GameConfig, sectionclass.GetChars()) == 0)
+		if (RestoreSlots(GameConfig, sectionclass.c_str()) == 0)
 		{
-			RestoreSlots(GameConfig, WeaponSection.GetChars());
+			RestoreSlots(GameConfig, WeaponSection.c_str());
 		}
 	}
 	else
@@ -504,7 +504,7 @@ int FWeaponSlots::RestoreSlots(FConfigFile *config, const char *section)
 	int slotsread = 0;
 
 	section_name += ".Weapons";
-	if (!config->SetSection(section_name.GetChars()))
+	if (!config->SetSection(section_name.c_str()))
 	{
 		return 0;
 	}
@@ -561,10 +561,10 @@ CCMD (setslot)
 		{
 			FString config(GameConfig->GetConfigPath(false));
 			Printf(TEXTCOLOR_BLUE "Add the following to " TEXTCOLOR_ORANGE "%s" TEXTCOLOR_BLUE
-				" to retain these bindings:\n" TEXTCOLOR_NORMAL "[", config.GetChars());
+				" to retain these bindings:\n" TEXTCOLOR_NORMAL "[", config.c_str());
 			if (WeaponSection.IsNotEmpty())
 			{
-				Printf("%s.", WeaponSection.GetChars());
+				Printf("%s.", WeaponSection.c_str());
 			}
 			Printf("%s.Weapons]\n", players[consoleplayer].mo->GetClass()->TypeName.GetChars());
 		}
@@ -742,7 +742,7 @@ void P_PlaybackKeyConfWeapons(FWeaponSlots *slots)
 	PlayingKeyConf = slots;
 	for (unsigned int i = 0; i < KeyConfWeapons.Size(); ++i)
 	{
-		AddCommandString(KeyConfWeapons[i].GetChars());
+		AddCommandString(KeyConfWeapons[i].c_str());
 	}
 	PlayingKeyConf = nullptr;
 }

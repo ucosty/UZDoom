@@ -409,7 +409,7 @@ namespace swrenderer
 		FString out;
 		out.Format("frame=%04.1f ms  walls=%04.1f ms  planes=%04.1f ms  masked=%04.1f ms  %d counts",
 			f_acc / acc_c, w_acc / acc_c, p_acc / acc_c, m_acc / acc_c, acc_c);
-		Printf(PRINT_LOG, "%s\n", out.GetChars());
+		Printf(PRINT_LOG, "%s\n", out.c_str());
 		return out;
 	}
 

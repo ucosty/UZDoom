@@ -219,7 +219,7 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 	}
 
 	FString obit = DamageTypeDefinition::GetObituary(mod);
-	if (attacker == nullptr && obit.IsNotEmpty()) messagename = obit.GetChars();
+	if (attacker == nullptr && obit.IsNotEmpty()) messagename = obit.c_str();
 	else
 	{
 		switch (mod.GetIndex())
@@ -251,18 +251,18 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 				VMValue params[] = { self, inflictor, mod.GetIndex() };
 				VMReturn rett(&ret);
 				VMCall(func, params, countof(params), &rett, 1);
-				if (ret.IsNotEmpty()) message = ret.GetChars();
+				if (ret.IsNotEmpty()) message = ret.c_str();
 			}
 
 		}
 		else
 		{
 			lookup.Format("$Obituary_%s_%s", attacker->GetClass()->TypeName.GetChars(), mod.GetChars());
-			if (GStrings.CheckString(lookup.GetChars() + 1)) message = lookup.GetChars();
+			if (GStrings.CheckString(lookup.c_str() + 1)) message = lookup.c_str();
 			else
 			{
 				lookup.Format("$Obituary_%s", attacker->GetClass()->TypeName.GetChars());
-				if (GStrings.CheckString(lookup.GetChars() + 1)) message = lookup.GetChars();
+				if (GStrings.CheckString(lookup.c_str() + 1)) message = lookup.c_str();
 				else
 				{
 					IFVIRTUALPTR(attacker, AActor, GetObituary)
@@ -270,7 +270,7 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 						VMValue params[] = { attacker, self, inflictor, mod.GetIndex(), !!(dmgflags & DMG_PLAYERATTACK) };
 						VMReturn rett(&ret);
 						VMCall(func, params, countof(params), &rett, 1);
-						if (ret.IsNotEmpty()) message = ret.GetChars();
+						if (ret.IsNotEmpty()) message = ret.c_str();
 					}
 				}
 			}
@@ -292,12 +292,12 @@ void ClientObituary (AActor *self, AActor *inflictor, AActor *attacker, int dmgf
 		if (mod == NAME_Melee)
 		{
 			FStringf ob("DEFHITOB_%s", cls);
-			message = GStrings.CheckString(ob.GetChars(), nullptr, self->player->userinfo.GetGender());
+			message = GStrings.CheckString(ob.c_str(), nullptr, self->player->userinfo.GetGender());
 		}
 		if (message == nullptr)
 		{
 			FStringf ob("DEFOB_%s", cls);
-			message = GStrings.CheckString(ob.GetChars(), nullptr, self->player->userinfo.GetGender());
+			message = GStrings.CheckString(ob.c_str(), nullptr, self->player->userinfo.GetGender());
 		}
 		if (message == nullptr)
 		{
