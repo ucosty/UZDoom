@@ -347,6 +347,14 @@ FString operator + (char head, const FString &tail)
 	return FString (head, tail);
 }
 
+FString & FString::operator+=(const std::string &tail) {
+	const size_t len1 = length();
+	const size_t len2 = strlen(tail.c_str());
+	ReallocBuffer (len1 + len2);
+	StrCopy (Chars + len1, tail.c_str(), len2);
+	return *this;
+}
+
 FString &FString::operator += (const FString &tail)
 {
 	size_t len1 = length();

@@ -192,6 +192,7 @@ public:
 	friend FString operator + (const char *head, const FString &tail);
 	friend FString operator + (char head, const FString &tail);
 
+	FString &operator += (const std::string &tail);
 	FString &operator += (const FString &tail);
 	FString &operator += (const char *tail);
 	FString &operator += (char tail);
