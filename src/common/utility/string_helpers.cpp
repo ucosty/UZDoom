@@ -22,6 +22,8 @@
 
 #include <algorithm>
 
+constexpr std::string_view WHITESPACE_CHARSET = " \t\n\r\f\v";
+
 bool is_equal_ignoring_case(const std::string &a, const std::string &b) {
     if (a.size() != b.size()) {
         return false;
@@ -48,4 +50,101 @@ void replace_multiple_chars(FString& s, const std::string& chars, const char rep
         },
         replacement_char
     );
+}
+
+struct CharacterLookup {
+    bool table[256]{};
+
+    explicit CharacterLookup(const std::string_view& s) {
+        for (const unsigned char c: s) {
+            table[c] = true;
+        }
+    }
+
+    bool contains(const char c) const {
+        return table[static_cast<unsigned char>(c)];
+    }
+};
+
+size_t find_first_not_matching(const FString& str, const std::string_view& charset) {
+    const auto length = str.Len();
+    const auto lookup = CharacterLookup(charset);
+    for (size_t i = 0; i < length; ++i) {
+        if (const auto ch = str[i]; !lookup.contains(ch)) {
+            return i;
+        }
+    }
+    return std::string::npos;
+}
+
+size_t find_last_not_matching(const FString& str, const std::string_view& charset) {
+    const auto length = str.Len();
+    const auto lookup = CharacterLookup(charset);
+    for (size_t i = length - 1; i > 0; --i) {
+        if (const auto ch = str[i]; !lookup.contains(ch)) {
+            return length - i - 1;
+        }
+    }
+    return std::string::npos;
+}
+
+FString trim_left(const FString& str, const std::string_view& charset) {
+    const auto substring_start = find_first_not_matching(str, charset);
+    if (substring_start == std::string::npos) {
+        return {};
+    }
+    return str.substr(substring_start, str.Len() - substring_start);
+}
+
+FString trim_whitespace_left(const FString& str) {
+    return trim_left(str, WHITESPACE_CHARSET);
+}
+
+FString trim_right(const FString& str, const std::string_view& charset) {
+    const auto substring_end = find_last_not_matching(str, charset);
+    if (substring_end == std::string::npos) {
+        return {};
+    }
+    return str.substr(0, str.Len() - substring_end);
+}
+
+FString trim_whitespace_right(const FString& str) {
+    return trim_right(str, WHITESPACE_CHARSET);
+}
+
+FString trim_whitespace(const FString& str) {
+    return trim(str, WHITESPACE_CHARSET);
+}
+
+FString trim(const FString& str, const std::string_view& charset) {
+    const auto substring_start = find_first_not_matching(str, charset);
+    const auto substring_end = find_last_not_matching(str, charset);
+    if (substring_start == std::string::npos) {
+        return {};
+    }
+    return str.substr(substring_start, str.Len() - substring_end - substring_start);
+}
+
+void strip(FString *input, const std::string_view& charset) {
+    *input = trim(*input, charset);
+}
+
+void strip_left(FString *input, const std::string_view& charset) {
+    *input = trim_left(*input, charset);
+}
+
+void strip_right(FString *input, const std::string_view& charset) {
+    *input = trim_right(*input, charset);
+}
+
+void strip_whitespace(FString *input) {
+    *input = trim(*input, WHITESPACE_CHARSET);
+}
+
+void strip_whitespace_left(FString *input) {
+    *input = trim_left(*input, WHITESPACE_CHARSET);
+}
+
+void strip_whitespace_right(FString *input) {
+    *input = trim_right(*input, WHITESPACE_CHARSET);
 }

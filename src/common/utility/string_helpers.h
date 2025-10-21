@@ -26,3 +26,21 @@ class FString;
 bool is_equal_ignoring_case(const std::string& a, const std::string& b);
 void replace_multiple_chars(std::string& s, const std::string& chars, char replacement_char);
 void replace_multiple_chars(FString& s, const std::string& chars, const char replacement_char);
+
+FString trim_left(const FString& str, const std::string_view& charset);
+FString trim_whitespace_left(const FString& str);
+
+FString trim_right(const FString& str, const std::string_view& charset);
+FString trim_whitespace_right(const FString& str);
+
+FString trim_whitespace(const FString& str);
+FString trim(const FString& str, const std::string_view& charset);
+
+
+// Self-mutating versions
+void strip(FString *input, const std::string_view& charset);
+void strip_left(FString *input, const std::string_view& charset);
+void strip_right(FString *input, const std::string_view& charset);
+void strip_whitespace(FString *input);
+void strip_whitespace_left(FString *input);
+void strip_whitespace_right(FString *input);
