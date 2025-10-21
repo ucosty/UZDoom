@@ -21,7 +21,7 @@ PlayGamePage::PlayGamePage(LauncherWindow* launcher, const FStartupSelectionInfo
 	SaveArgsCheckbox = new CheckboxLabel(this);
 
 	SaveArgsCheckbox->SetChecked(info.bSaveArgs);
-	if (!info.DefaultArgs.IsEmpty())
+	if (!info.DefaultArgs.empty())
 		ParametersEdit->SetText(info.DefaultArgs.c_str());
 
 	for (const auto& wad : *info.Wads)

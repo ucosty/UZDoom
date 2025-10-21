@@ -95,7 +95,7 @@ level_info_t *FindLevelInfo (const char *mapname, bool allowdefault)
 	}
 	else if (allowdefault)
 	{
-		if (TheDefaultLevelInfo.LevelName.IsEmpty())
+		if (TheDefaultLevelInfo.LevelName.empty())
 		{
 			TheDefaultLevelInfo.SkyPic2 = TheDefaultLevelInfo.SkyPic1 = "SKY1";
 			TheDefaultLevelInfo.SkyMistPic = "SKYMIST1";
@@ -2357,7 +2357,7 @@ void FMapInfoParser::ParseEpisodeInfo ()
 			sc.MustGetString ();
 			pic = sc.String;
 			// If no name has been specified, synthesize a string table reference with the same name as the patch.
-			if (name.IsEmpty()) name.Format("$%s", sc.String);
+			if (name.empty()) name.Format("$%s", sc.String);
 		}
 		else if (sc.Compare ("remove"))
 		{

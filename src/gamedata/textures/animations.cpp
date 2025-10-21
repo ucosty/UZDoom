@@ -438,7 +438,7 @@ void FTextureAnimator::ParseAnim (FScanner &sc, ETextureType usetype)
 		}
 		else if (sc.Compare ("range"))
 		{
-			if (picnum.Exists() && TexMan.GameTexture(picnum)->GetName().IsEmpty())
+			if (picnum.Exists() && TexMan.GameTexture(picnum)->GetName().empty())
 			{
 				// long texture name: We cannot do ranged anims on these because they have no defined order
 				sc.ScriptError ("You cannot use \"range\" for long texture names.");
@@ -523,7 +523,7 @@ FAnimDef *FTextureAnimator::ParseRangeAnim (FScanner &sc, FTextureID picnum, ETe
 		return NULL;		// Animation is only one frame or does not exist
 	}
 
-	if (TexMan.GameTexture(framenum)->GetName().IsEmpty())
+	if (TexMan.GameTexture(framenum)->GetName().empty())
 	{
 		// long texture name: We cannot do ranged anims on these because they have no defined order
 		sc.ScriptError ("You cannot use \"range\" for long texture names.");
@@ -661,7 +661,7 @@ void FTextureAnimator::ParseWarp(FScanner &sc)
 
 		auto warper = TexMan.GameTexture(picnum);
 
-		if (warper->GetName().IsEmpty())
+		if (warper->GetName().empty())
 		{
 			// long texture name: We cannot do warps on these due to the way the texture manager implements warping as a texture replacement.
 			sc.ScriptError ("You cannot use \"warp\" for long texture names.");

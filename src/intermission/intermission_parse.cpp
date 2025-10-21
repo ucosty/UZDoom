@@ -700,7 +700,7 @@ FName FMapInfoParser::ParseEndGame()
 		else if (sc.Compare("cast"))
 		{
 			newSeq.EndType = END_Cast;
-			if (newSeq.PicName.IsEmpty()) newSeq.PicName = "$bgcastcall";
+			if (newSeq.PicName.empty()) newSeq.PicName = "$bgcastcall";
 		}
 		else if (sc.Compare("music"))
 		{

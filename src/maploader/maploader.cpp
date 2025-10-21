@@ -2965,7 +2965,7 @@ void MapLoader::LoadLevel(MapData *map, const char *lumpname, int position)
 		// We need translators only for Doom format maps.
 		const char *translator;
 
-		if (!Level->info->Translator.IsEmpty())
+		if (!Level->info->Translator.empty())
 		{
 			// The map defines its own translator.
 			translator = Level->info->Translator.c_str();

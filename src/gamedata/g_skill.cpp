@@ -588,7 +588,7 @@ FSkillInfo &FSkillInfo::operator=(const FSkillInfo &other)
 
 int FSkillInfo::GetTextColor() const
 {
-	if (TextColor.IsEmpty())
+	if (TextColor.empty())
 	{
 		return CR_UNTRANSLATED;
 	}

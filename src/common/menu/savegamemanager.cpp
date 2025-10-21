@@ -175,7 +175,7 @@ int FSavegameManagerBase::InsertSaveNode(FSaveGameNode *node)
 
 void FSavegameManagerBase::NotifyNewSave(const FString &file, const FString &title, bool okForQuicksave, bool forceQuicksave)
 {
-	if (file.IsEmpty())
+	if (file.empty())
 		return;
 
 	ReadSaveStrings();
@@ -358,7 +358,7 @@ unsigned FSavegameManagerBase::ExtractSaveData(int index)
 
 	if ((unsigned)index < SaveGames.Size() &&
 		(node = SaveGames[index]) &&
-		!node->Filename.IsEmpty() &&
+		!node->Filename.empty() &&
 		!node->bOldVersion &&
 		( (resf.reset(FResourceFile::OpenResourceFile(node->Filename.c_str(), true))), resf != nullptr))
 	{
@@ -476,7 +476,7 @@ DEFINE_ACTION_FUNCTION(FSavegameManager, DrawSavePic)
 
 void FSavegameManagerBase::SetFileInfo(int Selected)
 {
-	if (!SaveGames[Selected]->Filename.IsEmpty())
+	if (!SaveGames[Selected]->Filename.empty())
 	{
 		SaveCommentString.Format("File on disk:\n%s", SaveGames[Selected]->Filename.c_str());
 	}
@@ -565,7 +565,7 @@ bool FSavegameManagerBase::RemoveNewSaveNode()
 
 int FSavegameManagerBase::RemoveUUIDSaveSlots()
 {
-	if (GameUUID.IsEmpty())
+	if (GameUUID.empty())
 		return -1;
 
 	// Make sure there's any saves in the list first.

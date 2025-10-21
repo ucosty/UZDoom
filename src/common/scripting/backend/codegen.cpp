@@ -6831,7 +6831,7 @@ FxExpression *FxIdentifier::Resolve(FCompileContext& ctx)
 					ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING, 
 						"%sAccessing deprecated global variable %s - deprecated since %d.%d.%d%s%s", internal ? TEXTCOLOR_BLUE : "",
 						sym->SymbolName.GetChars(), vsym->mVersion.major, vsym->mVersion.minor, vsym->mVersion.revision,
-						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
+						deprecationMessage.empty() ? "" : ", ", deprecationMessage.c_str());
 				}
 			}
 
@@ -6921,7 +6921,7 @@ FxExpression *FxIdentifier::ResolveMember(FCompileContext &ctx, PContainerType *
 
 					ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING,
 						"Accessing deprecated member variable %s - deprecated since %d.%d.%d%s%s", sym->SymbolName.GetChars(), vsym->mVersion.major, vsym->mVersion.minor, vsym->mVersion.revision,
-						deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
+						deprecationMessage.empty() ? "" : ", ", deprecationMessage.c_str());
 				}
 			}
 
@@ -9779,7 +9779,7 @@ bool FxVMFunctionCall::CheckAccessibility(const VersionInfo &ver)
 
 			ScriptPosition.Message(internal ? MSG_DEBUGMSG : MSG_WARNING,
 				"Accessing deprecated function %s - deprecated since %d.%d.%d%s%s", Function->SymbolName.GetChars(), Function->mVersion.major, Function->mVersion.minor, Function->mVersion.revision, 
-				deprecationMessage.IsEmpty() ? "" : ", ", deprecationMessage.c_str());
+				deprecationMessage.empty() ? "" : ", ", deprecationMessage.c_str());
 		}
 	}
 	return true;

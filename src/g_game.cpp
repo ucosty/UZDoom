@@ -2062,7 +2062,7 @@ void G_DoLoadGame ()
 	{
 		// Make a special case for the message printed for old savegames that don't
 		// have this information.
-		if (engine.IsEmpty())
+		if (engine.empty())
 		{
 			LoadGameError("TXT_INCOMPATIBLESG");
 		}
@@ -2096,7 +2096,7 @@ void G_DoLoadGame ()
 		return;
 	}
 
-	if (map.IsEmpty())
+	if (map.empty())
 	{
 		LoadGameError("TXT_NOMAPSG");
 		return;
@@ -2135,7 +2135,7 @@ void G_DoLoadGame ()
 
 	FString cvar;
 	arc("importantcvars", cvar);
-	if (!cvar.IsEmpty())
+	if (!cvar.empty())
 	{
 		auto vars_p = cvar.GetTArrayView();
 		C_ReadCVars(vars_p);

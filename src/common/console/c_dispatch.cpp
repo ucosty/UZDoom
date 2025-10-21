@@ -726,7 +726,7 @@ void FConsoleAlias::PrintAlias ()
 
 void FConsoleAlias::Archive (FConfigFile *f)
 {
-	if (f != NULL && !m_Command[0].IsEmpty())
+	if (f != NULL && !m_Command[0].empty())
 	{
 		f->SetValueForKey ("Name", m_Name.c_str(), true);
 		f->SetValueForKey ("Command", m_Command[0].c_str(), true);
@@ -894,7 +894,7 @@ FExecList *C_ParseCmdLineParams(FExecList *exec)
 			}
 
 			cmdString = BuildString (cmdlen, Args->GetArgList (argstart));
-			if (!cmdString.IsEmpty())
+			if (!cmdString.empty())
 			{
 				if (exec == NULL)
 				{
@@ -925,7 +925,7 @@ void FConsoleAlias::Run (FCommandLine &args, int key)
 		return;
 	}
 
-	int index = !m_Command[1].IsEmpty();
+	int index = !m_Command[1].empty();
 	FString savedcommand = m_Command[index], mycommand;
 	m_Command[index] = FString();
 
@@ -941,7 +941,7 @@ void FConsoleAlias::Run (FCommandLine &args, int key)
 	bRunning = true;
 	AddCommandString (mycommand.c_str(), key);
 	bRunning = false;
-	if (m_Command[index].IsEmpty())
+	if (m_Command[index].empty())
 	{ // The alias is unchanged, so put the command back so it can be used again.
 	  // If the command had been non-empty, then that means that executing this
 	  // alias caused it to realias itself, so the old command will be forgotten
@@ -956,7 +956,7 @@ void FConsoleAlias::Run (FCommandLine &args, int key)
 
 void FConsoleAlias::Realias (const char *command, bool noSave)
 {
-	if (!noSave && !m_Command[1].IsEmpty())
+	if (!noSave && !m_Command[1].empty())
 	{
 		noSave = true;
 	}

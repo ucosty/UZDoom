@@ -538,7 +538,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 				if (jsonReader.BeginObject("data"))
 				{
 					FString music = jsonReader.GetString("music");
-					if (music.IsEmpty())
+					if (music.empty())
 					{
 						I_Error("No music lump specified for intermission animation %s!", lumpname);
 					}
@@ -553,7 +553,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 					texture = TexMan.CheckForTexture(backgroundimage.c_str(), ETextureType::MiscPatch, FTextureManager::TEXMAN_TryAny);
 					if (!texture.isValid())
 					{
-						if (backgroundimage.IsEmpty())
+						if (backgroundimage.empty())
 						{
 							I_Error("No background image specified for intermission animation %s!", lumpname);
 						}
@@ -666,7 +666,7 @@ bool DInterBackground::LoadBackground(bool isenterpic)
 														::Serialize(jsonReader, "type", frame.type, nullptr);
 
 														FString image = jsonReader.GetString("image");
-														if (image.IsEmpty())
+														if (image.empty())
 														{
 															I_Error("No image defined for frame %d, anim %d, layer %d in lump %s", anim.frames.Size(), layer.anims.Size(), layers.Size(), lumpname);
 														}

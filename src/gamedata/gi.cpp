@@ -216,7 +216,7 @@ const char* GameInfoBorders[] =
 		sc.MustGetToken(TK_StringConst); \
 		FString color = sc.String; \
 		FString colorName = V_GetColorStringByName(color.c_str()); \
-		if(!colorName.IsEmpty()) \
+		if(!colorName.empty()) \
 			color = colorName; \
 		gameinfo.key = V_GetColorFromString(color.c_str()); \
 	}

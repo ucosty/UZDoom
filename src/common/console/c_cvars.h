@@ -169,7 +169,7 @@ public:
 	void MarkSafe() { Flags &= ~CVAR_UNSAFECONTEXT; }
 	void AddDescription(const FString& label)
 	{
-		if (Description.IsEmpty()) Description = label;
+		if (Description.empty()) Description = label;
 	}
 
 	int ToInt()

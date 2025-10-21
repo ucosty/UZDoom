@@ -166,7 +166,7 @@ FString stb_include_string(FString str, FString filename, TArray<FString> &filen
         text.AppendCStrPart(str.c_str() + last, inc_list[i].offset - last);
 
         FString inc = stb_include_file(inc_list[i].filename.c_str(), filenames, error);
-        if (!error.IsEmpty())
+        if (!error.empty())
         {
             return "";
         }

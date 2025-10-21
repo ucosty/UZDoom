@@ -611,7 +611,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, CompareNoCase, StringCompareNoCase)
 
 static int StringIsEmpty(FString *self)
 {
-	return self->IsEmpty();
+	return self->empty();
 }
 
 DEFINE_ACTION_FUNCTION_NATIVE(FStringStruct, IsEmpty, StringIsEmpty)

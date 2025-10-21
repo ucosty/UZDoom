@@ -1590,7 +1590,7 @@ Dictionary *DictionaryFromString(const FString &string)
 
 	Dictionary *const dict = Create<Dictionary>();
 
-	if (string.IsEmpty())
+	if (string.empty())
 	{
 		return dict;
 	}

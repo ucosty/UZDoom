@@ -582,7 +582,7 @@ void M_ScreenShot (const char *filename)
 	{
 		size_t dirlen;
 		autoname = Args->CheckValue("-shotdir");
-		if (autoname.IsEmpty())
+		if (autoname.empty())
 		{
 			autoname = screenshot_dir;
 		}
@@ -668,7 +668,7 @@ CCMD(openscreenshots)
 	size_t dirlen;
 	FString autoname;
 	autoname = Args->CheckValue("-shotdir");
-	if (autoname.IsEmpty())
+	if (autoname.empty())
 	{
 		autoname = screenshot_dir;
 	}

@@ -1369,7 +1369,7 @@ static void NativeReadStringArray(FNetworkCommand* const self, TArray<FString>* 
 		if (str != nullptr)
 			res = str;
 
-		if (!skipEmpty || !res.IsEmpty())
+		if (!skipEmpty || !res.empty())
 			values->Push(res);
 	}
 }

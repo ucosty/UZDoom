@@ -519,7 +519,7 @@ void MapLoader::InitED()
 	FString filename = Level->info->EDName;
 	FScanner sc;
 
-	if (filename.IsEmpty()) return;
+	if (filename.empty()) return;
 	int lump = fileSystem.CheckNumForFullName(filename.c_str(), true, FileSys::ns_global);
 	if (lump == -1) return;
 	sc.OpenLumpNum(lump);

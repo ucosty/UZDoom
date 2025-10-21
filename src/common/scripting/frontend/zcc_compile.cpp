@@ -2216,7 +2216,7 @@ PType *ZCCCompiler::ResolveUserType(PType *outertype, ZCC_BasicType *type, ZCC_I
 			if(ptype->mVersion <= mVersion && !outertype->TypeDeprecated && fileSystem.GetFileContainer(Lump) > 0)
 			{
 				Warn(type, "Type %s is deprecated since ZScript version %d.%d.%d%s%s",
-					FName(type->UserType->Id).GetChars(), mVersion.major, mVersion.minor, mVersion.revision, ptype->mDeprecationMessage.IsEmpty() ? "" : ": ", ptype->mDeprecationMessage.c_str());
+					FName(type->UserType->Id).GetChars(), mVersion.major, mVersion.minor, mVersion.revision, ptype->mDeprecationMessage.empty() ? "" : ": ", ptype->mDeprecationMessage.c_str());
 			}
 		}
 		else if (ptype->mVersion > mVersion)

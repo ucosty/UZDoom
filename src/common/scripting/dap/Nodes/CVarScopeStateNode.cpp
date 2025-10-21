@@ -101,7 +101,7 @@ dap::Variable CVarStateNode::ToVariable(FBaseCVar *m_cvar)
 	const FString &description = m_cvar->GetDescription();
 
 
-	if (!description.IsEmpty())
+	if (!description.empty())
 	{
 		std::string_view localized = GStrings.localize(description.c_str());
 		if (!localized.empty() && localized.substr(1) != description.c_str())

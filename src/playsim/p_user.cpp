@@ -218,7 +218,7 @@ bool ValidatePlayerClass(PClassActor *ti, const char *name)
 		Printf("Invalid player class '%s'\n", name);
 		return false;
 	}
-	else if (ti->GetDisplayName().IsEmpty())
+	else if (ti->GetDisplayName().empty())
 	{
 		Printf ("Missing displayname for player class '%s'\n", name);
 		return false;

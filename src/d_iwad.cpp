@@ -286,7 +286,7 @@ void FIWadManager::ParseIWadInfo(const char *fn, const char *data, int datasize,
 					sc.ScriptError("Unknown keyword '%s'", sc.String);
 				}
 			}
-			if (iwad->MapInfo.IsEmpty())
+			if (iwad->MapInfo.empty())
 			{
 				// We must at least load the minimum defaults to allow the engine to run.
 				iwad->MapInfo = "mapinfo/mindefaults.txt";
@@ -734,7 +734,7 @@ int FIWadManager::IdentifyVersion (std::vector<std::string>&wadfiles, const char
 					}
 				}
 				// The required dependency was not found. Skip this IWAD.
-				if (mFoundWads[i].mRequiredPath.IsEmpty()) mFoundWads[i].mInfoIndex = -1;
+				if (mFoundWads[i].mRequiredPath.empty()) mFoundWads[i].mInfoIndex = -1;
 			}
 		}
 	}
@@ -948,7 +948,7 @@ const FIWADInfo *FIWadManager::FindIWAD(std::vector<std::string>& wadfiles, cons
 	if (iwadType == -1) return nullptr;
 	//gameiwad = iwadType;
 	const FIWADInfo *iwad_info = &mIWadInfos[iwadType];
-	if (GameStartupInfo.Name.IsEmpty()) GameStartupInfo.Name = iwad_info->Name;
+	if (GameStartupInfo.Name.empty()) GameStartupInfo.Name = iwad_info->Name;
 	if (GameStartupInfo.BkColor == 0 && GameStartupInfo.FgColor == 0)
 	{
 		GameStartupInfo.BkColor = iwad_info->BkColor;
@@ -961,9 +961,9 @@ const FIWADInfo *FIWadManager::FindIWAD(std::vector<std::string>& wadfiles, cons
 	if (GameStartupInfo.LoadBrightmaps == -1)
 		GameStartupInfo.LoadBrightmaps = iwad_info->LoadBrightmaps;
 	if (GameStartupInfo.Type == 0) GameStartupInfo.Type = iwad_info->StartupType;
-	if (GameStartupInfo.Song.IsEmpty()) GameStartupInfo.Song = iwad_info->Song;
-	if (GameStartupInfo.DiscordAppId.IsEmpty()) GameStartupInfo.DiscordAppId = iwad_info->DiscordAppId;
-	if (GameStartupInfo.SteamAppId.IsEmpty()) GameStartupInfo.SteamAppId = iwad_info->SteamAppId;
+	if (GameStartupInfo.Song.empty()) GameStartupInfo.Song = iwad_info->Song;
+	if (GameStartupInfo.DiscordAppId.empty()) GameStartupInfo.DiscordAppId = iwad_info->DiscordAppId;
+	if (GameStartupInfo.SteamAppId.empty()) GameStartupInfo.SteamAppId = iwad_info->SteamAppId;
 	I_SetIWADInfo();
 	return iwad_info;
 }

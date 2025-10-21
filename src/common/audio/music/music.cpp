@@ -555,7 +555,7 @@ static void ReadGains()
 CCMD(setreplaygain)
 {
 	// sets replay gain for current song to a fixed value
-	if (!mus_playing.handle || mus_playing.hash.IsEmpty())
+	if (!mus_playing.handle || mus_playing.hash.empty())
 	{
 		Printf("setreplaygain needs some music playing\n");
 		return;
@@ -587,7 +587,7 @@ static void CheckReplayGain(const char *musicname, EMidiDevice playertype, const
 
 	ReadGains();
 	auto hash = ReplayGainHash(mreader, flength, playertype, playparam);
-	if (hash.IsEmpty()) return; // got nothing to measure.
+	if (hash.empty()) return; // got nothing to measure.
 	mus_playing.hash = hash;
 	auto entry = gainMap.CheckKey(hash);
 	if (entry)
@@ -715,7 +715,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 		return true;
 	}
 
-	if (!mus_playing.name.IsEmpty() &&
+	if (!mus_playing.name.empty() &&
 		mus_playing.handle != nullptr &&
 		mus_playing.name.CompareNoCase(musicname) == 0 &&
 		ZMusic_IsLooping(mus_playing.handle) == zmusic_bool(looping))
@@ -830,7 +830,7 @@ bool S_ChangeMusic(const char* musicname, int order, bool looping, bool force)
 void S_RestartMusic ()
 {
 	if (snd_musicvolume <= 0) return;
-	if (!mus_playing.LastSong.IsEmpty() && mus_enabled)
+	if (!mus_playing.LastSong.empty() && mus_enabled)
 	{
 		FString song = mus_playing.LastSong;
 		mus_playing.LastSong = "";
@@ -895,7 +895,7 @@ void S_StopMusic (bool force)
 	try
 	{
 		// [RH] Don't stop if a playlist is active.
-		if ((force || PlayList.GetNumSongs() == 0) && !mus_playing.name.IsEmpty())
+		if ((force || PlayList.GetNumSongs() == 0) && !mus_playing.name.empty())
 		{
 			if (mus_playing.handle != nullptr)
 			{

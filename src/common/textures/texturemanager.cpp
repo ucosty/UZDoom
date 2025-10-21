@@ -775,7 +775,7 @@ void FTextureManager::ParseTextureDef(int lump, FMultipatchTextureBuilder &build
 			sc.GetString();
 
 			FString base = ExtractFileBase(sc.String, false);
-			if (!base.IsEmpty())
+			if (!base.empty())
 			{
 				FString src = base.Left(8);
 

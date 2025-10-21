@@ -681,7 +681,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 				if (AllEpisodes[i].mPicName.IsNotEmpty())
 				{
 					FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
-					if (AllEpisodes[i].mEpisodeName.IsEmpty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
+					if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
 						continue;
 				}
 				if ((gameinfo.gametype & GAME_DoomStrifeChex) && spacing == 16) spacing = 18;
@@ -713,7 +713,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 					if (AllEpisodes[i].mPicName.IsNotEmpty())
 					{
 						FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
-						if (AllEpisodes[i].mEpisodeName.IsEmpty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
+						if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
 							continue;	// We do not measure patch based entries. They are assumed to fit
 					}
 					const char *c = AllEpisodes[i].mEpisodeName.c_str();
@@ -729,7 +729,7 @@ void M_StartupEpisodeMenu(FNewGameStartup *gs)
 					if (AllEpisodes[i].mPicName.IsNotEmpty())
 					{
 						FTextureID tex = GetMenuTexture(AllEpisodes[i].mPicName.c_str());
-						if (AllEpisodes[i].mEpisodeName.IsEmpty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
+						if (AllEpisodes[i].mEpisodeName.empty() || OkForLocalization(tex, AllEpisodes[i].mEpisodeName.c_str()))
 							it = CreateListMenuItemPatch(posx, posy, spacing, AllEpisodes[i].mShortcut, tex, NAME_SkillMenu, i);
 					}
 					if (it == nullptr)
@@ -1217,7 +1217,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 					if (MenuSkills[i]->PicName.IsNotEmpty())
 					{
 						FTextureID tex = GetMenuTexture(MenuSkills[i]->PicName.c_str());
-						if (MenuSkills[i]->MenuName.IsEmpty() || OkForLocalization(tex, MenuSkills[i]->MenuName.c_str()))
+						if (MenuSkills[i]->MenuName.empty() || OkForLocalization(tex, MenuSkills[i]->MenuName.c_str()))
 							continue;
 					}
 					if ((gameinfo.gametype & GAME_DoomStrifeChex) && spacing == 16) spacing = 18;
@@ -1263,7 +1263,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 				if (skill.PicName.Len() != 0 && pItemText == nullptr)
 				{
 					FTextureID tex = GetMenuTexture(skill.PicName.c_str());
-					if (skill.MenuName.IsEmpty() || OkForLocalization(tex, skill.MenuName.c_str()))
+					if (skill.MenuName.empty() || OkForLocalization(tex, skill.MenuName.c_str()))
 						continue;
 				}
 				const char *c = pItemText ? pItemText->c_str() : skill.MenuName.c_str();
@@ -1292,7 +1292,7 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 				if (skill.PicName.Len() != 0 && pItemText == nullptr)
 				{
 					FTextureID tex = GetMenuTexture(skill.PicName.c_str());
-					if (skill.MenuName.IsEmpty() || OkForLocalization(tex, skill.MenuName.c_str()))
+					if (skill.MenuName.empty() || OkForLocalization(tex, skill.MenuName.c_str()))
 						li = CreateListMenuItemPatch(posx, y, spacing, skill.Shortcut, tex, action, SkillIndices[i]);
 				}
 				if (li == nullptr)

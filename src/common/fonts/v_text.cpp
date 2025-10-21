@@ -56,7 +56,7 @@
 
 static void breakit (FBrokenLines *line, FFont *font, const uint8_t *start, const uint8_t *stop, FString &linecolor)
 {
-	if (!linecolor.IsEmpty())
+	if (!linecolor.empty())
 	{
 		line->Text = TEXTCOLOR_ESCAPE;
 		line->Text += linecolor;

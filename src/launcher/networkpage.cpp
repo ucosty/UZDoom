@@ -27,11 +27,11 @@ NetworkPage::NetworkPage(LauncherWindow* launcher, const FStartupSelectionInfo& 
 	IWADsDropdown = new Dropdown(this);
 
 	SaveFileCheckbox->SetChecked(info.bSaveNetFile);
-	if (!info.DefaultNetSaveFile.IsEmpty())
+	if (!info.DefaultNetSaveFile.empty())
 		SaveFileEdit->SetText(info.DefaultNetSaveFile.c_str());
 
 	SaveParametersCheckbox->SetChecked(info.bSaveNetArgs);
-	if (!info.DefaultNetArgs.IsEmpty())
+	if (!info.DefaultNetArgs.empty())
 		ParametersEdit->SetText(info.DefaultNetArgs.c_str());
 
 	StartPages = new TabWidget(this);

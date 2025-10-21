@@ -241,7 +241,7 @@ CUSTOM_CVAR(Float, dlg_musicvolume, 1.0f, CVAR_ARCHIVE)
 
 static bool ShouldSkipReply(FStrifeDialogueReply *reply, player_t *player)
 {
-	if (reply->Reply.IsEmpty())
+	if (reply->Reply.empty())
 		return true;
 
 	int i;
@@ -634,7 +634,7 @@ static void HandleReply(player_t *player, bool isconsole, int nodenum, int reply
 		}
 		else
 		{
-			if (nextname.IsEmpty())
+			if (nextname.empty())
 				Printf ("Next node %u is invalid, no such dialog page\n", next);
 			else
 				Printf ("Next node %u ('%s') is invalid, no such dialog page\n", next, nextname.c_str());

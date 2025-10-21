@@ -296,7 +296,7 @@ int FTeam::GetPlayerColor () const
 
 int FTeam::GetTextColor () const
 {
-	if (m_TextColor.IsEmpty ())
+	if (m_TextColor.empty ())
 		return CR_UNTRANSLATED;
 
 	const uint8_t *pColor = (const uint8_t *)m_TextColor.c_str ();
@@ -405,7 +405,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(FTeam, GetTextColor, GetTextColor)
 static int GetLogo(FTeam* self)
 {
 	const FString& name = self->GetLogo();
-	if (name.IsEmpty())
+	if (name.empty())
 		return -1;
 
 	return TexMan.CheckForTexture(name.c_str(), ETextureType::Any).GetIndex();

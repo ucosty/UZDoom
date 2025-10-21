@@ -878,7 +878,7 @@ DEFINE_ACTION_FUNCTION_NATIVE(AActor, GetCharacterName, GetCharacterName)
 
 static void SetTag(AActor *self, const FString &def)
 {
-	if (def.IsEmpty()) self->Tag = nullptr;
+	if (def.empty()) self->Tag = nullptr;
 	else self->Tag = self->mStringPropertyData.Alloc(def);
 }
 

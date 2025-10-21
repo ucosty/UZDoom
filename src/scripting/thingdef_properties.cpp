@@ -1825,7 +1825,7 @@ DEFINE_CLASS_PROPERTY_PREFIX(player, weaponslot, ISsssssssssssssssssssssssssssss
 			weapons << ' ' << str;
 		}
 		FName *slots = &defaults->NameVar(NAME_Slot);
-		slots[slot] = weapons.IsEmpty()? NAME_None : FName(weapons);
+		slots[slot] = weapons.empty()? NAME_None : FName(weapons);
 	}
 }
 

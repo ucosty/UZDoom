@@ -1609,7 +1609,7 @@ void G_DoWorldDone (void)
 {
 	Net_ResetCommands(true);
 	gamestate = GS_LEVEL;
-	if (nextlevel.IsEmpty())
+	if (nextlevel.empty())
 	{
 		// Don't crash if no next map is given. Just repeat the current one.
 		Printf ("No next map specified.\n");

@@ -531,7 +531,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 
 					pp_data = stb_include_string(GetStringFromLump(pp_lump), lump_filename, filenames_for_error, error);
 
-					if(!error.IsEmpty())
+					if(!error.empty())
 					{
 						I_Error("Unable to load '%s': %s", proc_prog_lump, error.c_str());
 					}

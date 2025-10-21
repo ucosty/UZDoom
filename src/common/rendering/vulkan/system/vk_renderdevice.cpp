@@ -116,7 +116,7 @@ void VulkanPrintLog(const char* typestr, const std::string& msg)
 	if (vk_debug_callstack && showcallstack)
 	{
 		FString callstack = JitCaptureStackTrace(0, true, 5);
-		if (!callstack.IsEmpty())
+		if (!callstack.empty())
 			Printf("%s\n", callstack.c_str());
 	}
 }

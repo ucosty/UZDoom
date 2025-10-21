@@ -513,7 +513,7 @@ CCMD (testfade)
 	}
 	else
 	{
-		if ( !(colorstring = V_GetColorStringByName (argv[1])).IsEmpty() )
+		if ( !(colorstring = V_GetColorStringByName (argv[1])).empty() )
 		{
 			color = V_GetColorFromString (colorstring.c_str());
 		}
@@ -547,7 +547,7 @@ CCMD (testcolor)
 	}
 	else
 	{
-		if ( !(colorstring = V_GetColorStringByName (argv[1])).IsEmpty() )
+		if ( !(colorstring = V_GetColorStringByName (argv[1])).empty() )
 		{
 			color = V_GetColorFromString (colorstring.c_str());
 		}

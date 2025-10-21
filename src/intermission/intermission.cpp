@@ -205,7 +205,7 @@ void DIntermissionScreen::Start()
 {
 	if (mFirst)
 	{
-		if (mMusic.IsEmpty())
+		if (mMusic.empty())
 		{
 			S_ChangeMusic(gameinfo.finaleMusic.c_str(), gameinfo.finaleOrder, mMusicLooping);
 		}

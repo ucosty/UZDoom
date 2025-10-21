@@ -296,7 +296,7 @@ void T_LoadScripts(FLevelLocals *Level, MapData *map)
 	// This code then then swaps 270 and 272 - but only if this is either Doom or Heretic and 
 	// the default translator is being used.
 	// Custom translators will not be patched.
-	if ((gameinfo.gametype == GAME_Doom || gameinfo.gametype == GAME_Heretic) && Level->info->Translator.IsEmpty() &&
+	if ((gameinfo.gametype == GAME_Doom || gameinfo.gametype == GAME_Heretic) && Level->info->Translator.empty() &&
 		Level->maptype == MAPTYPE_DOOM && Level->Translator->SimpleLineTranslations.Size() > 272 && Level->Translator->SimpleLineTranslations[272 - 2*HasScripts].special == FS_Execute)
 	{
 		std::swap(Level->Translator->SimpleLineTranslations[270], Level->Translator->SimpleLineTranslations[272]);

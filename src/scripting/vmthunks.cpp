@@ -2349,7 +2349,7 @@ void FormatMapName(FLevelLocals *self, int cr, FString *result)
 
 	if (am_showlevelname)
 	{
-		if (!result->IsEmpty())
+		if (!result->empty())
 			*result << ": ";
 		*result << mapnamecolor << self->LevelName;
 	}

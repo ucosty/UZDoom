@@ -1840,7 +1840,7 @@ void C_ListCVarsWithoutDescription()
 	while (it.NextPair(pair))
 	{
 		auto var = pair->Value;
-		if (var->GetDescription().IsEmpty())
+		if (var->GetDescription().empty())
 		{
 			Printf("%s\n", var->GetName());
 		}

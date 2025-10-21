@@ -165,9 +165,9 @@ int FStartupSelectionInfo::SaveInfo()
 			defaultnetjointeam = DefaultNetJoinTeam;
 		}
 
-		if (!DefaultNetArgs.IsEmpty())
+		if (!DefaultNetArgs.empty())
 			Args->AppendArgsString(DefaultNetArgs);
-		if (!AdditionalNetArgs.IsEmpty())
+		if (!AdditionalNetArgs.empty())
 			Args->AppendArgsString(AdditionalNetArgs);
 
 		return DefaultNetIWAD;
@@ -177,7 +177,7 @@ int FStartupSelectionInfo::SaveInfo()
 	saveargs = bSaveArgs;
 	defaultargs = saveargs ? DefaultArgs.c_str() : "";
 
-	if (!DefaultArgs.IsEmpty())
+	if (!DefaultArgs.empty())
 		Args->AppendArgsString(DefaultArgs);
 
 	return DefaultIWAD;

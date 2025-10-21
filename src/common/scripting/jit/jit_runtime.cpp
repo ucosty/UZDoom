@@ -980,7 +980,7 @@ FString JitCaptureStackTrace(int framesToSkip, bool includeNativeFrames, int max
 	for (int i = framesToSkip + 1; i < numframes; i++)
 	{
 		FString name = JitGetStackFrameName(nativeSymbols.get(), frames[i]);
-		if (!name.IsEmpty())
+		if (!name.empty())
 		{
 			s += name;
 			total++;

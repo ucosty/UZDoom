@@ -1294,7 +1294,7 @@ static int S_AddPlayerClass (const char *name)
 		PlayerClassesIsSorted = false;
 
 		// The default player class is the first one added
-		if (DefPlayerClassName.IsEmpty())
+		if (DefPlayerClassName.empty())
 		{
 			DefPlayerClassName = lookup.Name;
 			DefPlayerClass = cnum;
@@ -1573,12 +1573,12 @@ const char *S_GetSoundClass(AActor *pp)
 		(player->mo == nullptr || !(player->mo->flags4 &MF4_NOSKIN)) &&
 		(unsigned int)player->userinfo.GetSkin() >= PlayerClasses.Size() &&
 		(unsigned)player->userinfo.GetSkin() < Skins.Size() &&
-		player->SoundClass.IsEmpty())
+		player->SoundClass.empty())
 	{
 		return Skins[player->userinfo.GetSkin()].Name.c_str();
 	}
 		
-	return (!player || player->SoundClass.IsEmpty()) ? defaultsoundclass : player->SoundClass.c_str();
+	return (!player || player->SoundClass.empty()) ? defaultsoundclass : player->SoundClass.c_str();
 }
 
 //==========================================================================

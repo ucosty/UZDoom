@@ -520,7 +520,7 @@ bool FCajunMaster::LoadBots ()
 
 	ForgetBots ();
 	tmp = M_GetCajunPath(BOTFILENAME);
-	if (tmp.IsEmpty())
+	if (tmp.empty())
 	{
 		DPrintf (DMSG_ERROR, "No " BOTFILENAME ", so no bots\n");
 		return false;

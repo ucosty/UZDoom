@@ -295,7 +295,7 @@ FString M_GetConfigPath(bool for_reading)
 
 	int type = 0;
 	FString oldpath = M_GetOldConfigPath(type);
-	if (!oldpath.IsEmpty())
+	if (!oldpath.empty())
 	{
 		if (type == 0)
 		{

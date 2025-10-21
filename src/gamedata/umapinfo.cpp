@@ -236,12 +236,12 @@ static int ParseStandardProperty(FScanner &scanner, UMapEntry *mape, int *id24_l
 	else if (!pname.CompareNoCase("intertext"))
 	{
 		mape->InterText = ParseMultiString(scanner, 1);
-		if (mape->InterText.IsEmpty()) return 0;
+		if (mape->InterText.empty()) return 0;
 	}
 	else if (!pname.CompareNoCase("intertextsecret"))
 	{
 		mape->InterTextSecret = ParseMultiString(scanner, 1);
-		if (mape->InterTextSecret.IsEmpty()) return 0;
+		if (mape->InterTextSecret.empty()) return 0;
 	}
 	else if (!pname.CompareNoCase("interbackdrop"))
 	{
@@ -254,7 +254,7 @@ static int ParseStandardProperty(FScanner &scanner, UMapEntry *mape, int *id24_l
 	else if (!pname.CompareNoCase("episode"))
 	{
 		FString Episode = ParseMultiString(scanner, 1);
-		if (Episode.IsEmpty()) return 0;
+		if (Episode.empty()) return 0;
 		if (Episode.Compare("-") == 0)
 		{
 			AllEpisodes.Clear();

@@ -803,7 +803,7 @@ void R_InitSkins (void)
 
 		if (!remove)
 		{
-			if (Skins[i].Name.IsEmpty())
+			if (Skins[i].Name.empty())
 				Skins[i].Name.Format("skin%u", i);
 
 			// Now collect the sprite frames for this skin. If the sprite name was not

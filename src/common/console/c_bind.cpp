@@ -408,7 +408,7 @@ void FKeyBindings::PerformBind(FCommandLine &argv, const char *msg)
 
 		for (i = 0; i < NUM_KEYS; i++)
 		{
-			if (!Binds[i].IsEmpty())
+			if (!Binds[i].empty())
 				Printf ("%s \"%s\"\n", KeyName (i), Binds[i].c_str());
 		}
 	}
@@ -436,7 +436,7 @@ void FKeyBindings::ArchiveBindings(FConfigFile *f, const char *matchcmd)
 
 	for (i = 0; i < NUM_KEYS; i++)
 	{
-		if (Binds[i].IsEmpty())
+		if (Binds[i].empty())
 		{
 			if (matchcmd == nullptr)
 			{
@@ -546,13 +546,13 @@ void FKeyBindings::DefaultBind(const char *keyname, const char *cmd)
 		Printf ("Unknown key \"%s\"\n", keyname);
 		return;
 	}
-	if (!Binds[key].IsEmpty())
+	if (!Binds[key].empty())
 	{ // This key is already bound.
 		return;
 	}
 	for (int i = 0; i < NUM_KEYS; ++i)
 	{
-		if (!Binds[i].IsEmpty() && stricmp (Binds[i].c_str(), cmd) == 0)
+		if (!Binds[i].empty() && stricmp (Binds[i].c_str(), cmd) == 0)
 		{ // This command is already bound to a key.
 			return;
 		}
@@ -882,7 +882,7 @@ bool C_DoKey (event_t *ev, FKeyBindings *binds, FKeyBindings *doublebinds)
 	}
 
 
-	if (binding.IsEmpty())
+	if (binding.empty())
 	{
 		binding = binds->GetBinding(ev->data1);
 		dclick = false;
@@ -893,7 +893,7 @@ bool C_DoKey (event_t *ev, FKeyBindings *binds, FKeyBindings *doublebinds)
 		return false;
 	}
 
-	if (!binding.IsEmpty() && (chatmodeon == 0 || ev->data1 < 256))
+	if (!binding.empty() && (chatmodeon == 0 || ev->data1 < 256))
 	{
 		char *copy = binding.LockBuffer();
 

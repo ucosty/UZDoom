@@ -599,7 +599,7 @@ void DBaseStatusBar::DoDrawAutomapHUD(int crdefault, int highlight)
 	}
 
 	FormatMapName(primaryLevel, crdefault, &textbuffer);
-	if (textbuffer.IsEmpty())
+	if (textbuffer.empty())
 		return;
 
 	if (!generic_ui)

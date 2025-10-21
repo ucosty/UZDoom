@@ -117,7 +117,7 @@ bool IQMModel::Load(const char* path, int lumpnum, const char* buffer, int lengt
 
 			joint.Name = name;
 
-			if(!name.IsEmpty())
+			if(!name.empty())
 			{
 				NamedJoints.Insert(joint.Name, i);
 			}

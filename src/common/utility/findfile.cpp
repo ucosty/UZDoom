@@ -145,7 +145,7 @@ void D_AddWildFile(std::vector<std::string>& wadfiles, const char* value, const 
 		FileSys::FileList list;
 		auto path = ExtractFilePath(value);
 		auto name = ExtractFileBase(value, true);
-		if (path.IsEmpty()) path = ".";
+		if (path.empty()) path = ".";
 		if (FileSys::ScanDirectory(list, path.c_str(), name.c_str(), true))
 		{ 
 			for(auto& entry : list)

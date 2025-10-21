@@ -3849,7 +3849,7 @@ static int D_DoomMain_Internal (void)
 
 		// The IWAD selection dialogue does not show in fullscreen so if the
 		// restart is initiated without a defined IWAD assume for now that it's not going to change.
-		if (iwad.IsEmpty()) iwad = lastIWAD;
+		if (iwad.empty()) iwad = lastIWAD;
 
 		std::vector<std::string> allwads;
 

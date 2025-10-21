@@ -216,7 +216,7 @@ static FString CheckStrfString(FString timeForm)
 static void FormatTime(const FString& timeForm, int timeVal, FString* result)
 {
 	FString error = CheckStrfString(timeForm);
-	if (!error.IsEmpty())
+	if (!error.empty())
 		ThrowAbortException(X_FORMAT_ERROR, "'%s' is not a valid format specifier of SystemTime.Format()", error.c_str());
 
 	time_t val = timeVal;
