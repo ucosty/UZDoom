@@ -247,22 +247,6 @@ public:
 	void Insert (size_t index, const char *instr, size_t instrlen);
 
 	template<typename Func>
-	void ReplaceChars (Func IsOldChar, char newchar)
-	{
-		size_t i, j;
-
-		LockBuffer();
-		for (i = 0, j = length(); i < j; ++i)
-		{
-			if (IsOldChar(Chars[i]))
-			{
-				Chars[i] = newchar;
-			}
-		}
-		UnlockBuffer();
-	}
-
-	template<typename Func>
 	void StripChars (Func IsKillChar)
 	{
 		size_t read, write, mylen;

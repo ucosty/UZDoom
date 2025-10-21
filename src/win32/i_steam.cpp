@@ -328,7 +328,7 @@ TArray<FString> I_GetSteamPath()
 
 		for (FString& path : paths)
 		{
-			path.ReplaceChars('\\', '/');
+			std::ranges::replace(path, '\\', '/');
 			path += "/";
 		}
 
