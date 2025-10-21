@@ -29,6 +29,7 @@
 #include "engineerrors.h"
 #include "version.h"
 #include "cmdlib.h"
+#include "string_helpers.h"
 
 ShaderIncludeResult VkShaderManager::OnInclude(FString headerName, FString includerName, size_t depth)
 {
@@ -37,7 +38,7 @@ ShaderIncludeResult VkShaderManager::OnInclude(FString headerName, FString inclu
 
 	FString includeguardname;
 	includeguardname << "_HEADERGUARD_" << headerName.c_str();
-	includeguardname.ReplaceChars("/\\.", '_');
+	replace_multiple_chars(includeguardname, "/\\.", '_');
 
 	FString code;
 	code << "#ifndef " << includeguardname.c_str() << "\n";

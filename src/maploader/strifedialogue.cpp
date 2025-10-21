@@ -51,6 +51,7 @@
 #include "c_console.h"
 #include "g_levellocals.h"
 #include "maploader.h"
+#include "string_helpers.h"
 
 // The conversations as they exist inside a SCRIPTxx lump.
 struct Response
@@ -261,7 +262,7 @@ static FString TokenFromString(const char *speech)
 {
 	FString token = speech;
 	std::ranges::transform(token, token.begin(), ::toupper);
-	token.ReplaceChars(".,-+!?'", ' ');
+	replace_multiple_chars(token, ".,-+!?'", ' ');
 	token.Substitute(" ", "");
 	token.Truncate(5);
 	return token;

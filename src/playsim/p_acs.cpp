@@ -72,6 +72,7 @@
 #include "scriptutil.h"
 #include "serialize_obj.h"
 #include "serializer_doom.h"
+#include "string_helpers.h"
 #include "templates.h"
 #include "texturemanager.h"
 #include "thingdef.h"
@@ -3291,7 +3292,7 @@ const char *FBehavior::LookupString (uint32_t index, bool forprint) const
 		{
 			FString token = s;
 			std::ranges::transform(token, token.begin(), ::toupper);
-			token.ReplaceChars(".,-+!?", ' ');
+			replace_multiple_chars(token, ".,-+!?", ' ');
 			token.Substitute(" ", "");
 			token.Truncate(5);
 

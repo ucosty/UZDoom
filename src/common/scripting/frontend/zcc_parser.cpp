@@ -40,6 +40,8 @@
 #include "v_text.h"
 #include "version.h"
 #include "zcc_parser.h"
+
+#include "string_helpers.h"
 #include "zcc_compile.h"
 
 
@@ -528,7 +530,7 @@ PNamespace *ParseOneScript(const int baselump, ZCCParseState &state)
 	{
 		FString ast = ZCC_PrintAST(state.TopNode);
 		FString filename = fileSystem.GetFileFullPath(baselump).c_str();
-		filename.ReplaceChars(":\\/?|", '.');
+		replace_multiple_chars(filename, ":\\/?|", '.');
 		filename << ".ast";
 		FileWriter *ff = FileWriter::Open(filename.c_str());
 		if (ff != NULL)
