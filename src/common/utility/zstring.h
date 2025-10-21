@@ -246,27 +246,6 @@ public:
 	void Insert (size_t index, const char *instr);
 	void Insert (size_t index, const char *instr, size_t instrlen);
 
-	template<typename Func>
-	void StripChars (Func IsKillChar)
-	{
-		size_t read, write, mylen;
-
-		LockBuffer();
-		for (read = write = 0, mylen = length(); read < mylen; ++read)
-		{
-			if (!IsKillChar(Chars[read]))
-			{
-				Chars[write++] = Chars[read];
-			}
-		}
-		Chars[write] = '\0';
-		ReallocBuffer (write);
-		UnlockBuffer();
-	}
-
-	void StripChars (char killchar);
-	void StripChars (const char *killcharset);
-
 	void MergeChars (char merger);
 	void MergeChars (char merger, char newchar);
 	void MergeChars (const char *charset, char newchar);

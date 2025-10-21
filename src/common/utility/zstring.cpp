@@ -712,22 +712,6 @@ void FString::Insert (size_t index, const char *instr, size_t instrlen)
 	}
 }
 
-void FString::StripChars (char killchar)
-{
-	if (killchar == '\0')
-		return;
-
-	StripChars([&killchar](char c){ return c == killchar; });
-}
-
-void FString::StripChars (const char *killcharset)
-{
-	if (killcharset == NULL || killcharset[0] == '\0')
-		return;
-
-	StripChars([&killcharset](char c){ return strchr(killcharset, c) != NULL; });
-}
-
 void FString::MergeChars (char merger)
 {
 	MergeChars (merger, merger);
