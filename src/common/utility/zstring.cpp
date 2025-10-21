@@ -516,6 +516,20 @@ void FString::DeleteLastCharacter()
 	}
 }
 
+size_t FString::find(const FString &substr, const size_t startIndex) const {
+	return find(substr.c_str(), startIndex);
+}
+
+size_t FString::find(const char *substr, const size_t startIndex) const {
+	if (startIndex > 0 && Len() <= startIndex) {
+		return -1;
+	}
+	const char *str = strstr (Chars + startIndex, substr);
+	if (str == nullptr) {
+		return std::string::npos;
+	}
+	return str - Chars;
+}
 
 ptrdiff_t FString::IndexOf (const FString &substr, ptrdiff_t startIndex) const
 {
