@@ -516,6 +516,10 @@ void FString::DeleteLastCharacter()
 	}
 }
 
+FString FString::substr(const size_t pos, const size_t len) const {
+	return FString (Chars + pos, len);
+}
+
 size_t FString::find(const FString &substr, const size_t startIndex) const {
 	return find(substr.c_str(), startIndex);
 }
