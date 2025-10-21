@@ -182,6 +182,7 @@ public:
 	const char &operator[] (unsigned long long index) const { return Chars[index]; }
 
 	FString &operator = (const FString &other);
+	FString &operator = (const std::string &other);
 	FString &operator = (FString &&other) noexcept;
 	FString &operator = (const char *copyStr);
 
