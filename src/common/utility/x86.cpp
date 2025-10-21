@@ -36,6 +36,8 @@
 #include <string.h>
 #include "x86.h"
 
+#include <format>
+
 CPUInfo CPU;
 
 #if !defined(__amd64__) && !defined(__i386__) && !defined(_M_IX86) && !defined(_M_X64)
@@ -191,36 +193,36 @@ FString DumpCPUInfo(const CPUInfo *cpu, bool brief)
 	FString out;
 	if (cpu->VendorID[0])
 	{
-		out.Format("CPU Vendor ID: %s\n", cpu->VendorID);
+		out = std::format("CPU Vendor ID: {}\n", cpu->VendorID);
 		if (cpustring[0])
 		{
-			out.AppendFormat("  Name: %s\n", cpustring);
+			out += std::format("  Name: {}\n", cpustring);
 		}
 		if (cpu->bIsAMD)
 		{
-			out.AppendFormat("  Family %d (%d), Model %d, Stepping %d\n",
+			out += std::format("  Family {} ({}), Model {}, Stepping {}\n",
 				cpu->Family, cpu->AMDFamily, cpu->AMDModel, cpu->AMDStepping);
 		}
 		else
 		{
-			out.AppendFormat("  Family %d, Model %d, Stepping %d\n",
+			out += std::format("  Family {}, Model {}, Stepping {}\n",
 				cpu->Family, cpu->Model, cpu->Stepping);
 		}
-		out.AppendFormat("  Features:");
-		if (cpu->bSSE2)			out += (" SSE2");
-		if (cpu->bSSE3)			out += (" SSE3");
-		if (cpu->bSSSE3)		out += (" SSSE3");
-		if (cpu->bSSE41)		out += (" SSE4.1");
-		if (cpu->bSSE42)		out += (" SSE4.2");
-		if (cpu->bAVX)			out += (" AVX");
-		if (cpu->bAVX2)			out += (" AVX2");
-		if (cpu->bAVX512_F)		out += (" AVX512");
-		if (cpu->bF16C)			out += (" F16C");
-		if (cpu->bFMA3)			out += (" FMA3");
-		if (cpu->bBMI1)			out += (" BMI1");
-		if (cpu->bBMI2)			out += (" BMI2");
-		if (cpu->HyperThreading)	out += (" HyperThreading");
-		out += ("\n");
+		out += "  Features:";
+		if (cpu->bSSE2)			out += " SSE2";
+		if (cpu->bSSE3)			out += " SSE3";
+		if (cpu->bSSSE3)		out += " SSSE3";
+		if (cpu->bSSE41)		out += " SSE4.1";
+		if (cpu->bSSE42)		out += " SSE4.2";
+		if (cpu->bAVX)			out += " AVX";
+		if (cpu->bAVX2)			out += " AVX2";
+		if (cpu->bAVX512_F)		out += " AVX512";
+		if (cpu->bF16C)			out += " F16C";
+		if (cpu->bFMA3)			out += " FMA3";
+		if (cpu->bBMI1)			out += " BMI1";
+		if (cpu->bBMI2)			out += " BMI2";
+		if (cpu->HyperThreading)	out += " HyperThreading";
+		out += "\n";
 	}
 	return out;
 }

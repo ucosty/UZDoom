@@ -65,7 +65,7 @@ FString URLencode(const char *s)
 		}
 		else
 		{
-			out.AppendFormat("%%%02X", s[i]&255);
+			out += std::format("%{:02X}", s[i]&255);
 		}
 	}
 	return out;
@@ -289,7 +289,7 @@ static FString GetDeviceName()
 	{
 		// for these anonymous series names add the CPU name to get an idea what GPU we really have
 		auto ci = DumpCPUInfo(&CPU, true);
-		device.AppendFormat(" * %s", ci.GetChars());
+		device += std::format(" * {}", ci.GetChars());
 	}
 	// cleanse the GPU info string to allow better searches on the database.
 	device.Substitute("/SSE2", "");

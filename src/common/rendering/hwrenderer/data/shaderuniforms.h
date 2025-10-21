@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <format>
 #include "hwrenderer/data/buffers.h"
 #include "v_video.h"
 
@@ -65,7 +66,7 @@ public:
 		decl.Format("layout(%s) uniform %s\n{\n", layout.c_str(), name);
 		for (size_t i = 0; i < fields.size(); i++)
 		{
-			decl.AppendFormat("\t%s %s;\n", GetTypeStr(fields[i].Type), fields[i].Name);
+			decl += std::format("\t{} {};\n", GetTypeStr(fields[i].Type), fields[i].Name);
 		}
 		decl += "};\n";
 

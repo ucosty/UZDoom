@@ -31,6 +31,8 @@
 **
 */
 
+#include <format>
+
 #include "dobject.h"
 #include "vmintern.h"
 #include "types.h"
@@ -124,7 +126,7 @@ public:
 			NeedSpace = false;
 			if (NestDepth > 0)
 			{
-				Str.AppendFormat("%*s", (int)NestDepth, "");
+				Str += std::format("{:>{}}", "", NestDepth);
 			}
 			if (ConsecOpens > 0)
 			{
@@ -297,7 +299,7 @@ static void PrintStringConst(FLispString &out, FString str)
 		}
 		else
 		{
-			outstr.AppendFormat("\\x%02X", str[i]);
+			outstr += std::format("\\x{:02X}", str[i]);
 		}
 	}
 	outstr << '"';

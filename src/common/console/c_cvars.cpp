@@ -37,6 +37,9 @@
 #include <string.h>
 
 #include "c_cvars.h"
+
+#include <format>
+
 #include "c_dispatch.h"
 #include "cmdlib.h"
 #include "configfile.h"
@@ -1288,7 +1291,7 @@ FString C_GetMassCVarString (uint32_t filter, bool compact)
 	if (compact)
 	{
 		TArray<FBaseCVar *> cvars;
-		dump.AppendFormat("\\\\%ux", filter);
+		dump += std::format("\\\\{}x", filter);
 		FilterCompactCVars(cvars, filter);
 		while (cvars.Pop (cvar))
 		{

@@ -1194,7 +1194,7 @@ void ZCCDoomCompiler::CompileStates()
 						}
 						if (offset > 0)
 						{
-							statename.AppendFormat("+%d", offset);
+							statename += std::format("+{}", offset);
 						}
 					}
 					if (!statedef.SetGotoLabel(statename.c_str()))

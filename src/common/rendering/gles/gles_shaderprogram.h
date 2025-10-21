@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <format>
+
 #include "gles_system.h"
 #include "gles_shader.h"
 #include "hwrenderer/postprocessing/hw_postprocess.h"
@@ -73,7 +75,7 @@ public:
 		decl += "\n";
 		for (size_t i = 0; i < fields.size(); i++)
 		{
-			decl.AppendFormat("\tuniform %s %s;\n", GetTypeStr(fields[i].Type), fields[i].Name);
+			decl += std::format("\tuniform {} {};\n", GetTypeStr(fields[i].Type), fields[i].Name);
 		}
 		decl += "\n";
 		return decl;

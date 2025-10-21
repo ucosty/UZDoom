@@ -43,6 +43,7 @@
 #define DIRECTINPUT_VERSION 0x800
 #include <windows.h>
 #include <dinput.h>
+#include <format>
 #ifndef __GNUC__
 #include <wbemidl.h>
 #endif
@@ -1473,7 +1474,7 @@ FDInputJoystick *FDInputJoystickManager::EnumDevices()
 			// Append numbers.
 			for (k = i - 1; k < j; ++k)
 			{
-				controllers[k].Name.AppendFormat(" #%d", k - i + 2);
+				controllers[k].Name += std::format(" #{}", k - i + 2);
 			}
 		}
 	}

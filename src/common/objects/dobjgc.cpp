@@ -56,6 +56,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#include <format>
+
 #include "dobject.h"
 
 #include "c_dispatch.h"
@@ -779,7 +781,7 @@ ADD_STAT(gc)
 	GC::PrevStepStats.Format(out);
 	out << "\n";
 	GC::StepStats.Format(out);
-	out.AppendFormat("\n%.2fms [%s] Rate:%3zuK (%3zuK)  Alloc:%6zuK  Est:%6zuK  Thresh:%6zuK",
+	out += std::format("\n{}ms [{}] Rate:{}K ({}K)  Alloc:{}K  Est:{}K  Thresh:{}K",
 		time,
 		StateStrings[GC::State],
 		(GC::AllocHistory.GetAverage() + 1023) >> 10,
@@ -822,7 +824,7 @@ void FStepStats::Format(FString &out)
 	{
 		int count = Count[i];
 		double time = Clock[i].TimeMS();
-		out.AppendFormat(TEXTCOLOR_ESCAPESTR "%c[%c%6zuK %4d*%.2fms]",
+		out += std::format(TEXTCOLOR_ESCAPESTR "{}[{}{}K {:4d}*{:.2f}ms]",
 			"-NKB"[i],	/* Color codes */
 			"-PSD"[i],	/* Stage prefixes: (P)ropagate, (S)weep, (D)estroy */
 			(BytesCovered[i] + 1023) >> 10, count, count != 0 ? time / count : time);

@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdint>
+#include <format>
 
 static bool stb_include_load_file(FString filename, FString &out)
 {
@@ -159,7 +160,7 @@ FString stb_include_string(FString str, FString filename, TArray<FString> &filen
     filenames.Push(filename);
     size_t curIndex = filenames.Size();
 
-    text.AppendFormat("\n#line 1 %zu // %s\n", curIndex, filename.c_str());
+    text += std::format("\n#line 1 {} // {}\n", curIndex, filename.c_str());
 
     for (int64_t i = 0; i < num; ++i)
     {
@@ -172,7 +173,7 @@ FString stb_include_string(FString str, FString filename, TArray<FString> &filen
         }
         text += inc;
 
-        text.AppendFormat("\n#line %zu %zu // %s\n", inc_list[i].next_line_after, curIndex, filename.c_str());
+        text += std::format("\n#line {} {} // {}\n", inc_list[i].next_line_after, curIndex, filename.c_str());
         // no newlines, because we kept the #include newlines, which will get appended next
         last = inc_list[i].end;
     }

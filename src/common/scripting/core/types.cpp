@@ -2613,7 +2613,7 @@ static void PMapValueWriter(FSerializer &ar, const M *map, const PMap *m)
 							name = tex->GetName().c_str();
 						}
 
-						name.AppendFormat(":%u",useType);
+						name += std::format(":{}",useType);
 
 						m->ValueType->WriteValue(ar,name.c_str(),static_cast<const void *>(&p->Value));
 					}
@@ -2807,11 +2807,11 @@ int PMapBackingClass(PType *keytype, PType *valuetype, FString &backingName) {
 	switch (valuetype->GetRegType())
 	{
 	case REGT_INT:
-		backingName.AppendFormat("I%d", valuetype->Size * 8);
+		backingName += std::format("I{}", valuetype->Size * 8);
 		backingClass += (valuetype->Size >> 1);
 		break;
 	case REGT_FLOAT:
-		backingName.AppendFormat("F%d", valuetype->Size * 8);
+		backingName += std::format("F{}", valuetype->Size * 8);
 		backingClass += PMap::MAP_I32_F32 + (valuetype->Size == 8);
 		break;
 	case REGT_STRING:

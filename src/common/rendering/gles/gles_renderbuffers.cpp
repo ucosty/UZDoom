@@ -305,7 +305,7 @@ namespace OpenGLESRenderer
 		FString error = "glCheckFramebufferStatus failed: ";
 		switch (result)
 		{
-		default: error.AppendFormat("error code %d", (int)result); break;
+			default: error += std::format("error code {}", result); break;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT: error << "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT"; break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: error << "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"; break;
 		case GL_FRAMEBUFFER_UNSUPPORTED: error << "GL_FRAMEBUFFER_UNSUPPORTED"; break;

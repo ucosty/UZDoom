@@ -23,6 +23,9 @@
 #include "v_video.h"
 #include "hw_cvars.h"
 #include "gles_shaderprogram.h"
+
+#include <format>
+
 #include "hw_shaderpatcher.h"
 #include "filesystem.h"
 #include "printf.h"
@@ -237,7 +240,7 @@ FString FShaderProgram::PatchShader(ShaderType type, const FString &code, const 
 {
 	FString patchedCode;
 
-	patchedCode.AppendFormat("#version %s\n", gles.shaderVersionString);
+	patchedCode += std::format("#version {}\n", gles.shaderVersionString);
 
 	patchedCode += GetGLSLPrecision();
 

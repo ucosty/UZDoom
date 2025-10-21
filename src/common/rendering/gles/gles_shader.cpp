@@ -34,6 +34,9 @@
 #include "cmdlib.h"
 #include "md5.h"
 #include "gles_shader.h"
+
+#include <format>
+
 #include "hw_shaderpatcher.h"
 #include "shaderuniforms.h"
 #include "hw_viewpointuniforms.h"
@@ -689,38 +692,38 @@ bool FShader::Bind(ShaderFlavourData& flavour)
 	{
 		FString variantConfig = "\n";
 
-		variantConfig.AppendFormat("#define MAXIMUM_LIGHT_VECTORS %d\n", gles.numlightvectors);
-		variantConfig.AppendFormat("#define DEF_TEXTURE_MODE %d\n", flavour.textureMode);
-		variantConfig.AppendFormat("#define DEF_TEXTURE_FLAGS %d\n", flavour.texFlags);
-		variantConfig.AppendFormat("#define DEF_BLEND_FLAGS %d\n", flavour.blendFlags & 0x7);
-		variantConfig.AppendFormat("#define DEF_FOG_2D %d\n", flavour.twoDFog);
-		variantConfig.AppendFormat("#define DEF_FOG_ENABLED %d\n", flavour.fogEnabled);
-		variantConfig.AppendFormat("#define DEF_FOG_RADIAL %d\n", flavour.fogEquationRadial);
-		variantConfig.AppendFormat("#define DEF_FOG_COLOURED %d\n", flavour.colouredFog);
-		variantConfig.AppendFormat("#define DEF_USE_U_LIGHT_LEVEL %d\n", flavour.useULightLevel);
+		variantConfig += std::format("#define MAXIMUM_LIGHT_VECTORS {}\n", gles.numlightvectors);
+		variantConfig += std::format("#define DEF_TEXTURE_MODE {}\n", flavour.textureMode);
+		variantConfig += std::format("#define DEF_TEXTURE_FLAGS {}\n", flavour.texFlags);
+		variantConfig += std::format("#define DEF_BLEND_FLAGS {}\n", flavour.blendFlags & 0x7);
+		variantConfig += std::format("#define DEF_FOG_2D {}\n", flavour.twoDFog);
+		variantConfig += std::format("#define DEF_FOG_ENABLED {}\n", flavour.fogEnabled);
+		variantConfig += std::format("#define DEF_FOG_RADIAL {}\n", flavour.fogEquationRadial);
+		variantConfig += std::format("#define DEF_FOG_COLOURED {}\n", flavour.colouredFog);
+		variantConfig += std::format("#define DEF_USE_U_LIGHT_LEVEL {}\n", flavour.useULightLevel);
 
-		variantConfig.AppendFormat("#define DEF_DO_DESATURATE %d\n", flavour.doDesaturate);
+		variantConfig += std::format("#define DEF_DO_DESATURATE {}\n", flavour.doDesaturate);
 
-		variantConfig.AppendFormat("#define DEF_DYNAMIC_LIGHTS_MOD %d\n", flavour.dynLightsMod);
-		variantConfig.AppendFormat("#define DEF_DYNAMIC_LIGHTS_SUB %d\n", flavour.dynLightsSub);
-		variantConfig.AppendFormat("#define DEF_DYNAMIC_LIGHTS_ADD %d\n", flavour.dynLightsAdd);
+		variantConfig += std::format("#define DEF_DYNAMIC_LIGHTS_MOD {}\n", flavour.dynLightsMod);
+		variantConfig += std::format("#define DEF_DYNAMIC_LIGHTS_SUB {}\n", flavour.dynLightsSub);
+		variantConfig += std::format("#define DEF_DYNAMIC_LIGHTS_ADD {}\n", flavour.dynLightsAdd);
 
-		variantConfig.AppendFormat("#define DEF_USE_OBJECT_COLOR_2 %d\n", flavour.useObjectColor2);
-		variantConfig.AppendFormat("#define DEF_USE_GLOW_TOP_COLOR %d\n", flavour.useGlowTopColor);
-		variantConfig.AppendFormat("#define DEF_USE_GLOW_BOTTOM_COLOR %d\n", flavour.useGlowBottomColor);
+		variantConfig += std::format("#define DEF_USE_OBJECT_COLOR_2 {}\n", flavour.useObjectColor2);
+		variantConfig += std::format("#define DEF_USE_GLOW_TOP_COLOR {}\n", flavour.useGlowTopColor);
+		variantConfig += std::format("#define DEF_USE_GLOW_BOTTOM_COLOR {}\n", flavour.useGlowBottomColor);
 
-		variantConfig.AppendFormat("#define DEF_USE_COLOR_MAP %d\n", flavour.useColorMap);
-		variantConfig.AppendFormat("#define DEF_BUILD_LIGHTING %d\n", flavour.buildLighting);
-		variantConfig.AppendFormat("#define DEF_BANDED_SW_LIGHTING %d\n", flavour.bandedSwLight);
+		variantConfig += std::format("#define DEF_USE_COLOR_MAP {}\n", flavour.useColorMap);
+		variantConfig += std::format("#define DEF_BUILD_LIGHTING {}\n", flavour.buildLighting);
+		variantConfig += std::format("#define DEF_BANDED_SW_LIGHTING {}\n", flavour.bandedSwLight);
 
-		variantConfig.AppendFormat("#define USE_GLSL_V100 %d\n", gles.forceGLSLv100);
+		variantConfig += std::format("#define USE_GLSL_V100 {}\n", gles.forceGLSLv100);
 
 #ifdef NPOT_EMULATION
-		variantConfig.AppendFormat("#define DEF_NPOT_EMULATION %d\n", flavour.npotEmulation);
+		variantConfig += std::format("#define DEF_NPOT_EMULATION {}\n", flavour.npotEmulation);
 #endif
 
-		variantConfig.AppendFormat("#define DEF_HAS_SPOTLIGHT %d\n", flavour.hasSpotLight);
-		variantConfig.AppendFormat("#define DEF_PALETTE_INTERPOLATE %d\n", flavour.paletteInterpolate);
+		variantConfig += std::format("#define DEF_HAS_SPOTLIGHT {}\n", flavour.hasSpotLight);
+		variantConfig += std::format("#define DEF_PALETTE_INTERPOLATE {}\n", flavour.paletteInterpolate);
 
 		//Printf("Shader: %s, %08x %s", mFragProg2.GetChars(), tag, variantConfig.GetChars());
 

@@ -1,4 +1,7 @@
 #include "i_interface.h"
+
+#include <format>
+
 #include "st_start.h"
 #include "gamestate.h"
 #include "startupinfo.h"
@@ -187,7 +190,11 @@ static FRandom pr_uuid("GameUUID");
 
 FString GenerateUUID()
 {
-	FString uuid;
-	uuid.AppendFormat("%08X-%04X-4%03X-9%03X-%08X%04X", pr_uuid.GenRand32(), pr_uuid(UINT16_MAX), pr_uuid(4095), pr_uuid(4095), pr_uuid.GenRand32(), pr_uuid(UINT16_MAX));
-	return uuid;
+	return std::format("{:08X}-{:04X}-4{:03X}-9{:03X}-{:08X}{:04X}",
+					   pr_uuid.GenRand32(),
+					   pr_uuid(UINT16_MAX),
+					   pr_uuid(4095),
+					   pr_uuid(4095),
+					   pr_uuid.GenRand32(),
+					   pr_uuid(UINT16_MAX));
 }

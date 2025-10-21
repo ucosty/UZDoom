@@ -76,7 +76,7 @@ FString VkPPShader::LoadShaderCode(const FString &lumpName, const FString &defin
 	FString code = GetStringFromLump(lump);
 
 	FString patchedCode;
-	patchedCode.AppendFormat("#version %d\n#extension GL_GOOGLE_include_directive : enable\n", 450);
+	patchedCode += std::format("#version {}\n#extension GL_GOOGLE_include_directive : enable\n", 450);
 	patchedCode << defines;
 	patchedCode << "#line 1\n";
 	patchedCode << code;

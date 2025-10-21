@@ -856,7 +856,7 @@ ADD_STAT (analog)
 
 	float axis_forward = buttonMap.ButtonAnalog(Button_Forward) - buttonMap.ButtonAnalog(Button_Back);
 	float axis_side = buttonMap.ButtonAnalog(Button_MoveLeft) - buttonMap.ButtonAnalog(Button_MoveRight);
-	out.AppendFormat("[%.3f, %.3f]", axis_forward, axis_side);
+	out += std::format("[{:.3f}, {:.3f}]", axis_forward, axis_side);
 
 	return out;
 }
@@ -2356,7 +2356,7 @@ static void PutSaveComment (FSerializer &arc)
 	// Append elapsed time
 	const char *const time = GStrings.GetString("SAVECOMMENT_TIME");
 	levelTime = primaryLevel->time / TICRATE;
-	comment.AppendFormat("%s: %02d:%02d:%02d", time, levelTime/3600, (levelTime%3600)/60, levelTime%60);
+	comment += std::format("{}: {:02d}:{:02d}:{:02d}", time, levelTime/3600, (levelTime%3600)/60, levelTime%60);
 
 	// Write out the comment
 	arc.AddString("Comment", comment.c_str());

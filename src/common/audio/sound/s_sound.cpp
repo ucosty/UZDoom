@@ -318,11 +318,11 @@ FString SoundEngine::ListSoundChannels()
 
 			CalcPosVel(chan, &chanorigin, nullptr);
 
-			output.AppendFormat("%s at (%1.5f, %1.5f, %1.5f)\n", (const char*)S_sfx[chan->SoundID.index()].name.GetChars(), chanorigin.X, chanorigin.Y, chanorigin.Z);
+			output += std::format("{} at ({:1.5f}, {:1.5f}, {:1.5f})\n", (const char*)S_sfx[chan->SoundID.index()].name.GetChars(), chanorigin.X, chanorigin.Y, chanorigin.Z);
 			count++;
 		}
 	}
-	output.AppendFormat("%d sounds playing\n", count);
+	output += std::format("{} sounds playing\n", count);
 	return output;
 }
 

@@ -34,6 +34,7 @@
 **
 */
 
+#include <format>
 #include <IOKit/IOCFPlugIn.h>
 #include <IOKit/IOMessage.h>
 #include <IOKit/hid/IOHIDLib.h>
@@ -917,7 +918,7 @@ void IOKitJoystick::GatherDeviceInfo(const io_object_t device, const CFDictionar
 		CFNumberGetValue(productIDRef, kCFNumberIntType, &productID);
 	}
 
-	m_identifier.AppendFormat("VID_%04x_PID_%04x", vendorID, productID);
+	m_identifier += std::format("VID_{:04x}_PID_{:04x}", vendorID, productID);
 
 	if (NULL != usbProperties)
 	{

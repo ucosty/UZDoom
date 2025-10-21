@@ -424,7 +424,7 @@ void Joy_ReadyRumbleMapping()
 		{
 			FString list = "[";
 			while (it.NextPair(pair))
-				list.AppendFormat(" '%s'->'%s'", pair->Key.GetChars(), pair->Value.GetChars());
+				list += std::format(" '{}'->'{}'", pair->Key.GetChars(), pair->Value.GetChars());
 			Printf(DMSG_ERROR, TEXTCOLOR_RED "Circular rumble alias found! (%d) %s ]\n", RumbleAlias.CountUsed(), list.c_str());
 			break;
 		}
@@ -743,18 +743,18 @@ DEFINE_ACTION_FUNCTION_NATIVE(DHaptics, RumbleDirect, _RumbleDirect)
 void RumblePrint(const FName identifier, const FName * mapping, const struct Haptics * rumble, double attenuation)
 {
 	const char * color;
-	FString text = FStringf("r '%s'", identifier.GetChars());
+	FString text = std::format("r '{}'", identifier.GetChars());
 	if (!mapping)
-	{	color = TEXTCOLOR_ORANGE; text.AppendFormat(" -"); }
+	{	color = TEXTCOLOR_ORANGE; text += " -"; }
 	else
 	{
-		text.AppendFormat(" %s", mapping->GetChars());
+		text += std::format(" {}", mapping->GetChars());
 		if (!rumble)
-		{	color = TEXTCOLOR_RED; text.AppendFormat(" -"); }
+		{	color = TEXTCOLOR_RED; text += " -"; }
 		else if (rumble->ticks == 0)
-		{	color = TEXTCOLOR_BLACK; text.AppendFormat(" 0"); }
+		{	color = TEXTCOLOR_BLACK; text += " 0"; }
 		else
-		{	color = TEXTCOLOR_CYAN; text.AppendFormat(" T%d H%.1g L%.1g A%.1g",
+		{	color = TEXTCOLOR_CYAN; text += std::format(" T{} H{:.1g} L{:.1g} A{:.1g}",
 			rumble->ticks, rumble->high_frequency, rumble->low_frequency, attenuation); }
 	}
 	Printf("%s%s\n", color, text.c_str());

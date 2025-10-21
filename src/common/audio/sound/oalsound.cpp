@@ -441,7 +441,7 @@ public:
 			stats += ", paused";
 		if(state == AL_PLAYING)
 			stats += ", playing";
-		stats.AppendFormat(", %uHz", SampleRate);
+		stats += std::format(", {}Hz", SampleRate);
 		if(!Playing)
 			stats += " XX";
 		return stats;

@@ -21,6 +21,9 @@
 
 #include "v_video.h"
 #include "hw_postprocess.h"
+
+#include <format>
+
 #include "hw_cvars.h"
 #include "hwrenderer/postprocessing/hw_postprocess_cvars.h"
 #include "hwrenderer/postprocessing/hw_postprocessshader.h"
@@ -962,7 +965,7 @@ PPCustomShaderInstance::PPCustomShaderInstance(PostProcessShader *desc) : Desc(d
 	int binding = 1;
 	while (itTextures.NextPair(pairTextures))
 	{
-		uniformTextures.AppendFormat("layout(binding=%d) uniform sampler2D %s;\n", binding++, pairTextures->Key.c_str());
+		uniformTextures += std::format("layout(binding={}) uniform sampler2D {};\n", binding++, pairTextures->Key.c_str());
 	}
 
 	// Setup pipeline

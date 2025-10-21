@@ -203,7 +203,7 @@ static int CallStateChain (AActor *self, AActor *actor, FState *state)
 			catch (CVMAbortException &err)
 			{
 				err.MaybePrintMessage();
-				err.stacktrace.AppendFormat("Called from state %s in inventory state chain in %s\n", FState::StaticGetStateName(state).c_str(), self->GetClass()->TypeName.GetChars());
+				err.stacktrace += std::format("Called from state {} in inventory state chain in {}\n", FState::StaticGetStateName(state).c_str(), self->GetClass()->TypeName.GetChars());
 				throw;
 			}
 

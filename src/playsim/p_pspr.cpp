@@ -1494,17 +1494,17 @@ ADD_STAT(psprites)
 		if (!playeringame[i])
 			continue;
 
-		out.AppendFormat("[psprites] player: %d | layers: ", i);
+		out += std::format("[psprites] player: {} | layers: ", i);
 
 		pspr = players[i].psprites;
 		while (pspr)
 		{
-			out.AppendFormat("%d, ", pspr->GetID());
+			out += std::format("{}, ", pspr->GetID());
 
 			pspr = pspr->GetNext();
 		}
 
-		out.AppendFormat("\n");
+		out += "\n";
 	}
 
 	return out;

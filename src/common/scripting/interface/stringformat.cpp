@@ -68,6 +68,8 @@ FString FStringFormat(VM_ARGS, int offset)
 	// various type flags are not supported. not like stuff like 'hh' modifier is to be used in the VM.
 	// the only combination that is parsed locally is %n$...
 	bool haveargnums = false;
+	char buffer[1024];
+
 	for (size_t i = 0; i < fmtstring.length(); i++)
 	{
 		char c = fmtstring[i];
@@ -110,7 +112,8 @@ FString FStringFormat(VM_ARGS, int offset)
 					if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 					if (va_reginfo[argnum] != REGT_STRING) ThrowAbortException(X_FORMAT_ERROR, "Expected a string for format %s.", fmt_current.c_str());
 					// append
-					output.AppendFormat(fmt_current.c_str(), param[argnum].s().c_str());
+					sprintf(buffer, fmt_current.c_str(), param[argnum].s().c_str());
+					output += buffer;
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
 					break;
@@ -126,7 +129,8 @@ FString FStringFormat(VM_ARGS, int offset)
 					if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 					if (va_reginfo[argnum] != REGT_POINTER) ThrowAbortException(X_FORMAT_ERROR, "Expected a pointer for format %s.", fmt_current.c_str());
 					// append
-					output.AppendFormat(fmt_current.c_str(), param[argnum].a);
+					sprintf(buffer, fmt_current.c_str(), param[argnum].a);
+					output += buffer;
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
 					break;
@@ -155,7 +159,8 @@ FString FStringFormat(VM_ARGS, int offset)
 						if (va_reginfo[argnum+1] != REGT_INT &&
 							va_reginfo[argnum+1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 
-						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToInt(va_reginfo[argnum + 1]));
+						sprintf(buffer, fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToInt(va_reginfo[argnum + 1]));
+						output += buffer;
 						argauto++;
 					}
 					else
@@ -164,7 +169,8 @@ FString FStringFormat(VM_ARGS, int offset)
 						if (argnum >= numparam) ThrowAbortException(X_FORMAT_ERROR, "Not enough arguments for format.");
 						if (va_reginfo[argnum] != REGT_INT &&
 							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
-						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]));
+						sprintf(buffer, fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]));
+						output += buffer;
 					}
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;
@@ -193,7 +199,9 @@ FString FStringFormat(VM_ARGS, int offset)
 						if (va_reginfo[argnum + 1] != REGT_INT &&
 							va_reginfo[argnum + 1] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 
-						output.AppendFormat(fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToDouble(va_reginfo[argnum + 1]));
+						sprintf(buffer, fmt_current.c_str(), param[argnum].ToInt(va_reginfo[argnum]), param[argnum + 1].ToDouble(va_reginfo[argnum + 1]));
+						output += buffer;
+
 						argauto++;
 					}
 					else
@@ -203,7 +211,9 @@ FString FStringFormat(VM_ARGS, int offset)
 						if (va_reginfo[argnum] != REGT_INT &&
 							va_reginfo[argnum] != REGT_FLOAT) ThrowAbortException(X_FORMAT_ERROR, "Expected a numeric value for format %s.", fmt_current.c_str());
 						// append
-						output.AppendFormat(fmt_current.c_str(), param[argnum].ToDouble(va_reginfo[argnum]));
+
+						sprintf(buffer, fmt_current.c_str(), param[argnum].ToDouble(va_reginfo[argnum]));
+						output += buffer;
 					}
 					if (!haveargnums) argnum = ++argauto;
 					else argnum = -1;

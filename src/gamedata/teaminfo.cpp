@@ -192,7 +192,7 @@ void FTeam::ParseTeamDefinition (FScanner &Scan)
 
 		case TEAMINFO_TextColor:
 			Scan.MustGetString ();
-			Team.m_TextColor.AppendFormat ("[%s]", Scan.String);
+			Team.m_TextColor += std::format("[{}]", Scan.String);
 			break;
 
 		case TEAMINFO_Logo:

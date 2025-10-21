@@ -307,7 +307,7 @@ bool FCajunMaster::SpawnBot (const char *name, int color)
 		}
 		if (FTeam::IsValid (thebot->lastteam))
 		{ // Keep the bot on the same team when switching levels
-			concat.AppendFormat("\\team\\%d\n", thebot->lastteam);
+			concat += std::format("\\team\\{}\n", thebot->lastteam);
 		}
 		Net_WriteString (concat.c_str());
 	}

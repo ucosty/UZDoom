@@ -286,15 +286,6 @@ void FString::Format (const char *fmt, ...)
 	va_end (arglist);
 }
 
-void FString::AppendFormat (const char *fmt, ...)
-{
-	char workbuf[STB_SPRINTF_MIN];
-	va_list arglist;
-	va_start (arglist, fmt);
-	stbsp_vsprintfcb(FormatHelper, this, workbuf, fmt, arglist);
-	va_end (arglist);
-}
-
 void FString::VFormat (const char *fmt, va_list arglist)
 {
 	char workbuf[STB_SPRINTF_MIN];

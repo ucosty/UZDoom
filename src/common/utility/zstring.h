@@ -294,7 +294,6 @@ public:
 	bool Substitute (const char *oldstr, const char *newstr, size_t oldstrlen, size_t newstrlen);
 
 	void Format (const char *fmt, ...) PRINTFISH(3);
-	void AppendFormat (const char *fmt, ...) PRINTFISH(3);
 	void VFormat (const char *fmt, va_list arglist) PRINTFISH(0);
 	void VAppendFormat (const char *fmt, va_list arglist) PRINTFISH(0);
 

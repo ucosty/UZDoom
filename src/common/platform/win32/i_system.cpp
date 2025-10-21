@@ -297,7 +297,7 @@ static void PrintToStdOut(const char *cpt, HANDLE StdOut)
 			if (range != CR_UNDEFINED)
 			{
 				PalEntry color = V_LogColorFromColorRange(range);
-				printData.AppendFormat("\033[38;2;%u;%u;%um", color.r, color.g, color.b);
+				printData ++ std::format("\033[38;2;{};{};{}m", color.r, color.g, color.b);
 			}
 		}
 		else if (*srcp != 0x1c && *srcp != 0x1d && *srcp != 0x1e && *srcp != 0x1f)

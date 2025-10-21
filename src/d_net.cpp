@@ -1990,42 +1990,42 @@ ADD_STAT(network)
 	FString out = {};
 	if (!netgame || demoplayback)
 	{
-		out.AppendFormat("No network stats available.");
+		out += "No network stats available.";
 		return out;
 	}
 
-	out.AppendFormat("Max players: %d\tNet mode: %s\tTic dup: %d",
+	out += std::format("Max players: {}\tNet mode: {}\tTic dup: {}",
 		MaxClients,
 		NetMode == NET_PacketServer ? "Packet server" : "Peer to peer",
 		TicDup);
 
 	if (net_extratic)
-		out.AppendFormat("\tExtra tic enabled");
+		out += "\tExtra tic enabled";
 
-	out.AppendFormat("\nWorld tic: %06d (sequence %06d)", gametic, gametic / TicDup);
+	out += std::format("\nWorld tic: {:06d} (sequence {:06d})", gametic, gametic / TicDup);
 	if (NetMode == NET_PacketServer && consoleplayer != Net_Arbitrator)
-		out.AppendFormat("\tStart tics delay: %d", LevelStartDebug);
+		out += std::format("\tStart tics delay: %d", LevelStartDebug);
 
 	const int delay = max<int>((ClientTic - gametic) / TicDup, 0);
 	const int msDelay = min<int>(delay * TicDup * 1000.0 / TICRATE, 999);
 	const int buffer = max<int>(StabilityBuffer, 0);
 	const int msBuffer = min<int>(buffer * 1000.0 / TICRATE, 999);
-	out.AppendFormat("\nLocal\n\tIs arbitrator: %d\tDelay: %02d (%03dms)\tStability Buffer: %02d (%03dms)",
+	out += std::format("\nLocal\n\tIs arbitrator: {}\tDelay: {:02d} ({:03d}ms)\tStability Buffer: {:02d} ({:03d}ms)",
 		consoleplayer == Net_Arbitrator,
 		delay, msDelay,
 		buffer, msBuffer);
 
 	if (NetMode == NET_PacketServer && consoleplayer != Net_Arbitrator)
-		out.AppendFormat("\tAvg latency: %03ums", min<unsigned int>(ClientStates[consoleplayer].AverageLatency, 999u));
+		out += std::format("\tAvg latency: {:03d}ms", min<unsigned int>(ClientStates[consoleplayer].AverageLatency, 999u));
 
 	if (LevelStartStatus != LST_READY)
 	{
 		if (LevelStartStatus == LST_HOST)
-			out.AppendFormat("\tWaiting for packets");
+			out += "\tWaiting for packets";
 		else if (consoleplayer == Net_Arbitrator)
-			out.AppendFormat("\tWaiting for acks");
+			out += "\tWaiting for acks";
 		else
-			out.AppendFormat("\tWaiting for arbitrator");
+			out += "\tWaiting for arbitrator";
 	}
 
 	int lowestSeq = ClientTic / TicDup;
@@ -2038,40 +2038,40 @@ ADD_STAT(network)
 		if (state.CurrentSequence < lowestSeq)
 			lowestSeq = state.CurrentSequence;
 
-		out.AppendFormat("\n%s", players[client].userinfo.GetName(12));
+		out += std::format("\n{}", players[client].userinfo.GetName(12));
 		if (client == Net_Arbitrator)
-			out.AppendFormat("\t(Host)");
+			out += "\t(Host)";
 
 		if ((state.Flags & CF_RETRANSMIT) == CF_RETRANSMIT)
-			out.AppendFormat("\t(RT)");
+			out += "\t(RT)";
 		else if (state.Flags & CF_RETRANSMIT_SEQ)
-			out.AppendFormat("\t(RT SEQ)");
+			out += "\t(RT SEQ)";
 		else if (state.Flags & CF_RETRANSMIT_CON)
-			out.AppendFormat("\t(RT CON)");
+			out += "\t(RT CON)";
 
 		if ((state.Flags & CF_MISSING) == CF_MISSING)
-			out.AppendFormat("\t(MISS)");
+			out += "\t(MISS)";
 		else if (state.Flags & CF_MISSING_SEQ)
-			out.AppendFormat("\t(MISS SEQ)");
+			out += "\t(MISS SEQ)";
 		else if (state.Flags & CF_MISSING_CON)
-			out.AppendFormat("\t(MISS CON)");
+			out += "\t(MISS CON)";
 
-		out.AppendFormat("\n");
+		out += "\n";
 
 		if (NetMode != NET_PacketServer)
 		{
 			const int cDelay = max<int>(state.CurrentSequence - (gametic / TicDup), 0);
 			const int mscDelay = min<int>(cDelay * TicDup * 1000.0 / TICRATE, 999);
-			out.AppendFormat("\tDelay: %02d (%03dms)", cDelay, mscDelay);
+			out += std::format("\tDelay: {:02d} ({:03d}ms)", cDelay, mscDelay);
 		}
 		
-		out.AppendFormat("\tAck: %06d\tConsistency: %06d", state.SequenceAck, state.ConsistencyAck);
+		out += std::format("\tAck: %06d\tConsistency: %06d", state.SequenceAck, state.ConsistencyAck);
 		if (NetMode != NET_PacketServer || client != Net_Arbitrator)
-			out.AppendFormat("\tAvg latency: %03ums", min<unsigned int>(state.AverageLatency, 999u));
+			out += std::format("\tAvg latency: {:03}ms", min<unsigned int>(state.AverageLatency, 999u));
 	}
 
 	if (NetMode != NET_PacketServer || consoleplayer == Net_Arbitrator)
-		out.AppendFormat("\nAvailable tics: %03d", max<int>(lowestSeq - (gametic / TicDup), 0));
+		out += std::format("\nAvailable tics: {:03d}", max<int>(lowestSeq - (gametic / TicDup), 0));
 	return out;
 }
 

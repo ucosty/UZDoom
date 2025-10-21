@@ -1,5 +1,8 @@
 
 #include "networkpage.h"
+
+#include <format>
+
 #include "launcherwindow.h"
 #include "gstrings.h"
 #include "c_cvars.h"
@@ -48,7 +51,7 @@ NetworkPage::NetworkPage(LauncherWindow* launcher, const FStartupSelectionInfo& 
 
 		FString work;
 		if (*filepart)
-			work.Format("%s (%s)", wad.Name.c_str(), filepart);
+			work = std::format("{} ({})", wad.Name.c_str(), filepart);
 		else
 			work = wad.Name.c_str();
 
@@ -108,7 +111,7 @@ void NetworkPage::SetValues(FStartupSelectionInfo& info) const
 	info.bSaveNetArgs = SaveParametersCheckbox->GetChecked();
 	const auto save = SaveFileEdit->GetText();
 	if (!save.empty())
-		info.AdditionalNetArgs.AppendFormat(" -loadgame %s", save.c_str());
+		info.AdditionalNetArgs += std::format(" -loadgame {}", save.c_str());
 	info.DefaultNetSaveFile = save;
 }
 
@@ -236,28 +239,28 @@ void HostSubPage::SetValues(FStartupSelectionInfo& info) const
 	switch (info.DefaultNetMode)
 	{
 	case 1:
-		info.AdditionalNetArgs.AppendFormat(" -netmode 1");
+		info.AdditionalNetArgs += " -netmode 1";
 		break;
 	case 2:
-		info.AdditionalNetArgs.AppendFormat(" -netmode 0");
+		info.AdditionalNetArgs += " -netmode 0";
 		break;
 	}
 
 	info.DefaultNetExtraTic = ExtraTicCheckbox->GetChecked();
 	if (info.DefaultNetExtraTic)
-		info.AdditionalNetArgs.AppendFormat(" -extratic");
+		info.AdditionalNetArgs += " -extratic";
 
 	const int dup = TicDupDropdown->GetSelectedItem();
 	if (dup > 0)
-		info.AdditionalNetArgs.AppendFormat(" -dup %d", dup + 1);
+		info.AdditionalNetArgs += std::format(" -dup {}", dup + 1);
 	info.DefaultNetTicDup = dup;
 
 	info.DefaultNetPlayers = clamp<int>(MaxPlayersEdit->GetTextInt(), 1, MAXPLAYERS);
-	info.AdditionalNetArgs.AppendFormat(" -host %d", info.DefaultNetPlayers);
+	info.AdditionalNetArgs += std::format(" -host {}", info.DefaultNetPlayers);
 	const int port = clamp<int>(PortEdit->GetTextInt(), 0, UINT16_MAX);
 	if (port > 0)
 	{
-		info.AdditionalNetArgs.AppendFormat(" -port %d", port);
+		info.AdditionalNetArgs += std::format(" -port {}", port);
 		info.DefaultNetHostPort = port;
 	}
 	else
@@ -270,11 +273,11 @@ void HostSubPage::SetValues(FStartupSelectionInfo& info) const
 	switch (info.DefaultNetGameMode)
 	{
 	case 1:
-		info.AdditionalNetArgs.AppendFormat(" -coop");
+		info.AdditionalNetArgs += " -coop";
 		break;
 	case 3:
 		{
-			info.AdditionalNetArgs.AppendFormat(" +teamplay 1");
+			info.AdditionalNetArgs += " +teamplay 1";
 			int team = 255;
 			if (!TeamEdit->GetText().empty())
 			{
@@ -282,14 +285,14 @@ void HostSubPage::SetValues(FStartupSelectionInfo& info) const
 				if (team < 0 || team > 255)
 					team = 255;
 			}
-			info.AdditionalNetArgs.AppendFormat(" +team %d", team);
+			info.AdditionalNetArgs += std::format(" +team {}", team);
 			info.DefaultNetHostTeam = team;
 		}
 	case 2:
 		if (AltDeathmatchCheckbox->GetChecked())
-			info.AdditionalNetArgs.AppendFormat(" -altdeath");
+			info.AdditionalNetArgs += " -altdeath";
 		else
-			info.AdditionalNetArgs.AppendFormat(" -deathmatch");
+			info.AdditionalNetArgs += " -deathmatch";
 		break;
 	}
 }
@@ -410,7 +413,7 @@ void JoinSubPage::SetValues(FStartupSelectionInfo& info) const
 	const int port = clamp<int>(AddressPortEdit->GetTextInt(), 0, UINT16_MAX);
 	if (port > 0)
 	{
-		addr.AppendFormat(":%d", port);
+		addr += std::format(":{}", port);
 		info.DefaultNetJoinPort = port;
 	}
 	else
@@ -419,7 +422,7 @@ void JoinSubPage::SetValues(FStartupSelectionInfo& info) const
 	}
 
 	info.AdditionalNetArgs = "";
-	info.AdditionalNetArgs.AppendFormat(" -join %s", addr.c_str());
+	info.AdditionalNetArgs += std::format(" -join {}", addr.c_str());
 
 	int team = 255;
 	if (!TeamEdit->GetText().empty())
@@ -428,7 +431,7 @@ void JoinSubPage::SetValues(FStartupSelectionInfo& info) const
 		if (team < 0 || team > 255)
 			team = 255;
 	}
-	info.AdditionalNetArgs.AppendFormat(" +team %d", team);
+	info.AdditionalNetArgs += std::format(" +team {}", team);
 	info.DefaultNetJoinTeam = team;
 }
 

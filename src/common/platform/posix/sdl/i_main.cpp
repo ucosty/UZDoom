@@ -37,6 +37,7 @@
 
 #include <SDL2/SDL.h>
 #include <csignal>
+#include <format>
 #include <locale.h>
 #include <new>
 #include <signal.h>
@@ -138,8 +139,8 @@ void I_DetectOS()
 	if (uname(&unameInfo) == 0)
 	{
 		const char* const separator = operatingSystem.length() > 0 ? ", " : "";
-		operatingSystem.AppendFormat("%s%s %s on %s", separator, unameInfo.sysname, unameInfo.release, unameInfo.machine);
-		sys_ostype.Format("%s %s on %s", unameInfo.sysname, unameInfo.release, unameInfo.machine);
+		operatingSystem += std::format("{}{} {} on {}", separator, unameInfo.sysname, unameInfo.release, unameInfo.machine);
+		sys_ostype = std::format("{} {} on {}", unameInfo.sysname, unameInfo.release, unameInfo.machine);
 	}
 
 	if (operatingSystem.length() > 0)

@@ -451,7 +451,7 @@ static bool DoSubstitution (FString &out, const char *in)
 		{
 			if (strnicmp(a, "health", 6) == 0)
 			{
-				out.AppendFormat("%d", player->health);
+				out += std::format("{}", player->health);
 			}
 			else if (strnicmp(a, "weapon", 6) == 0)
 			{
@@ -470,7 +470,7 @@ static bool DoSubstitution (FString &out, const char *in)
 			if (strnicmp(a, "armor", 5) == 0)
 			{
 				auto armor = player->mo->FindInventory(NAME_BasicArmor, true);
-				out.AppendFormat("%d", armor != NULL ? armor->IntVar(NAME_Amount) : 0);
+				out += std::format("{}", armor != NULL ? armor->IntVar(NAME_Amount) : 0);
 			}
 		}
 		else if (ByteLen == 9)
@@ -483,10 +483,10 @@ static bool DoSubstitution (FString &out, const char *in)
 				}
 				else
 				{
-					out.AppendFormat("%d", ammo1 != NULL ? ammo1->IntVar(NAME_Amount) : 0);
+					out += std::format("{}", ammo1 != NULL ? ammo1->IntVar(NAME_Amount) : 0);
 					if (ammo2 != NULL)
 					{
-						out.AppendFormat("/%d", ammo2->IntVar(NAME_Amount));
+						out += std::format("/{}", ammo2->IntVar(NAME_Amount));
 					}
 				}
 			}
@@ -501,10 +501,10 @@ static bool DoSubstitution (FString &out, const char *in)
 				}
 				else
 				{
-					out.AppendFormat("%s", ammo1->GetClass()->TypeName.GetChars());
+					out += std::format("{}", ammo1->GetClass()->TypeName.GetChars());
 					if (ammo2 != NULL)
 					{
-						out.AppendFormat("/%s", ammo2->GetClass()->TypeName.GetChars());
+						out += std::format("/{}", ammo2->GetClass()->TypeName.GetChars());
 					}
 				}
 			}

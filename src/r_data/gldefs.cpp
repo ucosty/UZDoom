@@ -1410,7 +1410,7 @@ class GLDefsParser
 					sc.MustGetString();
 					defineValue = sc.String;
 				}
-				usershader.defines.AppendFormat("#define %s %s\n", defineName.c_str(), defineValue.c_str());
+				usershader.defines += std::format("#define {} {}\n", defineName.c_str(), defineValue.c_str());
 			}
 			else
 			{
@@ -1489,7 +1489,7 @@ class GLDefsParser
 
 			for (unsigned int i = 0; i < texNameList.Size(); i++)
 			{
-				usershader.defines.AppendFormat("#define %s texture%d\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
+				usershader.defines += std::format("#define {} texture{}\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
 			}
 
 			if (tex->isWarped() != 0)
@@ -1881,7 +1881,7 @@ class GLDefsParser
 						sc.MustGetString();
 						defineValue = sc.String;
 					}
-					desc.defines.AppendFormat("#define %s %s\n", defineName.c_str(), defineValue.c_str());
+					desc.defines += std::format("#define {} {}\n", defineName.c_str(), defineValue.c_str());
 				}
 				else if (sc.Compare("disablealphatest"))
 				{
@@ -1906,7 +1906,7 @@ class GLDefsParser
 
 			for (unsigned int i = 0; i < texNameList.Size(); i++)
 			{
-				desc.defines.AppendFormat("#define %s texture%d\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
+				desc.defines += std::format("#define {} texture{}\n", texNameList[i].c_str(), texNameIndex[i] + firstUserTexture);
 			}
 
 			if (!desc.shader.empty())

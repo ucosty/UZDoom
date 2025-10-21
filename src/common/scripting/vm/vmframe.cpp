@@ -32,6 +32,7 @@
 **
 */
 
+#include <format>
 #include <new>
 #include "dobject.h"
 #include "v_text.h"
@@ -357,7 +358,7 @@ int VMNativeFunction::NativeScriptCall(VMFunction *func, VMValue *params, int nu
 	catch (CVMAbortException &err)
 	{
 		err.MaybePrintMessage();
-		err.stacktrace.AppendFormat("Called from %s\n", func->PrintableName);
+		err.stacktrace += std::format("Called from {}\n", func->PrintableName);
 		throw;
 	}
 }
@@ -859,7 +860,7 @@ void CVMAbortException::MaybePrintMessage()
 
 	CVMAbortException err(reason, moreinfo, ap);
 
-	err.stacktrace.AppendFormat("Called from %s at %s, line %d\n", sfunc->PrintableName, sfunc->SourceFileName.c_str(), sfunc->PCToLine(line));
+	err.stacktrace += std::format("Called from {} at {}, line {}\n", sfunc->PrintableName, sfunc->SourceFileName.c_str(), sfunc->PCToLine(line));
 	DebugServer::RuntimeEvents::EmitExceptionEvent(reason, err.GetMessage(), err.stacktrace.c_str());
 	throw err;
 }

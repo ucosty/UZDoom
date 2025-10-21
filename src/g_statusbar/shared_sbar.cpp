@@ -1246,7 +1246,7 @@ double DBaseStatusBar::DrawConsistancy(double yOfs) const
 			}
 			else
 			{
-				text.AppendFormat(" %s (%d)", players[client].userinfo.GetName(10u), client);
+				text += std::format(" {} ({})", players[client].userinfo.GetName(10u), client);
 			}
 		}
 	}
@@ -1287,7 +1287,7 @@ double DBaseStatusBar::DrawWaiting(double yOfs) const
 			}
 			else
 			{
-				text.AppendFormat(" %s (%d)", players[client].userinfo.GetName(10u), client);
+				text += std::format(" {} ({})", players[client].userinfo.GetName(10u), client);
 			}
 		}
 	}

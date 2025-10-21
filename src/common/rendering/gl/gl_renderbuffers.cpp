@@ -27,6 +27,9 @@
 #include "gl_debug.h"
 #include "gl_renderer.h"
 #include "gl_renderbuffers.h"
+
+#include <format>
+
 #include "gl_postprocessstate.h"
 #include "gl_shaderprogram.h"
 #include "gl_buffers.h"
@@ -451,7 +454,7 @@ bool FGLRenderBuffers::CheckFrameBufferCompleteness()
 		FString error = "glCheckFramebufferStatus failed: ";
 		switch (result)
 		{
-		default: error.AppendFormat("error code %d", (int)result); break;
+			default: error += std::format("error code {}", result); break;
 		case GL_FRAMEBUFFER_UNDEFINED: error << "GL_FRAMEBUFFER_UNDEFINED"; break;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT: error << "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT"; break;
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: error << "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"; break;

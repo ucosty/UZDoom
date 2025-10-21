@@ -239,7 +239,7 @@ ADD_STAT (interpolations)
 	for (auto Level : AllLevels())
 	{
 		if (out.length() > 0) out << '\n';
-		out.AppendFormat("%s: %d interpolations", Level->MapName.c_str(), Level->interpolator.CountInterpolations ());
+		out += std::format("{}: {} interpolations", Level->MapName.c_str(), Level->interpolator.CountInterpolations ());
 		
 	}
 	return out;
@@ -335,7 +335,7 @@ CCMD(printinv)
 	if (argv.argc() > 1)
 	{
 		pnum = atoi(argv[1]);
-		if (pnum < 0 || pnum >= MAXPLAYERS)
+		if (pnum >= MAXPLAYERS)
 		{
 			return;
 		}

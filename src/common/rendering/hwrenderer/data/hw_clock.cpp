@@ -37,6 +37,9 @@
 #include "c_dispatch.h"
 #include "v_video.h"
 #include "hw_clock.h"
+
+#include <format>
+
 #include "i_time.h"
 #include "i_interface.h"
 #include "printf.h"
@@ -92,13 +95,13 @@ static void AppendRenderTimes(FString &str)
 	double clipwall = ClipWall.TimeMS();
 	double bsp = Bsp.TimeMS() - ClipWall.TimeMS();
 
-	str.AppendFormat("BSP = %2.3f, Clip=%2.3f\n"
-		"W: Render=%2.3f, Setup=%2.3f\n"
-		"F: Render=%2.3f, Setup=%2.3f\n"
-		"S: Render=%2.3f, Setup=%2.3f\n"
-		"2D: %2.3f Finish3D: %2.3f\n"
-		"Main thread total=%2.3f, Main thread waiting=%2.3f Worker thread total=%2.3f, Worker thread waiting=%2.3f\n"
-		"All=%2.3f, Render=%2.3f, Setup=%2.3f, Portal=%2.3f, Drawcalls=%2.3f, Postprocess=%2.3f, Finish=%2.3f\n",
+	str += std::format("BSP = {:2.3f}, Clip={:2.3f}\n"
+		"W: Render={:2.3f}, Setup={:2.3f}\n"
+		"F: Render={:2.3f}, Setup={:2.3f}\n"
+		"S: Render={:2.3f}, Setup={:2.3f}\n"
+		"2D: {:2.3f} Finish3D: {:2.3f}\n"
+		"Main thread total={:2.3f}, Main thread waiting={:2.3f} Worker thread total={:2.3f}, Worker thread waiting={:2.3f}\n"
+		"All={:2.3f}, Render={:2.3f}, Setup={:2.3f}, Portal={:2.3f}, Drawcalls={:2.3f}, Postprocess={:2.3f}, Finish={:2.3f}\n",
 		bsp, clipwall,
 		RenderWall.TimeMS(), setupwall, 
 		RenderFlat.TimeMS(), SetupFlat.TimeMS(),
@@ -110,15 +113,15 @@ static void AppendRenderTimes(FString &str)
 
 static void AppendRenderStats(FString &out)
 {
-	out.AppendFormat("Walls: %d (%d splits, %d t-splits, %d vertices)\n"
-		"Flats: %d (%d primitives, %d vertices)\n"
-		"Sprites: %d, Decals=%d, Portals: %d, Command buffers: %d\n",
+	out += std::format("Walls: {} ({} splits, {} t-splits, {} vertices)\n"
+		"Flats: {} ({} primitives, {} vertices)\n"
+		"Sprites: {}, Decals={}, Portals: {}, Command buffers: {}\n",
 		rendered_lines, render_vertexsplit, render_texsplit, vertexcount, rendered_flats, flatprimitives, flatvertices, rendered_sprites,rendered_decals, rendered_portals, rendered_commandbuffers );
 }
 
 static void AppendLightStats(FString &out)
 {
-	out.AppendFormat("DLight - Walls: %d processed, %d rendered - Flats: %d processed, %d rendered\n", 
+	out += std::format("DLight - Walls: {} processed, {} rendered - Flats: {} processed, {} rendered\n",
 		iter_dlight, draw_dlight, iter_dlightf, draw_dlightf );
 }
 

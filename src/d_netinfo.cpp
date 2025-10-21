@@ -777,30 +777,30 @@ FString D_GetUserInfoStrings(int pnum, bool compact)
 
 			if (!compact)
 			{ // In verbose mode, prepend the cvar's name
-				result.AppendFormat("\\%s", pair->Key.GetChars());
+				result += std::format("\\{}", pair->Key.GetChars());
 			}
 			// A few of these need special handling for compatibility reasons.
 			switch (pair->Key.GetIndex())
 			{
 			case NAME_Gender:
-				result.AppendFormat("\\%s",
+				result += std::format("\\{}",
 					*static_cast<FIntCVar*>(pair->Value) == GENDER_FEMALE ? "female" :
 					*static_cast<FIntCVar*>(pair->Value) == GENDER_NEUTER ? "neutral" :
 					*static_cast<FIntCVar*>(pair->Value) == GENDER_OBJECT ? "other" : "male");
 				break;
 
 			case NAME_PlayerClass:
-				result.AppendFormat("\\%s", info->GetPlayerClassNum() == -1 ? "Random" :
+				result += std::format("\\{}", info->GetPlayerClassNum() == -1 ? "Random" :
 					D_EscapeUserInfo(info->GetPlayerClassType()->GetDisplayName().c_str()).c_str());
 				break;
 
 			case NAME_Skin:
-				result.AppendFormat("\\%s", D_EscapeUserInfo(Skins[info->GetSkin()].Name.c_str()).c_str());
+				result += std::format("\\{}", D_EscapeUserInfo(Skins[info->GetSkin()].Name.c_str()).c_str());
 				break;
 
 			default:
 				cval = pair->Value->GetGenericRep(CVAR_String);
-				result.AppendFormat("\\%s", cval.String);
+				result += std::format("\\{}", cval.String);
 				break;
 			}
 		}

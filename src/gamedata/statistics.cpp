@@ -584,7 +584,7 @@ FString GetStatString()
 	for(unsigned i = 0; i < LevelData.Size(); i++)
 	{
 		OneLevel *l = &LevelData[i];
-		compose.AppendFormat("Level %s - Kills: %d/%d - Items: %d/%d - Secrets: %d/%d - Time: %d:%02d\n", 
+		compose += std::format("Level {} - Kills: {}/{} - Items: {}/{} - Secrets: {}/{} - Time: {}:{:02d}\n",
 			l->Levelname.c_str(), l->killcount, l->totalkills, l->itemcount, l->totalitems, l->secretcount, l->totalsecrets,
 			l->leveltime/(60*TICRATE), (l->leveltime/TICRATE)%60);
 	}
@@ -620,8 +620,8 @@ ADD_STAT(velocity)
 {
 	FString compose;
 	if (players[consoleplayer].mo != NULL && gamestate == GS_LEVEL) {
-		compose.AppendFormat("Current velocity: %.2f\n", players[consoleplayer].mo->Vel.Length());
-		compose.AppendFormat("Level %s - Velocity Max: %.2f, Velocity Average: %.2f\n", primaryLevel->MapName.c_str(), primaryLevel->max_velocity, primaryLevel->avg_velocity);
+		compose += std::format("Current velocity: {:.2f}\n", players[consoleplayer].mo->Vel.Length());
+		compose += std::format("Level {} - Velocity Max: {:.2f}, Velocity Average: {:.2f}\n", primaryLevel->MapName.c_str(), primaryLevel->max_velocity, primaryLevel->avg_velocity);
 	}
 	return compose;
 }

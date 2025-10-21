@@ -319,7 +319,7 @@ FName MapLoader::CheckCompatibility(MapData *map)
 
 	for (size_t j = 0; j < sizeof(md5.Bytes); ++j)
 	{
-		hash.AppendFormat("%02X", md5.Bytes[j]);
+		hash += std::format("{:02X}", md5.Bytes[j]);
 	}
 
 	if (developer >= DMSG_NOTIFY)

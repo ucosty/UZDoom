@@ -1524,7 +1524,7 @@ static FString ScriptPresentation(int script)
 			return out;
 		}
 	}
-	out.AppendFormat("%d", script);
+	out += std::format("{}", script);
 	return out;
 }
 
@@ -8598,29 +8598,29 @@ scriptwait:
 			break;
 
 		case PCD_PRINTNUMBER:
-			work.AppendFormat ("%d", STACK(1));
+			work += std::format("{:d}", STACK(1));
 			--sp;
 			break;
 
 		case PCD_PRINTBINARY:
 			IGNORE_FORMAT_PRE
-			work.AppendFormat ("%B", STACK(1));
+			work += std::format("{:b}", STACK(1));
 			IGNORE_FORMAT_POST
 			--sp;
 			break;
 
 		case PCD_PRINTHEX:
-			work.AppendFormat ("%X", STACK(1));
+			work += std::format("{:x}", STACK(1));
 			--sp;
 			break;
 
 		case PCD_PRINTCHARACTER:
-			work += (char)STACK(1);
+			work += static_cast<char>(STACK(1));
 			--sp;
 			break;
 
 		case PCD_PRINTFIXED:
-			work.AppendFormat ("%g", ACSToDouble(STACK(1)));
+			work += std::format ("{}", ACSToDouble(STACK(1)));
 			--sp;
 			break;
 
@@ -8628,7 +8628,7 @@ scriptwait:
 		// [RH] Fancied up a bit
 		case PCD_PRINTNAME:
 			{
-				player_t *player = NULL;
+				player_t *player = nullptr;
 
 				if (STACK(1) < 0)
 				{
@@ -8687,7 +8687,7 @@ scriptwait:
 				}
 				else
 				{
-					work.AppendFormat ("Player %d", STACK(1));
+					work += std::format ("Player {}", STACK(1));
 					sp--;
 					break;
 				}

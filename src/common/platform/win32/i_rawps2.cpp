@@ -36,6 +36,7 @@
 // HEADER FILES ------------------------------------------------------------
 
 #define WIN32_LEAN_AND_MEAN
+#include <format>
 #include <windows.h>
 
 #include "i_input.h"
@@ -719,7 +720,7 @@ FString FRawPS2Controller::GetName()
 	FString res = Descriptors[Type].AdapterName;
 	if (Sequence != 0)
 	{
-		res.AppendFormat(" #%d", Sequence);
+		res += std::format(" #{}", Sequence);
 	}
 	return res;
 }

@@ -34,6 +34,9 @@
 #include "cmdlib.h"
 #include "md5.h"
 #include "gl_shader.h"
+
+#include <format>
+
 #include "hw_shaderpatcher.h"
 #include "shaderuniforms.h"
 #include "hw_viewpointuniforms.h"
@@ -493,7 +496,7 @@ bool FShader::Load(const char * name, const char * vert_prog_lump, const char * 
 
 	bool lightbuffertype = screen->mLights->GetBufferType();
 	if (!lightbuffertype)
-		vp_comb.AppendFormat("#define NUM_UBO_LIGHTS %d\n#define NUM_UBO_BONES %d\n", screen->mLights->GetBlockSize(), screen->mBones->GetBlockSize());
+		vp_comb += std::format("#define NUM_UBO_LIGHTS {}\n#define NUM_UBO_BONES {}\n", screen->mLights->GetBlockSize(), screen->mBones->GetBlockSize());
 	else
 		vp_comb << "#define SHADER_STORAGE_LIGHTS\n#define SHADER_STORAGE_BONES\n";
 
